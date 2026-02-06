@@ -73,15 +73,14 @@ Deno.serve(async (req: Request) => {
 
       // Update status to processing if just starting
       if (campaign.status === 'scheduled' || campaign.status === 'pending') {
+        const nowIso = new Date().toISOString()
         await supabase
           .from('campaigns')
-          .update({
-            status: 'processing',
-            started_at: new Date().toISOString(),
-          })
+          .update({ status: 'processing', started_at: nowIso })
           .eq('id', campaign.id)
 
-        campaign.status = 'processing' // Update local state
+        campaign.status = 'processing'
+        campaign.started_at = nowIso // Update local state for accurate calculation
       }
 
       const config = campaign.config as unknown as CampaignConfig
@@ -110,7 +109,32 @@ Deno.serve(async (req: Request) => {
         }
       }
 
-      // Check for completion
+      // Helper to finalize campaign
+      const finalizeCampaign = async () => {
+        const now = new Date()
+        const startedAt = campaign.started_at
+          ? new Date(campaign.started_at)
+          : new Date(campaign.created_at)
+        // Ensure we calculate from started_at to now
+        const executionTime = Math.max(
+          0,
+          Math.floor((now.getTime() - startedAt.getTime()) / 1000),
+        )
+
+        await supabase
+          .from('campaigns')
+          .update({
+            status: 'finished',
+            finished_at: now.toISOString(),
+            execution_time: executionTime,
+          })
+          .eq('id', campaign.id)
+
+        campaignResult.status = 'finished'
+      }
+
+      // Check for completion (Initial Check)
+      // We perform this check at the beginning to handle cases where it finished right after previous run or if empty.
       const { count: pendingCount } = await supabase
         .from('campaign_messages')
         .select('*', { count: 'exact', head: true })
@@ -118,19 +142,18 @@ Deno.serve(async (req: Request) => {
         .eq('status', 'aguardando')
 
       if (pendingCount === 0) {
-        await supabase
-          .from('campaigns')
-          .update({
-            status: 'finished',
-            finished_at: new Date().toISOString(),
-            execution_time: Math.floor(
-              (Date.now() - new Date(campaign.created_at).getTime()) / 1000,
-            ),
-          })
-          .eq('id', campaign.id)
+        // Ensure there are no active messages being processed/sent
+        const { count: activeCount } = await supabase
+          .from('campaign_messages')
+          .select('*', { count: 'exact', head: true })
+          .eq('campaign_id', campaign.id)
+          .in('status', ['sending'])
 
-        results.push({ ...campaignResult, status: 'finished' })
-        continue
+        if (activeCount === 0) {
+          await finalizeCampaign()
+          results.push(campaignResult)
+          continue
+        }
       }
 
       // Process Messages loop
@@ -227,6 +250,19 @@ Deno.serve(async (req: Request) => {
           .maybeSingle()
 
         if (!messageToLock) {
+          // No more messages in 'aguardando'.
+          // Verify if there are any remaining messages in transient states (double check)
+          const { count: remaining } = await supabase
+            .from('campaign_messages')
+            .select('*', { count: 'exact', head: true })
+            .eq('campaign_id', campaign.id)
+            .in('status', ['aguardando', 'sending', 'pending'])
+
+          if (remaining === 0) {
+            // If confirmed empty, finalize immediately
+            await finalizeCampaign()
+          }
+
           campaignLoopActive = false
           break
         }
