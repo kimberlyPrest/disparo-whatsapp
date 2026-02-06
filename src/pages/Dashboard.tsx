@@ -23,6 +23,7 @@ import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { supabase } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useAuth()
@@ -80,58 +81,7 @@ export default function Dashboard() {
     return <Navigate to="/login" replace />
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
-
-  // Empty State
-  if (campaigns.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-12 max-w-7xl animate-fade-in-up">
-        <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8">
-          <div className="bg-primary/10 p-6 rounded-full">
-            <Send className="h-12 w-12 text-primary" />
-          </div>
-
-          <div className="space-y-4">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-              Faça o seu primeiro Disparo de WhatsApp
-            </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Importe sua planilha de contatos e envie mensagens personalizadas
-              em massa de forma simples e rápida. Acompanhe o progresso e os
-              resultados em tempo real.
-            </p>
-          </div>
-
-          <Button
-            asChild
-            size="lg"
-            className="h-12 px-8 text-lg shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all"
-          >
-            <Link to="/upload">
-              Começar
-              <PlusCircle className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-
-          <div className="w-full max-w-lg mt-8 rounded-xl overflow-hidden shadow-2xl border bg-card">
-            <img
-              src="https://img.usecurling.com/p/600/300?q=spreadsheet%20dashboard%20analytics&color=blue&dpr=2"
-              alt="Dashboard Preview"
-              className="w-full h-auto object-cover opacity-80"
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Dashboard View
+  // Dashboard View Logic
   const totalMessagesSent = campaigns.reduce(
     (acc, curr) => acc + (curr.sent_messages || 0),
     0,
@@ -218,67 +168,88 @@ export default function Dashboard() {
 
       {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total de Mensagens
-            </CardTitle>
-            <MessageSquare className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {totalMessagesSent.toLocaleString()}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Enviadas com sucesso
-            </p>
-          </CardContent>
-        </Card>
+        {loading ? (
+          [...Array(4)].map((_, i) => (
+            <Card key={i} className="hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-4 rounded-full" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-8 w-16 mb-1" />
+                <Skeleton className="h-3 w-24" />
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total de Mensagens
+                </CardTitle>
+                <MessageSquare className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {totalMessagesSent.toLocaleString()}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Enviadas com sucesso
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Tempo de Execução
-            </CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {formatTime(totalExecutionTime)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Tempo total de processamento
-            </p>
-          </CardContent>
-        </Card>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Tempo de Execução
+                </CardTitle>
+                <Clock className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {formatTime(totalExecutionTime)}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Tempo total de processamento
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total de Disparos
-            </CardTitle>
-            <Send className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalCampaigns}</div>
-            <p className="text-xs text-muted-foreground">Campanhas criadas</p>
-          </CardContent>
-        </Card>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total de Disparos
+                </CardTitle>
+                <Send className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{totalCampaigns}</div>
+                <p className="text-xs text-muted-foreground">
+                  Campanhas criadas
+                </p>
+              </CardContent>
+            </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Ativos / Agendados
-            </CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{activeOrScheduled.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Na fila de processamento
-            </p>
-          </CardContent>
-        </Card>
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Ativos / Agendados
+                </CardTitle>
+                <Activity className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {activeOrScheduled.length}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Na fila de processamento
+                </p>
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
 
       {/* Active/Scheduled Campaigns List */}
@@ -286,7 +257,61 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold tracking-tight">
           Em Andamento & Agendados
         </h2>
-        {activeOrScheduled.length === 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+              <Card key={i} className="overflow-hidden">
+                <CardHeader className="pb-2">
+                  <div className="flex justify-between items-start gap-2">
+                    <Skeleton className="h-6 w-32" />
+                    <Skeleton className="h-5 w-16 rounded-full" />
+                  </div>
+                  <Skeleton className="h-4 w-40 mt-1" />
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-4 w-8" />
+                    </div>
+                    <Skeleton className="h-2.5 w-full rounded-full" />
+                    <div className="flex justify-between text-xs pt-2 mt-2 border-t">
+                      <Skeleton className="h-3 w-20" />
+                      <Skeleton className="h-3 w-20" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : !loading && campaigns.length === 0 ? (
+          <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8 py-12">
+            <div className="bg-primary/10 p-6 rounded-full">
+              <Send className="h-12 w-12 text-primary" />
+            </div>
+
+            <div className="space-y-4">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Faça o seu primeiro Disparo de WhatsApp
+              </h1>
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Importe sua planilha de contatos e envie mensagens
+                personalizadas em massa de forma simples e rápida.
+              </p>
+            </div>
+
+            <Button
+              asChild
+              size="lg"
+              className="h-12 px-8 text-lg shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all"
+            >
+              <Link to="/upload">
+                Começar
+                <PlusCircle className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
+        ) : activeOrScheduled.length === 0 ? (
           <Card className="bg-muted/50 border-dashed">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
               <Activity className="h-10 w-10 text-muted-foreground/50 mb-3" />

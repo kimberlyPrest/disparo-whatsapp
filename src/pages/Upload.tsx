@@ -319,13 +319,11 @@ export default function Upload() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
-              {isLoadingContacts ? (
-                <div className="h-64 flex items-center justify-center">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                </div>
-              ) : (
-                <ContactsTable contacts={contacts} onRefresh={fetchContacts} />
-              )}
+              <ContactsTable
+                contacts={contacts}
+                onRefresh={fetchContacts}
+                isLoading={isLoadingContacts}
+              />
             </CardContent>
           </Card>
         </div>

@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Contact, contactsService } from '@/services/contacts'
 import { Trash2, Pencil, Send, AlertCircle, Loader2 } from 'lucide-react'
 import { EditContactDialog } from './EditContactDialog'
@@ -30,9 +31,14 @@ import {
 interface ContactsTableProps {
   contacts: Contact[]
   onRefresh: () => void
+  isLoading?: boolean
 }
 
-export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
+export function ContactsTable({
+  contacts,
+  onRefresh,
+  isLoading = false,
+}: ContactsTableProps) {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [editingContact, setEditingContact] = useState<Contact | null>(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -179,7 +185,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
               <Button
                 variant="destructive"
                 size="sm"
-                disabled={selectedIds.length === 0 || isDeleting}
+                disabled={selectedIds.length === 0 || isDeleting || isLoading}
                 className="gap-2"
               >
                 <Trash2 className="h-4 w-4" />
@@ -207,7 +213,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
             variant="default"
             size="sm"
             onClick={handleBulkSendClick}
-            disabled={selectedIds.length === 0}
+            disabled={selectedIds.length === 0 || isLoading}
             className="gap-2"
           >
             <Send className="h-4 w-4" />
@@ -228,6 +234,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
                   }
                   onCheckedChange={toggleSelectAll}
                   aria-label="Select all"
+                  disabled={isLoading}
                 />
               </TableHead>
               <TableHead>Nome</TableHead>
@@ -238,16 +245,40 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {contacts.length === 0 ? (
+            {isLoading ? (
+              [...Array(5)].map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-4" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-32" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-5 w-16 rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-full" />
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Skeleton className="h-8 w-24 ml-auto" />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : contacts.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={6}
-                  className="h-24 text-center text-muted-foreground"
+                  className="h-48 text-center text-muted-foreground"
                 >
                   <div className="flex flex-col items-center justify-center gap-2">
-                    <AlertCircle className="h-6 w-6 opacity-50" />
-                    <p>
-                      Nenhum contato encontrado. Faça upload de uma planilha.
+                    <AlertCircle className="h-8 w-8 opacity-50" />
+                    <p className="font-medium">Nenhum contato encontrado.</p>
+                    <p className="text-sm">
+                      Faça upload de uma planilha CSV para começar.
                     </p>
                   </div>
                 </TableCell>

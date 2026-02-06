@@ -25,6 +25,7 @@ import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { supabase } from '@/lib/supabase/client'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Disparos() {
   const { user, loading: authLoading } = useAuth()
@@ -187,8 +188,39 @@ export default function Disparos() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="h-64 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <div className="rounded-md border overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nome da Campanha</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="w-[200px]">Progresso</TableHead>
+                    <TableHead>Data de Criação</TableHead>
+                    <TableHead className="text-right">Ações</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[...Array(5)].map((_, i) => (
+                    <TableRow key={i}>
+                      <TableCell>
+                        <Skeleton className="h-4 w-40" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-5 w-24 rounded-full" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-3 w-full rounded-full" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-32" />
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Skeleton className="h-8 w-8 ml-auto" />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           ) : campaigns.length === 0 ? (
             <div className="text-center py-12">

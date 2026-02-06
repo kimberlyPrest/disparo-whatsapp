@@ -15,6 +15,8 @@ import { ScheduleConfig } from '@/lib/campaign-utils'
 import { CampaignKPIs } from '@/components/campaigns/CampaignKPIs'
 import { CampaignConfig } from '@/components/campaigns/CampaignConfig'
 import { CampaignMessagesTable } from '@/components/campaigns/CampaignMessagesTable'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
 
 export default function DisparoDetalhes() {
   const { user, loading: authLoading } = useAuth()
@@ -155,15 +157,7 @@ export default function DisparoDetalhes() {
     return <Navigate to="/login" replace />
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
-
-  if (!campaign) {
+  if (!loading && !campaign) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-7xl text-center">
         <h2 className="text-2xl font-bold mb-2">Campanha não encontrada</h2>
@@ -174,20 +168,25 @@ export default function DisparoDetalhes() {
     )
   }
 
-  const kpiStats = {
-    sent: messages.filter((m) => m.status === 'sent').length,
-    waiting: messages.filter((m) =>
-      ['aguardando', 'pending'].includes(m.status),
-    ).length,
-    failed: messages.filter((m) => ['failed', 'error'].includes(m.status))
-      .length,
-    elapsed: campaign.execution_time || 0,
-  }
+  const kpiStats = campaign
+    ? {
+        sent: messages.filter((m) => m.status === 'sent').length,
+        waiting: messages.filter((m) =>
+          ['aguardando', 'pending'].includes(m.status),
+        ).length,
+        failed: messages.filter((m) => ['failed', 'error'].includes(m.status))
+          .length,
+        elapsed: campaign.execution_time || 0,
+      }
+    : { sent: 0, waiting: 0, failed: 0, elapsed: 0 }
 
-  const isPaused = campaign.status === 'paused'
-  const isActive = ['active', 'processing'].includes(campaign.status)
-  const isFinished =
-    campaign.status === 'finished' || campaign.status === 'canceled'
+  const isPaused = campaign?.status === 'paused'
+  const isActive = campaign
+    ? ['active', 'processing'].includes(campaign.status)
+    : false
+  const isFinished = campaign
+    ? campaign.status === 'finished' || campaign.status === 'canceled'
+    : false
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl animate-fade-in-up space-y-8">
@@ -200,19 +199,30 @@ export default function DisparoDetalhes() {
             </Link>
           </Button>
           <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold tracking-tight">
-                {campaign.name}
-              </h1>
-              <Badge variant={isActive ? 'default' : 'secondary'}>
-                {campaign.status.toUpperCase()}
-              </Badge>
-            </div>
-            <p className="text-muted-foreground text-sm">ID: {campaign.id}</p>
+            {loading ? (
+              <div className="space-y-2">
+                <Skeleton className="h-8 w-64" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3">
+                  <h1 className="text-2xl font-bold tracking-tight">
+                    {campaign?.name}
+                  </h1>
+                  <Badge variant={isActive ? 'default' : 'secondary'}>
+                    {campaign?.status.toUpperCase()}
+                  </Badge>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  ID: {campaign?.id}
+                </p>
+              </>
+            )}
           </div>
         </div>
 
-        {!isFinished && (
+        {!loading && !isFinished && campaign && (
           <Button
             onClick={handlePauseResume}
             disabled={actionLoading}
@@ -232,13 +242,29 @@ export default function DisparoDetalhes() {
       </div>
 
       {/* KPIs */}
-      <CampaignKPIs stats={kpiStats} />
+      <CampaignKPIs stats={kpiStats} isLoading={loading} />
 
       {/* Config Summary */}
-      <CampaignConfig
-        config={campaign.config as unknown as ScheduleConfig}
-        scheduledAt={campaign.scheduled_at}
-      />
+      {loading ? (
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-48" />
+          </CardHeader>
+          <CardContent className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-5 w-32" />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      ) : (
+        <CampaignConfig
+          config={campaign?.config as unknown as ScheduleConfig}
+          scheduledAt={campaign?.scheduled_at || null}
+        />
+      )}
 
       {/* Messages Table */}
       <div className="space-y-4">
@@ -249,7 +275,7 @@ export default function DisparoDetalhes() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => fetchCampaignData(campaign.id)}
+            onClick={() => campaign && fetchCampaignData(campaign.id)}
             disabled={loading}
           >
             <RotateCcw className="h-4 w-4 mr-2" />
@@ -260,6 +286,7 @@ export default function DisparoDetalhes() {
           messages={messages}
           onRetry={handleRetryMessage}
           loadingId={retryLoadingId}
+          isLoading={loading}
         />
       </div>
     </div>

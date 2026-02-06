@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Send, Clock, AlertTriangle, Timer } from 'lucide-react'
 
 interface CampaignKPIsProps {
@@ -8,9 +9,10 @@ interface CampaignKPIsProps {
     failed: number
     elapsed: number
   }
+  isLoading?: boolean
 }
 
-export function CampaignKPIs({ stats }: CampaignKPIsProps) {
+export function CampaignKPIs({ stats, isLoading = false }: CampaignKPIsProps) {
   const formatTime = (seconds: number) => {
     if (seconds < 60) return `${Math.round(seconds)}s`
     const minutes = Math.floor(seconds / 60)
@@ -21,6 +23,25 @@ export function CampaignKPIs({ stats }: CampaignKPIsProps) {
       return `${hours}h ${remMin}m`
     }
     return `${minutes}m ${remSeconds}s`
+  }
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <Card key={i}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-4 rounded-full" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-8 w-16 mb-1" />
+              <Skeleton className="h-3 w-24" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
   }
 
   return (
