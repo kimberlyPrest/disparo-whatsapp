@@ -59,11 +59,13 @@ export default function Login() {
     setIsSubmitting(true)
     try {
       const { error } = await signIn(values.email, values.password)
+
       if (error) {
         // Detect specific Supabase errors
         const errorCode = (error as any)?.code
         const errorMessage = error.message
 
+        // Check for email not confirmed error (handles both code and message message variations)
         if (
           errorCode === 'email_not_confirmed' ||
           errorMessage === 'Email not confirmed'
@@ -71,6 +73,7 @@ export default function Login() {
           toast.error('E-mail não confirmado', {
             description:
               'Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta.',
+            duration: 6000,
           })
         } else if (errorMessage === 'Invalid login credentials') {
           toast.error('Credenciais inválidas', {
@@ -84,7 +87,7 @@ export default function Login() {
         navigate('/upload')
       }
     } catch (error) {
-      console.error(error)
+      console.error('Unexpected login error:', error)
       toast.error('Ocorreu um erro inesperado', {
         description: 'Tente novamente mais tarde.',
       })

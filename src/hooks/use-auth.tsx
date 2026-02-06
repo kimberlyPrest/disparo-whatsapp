@@ -83,6 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       return { data, error }
     } catch (error) {
+      // Return error in a structured way to be handled by the component
       return { data: { user: null, session: null }, error }
     }
   }
