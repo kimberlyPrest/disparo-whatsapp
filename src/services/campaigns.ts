@@ -50,6 +50,19 @@ export const campaignsService = {
     return data as Campaign[]
   },
 
+  async getActiveAndScheduled() {
+    const { data, error } = await supabase
+      .from('campaigns')
+      .select(
+        'id, name, status, scheduled_at, started_at, total_messages, config',
+      )
+      .in('status', ['active', 'scheduled', 'processing', 'pending'])
+      .order('scheduled_at', { ascending: true })
+
+    if (error) throw error
+    return data as Partial<Campaign>[]
+  },
+
   async getById(id: string) {
     const { data, error } = await supabase
       .from('campaigns')

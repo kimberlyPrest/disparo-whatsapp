@@ -1,4 +1,11 @@
-import { addSeconds, set, addDays } from 'date-fns'
+import {
+  addSeconds,
+  set,
+  addDays,
+  addMinutes,
+  isBefore,
+  isAfter,
+} from 'date-fns'
 
 export interface ScheduleConfig {
   minInterval: number
@@ -16,6 +23,13 @@ export interface ScheduleConfig {
 export interface ScheduledMessage {
   contactIndex: number
   sendTime: Date
+}
+
+export interface ConflictResult {
+  hasConflict: boolean
+  conflictingCampaignId?: string
+  conflictingCampaignName?: string
+  suggestedTime?: Date
 }
 
 export function calculateCampaignSchedule(
@@ -101,4 +115,94 @@ export function calculateCampaignSchedule(
   }
 
   return schedule
+}
+
+export function estimateCampaignEndTime(
+  config: ScheduleConfig,
+  totalMessages: number,
+): Date {
+  if (totalMessages === 0) return config.startTime
+
+  const schedule = calculateCampaignSchedule(config, totalMessages)
+  if (schedule.length === 0) return config.startTime
+
+  return schedule[schedule.length - 1].sendTime
+}
+
+export function mapDbConfigToScheduleConfig(
+  dbConfig: any,
+  startTime: string | Date,
+): ScheduleConfig {
+  const start = typeof startTime === 'string' ? new Date(startTime) : startTime
+
+  // Default values if config is missing or incomplete
+  return {
+    minInterval: dbConfig?.min_interval ?? 30,
+    maxInterval: dbConfig?.max_interval ?? 60,
+    useBatching: dbConfig?.batch_config?.enabled ?? false,
+    batchSize: dbConfig?.batch_config?.size,
+    batchPauseMin: dbConfig?.batch_config?.pause_min,
+    batchPauseMax: dbConfig?.batch_config?.pause_max,
+    businessHoursStrategy: dbConfig?.business_hours?.strategy ?? 'ignore',
+    businessHoursPauseTime: dbConfig?.business_hours?.pause_at ?? '18:00',
+    businessHoursResumeTime: dbConfig?.business_hours?.resume_at ?? '08:00',
+    startTime: start,
+  }
+}
+
+export function checkScheduleConflict(
+  newConfig: ScheduleConfig,
+  totalMessages: number,
+  existingCampaigns: Array<{
+    id: string
+    name: string
+    scheduled_at: string | null
+    started_at: string | null
+    total_messages: number | null
+    config: any
+  }>,
+): ConflictResult {
+  const BUFFER_MINUTES = 60
+
+  const newStart = newConfig.startTime
+  const newEnd = estimateCampaignEndTime(newConfig, totalMessages)
+
+  // Extend new campaign window by buffer
+  // We check if (ExistingStart - 60) < NewEnd AND (ExistingEnd + 60) > NewStart
+
+  for (const campaign of existingCampaigns) {
+    const campaignStartStr = campaign.started_at || campaign.scheduled_at
+    if (!campaignStartStr) continue
+
+    const campaignConfig = mapDbConfigToScheduleConfig(
+      campaign.config,
+      campaignStartStr,
+    )
+    const campaignEnd = estimateCampaignEndTime(
+      campaignConfig,
+      campaign.total_messages || 0,
+    )
+    const campaignStart = campaignConfig.startTime
+
+    const existingStartBuffer = addMinutes(campaignStart, -BUFFER_MINUTES)
+    const existingEndBuffer = addMinutes(campaignEnd, BUFFER_MINUTES)
+
+    const hasOverlap =
+      isAfter(newEnd, existingStartBuffer) &&
+      isBefore(newStart, existingEndBuffer)
+
+    if (hasOverlap) {
+      // Calculate suggestion: End of this campaign + buffer
+      const suggestion = addMinutes(campaignEnd, BUFFER_MINUTES + 5) // +5 min extra safety
+
+      return {
+        hasConflict: true,
+        conflictingCampaignId: campaign.id,
+        conflictingCampaignName: campaign.name,
+        suggestedTime: suggestion,
+      }
+    }
+  }
+
+  return { hasConflict: false }
 }

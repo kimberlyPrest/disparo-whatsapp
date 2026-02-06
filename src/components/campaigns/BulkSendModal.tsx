@@ -12,6 +12,7 @@ import {
   Users,
   Sun,
   PauseCircle,
+  AlertCircle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -47,7 +48,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Switch } from '@/components/ui/switch'
-import { campaignsService } from '@/services/campaigns'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { campaignsService, Campaign } from '@/services/campaigns'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { CampaignConfirmationStep } from './CampaignConfirmationStep'
@@ -55,6 +57,8 @@ import {
   calculateCampaignSchedule,
   ScheduleConfig,
   ScheduledMessage,
+  checkScheduleConflict,
+  ConflictResult,
 } from '@/lib/campaign-utils'
 import { contactsService, Contact } from '@/services/contacts'
 
@@ -145,6 +149,14 @@ export function BulkSendModal({
   const [schedule, setSchedule] = useState<ScheduledMessage[]>([])
   const [config, setConfig] = useState<ScheduleConfig | null>(null)
 
+  // Validation State
+  const [existingCampaigns, setExistingCampaigns] = useState<
+    Partial<Campaign>[]
+  >([])
+  const [conflict, setConflict] = useState<ConflictResult>({
+    hasConflict: false,
+  })
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -164,6 +176,23 @@ export function BulkSendModal({
     },
   })
 
+  // Watch values for real-time validation
+  const watchedValues = form.watch()
+  const {
+    minInterval,
+    maxInterval,
+    scheduleType,
+    scheduledDate,
+    scheduledTime,
+    useBatching,
+    batchSize,
+    batchPauseMin,
+    batchPauseMax,
+    businessHoursStrategy,
+    businessHoursPauseTime,
+    businessHoursResumeTime,
+  } = watchedValues
+
   // Reset modal state when opening
   useEffect(() => {
     if (open) {
@@ -172,18 +201,72 @@ export function BulkSendModal({
       setOrderedContacts([])
       setSchedule([])
       setConfig(null)
+      setConflict({ hasConflict: false })
+
+      // Load existing campaigns for validation
+      campaignsService
+        .getActiveAndScheduled()
+        .then((data) => {
+          setExistingCampaigns(data)
+        })
+        .catch((err) => {
+          console.error('Failed to load campaigns for validation', err)
+        })
     }
   }, [open, form])
 
-  const { watch } = form
-  const minInterval = watch('minInterval')
-  const maxInterval = watch('maxInterval')
-  const scheduleType = watch('scheduleType')
-  const scheduledDate = watch('scheduledDate')
-  const scheduledTime = watch('scheduledTime')
-  const useBatching = watch('useBatching')
-  const batchSize = watch('batchSize')
-  const businessHoursStrategy = watch('businessHoursStrategy')
+  const getStartTime = () => {
+    if (scheduleType === 'scheduled' && scheduledDate && scheduledTime) {
+      const [hours, minutes] = scheduledTime.split(':').map(Number)
+      const date = new Date(scheduledDate)
+      date.setHours(hours, minutes)
+      return date
+    }
+    return new Date()
+  }
+
+  // Perform validation whenever config changes
+  useEffect(() => {
+    if (!open || existingCampaigns.length === 0) return
+
+    const startTime = getStartTime()
+    const currentConfig: ScheduleConfig = {
+      minInterval: Number(minInterval),
+      maxInterval: Number(maxInterval),
+      useBatching: !!useBatching,
+      batchSize: Number(batchSize),
+      batchPauseMin: Number(batchPauseMin),
+      batchPauseMax: Number(batchPauseMax),
+      businessHoursStrategy: businessHoursStrategy as 'ignore' | 'pause',
+      businessHoursPauseTime,
+      businessHoursResumeTime,
+      startTime,
+    }
+
+    const result = checkScheduleConflict(
+      currentConfig,
+      selectedContactIds.length,
+      existingCampaigns as any[],
+    )
+
+    setConflict(result)
+  }, [
+    open,
+    existingCampaigns,
+    selectedContactIds.length,
+    minInterval,
+    maxInterval,
+    scheduleType,
+    scheduledDate,
+    scheduledTime,
+    useBatching,
+    batchSize,
+    batchPauseMin,
+    batchPauseMax,
+    businessHoursStrategy,
+    businessHoursPauseTime,
+    businessHoursResumeTime,
+  ])
 
   const estimatedTime =
     selectedContactIds.length *
@@ -200,16 +283,6 @@ export function BulkSendModal({
     return `${minutes} min ${seconds}s`
   }
 
-  const getStartTime = () => {
-    if (scheduleType === 'scheduled' && scheduledDate && scheduledTime) {
-      const [hours, minutes] = scheduledTime.split(':').map(Number)
-      const date = new Date(scheduledDate)
-      date.setHours(hours, minutes)
-      return date
-    }
-    return new Date()
-  }
-
   const isOutsideBusinessHours = () => {
     const start = getStartTime()
     const hours = start.getHours()
@@ -217,12 +290,15 @@ export function BulkSendModal({
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (conflict.hasConflict) {
+      toast.error('Corrija o conflito de agendamento antes de prosseguir.')
+      return
+    }
+
     setIsLoading(true)
     try {
       // 1. Fetch contacts
       const fetchedContacts = await contactsService.getByIds(selectedContactIds)
-      // Map back to maintain order if necessary, or just align by ID.
-      // Since schedule uses index from selectedContactIds, we need contacts aligned with that.
       const alignedContacts = selectedContactIds.map((id) =>
         fetchedContacts.find((c) => c.id === id),
       )
@@ -309,6 +385,14 @@ export function BulkSendModal({
       toast.error('Erro ao salvar campanha')
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const applySuggestion = () => {
+    if (conflict.suggestedTime) {
+      form.setValue('scheduleType', 'scheduled')
+      form.setValue('scheduledDate', conflict.suggestedTime)
+      form.setValue('scheduledTime', format(conflict.suggestedTime, 'HH:mm'))
     }
   }
 
@@ -666,6 +750,38 @@ export function BulkSendModal({
                   )}
                 </div>
 
+                {conflict.hasConflict && (
+                  <Alert variant="destructive" className="animate-fade-in">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Conflito de Agendamento Detectado</AlertTitle>
+                    <AlertDescription className="mt-2 flex flex-col gap-2">
+                      <p>
+                        Esta campanha conflita com a campanha existente:{' '}
+                        <strong>{conflict.conflictingCampaignName}</strong>. É
+                        necessário um intervalo de pelo menos 1 hora entre
+                        disparos.
+                      </p>
+                      {conflict.suggestedTime && (
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
+                          <span className="text-sm font-medium">
+                            Sugestão:{' '}
+                          </span>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            className="w-fit h-8 px-2"
+                            onClick={applySuggestion}
+                          >
+                            Agendar para{' '}
+                            {format(conflict.suggestedTime, "dd/MM 'às' HH:mm")}
+                          </Button>
+                        </div>
+                      )}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
                 <DialogFooter className="gap-2 sm:gap-0">
                   <Button
                     type="button"
@@ -674,7 +790,10 @@ export function BulkSendModal({
                   >
                     Cancelar
                   </Button>
-                  <Button type="submit" disabled={isLoading}>
+                  <Button
+                    type="submit"
+                    disabled={isLoading || conflict.hasConflict}
+                  >
                     {isLoading && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
@@ -696,5 +815,25 @@ export function BulkSendModal({
         )}
       </DialogContent>
     </Dialog>
+  )
+}
+
+// Helper for Loader2 which was used but not imported
+function Loader2({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn('animate-spin', className)}
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
   )
 }
