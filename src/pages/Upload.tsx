@@ -1,165 +1,103 @@
-import { useState, useRef, useEffect } from 'react'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
-  Upload as UploadIcon,
-  FileSpreadsheet,
-  X,
-  Loader2,
-  LogOut,
-} from 'lucide-react'
-import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
-import { Navigate } from 'react-router-dom'
-import { parseCSV } from '@/lib/csv'
-import { contactsService, Contact } from '@/services/contacts'
-import { ContactsTable } from '@/components/contacts/ContactsTable'
+import { Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { campaignsService } from '@/services/campaigns'
+import { Step1Import } from '@/components/campaigns/Step1Import'
+import { ScheduleConfig } from '@/lib/campaign-utils'
+import { CampaignConfig } from '@/components/campaigns/CampaignConfig'
+import { CampaignConfirmationStep } from '@/components/campaigns/CampaignConfirmationStep'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 
 export default function Upload() {
-  const { user, loading: authLoading, signOut } = useAuth()
-  const [file, setFile] = useState<File | null>(null)
-  const [isDragging, setIsDragging] = useState(false)
+  const { user, loading: authLoading } = useAuth()
+  const navigate = useNavigate()
+
+  const [currentStep, setCurrentStep] = useState(1)
   const [isProcessing, setIsProcessing] = useState(false)
-  const [isLoadingContacts, setIsLoadingContacts] = useState(true)
-  const [contacts, setContacts] = useState<Contact[]>([])
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [campaignId, setCampaignId] = useState<string | null>(null)
+  const [campaignName, setCampaignName] = useState('')
+  const [contacts, setContacts] = useState<any[]>([])
 
-  useEffect(() => {
-    if (user) {
-      fetchContacts()
-    }
-  }, [user])
+  // Config state for Step 2
+  const [config, setConfig] = useState<ScheduleConfig>({
+    minInterval: 30,
+    maxInterval: 60,
+    useBatching: false,
+    businessHoursStrategy: 'ignore',
+    startTime: new Date(),
+  })
 
-  const fetchContacts = async () => {
-    setIsLoadingContacts(true)
-    try {
-      const data = await contactsService.getAll()
-      setContacts(data)
-    } catch (error) {
-      console.error(error)
-      toast.error('Erro ao carregar contatos')
-    } finally {
-      setIsLoadingContacts(false)
-    }
-  }
-
-  const validateFile = (selectedFile: File) => {
-    const validTypes = [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-      'application/vnd.ms-excel', // .xls
-      'text/csv', // .csv
-    ]
-    const validExtensions = ['.xlsx', '.xls', '.csv']
-    const fileExtension =
-      '.' + selectedFile.name.split('.').pop()?.toLowerCase()
-
-    if (
-      validTypes.includes(selectedFile.type) ||
-      validExtensions.includes(fileExtension)
-    ) {
-      if (fileExtension === '.xlsx' || fileExtension === '.xls') {
-        toast.warning('Suporte limitado a CSV', {
-          description:
-            'No momento, recomendamos o uso de arquivos .csv para processamento direto.',
-        })
-        // Still set file, but processing might fail if we don't have xlsx parser
-        setFile(selectedFile)
-      } else {
-        setFile(selectedFile)
-        toast.success('Arquivo selecionado!', {
-          description: `${selectedFile.name} pronto para processamento.`,
-        })
-      }
-    } else {
-      toast.error('Formato de arquivo inválido', {
-        description: 'Por favor, use arquivos .xlsx ou .csv.',
-      })
-    }
-  }
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-    const droppedFile = e.dataTransfer.files[0]
-    if (droppedFile) {
-      validateFile(droppedFile)
-    }
-  }
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0]
-    if (selectedFile) {
-      validateFile(selectedFile)
-    }
-    e.target.value = ''
-  }
-
-  const handleProcessFile = async () => {
-    if (!file) return
-
-    if (!file.name.toLowerCase().endsWith('.csv')) {
-      toast.error('Erro de Processamento', {
-        description:
-          'Por favor, converta seu arquivo Excel para CSV antes de enviar.',
-      })
-      return
-    }
-
+  // Handlers
+  const handleStep1Next = async (parsedContacts: any[], filename: string) => {
     setIsProcessing(true)
     try {
-      const parsedContacts = await parseCSV(file)
-      if (parsedContacts.length === 0) {
-        toast.warning('Arquivo vazio ou formato incorreto')
-        return
-      }
+      // Set default campaign name based on file + date
+      const defaultName = `Campanha ${filename} - ${new Date().toLocaleDateString()}`
+      setCampaignName(defaultName)
+      setContacts(parsedContacts)
 
-      toast.info(`Processando ${parsedContacts.length} contatos...`)
+      // We don't save to DB yet, we wait for confirmation in step 3 or explicit save?
+      // User story says: "Upon clicking 'Enviar Planilha', the system must ... saving contacts associated with a new campaign draft"
 
-      await contactsService.createBulk(parsedContacts)
-
-      toast.success('Sucesso!', {
-        description: `${parsedContacts.length} contatos importados com sucesso.`,
-      })
-
-      setFile(null)
-      fetchContacts()
+      const newCampaign = await campaignsService.createDraft(
+        defaultName,
+        parsedContacts,
+      )
+      setCampaignId(newCampaign.id)
+      setCurrentStep(2)
+      toast.success('Rascunho criado com sucesso!')
     } catch (error: any) {
       console.error(error)
-      toast.error('Erro ao processar arquivo', {
-        description: error.message || 'Verifique o formato das colunas.',
-      })
+      toast.error('Erro ao processar', { description: error.message })
     } finally {
       setIsProcessing(false)
     }
   }
 
-  const removeFile = () => {
-    setFile(null)
+  const handleStep2Next = async () => {
+    // Update campaign config in DB
+    if (!campaignId) return
+    setIsProcessing(true)
+    try {
+      await campaignsService.update(campaignId, {
+        name: campaignName,
+        config: config as any, // Cast for simplicity in this implementation
+        scheduled_at: config.startTime.toISOString(),
+      })
+      setCurrentStep(3)
+    } catch (error) {
+      toast.error('Erro ao salvar configurações')
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const handleStep3Confirm = async () => {
+    if (!campaignId) return
+    setIsProcessing(true)
+    try {
+      // Activate campaign
+      await campaignsService.resume(campaignId)
+      // Trigger queue
+      try {
+        await campaignsService.triggerQueue(campaignId)
+      } catch (e) {
+        console.warn('Queue trigger warning:', e)
+      }
+
+      toast.success('Campanha iniciada com sucesso!')
+      navigate(`/disparos/${campaignId}`)
+    } catch (error) {
+      toast.error('Erro ao iniciar campanha')
+    } finally {
+      setIsProcessing(false)
+    }
   }
 
   if (authLoading) {
@@ -171,162 +109,106 @@ export default function Upload() {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />
+    navigate('/login')
+    return null
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl animate-fade-in-up">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Gerenciador de Contatos
-          </h1>
-          <p className="text-muted-foreground">
-            Importe e gerencie sua lista de disparos.
-          </p>
-        </div>
-        <Button variant="outline" size="sm" onClick={() => signOut()}>
-          <LogOut className="mr-2 h-4 w-4" />
-          Sair
-        </Button>
+    <div className="container mx-auto px-4 py-8 max-w-5xl bg-[#f6f8f6] min-h-[calc(100vh-4rem)]">
+      {/* Header */}
+      <div className="mb-8 space-y-1">
+        <span className="text-[#13ec5b] font-medium text-sm tracking-wide uppercase">
+          Novo Disparo
+        </span>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+          {currentStep === 1
+            ? 'Importar Lista de Contatos'
+            : currentStep === 2
+              ? 'Configurar Disparo'
+              : 'Confirmar e Disparar'}
+        </h1>
+        <p className="text-slate-500 text-lg">
+          Passo {currentStep} de 3:{' '}
+          {currentStep === 1
+            ? 'Carregue sua base de clientes para começar.'
+            : currentStep === 2
+              ? 'Defina as regras de envio.'
+              : 'Revise os detalhes antes de enviar.'}
+        </p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8 mb-8">
-        {/* Upload Section */}
-        <div className="lg:col-span-1 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Upload de Arquivo</CardTitle>
-              <CardDescription>Importe seus contatos via CSV.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!file ? (
-                <div
-                  className={cn(
-                    'flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition-all duration-200 cursor-pointer h-48 bg-slate-50/50 hover:bg-slate-50',
-                    isDragging
-                      ? 'border-primary bg-primary/5 scale-[1.02]'
-                      : 'border-slate-200',
-                  )}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <input
-                    type="file"
-                    className="hidden"
-                    ref={fileInputRef}
-                    accept=".csv"
-                    onChange={handleFileInput}
+      {/* Content */}
+      <div className="w-full">
+        {currentStep === 1 && (
+          <Step1Import onNext={handleStep1Next} isProcessing={isProcessing} />
+        )}
+
+        {currentStep === 2 && (
+          <div className="space-y-6 animate-fade-in-up">
+            <Card>
+              <CardHeader>
+                <CardTitle>Detalhes da Campanha</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Nome da Campanha</Label>
+                  <Input
+                    value={campaignName}
+                    onChange={(e) => setCampaignName(e.target.value)}
                   />
-                  <div
-                    className={cn(
-                      'p-3 rounded-full bg-slate-100 mb-3 transition-colors',
-                      isDragging && 'bg-primary/10',
-                    )}
-                  >
-                    <UploadIcon
-                      className={cn(
-                        'h-6 w-6 text-slate-400 transition-colors',
-                        isDragging && 'text-primary animate-pulse',
-                      )}
-                    />
-                  </div>
-                  <p className="font-semibold text-sm text-foreground">
-                    Clique ou arraste CSV
-                  </p>
                 </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-48 border rounded-xl p-6 bg-slate-50/50 relative group">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive transition-colors"
-                    onClick={removeFile}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                  <div className="bg-primary/10 p-3 rounded-full mb-3">
-                    <FileSpreadsheet className="h-8 w-8 text-primary" />
-                  </div>
-                  <p className="font-semibold text-sm text-foreground truncate max-w-[200px]">
-                    {file.name}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {(file.size / 1024).toFixed(2)} KB
-                  </p>
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    checked={config.useBatching}
+                    onCheckedChange={(checked) =>
+                      setConfig((prev) => ({ ...prev, useBatching: checked }))
+                    }
+                  />
+                  <Label>Ativar envio em lotes (pausas automáticas)</Label>
                 </div>
-              )}
+                {/* Basic config UI for demonstration - Reuse CampaignConfig for preview */}
+                <div className="pt-4">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Configuração Atual (Padrão):
+                  </p>
+                  <CampaignConfig
+                    config={config}
+                    scheduledAt={config.startTime.toISOString()}
+                  />
+                </div>
+              </CardContent>
+            </Card>
 
-              <Button
-                className="w-full mt-4"
-                disabled={!file || isProcessing}
-                onClick={handleProcessFile}
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processando...
-                  </>
-                ) : (
-                  'Processar Arquivo'
-                )}
+            <div className="flex justify-between">
+              <Button variant="outline" onClick={() => setCurrentStep(1)}>
+                Voltar
               </Button>
-            </CardContent>
-          </Card>
+              <Button onClick={handleStep2Next} disabled={isProcessing}>
+                {isProcessing ? (
+                  <Loader2 className="animate-spin mr-2 h-4 w-4" />
+                ) : null}
+                Continuar para Confirmação
+              </Button>
+            </div>
+          </div>
+        )}
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Estrutura Exigida (CSV)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="rounded-md border overflow-hidden">
-                <Table>
-                  <TableHeader className="bg-muted/50">
-                    <TableRow>
-                      <TableHead className="h-8 text-xs">Nome</TableHead>
-                      <TableHead className="h-8 text-xs">Telefone</TableHead>
-                      <TableHead className="h-8 text-xs text-right">
-                        Mensagem
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="py-2 text-xs font-medium">
-                        Ana
-                      </TableCell>
-                      <TableCell className="py-2 text-xs">5511...</TableCell>
-                      <TableCell className="py-2 text-xs text-right">
-                        Olá...
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Table Section */}
-        <div className="lg:col-span-2">
-          <Card className="h-full flex flex-col">
-            <CardHeader>
-              <CardTitle>Contatos Importados</CardTitle>
-              <CardDescription>
-                Revise e selecione os contatos para disparo.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <ContactsTable
-                contacts={contacts}
-                onRefresh={fetchContacts}
-                isLoading={isLoadingContacts}
-              />
-            </CardContent>
-          </Card>
-        </div>
+        {currentStep === 3 && (
+          <div className="animate-fade-in-up">
+            <Card className="mb-6">
+              <CardContent className="pt-6">
+                <CampaignConfirmationStep
+                  schedule={[]} // We could calculate preview here
+                  contacts={contacts.slice(0, 5)} // Show first 5 as preview
+                  config={config}
+                  isLoading={isProcessing}
+                  onBack={() => setCurrentStep(2)}
+                  onConfirm={handleStep3Confirm}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   )

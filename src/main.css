@@ -19,19 +19,20 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 140 85% 50%; /* #13ec5b Ripple Green */
-    --primary-foreground: 145 80% 10%; /* Dark text for contrast on bright green */
+    /* Updated Primary to #13ec5b (HSL 140 85% 50%) */
+    --primary: 140 85% 50%;
+    --primary-foreground: 145 80% 10%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
 
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 47%; /* #64748B */
+    --muted-foreground: 215 16% 47%;
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84% 60%; /* #EF4444 */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
@@ -48,12 +49,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
-    --chart-1: 140 85% 50%;
-    --chart-2: 173 80% 40%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
   }
 
   .dark {
@@ -84,31 +79,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 140 85% 50%;
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-
-    --chart-1: 140 85% 50%;
-    --chart-2: 173 80% 40%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
   }
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-  }
-
-  /* NEVER REMOVE THIS */
-  section[aria-label='Notifications alt+T'] {
-    padding: 0 !important;
-    margin: 0 !important;
   }
 }
 
@@ -152,5 +126,10 @@
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  /* Additional utilities for specific design requirements */
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 }

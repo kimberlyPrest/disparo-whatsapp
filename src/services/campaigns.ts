@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase/client'
 import { Database } from '@/lib/supabase/types'
+import { contactsService } from './contacts'
 
 export interface Campaign {
   id: string
@@ -107,6 +108,44 @@ export const campaignsService = {
     return campaignData as Campaign
   },
 
+  async createDraft(
+    name: string,
+    contacts: { name: string; phone: string; message: string }[],
+  ) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) throw new Error('User not authenticated')
+
+    // 1. Create Contacts
+    const createdContacts = await contactsService.createBulk(contacts)
+    const contactIds = createdContacts.map((c) => c.id)
+
+    // 2. Create Campaign
+    const campaignData: CampaignInsert = {
+      name,
+      user_id: user.id,
+      status: 'pending',
+      total_messages: contactIds.length,
+      sent_messages: 0,
+    }
+
+    // 3. Link them
+    return await this.create(campaignData, contactIds)
+  },
+
+  async update(id: string, updates: Partial<CampaignInsert>) {
+    const { data, error } = await supabase
+      .from('campaigns')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+    return data as Campaign
+  },
+
   async pause(id: string) {
     const { error } = await supabase
       .from('campaigns')
@@ -117,7 +156,6 @@ export const campaignsService = {
   },
 
   async resume(id: string) {
-    // We update to active so the queue processor picks it up.
     const { error } = await supabase
       .from('campaigns')
       .update({ status: 'active' })
@@ -141,12 +179,9 @@ export const campaignsService = {
     )
 
     if (error) throw error
-
-    // Check if the function logic itself reported an error (even with 200 OK)
     if (data && data.success === false) {
       throw new Error(data.error || 'Erro desconhecido ao processar fila')
     }
-
     return data
   },
 
@@ -162,7 +197,6 @@ export const campaignsService = {
   },
 
   async retryMessage(messageId: string) {
-    // 1. Reset message status to 'aguardando'
     const { data: message, error } = await supabase
       .from('campaign_messages')
       .update({
@@ -177,8 +211,6 @@ export const campaignsService = {
     if (error) throw error
 
     if (message) {
-      // 2. If campaign is finished, reactivate it to 'processing' so the queue processor picks it up
-      // We only target 'finished' status. If it's paused or canceled, we respect that state.
       const { error: campError } = await supabase
         .from('campaigns')
         .update({ status: 'processing', finished_at: null })

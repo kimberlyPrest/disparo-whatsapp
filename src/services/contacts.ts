@@ -43,9 +43,14 @@ export const contactsService = {
       status: 'pendente',
     }))
 
-    const { error } = await supabase.from('contacts').insert(contactsWithUser)
+    // Updated to select() to return the created data
+    const { data, error } = await supabase
+      .from('contacts')
+      .insert(contactsWithUser)
+      .select()
 
     if (error) throw error
+    return data as Contact[]
   },
 
   async update(id: string, updates: Partial<Contact>) {
