@@ -60,12 +60,24 @@ export default function Login() {
     try {
       const { error } = await signIn(values.email, values.password)
       if (error) {
-        if (error.message === 'Invalid login credentials') {
+        // Detect specific Supabase errors
+        const errorCode = (error as any)?.code
+        const errorMessage = error.message
+
+        if (
+          errorCode === 'email_not_confirmed' ||
+          errorMessage === 'Email not confirmed'
+        ) {
+          toast.error('E-mail não confirmado', {
+            description:
+              'Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta.',
+          })
+        } else if (errorMessage === 'Invalid login credentials') {
           toast.error('Credenciais inválidas', {
             description: 'Verifique seu email e senha.',
           })
         } else {
-          toast.error('Erro no login', { description: error.message })
+          toast.error('Erro no login', { description: errorMessage })
         }
       } else {
         toast.success('Login realizado com sucesso!')
@@ -73,7 +85,9 @@ export default function Login() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Ocorreu um erro inesperado')
+      toast.error('Ocorreu um erro inesperado', {
+        description: 'Tente novamente mais tarde.',
+      })
     } finally {
       setIsSubmitting(false)
     }

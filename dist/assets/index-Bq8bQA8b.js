@@ -31415,29 +31415,53 @@ const AuthProvider = ({ children }) => {
 	}, []);
 	const signUp = async (email$1, password) => {
 		const redirectUrl = `${window.location.origin}/upload`;
-		const { data, error } = await supabase.auth.signUp({
-			email: email$1,
-			password,
-			options: { emailRedirectTo: redirectUrl }
-		});
-		return {
-			data,
-			error
-		};
+		try {
+			const { data, error } = await supabase.auth.signUp({
+				email: email$1,
+				password,
+				options: { emailRedirectTo: redirectUrl }
+			});
+			return {
+				data,
+				error
+			};
+		} catch (error) {
+			return {
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			};
+		}
 	};
 	const signIn = async (email$1, password) => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email: email$1,
-			password
-		});
-		return {
-			data,
-			error
-		};
+		try {
+			const { data, error } = await supabase.auth.signInWithPassword({
+				email: email$1,
+				password
+			});
+			return {
+				data,
+				error
+			};
+		} catch (error) {
+			return {
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			};
+		}
 	};
 	const signOut = async () => {
-		const { error } = await supabase.auth.signOut();
-		return { error };
+		try {
+			const { error } = await supabase.auth.signOut();
+			return { error };
+		} catch (error) {
+			return { error };
+		}
 	};
 	const value = {
 		user,
@@ -39216,15 +39240,19 @@ function Login() {
 		setIsSubmitting(true);
 		try {
 			const { error } = await signIn(values.email, values.password);
-			if (error) if (error.message === "Invalid login credentials") toast.error("Credenciais inválidas", { description: "Verifique seu email e senha." });
-			else toast.error("Erro no login", { description: error.message });
-			else {
+			if (error) {
+				const errorCode = error?.code;
+				const errorMessage = error.message;
+				if (errorCode === "email_not_confirmed" || errorMessage === "Email not confirmed") toast.error("E-mail não confirmado", { description: "Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta." });
+				else if (errorMessage === "Invalid login credentials") toast.error("Credenciais inválidas", { description: "Verifique seu email e senha." });
+				else toast.error("Erro no login", { description: errorMessage });
+			} else {
 				toast.success("Login realizado com sucesso!");
 				navigate("/upload");
 			}
 		} catch (error) {
 			console.error(error);
-			toast.error("Ocorreu um erro inesperado");
+			toast.error("Ocorreu um erro inesperado", { description: "Tente novamente mais tarde." });
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -39555,4 +39583,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-BHUX8vQC.js.map
+//# sourceMappingURL=index-Bq8bQA8b.js.map
