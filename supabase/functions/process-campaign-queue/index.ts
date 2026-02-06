@@ -152,6 +152,7 @@ Deno.serve(async (req: Request) => {
           ? new Date(lastMessages[0].sent_at).getTime()
           : 0
         const sentMessagesCount = campaign.sent_messages || 0
+        const hasMessagesSentReally = lastMessages && lastMessages.length > 0
 
         // Calculate Delay
         let requiredDelay = 0
@@ -164,6 +165,7 @@ Deno.serve(async (req: Request) => {
         requiredDelay = intervalDelay
 
         // Batch Pause Logic
+        // We add the batch pause to the delay if this is a "batch break" message
         if (
           config?.useBatching &&
           config.batchSize &&
@@ -175,13 +177,20 @@ Deno.serve(async (req: Request) => {
           const batchPause = Math.floor(
             Math.random() * (batchPauseMax - batchPauseMin + 1) + batchPauseMin,
           )
-          requiredDelay = batchPause
+          requiredDelay += batchPause
+        }
+
+        // CRITICAL: First message must be sent immediately (0 delay)
+        // If we haven't sent any messages yet (checked via DB query to be safe), force 0 delay.
+        if (!hasMessagesSentReally) {
+          requiredDelay = 0
         }
 
         const timeSinceLast = Date.now() - lastSentAt
 
         if (timeSinceLast < requiredDelay) {
           const waitTime = requiredDelay - timeSinceLast
+          // If the wait time is too long for this execution window, break and wait for next cron
           if (Date.now() + waitTime > startTime + MAX_EXECUTION_TIME) {
             campaignLoopActive = false
             break

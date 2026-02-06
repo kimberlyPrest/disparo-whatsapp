@@ -27,7 +27,7 @@ export function CampaignConfig({ config, scheduledAt }: CampaignConfigProps) {
             <span>Intervalo</span>
           </div>
           <p className="font-medium">
-            {config.minInterval} a {config.maxInterval} segundos
+            Imediato (1ª), depois {config.minInterval} a {config.maxInterval}s
           </p>
         </div>
 

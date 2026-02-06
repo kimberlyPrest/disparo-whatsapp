@@ -268,11 +268,16 @@ export function BulkSendModal({
     businessHoursResumeTime,
   ])
 
-  const estimatedTime =
-    selectedContactIds.length *
-    ((Number(minInterval) + Number(maxInterval)) / 2)
+  // Estimation Calculation (updated to reflect 0 delay for first message)
+  // Formula: (N - 1) * AvgInterval
+  const count = selectedContactIds.length
+  const avgInterval = (Number(minInterval) + Number(maxInterval)) / 2
+  const estimatedTime = Math.max(0, count - 1) * avgInterval
+
   const formattedEstimatedTime = () => {
+    if (count <= 1) return '0s (Imediato)'
     if (!estimatedTime) return '0s'
+
     const minutes = Math.floor(estimatedTime / 60)
     const seconds = Math.floor(estimatedTime % 60)
     if (minutes > 60) {

@@ -64,13 +64,16 @@ export function calculateCampaignSchedule(
       : 0
 
   for (let i = 0; i < totalMessages; i++) {
-    // Add interval (except for the first one if we want immediate start,
-    // but usually spacing is desired for all messages to avoid burst)
+    // Rule: First message (i=0) is sent immediately at startTime (0 delay).
+    // Interval is applied starting from the gap between 1st and 2nd message (i=1).
     if (i > 0) {
       currentTime = addSeconds(currentTime, avgInterval)
     }
 
     // Check Batching
+    // Apply batch pause if batch size is reached.
+    // Logic: If batchSize is 50, pause happens after 50th message (index 49), affecting 51st message (index 50).
+    // So if i > 0 (not first message) and i % batchSize == 0, we add the pause.
     if (
       config.useBatching &&
       config.batchSize &&
