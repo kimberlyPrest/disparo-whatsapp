@@ -126,6 +126,12 @@ export const campaignsService = {
     if (error) throw error
   },
 
+  async delete(id: string) {
+    const { error } = await supabase.from('campaigns').delete().eq('id', id)
+
+    if (error) throw error
+  },
+
   async triggerQueue(campaignId: string) {
     const { data, error } = await supabase.functions.invoke(
       'process-campaign-queue',

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '@/hooks/use-auth'
 import { campaignsService, Campaign } from '@/services/campaigns'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -20,6 +20,16 @@ import {
   CardDescription,
 } from '@/components/ui/card'
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import {
   Loader2,
   Pause,
   Eye,
@@ -29,6 +39,7 @@ import {
   CheckCircle2,
   XCircle,
   AlertTriangle,
+  Trash2,
 } from 'lucide-react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -36,6 +47,7 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { supabase } from '@/lib/supabase/client'
 import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
 
 export default function Disparos() {
   const { user, loading: authLoading } = useAuth()
@@ -43,6 +55,10 @@ export default function Disparos() {
   const [loading, setLoading] = useState(true)
   const [pausingId, setPausingId] = useState<string | null>(null)
   const [resumingId, setResumingId] = useState<string | null>(null)
+  const [campaignToDelete, setCampaignToDelete] = useState<Campaign | null>(
+    null,
+  )
+  const [isDeleting, setIsDeleting] = useState(false)
   const navigate = useNavigate()
 
   const fetchCampaigns = useCallback(async () => {
@@ -127,6 +143,30 @@ export default function Disparos() {
       toast.error('Erro ao retomar campanha')
     } finally {
       setResumingId(null)
+    }
+  }
+
+  const handleDeleteClick = (e: React.MouseEvent, campaign: Campaign) => {
+    e.stopPropagation()
+    setCampaignToDelete(campaign)
+  }
+
+  const confirmDelete = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (!campaignToDelete) return
+
+    setIsDeleting(true)
+    try {
+      await campaignsService.delete(campaignToDelete.id)
+      toast.success('Campanha excluída com sucesso')
+      // Optimistic update
+      setCampaigns((prev) => prev.filter((c) => c.id !== campaignToDelete.id))
+      setCampaignToDelete(null)
+    } catch (error) {
+      console.error(error)
+      toast.error('Erro ao excluir campanha')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -425,6 +465,15 @@ export default function Disparos() {
                             <Button
                               variant="ghost"
                               size="icon"
+                              className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                              onClick={(e) => handleDeleteClick(e, campaign)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              <span className="sr-only">Excluir campanha</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               className="h-8 w-8"
                               onClick={(e) => {
                                 e.stopPropagation()
@@ -445,6 +494,49 @@ export default function Disparos() {
           )}
         </CardContent>
       </Card>
+
+      <AlertDialog
+        open={!!campaignToDelete}
+        onOpenChange={(open) => !open && setCampaignToDelete(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Tem certeza que deseja excluir esta campanha?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita e excluirá todo o histórico de
+              mensagens associado à campanha{' '}
+              <span className="font-medium text-foreground">
+                "{campaignToDelete?.name}"
+              </span>
+              .
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isDeleting}
+              onClick={confirmDelete}
+              className={cn(
+                buttonVariants({ variant: 'destructive' }),
+                'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+              )}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Excluindo...
+                </>
+              ) : (
+                'Excluir'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
