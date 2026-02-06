@@ -130,31 +130,27 @@ export function CampaignMessagesTable({
                           ) : (
                             <p>Status atual: {msg.status}</p>
                           )}
-
-                          {isFailed && (
-                            <div className="mt-2 pt-2 border-t border-white/20">
-                              <Button
-                                size="sm"
-                                variant="secondary"
-                                className="w-full h-7 text-xs"
-                                onClick={() => onRetry(msg.id)}
-                                disabled={loadingId === msg.id}
-                              >
-                                {loadingId === msg.id ? (
-                                  <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
-                                ) : (
-                                  <RefreshCw className="h-3 w-3 mr-1" />
-                                )}
-                                Tentar Novamente
-                              </Button>
-                            </div>
-                          )}
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </TableCell>
                   <TableCell className="text-right">
-                    {/* Additional actions could go here */}
+                    {isFailed && (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="h-8 text-xs"
+                        onClick={() => onRetry(msg.id)}
+                        disabled={loadingId === msg.id}
+                      >
+                        {loadingId === msg.id ? (
+                          <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                        ) : (
+                          <RefreshCw className="h-3 w-3 mr-1" />
+                        )}
+                        Tentar Novamente
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               )

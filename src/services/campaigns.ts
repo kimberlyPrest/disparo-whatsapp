@@ -105,7 +105,6 @@ export const campaignsService = {
 
   async resume(id: string) {
     // We update to active so the queue processor picks it up.
-    // The processor will dynamically calculate delays relative to "now" since the last message time will be old.
     const { error } = await supabase
       .from('campaigns')
       .update({ status: 'active' })
@@ -126,7 +125,8 @@ export const campaignsService = {
   },
 
   async retryMessage(messageId: string) {
-    const { error } = await supabase
+    // 1. Reset message status to 'aguardando'
+    const { data: message, error } = await supabase
       .from('campaign_messages')
       .update({
         status: 'aguardando',
@@ -134,7 +134,26 @@ export const campaignsService = {
         sent_at: null,
       })
       .eq('id', messageId)
+      .select('campaign_id')
+      .single()
 
     if (error) throw error
+
+    if (message) {
+      // 2. If campaign is finished, reactivate it to 'processing' so the queue processor picks it up
+      // We only target 'finished' status. If it's paused or canceled, we respect that state.
+      const { error: campError } = await supabase
+        .from('campaigns')
+        .update({ status: 'processing', finished_at: null })
+        .eq('id', message.campaign_id)
+        .eq('status', 'finished')
+
+      if (campError) {
+        console.error(
+          'Failed to auto-resume finished campaign on retry',
+          campError,
+        )
+      }
+    }
   },
 }

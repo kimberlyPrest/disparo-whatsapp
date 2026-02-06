@@ -74,7 +74,7 @@ export default function DisparoDetalhes() {
             filter: `campaign_id=eq.${id}`,
           },
           () => {
-            // Refresh messages when changes occur (optimally would update just the row)
+            // Refresh messages when changes occur (optimally would update just the row, but refetching is safer for now)
             campaignsService.getMessages(id).then(setMessages)
           },
         )
@@ -117,7 +117,8 @@ export default function DisparoDetalhes() {
     try {
       await campaignsService.retryMessage(messageId)
       toast.success('Mensagem reinserida na fila')
-      // Update local state
+
+      // Update local state immediately for better UX
       setMessages((prev) =>
         prev.map((m) =>
           m.id === messageId
@@ -125,6 +126,15 @@ export default function DisparoDetalhes() {
             : m,
         ),
       )
+
+      // If campaign was finished, we optimistically set it to processing too,
+      // though the subscription will handle it accurately.
+      setCampaign((prev) => {
+        if (prev && prev.status === 'finished') {
+          return { ...prev, status: 'processing' }
+        }
+        return prev
+      })
     } catch (error) {
       console.error(error)
       toast.error('Erro ao tentar reenviar mensagem')
