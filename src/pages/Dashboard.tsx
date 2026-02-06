@@ -158,31 +158,100 @@ export default function Dashboard() {
             Visão geral dos seus disparos e métricas.
           </p>
         </div>
-        <Button asChild className="shadow-sm">
-          <Link to="/upload">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Agendar novo disparo
-          </Link>
-        </Button>
+        {/* Only show button if we have campaigns or are loading (to avoid flicker) */}
+        {(loading || campaigns.length > 0) && (
+          <Button asChild className="shadow-sm">
+            <Link to="/upload">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Agendar novo disparo
+            </Link>
+          </Button>
+        )}
       </div>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {loading ? (
-          [...Array(4)].map((_, i) => (
-            <Card key={i} className="hover:shadow-md transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Skeleton className="h-4 w-32" />
-                <Skeleton className="h-4 w-4 rounded-full" />
-              </CardHeader>
-              <CardContent>
-                <Skeleton className="h-8 w-16 mb-1" />
-                <Skeleton className="h-3 w-24" />
-              </CardContent>
-            </Card>
-          ))
-        ) : (
-          <>
+      {loading ? (
+        <>
+          {/* KPIs Skeletons */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {[...Array(4)].map((_, i) => (
+              <Card key={i} className="hover:shadow-md transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-4 w-4 rounded-full" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-8 w-16 mb-1" />
+                  <Skeleton className="h-3 w-24" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* List Skeletons */}
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold tracking-tight">
+              Em Andamento & Agendados
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, i) => (
+                <Card key={i} className="overflow-hidden">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start gap-2">
+                      <Skeleton className="h-6 w-32" />
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                    </div>
+                    <Skeleton className="h-4 w-40 mt-1" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-sm">
+                        <Skeleton className="h-4 w-16" />
+                        <Skeleton className="h-4 w-8" />
+                      </div>
+                      <Skeleton className="h-2.5 w-full rounded-full" />
+                      <div className="flex justify-between text-xs pt-2 mt-2 border-t">
+                        <Skeleton className="h-3 w-20" />
+                        <Skeleton className="h-3 w-20" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : campaigns.length === 0 ? (
+        // Empty State View
+        <div className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto space-y-8 py-20 animate-fade-in-up">
+          <div className="bg-primary/10 p-8 rounded-full ring-8 ring-primary/5">
+            <MessageSquare className="h-16 w-16 text-primary" />
+          </div>
+
+          <div className="space-y-4">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+              Vamos começar sua primeira campanha?
+            </h1>
+            <p className="text-xl text-muted-foreground leading-relaxed max-w-lg mx-auto">
+              Você ainda não possui nenhuma campanha de disparo. Comece agora
+              para alcançar seus clientes via WhatsApp.
+            </p>
+          </div>
+
+          <Button
+            asChild
+            size="lg"
+            className="h-14 px-8 text-lg font-semibold shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 rounded-full"
+          >
+            <Link to="/upload">
+              Criar Minha Primeira Campanha
+              <PlusCircle className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
+        </div>
+      ) : (
+        <>
+          {/* KPIs */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <Card className="hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
@@ -248,163 +317,109 @@ export default function Dashboard() {
                 </p>
               </CardContent>
             </Card>
-          </>
-        )}
-      </div>
+          </div>
 
-      {/* Active/Scheduled Campaigns List */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-semibold tracking-tight">
-          Em Andamento & Agendados
-        </h2>
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(3)].map((_, i) => (
-              <Card key={i} className="overflow-hidden">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start gap-2">
-                    <Skeleton className="h-6 w-32" />
-                    <Skeleton className="h-5 w-16 rounded-full" />
-                  </div>
-                  <Skeleton className="h-4 w-40 mt-1" />
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-sm">
-                      <Skeleton className="h-4 w-16" />
-                      <Skeleton className="h-4 w-8" />
-                    </div>
-                    <Skeleton className="h-2.5 w-full rounded-full" />
-                    <div className="flex justify-between text-xs pt-2 mt-2 border-t">
-                      <Skeleton className="h-3 w-20" />
-                      <Skeleton className="h-3 w-20" />
-                    </div>
-                  </div>
+          {/* Active/Scheduled Campaigns List */}
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold tracking-tight">
+              Em Andamento & Agendados
+            </h2>
+            {activeOrScheduled.length === 0 ? (
+              <Card className="bg-muted/50 border-dashed">
+                <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+                  <Activity className="h-10 w-10 text-muted-foreground/50 mb-3" />
+                  <p className="text-muted-foreground text-sm">
+                    Nenhum disparo ativo ou agendado no momento.
+                  </p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        ) : !loading && campaigns.length === 0 ? (
-          <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8 py-12">
-            <div className="bg-primary/10 p-6 rounded-full">
-              <Send className="h-12 w-12 text-primary" />
-            </div>
-
-            <div className="space-y-4">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-                Faça o seu primeiro Disparo de WhatsApp
-              </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                Importe sua planilha de contatos e envie mensagens
-                personalizadas em massa de forma simples e rápida.
-              </p>
-            </div>
-
-            <Button
-              asChild
-              size="lg"
-              className="h-12 px-8 text-lg shadow-lg hover:shadow-primary/20 hover:scale-105 transition-all"
-            >
-              <Link to="/upload">
-                Começar
-                <PlusCircle className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
-        ) : activeOrScheduled.length === 0 ? (
-          <Card className="bg-muted/50 border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <Activity className="h-10 w-10 text-muted-foreground/50 mb-3" />
-              <p className="text-muted-foreground text-sm">
-                Nenhum disparo ativo ou agendado no momento.
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeOrScheduled.map((campaign) => (
-              <Card
-                key={campaign.id}
-                className="overflow-hidden border-l-4 border-l-primary hover:shadow-lg transition-all duration-300"
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start gap-2">
-                    <CardTitle
-                      className="text-lg truncate leading-tight"
-                      title={campaign.name}
-                    >
-                      {campaign.name}
-                    </CardTitle>
-                    <span
-                      className={cn(
-                        'px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shrink-0',
-                        getStatusColor(campaign.status),
-                      )}
-                    >
-                      {getStatusLabel(campaign.status)}
-                    </span>
-                  </div>
-                  <CardDescription className="pt-1">
-                    {campaign.scheduled_at ? (
-                      <span className="flex items-center gap-1.5 text-xs">
-                        <Calendar className="h-3 w-3" />
-                        {format(
-                          new Date(campaign.scheduled_at),
-                          'dd/MM/yyyy HH:mm',
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {activeOrScheduled.map((campaign) => (
+                  <Card
+                    key={campaign.id}
+                    className="overflow-hidden border-l-4 border-l-primary hover:shadow-lg transition-all duration-300"
+                  >
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start gap-2">
+                        <CardTitle
+                          className="text-lg truncate leading-tight"
+                          title={campaign.name}
+                        >
+                          {campaign.name}
+                        </CardTitle>
+                        <span
+                          className={cn(
+                            'px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shrink-0',
+                            getStatusColor(campaign.status),
+                          )}
+                        >
+                          {getStatusLabel(campaign.status)}
+                        </span>
+                      </div>
+                      <CardDescription className="pt-1">
+                        {campaign.scheduled_at ? (
+                          <span className="flex items-center gap-1.5 text-xs">
+                            <Calendar className="h-3 w-3" />
+                            {format(
+                              new Date(campaign.scheduled_at),
+                              'dd/MM/yyyy HH:mm',
+                            )}
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1.5 text-xs">
+                            <Clock className="h-3 w-3" />
+                            Iniciado imediatamente
+                          </span>
                         )}
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1.5 text-xs">
-                        <Clock className="h-3 w-3" />
-                        Iniciado imediatamente
-                      </span>
-                    )}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground font-medium">
-                        Progresso
-                      </span>
-                      <span className="font-bold text-primary">
-                        {Math.round(
-                          ((campaign.sent_messages || 0) /
-                            Math.max(campaign.total_messages, 1)) *
-                            100,
-                        )}
-                        %
-                      </span>
-                    </div>
-                    <div className="h-2.5 w-full bg-secondary rounded-full overflow-hidden shadow-inner">
-                      <div
-                        className="h-full bg-primary transition-all duration-500 ease-out"
-                        style={{
-                          width: `${((campaign.sent_messages || 0) / Math.max(campaign.total_messages, 1)) * 100}%`,
-                        }}
-                      />
-                    </div>
-                    <div className="flex justify-between text-xs text-muted-foreground border-t pt-2 mt-2">
-                      <span>
-                        Enviados:{' '}
-                        <strong className="text-foreground">
-                          {campaign.sent_messages || 0}
-                        </strong>
-                      </span>
-                      <span>
-                        Total:{' '}
-                        <strong className="text-foreground">
-                          {campaign.total_messages}
-                        </strong>
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground font-medium">
+                            Progresso
+                          </span>
+                          <span className="font-bold text-primary">
+                            {Math.round(
+                              ((campaign.sent_messages || 0) /
+                                Math.max(campaign.total_messages, 1)) *
+                                100,
+                            )}
+                            %
+                          </span>
+                        </div>
+                        <div className="h-2.5 w-full bg-secondary rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-primary transition-all duration-500 ease-out"
+                            style={{
+                              width: `${((campaign.sent_messages || 0) / Math.max(campaign.total_messages, 1)) * 100}%`,
+                            }}
+                          />
+                        </div>
+                        <div className="flex justify-between text-xs text-muted-foreground border-t pt-2 mt-2">
+                          <span>
+                            Enviados:{' '}
+                            <strong className="text-foreground">
+                              {campaign.sent_messages || 0}
+                            </strong>
+                          </span>
+                          <span>
+                            Total:{' '}
+                            <strong className="text-foreground">
+                              {campaign.total_messages}
+                            </strong>
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   )
 }
