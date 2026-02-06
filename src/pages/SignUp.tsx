@@ -65,19 +65,12 @@ export default function SignUp() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true)
     try {
-      const { data, error } = await signUp(values.email, values.password)
+      const { error } = await signUp(values.email, values.password)
       if (error) {
         toast.error('Erro ao criar conta', { description: error.message })
       } else {
-        if (data?.session) {
-          toast.success('Conta criada com sucesso!')
-          navigate('/upload')
-        } else if (data?.user) {
-          toast.success('Conta criada!', {
-            description: 'Verifique seu email para confirmar o cadastro.',
-          })
-          navigate('/login')
-        }
+        toast.success('Conta criada com sucesso!')
+        navigate('/upload')
       }
     } catch (error) {
       console.error(error)

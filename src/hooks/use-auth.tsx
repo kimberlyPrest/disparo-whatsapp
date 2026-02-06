@@ -20,9 +20,6 @@ interface AuthContextType {
     password: string,
   ) => Promise<{ error: AuthError | null; data: any }>
   signOut: () => Promise<{ error: AuthError | null }>
-  resendConfirmationEmail: (
-    email: string,
-  ) => Promise<{ error: AuthError | null; data: any }>
   loading: boolean
 }
 
@@ -97,29 +94,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const resendConfirmationEmail = async (email: string) => {
-    const redirectUrl = `${window.location.origin}/upload`
-    try {
-      const { data, error } = await supabase.auth.resend({
-        type: 'signup',
-        email,
-        options: {
-          emailRedirectTo: redirectUrl,
-        },
-      })
-      return { data, error }
-    } catch (error) {
-      return { data: null, error: error as AuthError }
-    }
-  }
-
   const value = {
     user,
     session,
     signUp,
     signIn,
     signOut,
-    resendConfirmationEmail,
     loading,
   }
 
