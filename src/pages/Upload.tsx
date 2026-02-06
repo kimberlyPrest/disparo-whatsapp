@@ -6,14 +6,10 @@ import { toast } from 'sonner'
 import { campaignsService } from '@/services/campaigns'
 import { Step1Import } from '@/components/campaigns/Step1Import'
 import { Step2Review } from '@/components/campaigns/Step2Review'
-import { ScheduleConfig } from '@/lib/campaign-utils'
-import { CampaignConfig } from '@/components/campaigns/CampaignConfig'
-import { CampaignConfirmationStep } from '@/components/campaigns/CampaignConfirmationStep'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Switch } from '@/components/ui/switch'
+import {
+  Step3Config,
+  Step3ConfigValues,
+} from '@/components/campaigns/Step3Config'
 
 export default function Upload() {
   const { user, loading: authLoading } = useAuth()
@@ -22,25 +18,13 @@ export default function Upload() {
   const [currentStep, setCurrentStep] = useState(1)
   const [isProcessing, setIsProcessing] = useState(false)
   const [campaignId, setCampaignId] = useState<string | null>(null)
-  const [campaignName, setCampaignName] = useState('')
-  const [contacts, setContacts] = useState<any[]>([])
-
-  // Config state for Step 3 (Previously Step 2)
-  const [config, setConfig] = useState<ScheduleConfig>({
-    minInterval: 30,
-    maxInterval: 60,
-    useBatching: false,
-    businessHoursStrategy: 'ignore',
-    startTime: new Date(),
-  })
 
   // Handlers
   const handleStep1Next = async (parsedContacts: any[], filename: string) => {
     setIsProcessing(true)
     try {
-      // Create campaign draft immediately to save contacts to DB for Review Step
+      // Create campaign draft immediately
       const defaultName = `Campanha ${filename} - ${new Date().toLocaleDateString()}`
-      setCampaignName(defaultName)
 
       const newCampaign = await campaignsService.createDraft(
         defaultName,
@@ -60,34 +44,71 @@ export default function Upload() {
   }
 
   const handleStep2Next = () => {
-    // Just move to configuration step
     setCurrentStep(3)
   }
 
-  const handleStep3Confirm = async () => {
+  const handleStep3Finish = async (values: Step3ConfigValues) => {
     if (!campaignId) return
     setIsProcessing(true)
     try {
-      // Update config first
+      let scheduledAt = new Date().toISOString()
+
+      if (
+        values.scheduleType === 'scheduled' &&
+        values.scheduledDate &&
+        values.scheduledTime
+      ) {
+        const [hours, minutes] = values.scheduledTime.split(':').map(Number)
+        const date = new Date(values.scheduledDate)
+        date.setHours(hours, minutes, 0, 0)
+        scheduledAt = date.toISOString()
+      } else {
+        // Immediate - ensure it's "now"
+        scheduledAt = new Date().toISOString()
+      }
+
+      // Prepare config JSON
+      const config = {
+        min_interval: values.minInterval,
+        max_interval: values.maxInterval,
+        batch_config: values.useBatching
+          ? {
+              enabled: true,
+              size: values.batchSize,
+              pause_min: values.batchPauseMin,
+              pause_max: values.batchPauseMax,
+            }
+          : { enabled: false },
+        business_hours: {
+          strategy: values.businessHoursStrategy,
+          pause_at: '18:00', // Default hardcoded for now or we could add inputs if needed
+          resume_at: '08:00',
+        },
+      }
+
+      // Update campaign in DB
       await campaignsService.update(campaignId, {
-        name: campaignName,
+        name: values.name,
         config: config as any,
-        scheduled_at: config.startTime.toISOString(),
+        scheduled_at: scheduledAt,
+        status: values.scheduleType === 'scheduled' ? 'scheduled' : 'active',
       })
 
-      // Activate campaign
-      await campaignsService.resume(campaignId)
-      // Trigger queue
-      try {
-        await campaignsService.triggerQueue(campaignId)
-      } catch (e) {
-        console.warn('Queue trigger warning:', e)
+      // If immediate, execute post-update actions like resuming and triggering queue
+      if (values.scheduleType === 'immediate') {
+        await campaignsService.resume(campaignId)
+        try {
+          await campaignsService.triggerQueue(campaignId)
+        } catch (e) {
+          console.warn('Queue trigger warning:', e)
+        }
       }
 
       toast.success('Campanha iniciada com sucesso!')
       navigate(`/disparos/${campaignId}`)
     } catch (error) {
-      toast.error('Erro ao iniciar campanha')
+      console.error(error)
+      toast.error('Erro ao salvar e iniciar campanha')
     } finally {
       setIsProcessing(false)
     }
@@ -107,22 +128,18 @@ export default function Upload() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl bg-[#f6f8f6] min-h-[calc(100vh-4rem)]">
-      {/* Header - Only show for Step 1 and 3, Step 2 has its own header */}
-      {currentStep !== 2 && (
+    <div className="container mx-auto px-4 py-8 max-w-5xl bg-[#f6f8f6] dark:bg-[#102216] min-h-[calc(100vh-4rem)]">
+      {/* Header - Only show for Step 1, Step 2 and 3 have their own headers or layout needs */}
+      {currentStep === 1 && (
         <div className="mb-8 space-y-1">
           <span className="text-[#13ec5b] font-medium text-sm tracking-wide uppercase">
             Novo Disparo
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-            {currentStep === 1
-              ? 'Importar Lista de Contatos'
-              : 'Configurar e Disparar'}
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+            Importar Lista de Contatos
           </h1>
-          <p className="text-slate-500 text-lg">
-            {currentStep === 1
-              ? 'Passo 1 de 3: Carregue sua base de clientes para começar.'
-              : 'Passo 3 de 3: Defina as regras de envio e dispare.'}
+          <p className="text-slate-500 dark:text-slate-400 text-lg">
+            Passo 1 de 3: Carregue sua base de clientes para começar.
           </p>
         </div>
       )}
@@ -141,58 +158,12 @@ export default function Upload() {
           />
         )}
 
-        {currentStep === 3 && (
-          <div className="space-y-6 animate-fade-in-up">
-            <Card>
-              <CardHeader>
-                <CardTitle>Configuração do Disparo</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Nome da Campanha</Label>
-                  <Input
-                    value={campaignName}
-                    onChange={(e) => setCampaignName(e.target.value)}
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    checked={config.useBatching}
-                    onCheckedChange={(checked) =>
-                      setConfig((prev) => ({ ...prev, useBatching: checked }))
-                    }
-                  />
-                  <Label>Ativar envio em lotes (pausas automáticas)</Label>
-                </div>
-
-                <div className="pt-4">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Resumo da Configuração:
-                  </p>
-                  <CampaignConfig
-                    config={config}
-                    scheduledAt={config.startTime.toISOString()}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="flex justify-between">
-              <Button variant="outline" onClick={() => setCurrentStep(2)}>
-                Voltar para Revisão
-              </Button>
-              <Button
-                onClick={handleStep3Confirm}
-                disabled={isProcessing}
-                className="bg-primary text-foreground font-bold hover:bg-primary/90"
-              >
-                {isProcessing ? (
-                  <Loader2 className="animate-spin mr-2 h-4 w-4" />
-                ) : null}
-                Confirmar e Iniciar Disparo
-              </Button>
-            </div>
-          </div>
+        {currentStep === 3 && campaignId && (
+          <Step3Config
+            campaignId={campaignId}
+            onBack={() => setCurrentStep(2)}
+            onFinish={handleStep3Finish}
+          />
         )}
       </div>
     </div>
