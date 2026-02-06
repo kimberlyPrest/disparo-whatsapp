@@ -19,13 +19,23 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card'
-import { Loader2, Pause, Eye, AlertCircle, Plus, Play } from 'lucide-react'
+import {
+  Loader2,
+  Pause,
+  Eye,
+  AlertCircle,
+  Plus,
+  Play,
+  CheckCircle2,
+  XCircle,
+} from 'lucide-react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { supabase } from '@/lib/supabase/client'
 import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
 
 export default function Disparos() {
   const { user, loading: authLoading } = useAuth()
@@ -118,14 +128,25 @@ export default function Disparos() {
     switch (status) {
       case 'finished':
         return (
-          <Badge className="bg-green-500 hover:bg-green-600">Finalizado</Badge>
+          <Badge className="bg-green-500 hover:bg-green-600 gap-1">
+            <CheckCircle2 className="h-3 w-3" />
+            Finalizado
+          </Badge>
         )
       case 'failed':
-        return <Badge variant="destructive">Falhou</Badge>
+        return (
+          <Badge variant="destructive" className="gap-1">
+            <XCircle className="h-3 w-3" />
+            Falhou
+          </Badge>
+        )
       case 'active':
       case 'processing':
         return (
-          <Badge className="bg-blue-500 hover:bg-blue-600">Em Andamento</Badge>
+          <Badge className="bg-blue-500 hover:bg-blue-600 gap-1 animate-pulse">
+            <Loader2 className="h-3 w-3 animate-spin" />
+            Em Andamento
+          </Badge>
         )
       case 'scheduled':
       case 'pending':
@@ -138,8 +159,9 @@ export default function Disparos() {
         return (
           <Badge
             variant="secondary"
-            className="bg-orange-400 text-white hover:bg-orange-500"
+            className="bg-orange-400 text-white hover:bg-orange-500 gap-1"
           >
+            <Pause className="h-3 w-3" />
             Pausado
           </Badge>
         )
@@ -147,6 +169,25 @@ export default function Disparos() {
         return <Badge variant="outline">Cancelado</Badge>
       default:
         return <Badge variant="secondary">{status}</Badge>
+    }
+  }
+
+  const getProgressIndicatorClass = (status: string) => {
+    switch (status) {
+      case 'finished':
+        return 'bg-green-500'
+      case 'failed':
+        return 'bg-destructive'
+      case 'active':
+      case 'processing':
+        return 'bg-blue-500 animate-pulse'
+      case 'paused':
+        return 'bg-orange-400'
+      case 'scheduled':
+      case 'pending':
+        return 'bg-muted-foreground/30'
+      default:
+        return 'bg-primary'
     }
   }
 
@@ -168,7 +209,8 @@ export default function Disparos() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Meus Disparos</h1>
           <p className="text-muted-foreground">
-            Gerencie suas campanhas de envio.
+            Gerencie suas campanhas de envio e acompanhe o progresso em tempo
+            real.
           </p>
         </div>
         <Button asChild>
@@ -194,7 +236,7 @@ export default function Disparos() {
                   <TableRow>
                     <TableHead>Nome da Campanha</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="w-[200px]">Progresso</TableHead>
+                    <TableHead className="w-[250px]">Progresso</TableHead>
                     <TableHead>Data de Criação</TableHead>
                     <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
@@ -244,22 +286,24 @@ export default function Disparos() {
                   <TableRow>
                     <TableHead>Nome da Campanha</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="w-[200px]">Progresso</TableHead>
+                    <TableHead className="w-[250px]">Progresso</TableHead>
                     <TableHead>Data de Criação</TableHead>
                     <TableHead className="text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {campaigns.map((campaign) => {
-                    const percentage = Math.round(
-                      ((campaign.sent_messages || 0) /
-                        Math.max(campaign.total_messages || 1, 1)) *
-                        100,
+                    const total = Math.max(campaign.total_messages || 0, 0)
+                    const sent = Math.min(
+                      Math.max(campaign.sent_messages || 0, 0),
+                      total,
                     )
-                    const isActive = ['active', 'processing'].includes(
-                      campaign.status || '',
-                    )
-                    const isPaused = campaign.status === 'paused'
+                    const percentage =
+                      total > 0 ? Math.round((sent / total) * 100) : 0
+
+                    const status = campaign.status || 'unknown'
+                    const isActive = ['active', 'processing'].includes(status)
+                    const isPaused = status === 'paused'
 
                     return (
                       <TableRow
@@ -269,7 +313,9 @@ export default function Disparos() {
                       >
                         <TableCell className="font-medium">
                           <div className="flex flex-col">
-                            <span>{campaign.name}</span>
+                            <span className="truncate max-w-[200px] md:max-w-none">
+                              {campaign.name}
+                            </span>
                             <span className="text-xs text-muted-foreground md:hidden">
                               {format(
                                 new Date(campaign.created_at),
@@ -279,25 +325,28 @@ export default function Disparos() {
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell>
-                          {getStatusBadge(campaign.status || 'unknown')}
-                        </TableCell>
+                        <TableCell>{getStatusBadge(status)}</TableCell>
                         <TableCell>
                           <div className="space-y-1.5">
-                            <div className="flex justify-between text-xs">
+                            <div className="flex justify-between text-xs font-medium">
                               <span>{percentage}%</span>
                               <span className="text-muted-foreground">
-                                {campaign.sent_messages}/
-                                {campaign.total_messages}
+                                {sent} / {total}
                               </span>
                             </div>
-                            <Progress value={percentage} className="h-2" />
+                            <Progress
+                              value={percentage}
+                              className="h-2.5"
+                              indicatorClassName={getProgressIndicatorClass(
+                                status,
+                              )}
+                            />
                           </div>
                         </TableCell>
-                        <TableCell className="text-muted-foreground hidden md:table-cell">
+                        <TableCell className="text-muted-foreground hidden md:table-cell whitespace-nowrap">
                           {format(
                             new Date(campaign.created_at),
-                            "dd 'de' MMMM, HH:mm",
+                            "dd 'de' MMM, HH:mm",
                             { locale: ptBR },
                           )}
                         </TableCell>
@@ -307,7 +356,7 @@ export default function Disparos() {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-8 border-orange-200 text-orange-600 hover:bg-orange-50 hover:text-orange-700"
+                                className="h-8 border-orange-200 text-orange-600 hover:bg-orange-50 hover:text-orange-700 hidden sm:flex"
                                 onClick={(e) => handlePause(e, campaign.id)}
                                 disabled={pausingId === campaign.id}
                               >
@@ -325,7 +374,7 @@ export default function Disparos() {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="h-8 border-green-200 text-green-600 hover:bg-green-50 hover:text-green-700"
+                                className="h-8 border-green-200 text-green-600 hover:bg-green-50 hover:text-green-700 hidden sm:flex"
                                 onClick={(e) => handleResume(e, campaign.id)}
                                 disabled={resumingId === campaign.id}
                               >
