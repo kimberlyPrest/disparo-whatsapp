@@ -20,6 +20,7 @@ interface AuthContextType {
     password: string,
   ) => Promise<{ error: any; data: any }>
   signOut: () => Promise<{ error: any }>
+  resendConfirmationEmail: (email: string) => Promise<{ error: any; data: any }>
   loading: boolean
 }
 
@@ -39,7 +40,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false)
     })
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
@@ -83,7 +82,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       return { data, error }
     } catch (error) {
-      // Return error in a structured way to be handled by the component
       return { data: { user: null, session: null }, error }
     }
   }
@@ -97,12 +95,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const resendConfirmationEmail = async (email: string) => {
+    const redirectUrl = `${window.location.origin}/upload`
+    try {
+      const { data, error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: {
+          emailRedirectTo: redirectUrl,
+        },
+      })
+      return { data, error }
+    } catch (error) {
+      return { data: null, error }
+    }
+  }
+
   const value = {
     user,
     session,
     signUp,
     signIn,
     signOut,
+    resendConfirmationEmail,
     loading,
   }
 

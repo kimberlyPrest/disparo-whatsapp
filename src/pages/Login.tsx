@@ -21,7 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Loader2 } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Loader2, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
@@ -31,8 +32,10 @@ const formSchema = z.object({
 })
 
 export default function Login() {
-  const { signIn, user, loading } = useAuth()
+  const { signIn, user, loading, resendConfirmationEmail } = useAuth()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isResending, setIsResending] = useState(false)
+  const [showResendButton, setShowResendButton] = useState(false)
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,29 +58,55 @@ export default function Login() {
     return <Navigate to="/upload" replace />
   }
 
+  const handleResendEmail = async () => {
+    const email = form.getValues('email')
+    if (!email) return
+
+    setIsResending(true)
+    try {
+      const { error } = await resendConfirmationEmail(email)
+      if (error) {
+        toast.error('Erro ao reenviar', {
+          description: error.message || 'Tente novamente mais tarde.',
+        })
+      } else {
+        toast.success('E-mail de confirmação enviado com sucesso!', {
+          description: 'Verifique sua caixa de entrada.',
+        })
+        setShowResendButton(false)
+      }
+    } catch (error) {
+      toast.error('Erro inesperado', {
+        description: 'Não foi possível reenviar o e-mail.',
+      })
+    } finally {
+      setIsResending(false)
+    }
+  }
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true)
+    setShowResendButton(false)
+
     try {
       const { error } = await signIn(values.email, values.password)
 
       if (error) {
-        // Detect specific Supabase errors
         const errorCode = (error as any)?.code
         const errorMessage = error.message
 
-        // Check for email not confirmed error (handles both code and message message variations)
         if (
           errorCode === 'email_not_confirmed' ||
           errorMessage === 'Email not confirmed'
         ) {
+          setShowResendButton(true)
           toast.error('E-mail não confirmado', {
-            description:
-              'Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta.',
+            description: 'Seu e-mail ainda não foi confirmado.',
             duration: 6000,
           })
         } else if (errorMessage === 'Invalid login credentials') {
           toast.error('Credenciais inválidas', {
-            description: 'Verifique seu email e senha.',
+            description: 'E-mail ou senha inválidos.',
           })
         } else {
           toast.error('Erro no login', { description: errorMessage })
@@ -106,6 +135,36 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {showResendButton && (
+            <Alert variant="destructive" className="mb-6 text-left">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Confirmação necessária</AlertTitle>
+              <AlertDescription className="mt-2 space-y-3">
+                <p>
+                  Seu e-mail ainda não foi confirmado. Por favor, verifique sua
+                  caixa de entrada para ativar sua conta.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full border-destructive/30 hover:bg-destructive/10 hover:text-destructive bg-background text-foreground"
+                  onClick={handleResendEmail}
+                  disabled={isResending}
+                  type="button"
+                >
+                  {isResending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    'Reenviar e-mail de confirmação'
+                  )}
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField

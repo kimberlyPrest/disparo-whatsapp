@@ -31463,12 +31463,32 @@ const AuthProvider = ({ children }) => {
 			return { error };
 		}
 	};
+	const resendConfirmationEmail = async (email$1) => {
+		const redirectUrl = `${window.location.origin}/upload`;
+		try {
+			const { data, error } = await supabase.auth.resend({
+				type: "signup",
+				email: email$1,
+				options: { emailRedirectTo: redirectUrl }
+			});
+			return {
+				data,
+				error
+			};
+		} catch (error) {
+			return {
+				data: null,
+				error
+			};
+		}
+	};
 	const value = {
 		user,
 		session,
 		signUp,
 		signIn,
 		signOut,
+		resendConfirmationEmail,
 		loading
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthContext.Provider, {
@@ -39213,13 +39233,41 @@ function Upload() {
 		})]
 	});
 }
+var alertVariants = cva("relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground", {
+	variants: { variant: {
+		default: "bg-background text-foreground",
+		destructive: "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive"
+	} },
+	defaultVariants: { variant: "default" }
+});
+var Alert = import_react.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	role: "alert",
+	className: cn(alertVariants({ variant }), className),
+	...props
+}));
+Alert.displayName = "Alert";
+var AlertTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h5", {
+	ref,
+	className: cn("mb-1 font-medium leading-none tracking-tight", className),
+	...props
+}));
+AlertTitle.displayName = "AlertTitle";
+var AlertDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("text-sm [&_p]:leading-relaxed", className),
+	...props
+}));
+AlertDescription.displayName = "AlertDescription";
 var formSchema$1 = object({
 	email: string().email("Email inválido"),
 	password: string().min(6, "A senha deve ter pelo menos 6 caracteres")
 });
 function Login() {
-	const { signIn, user, loading } = useAuth();
+	const { signIn, user, loading, resendConfirmationEmail } = useAuth();
 	const [isSubmitting, setIsSubmitting] = (0, import_react.useState)(false);
+	const [isResending, setIsResending] = (0, import_react.useState)(false);
+	const [showResendButton, setShowResendButton] = (0, import_react.useState)(false);
 	const navigate = useNavigate();
 	const form = useForm({
 		resolver: a(formSchema$1),
@@ -39236,18 +39284,38 @@ function Login() {
 		to: "/upload",
 		replace: true
 	});
+	const handleResendEmail = async () => {
+		const email$1 = form.getValues("email");
+		if (!email$1) return;
+		setIsResending(true);
+		try {
+			const { error } = await resendConfirmationEmail(email$1);
+			if (error) toast.error("Erro ao reenviar", { description: error.message || "Tente novamente mais tarde." });
+			else {
+				toast.success("E-mail de confirmação enviado com sucesso!", { description: "Verifique sua caixa de entrada." });
+				setShowResendButton(false);
+			}
+		} catch (error) {
+			toast.error("Erro inesperado", { description: "Não foi possível reenviar o e-mail." });
+		} finally {
+			setIsResending(false);
+		}
+	};
 	const onSubmit = async (values) => {
 		setIsSubmitting(true);
+		setShowResendButton(false);
 		try {
 			const { error } = await signIn(values.email, values.password);
 			if (error) {
 				const errorCode = error?.code;
 				const errorMessage = error.message;
-				if (errorCode === "email_not_confirmed" || errorMessage === "Email not confirmed") toast.error("E-mail não confirmado", {
-					description: "Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta.",
-					duration: 6e3
-				});
-				else if (errorMessage === "Invalid login credentials") toast.error("Credenciais inválidas", { description: "Verifique seu email e senha." });
+				if (errorCode === "email_not_confirmed" || errorMessage === "Email not confirmed") {
+					setShowResendButton(true);
+					toast.error("E-mail não confirmado", {
+						description: "Seu e-mail ainda não foi confirmado.",
+						duration: 6e3
+					});
+				} else if (errorMessage === "Invalid login credentials") toast.error("Credenciais inválidas", { description: "E-mail ou senha inválidos." });
 				else toast.error("Erro no login", { description: errorMessage });
 			} else {
 				toast.success("Login realizado com sucesso!");
@@ -39272,7 +39340,26 @@ function Login() {
 						children: "Acesse sua conta"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Entre com seu email e senha para continuar" })]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [showResendButton && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Alert, {
+					variant: "destructive",
+					className: "mb-6 text-left",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { className: "h-4 w-4" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertTitle, { children: "Confirmação necessária" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDescription, {
+							className: "mt-2 space-y-3",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								variant: "outline",
+								size: "sm",
+								className: "w-full border-destructive/30 hover:bg-destructive/10 hover:text-destructive bg-background text-foreground",
+								onClick: handleResendEmail,
+								disabled: isResending,
+								type: "button",
+								children: isResending ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Enviando..."] }) : "Reenviar e-mail de confirmação"
+							})]
+						})
+					]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
 					...form,
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
 						onSubmit: form.handleSubmit(onSubmit),
@@ -39311,7 +39398,7 @@ function Login() {
 							})
 						]
 					})
-				}) }),
+				})] }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
 					className: "flex justify-center",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
@@ -39586,4 +39673,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-D8IE82aF.js.map
+//# sourceMappingURL=index-Ds5k9qI0.js.map
