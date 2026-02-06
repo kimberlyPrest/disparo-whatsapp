@@ -104,6 +104,8 @@ export const campaignsService = {
   },
 
   async resume(id: string) {
+    // We update to active so the queue processor picks it up.
+    // The processor will dynamically calculate delays relative to "now" since the last message time will be old.
     const { error } = await supabase
       .from('campaigns')
       .update({ status: 'active' })

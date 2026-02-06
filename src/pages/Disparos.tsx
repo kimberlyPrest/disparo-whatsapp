@@ -19,19 +19,19 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card'
-import { Loader2, Pause, Eye, AlertCircle, Plus } from 'lucide-react'
+import { Loader2, Pause, Eye, AlertCircle, Plus, Play } from 'lucide-react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { supabase } from '@/lib/supabase/client'
-import { cn } from '@/lib/utils'
 
 export default function Disparos() {
   const { user, loading: authLoading } = useAuth()
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [loading, setLoading] = useState(true)
   const [pausingId, setPausingId] = useState<string | null>(null)
+  const [resumingId, setResumingId] = useState<string | null>(null)
   const navigate = useNavigate()
 
   const fetchCampaigns = useCallback(async () => {
@@ -79,7 +79,7 @@ export default function Disparos() {
     try {
       await campaignsService.pause(id)
       toast.success('Campanha pausada com sucesso')
-      // Optimistic update or wait for realtime
+      // Optimistic update
       setCampaigns((prev) =>
         prev.map((c) => (c.id === id ? { ...c, status: 'paused' } : c)),
       )
@@ -88,6 +88,24 @@ export default function Disparos() {
       toast.error('Erro ao pausar campanha')
     } finally {
       setPausingId(null)
+    }
+  }
+
+  const handleResume = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation() // Prevent row click
+    setResumingId(id)
+    try {
+      await campaignsService.resume(id)
+      toast.success('Campanha retomada com sucesso')
+      // Optimistic update
+      setCampaigns((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: 'active' } : c)),
+      )
+    } catch (error) {
+      console.error(error)
+      toast.error('Erro ao retomar campanha')
+    } finally {
+      setResumingId(null)
     }
   }
 
@@ -209,6 +227,7 @@ export default function Disparos() {
                     const isActive = ['active', 'processing'].includes(
                       campaign.status || '',
                     )
+                    const isPaused = campaign.status === 'paused'
 
                     return (
                       <TableRow
@@ -266,6 +285,24 @@ export default function Disparos() {
                                   <>
                                     <Pause className="h-3 w-3 mr-1" />
                                     Pausar
+                                  </>
+                                )}
+                              </Button>
+                            )}
+                            {isPaused && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8 border-green-200 text-green-600 hover:bg-green-50 hover:text-green-700"
+                                onClick={(e) => handleResume(e, campaign.id)}
+                                disabled={resumingId === campaign.id}
+                              >
+                                {resumingId === campaign.id ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <>
+                                    <Play className="h-3 w-3 mr-1" />
+                                    Retomar
                                   </>
                                 )}
                               </Button>
