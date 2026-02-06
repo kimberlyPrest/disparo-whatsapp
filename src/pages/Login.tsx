@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Loader2, AlertCircle } from 'lucide-react'
+import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
@@ -65,14 +65,30 @@ export default function Login() {
     setIsResending(true)
     try {
       const { error } = await resendConfirmationEmail(email)
+
       if (error) {
-        toast.error('Erro ao reenviar', {
-          description: error.message || 'Tente novamente mais tarde.',
-        })
+        // Check for "already confirmed" messages
+        const errorMsg = error.message?.toLowerCase() || ''
+        if (
+          errorMsg.includes('already confirmed') ||
+          errorMsg.includes('already been confirmed')
+        ) {
+          toast.info('Este e-mail já foi confirmado.', {
+            description: 'Por favor, tente fazer login normalmente.',
+            duration: 5000,
+          })
+          setShowResendButton(false)
+        } else {
+          toast.error('Erro ao reenviar', {
+            description: error.message || 'Tente novamente mais tarde.',
+          })
+        }
       } else {
-        toast.success('E-mail de confirmação enviado com sucesso!', {
-          description: 'Verifique sua caixa de entrada.',
+        toast.success('E-mail enviado!', {
+          description: 'Verifique sua caixa de entrada para confirmar a conta.',
+          duration: 5000,
         })
+        // Optionally hide button or keep it for feedback
         setShowResendButton(false)
       }
     } catch (error) {
@@ -86,33 +102,37 @@ export default function Login() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true)
-    setShowResendButton(false)
+    setShowResendButton(false) // Reset state on new attempt
 
     try {
       const { error } = await signIn(values.email, values.password)
 
       if (error) {
-        const errorCode = (error as any)?.code
-        const errorMessage = error.message
+        const errorMessage = error.message || ''
+        const errorCode = (error as any)?.code // Some AuthErrors have a code property
 
+        // Specific handling for unconfirmed emails
         if (
           errorCode === 'email_not_confirmed' ||
-          errorMessage === 'Email not confirmed'
+          errorMessage.includes('Email not confirmed') ||
+          errorMessage.includes('not confirmed')
         ) {
           setShowResendButton(true)
           toast.error('E-mail não confirmado', {
-            description: 'Seu e-mail ainda não foi confirmado.',
+            description: 'Você precisa confirmar seu e-mail antes de entrar.',
             duration: 6000,
           })
-        } else if (errorMessage === 'Invalid login credentials') {
+        } else if (errorMessage.includes('Invalid login credentials')) {
           toast.error('Credenciais inválidas', {
-            description: 'E-mail ou senha inválidos.',
+            description: 'E-mail ou senha incorretos.',
           })
         } else {
           toast.error('Erro no login', { description: errorMessage })
         }
       } else {
         toast.success('Login realizado com sucesso!')
+        // Navigation is handled by the useEffect/Navigate component when user state updates,
+        // but explicit navigation here provides immediate feedback
         navigate('/upload')
       }
     } catch (error) {
@@ -136,18 +156,21 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           {showResendButton && (
-            <Alert variant="destructive" className="mb-6 text-left">
+            <Alert
+              variant="destructive"
+              className="mb-6 text-left border-destructive/50 bg-destructive/5 text-destructive-foreground"
+            >
               <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Confirmação necessária</AlertTitle>
+              <AlertTitle className="ml-2">Confirmação necessária</AlertTitle>
               <AlertDescription className="mt-2 space-y-3">
-                <p>
-                  Seu e-mail ainda não foi confirmado. Por favor, verifique sua
-                  caixa de entrada para ativar sua conta.
+                <p className="text-sm">
+                  Seu e-mail ainda não foi confirmado. Verifique sua caixa de
+                  entrada.
                 </p>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full border-destructive/30 hover:bg-destructive/10 hover:text-destructive bg-background text-foreground"
+                  className="w-full border-destructive/30 hover:bg-destructive/10 hover:text-destructive bg-white dark:bg-slate-950"
                   onClick={handleResendEmail}
                   disabled={isResending}
                   type="button"
@@ -206,7 +229,7 @@ export default function Login() {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex justify-center">
+        <CardFooter className="flex justify-center flex-col gap-4">
           <p className="text-sm text-muted-foreground">
             Não tem uma conta?{' '}
             <Link

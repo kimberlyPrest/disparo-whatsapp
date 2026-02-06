@@ -5,7 +5,7 @@ import {
   useState,
   ReactNode,
 } from 'react'
-import { User, Session } from '@supabase/supabase-js'
+import { User, Session, AuthError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase/client'
 
 interface AuthContextType {
@@ -14,13 +14,15 @@ interface AuthContextType {
   signUp: (
     email: string,
     password: string,
-  ) => Promise<{ error: any; data: any }>
+  ) => Promise<{ error: AuthError | null; data: any }>
   signIn: (
     email: string,
     password: string,
-  ) => Promise<{ error: any; data: any }>
-  signOut: () => Promise<{ error: any }>
-  resendConfirmationEmail: (email: string) => Promise<{ error: any; data: any }>
+  ) => Promise<{ error: AuthError | null; data: any }>
+  signOut: () => Promise<{ error: AuthError | null }>
+  resendConfirmationEmail: (
+    email: string,
+  ) => Promise<{ error: AuthError | null; data: any }>
   loading: boolean
 }
 
@@ -70,7 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       return { data, error }
     } catch (error) {
-      return { data: { user: null, session: null }, error }
+      return { data: { user: null, session: null }, error: error as AuthError }
     }
   }
 
@@ -82,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       return { data, error }
     } catch (error) {
-      return { data: { user: null, session: null }, error }
+      return { data: { user: null, session: null }, error: error as AuthError }
     }
   }
 
@@ -91,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { error } = await supabase.auth.signOut()
       return { error }
     } catch (error) {
-      return { error }
+      return { error: error as AuthError }
     }
   }
 
@@ -107,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       return { data, error }
     } catch (error) {
-      return { data: null, error }
+      return { data: null, error: error as AuthError }
     }
   }
 

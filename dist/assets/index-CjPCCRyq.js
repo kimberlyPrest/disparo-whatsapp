@@ -39290,9 +39290,20 @@ function Login() {
 		setIsResending(true);
 		try {
 			const { error } = await resendConfirmationEmail(email$1);
-			if (error) toast.error("Erro ao reenviar", { description: error.message || "Tente novamente mais tarde." });
-			else {
-				toast.success("E-mail de confirmação enviado com sucesso!", { description: "Verifique sua caixa de entrada." });
+			if (error) {
+				const errorMsg = error.message?.toLowerCase() || "";
+				if (errorMsg.includes("already confirmed") || errorMsg.includes("already been confirmed")) {
+					toast.info("Este e-mail já foi confirmado.", {
+						description: "Por favor, tente fazer login normalmente.",
+						duration: 5e3
+					});
+					setShowResendButton(false);
+				} else toast.error("Erro ao reenviar", { description: error.message || "Tente novamente mais tarde." });
+			} else {
+				toast.success("E-mail enviado!", {
+					description: "Verifique sua caixa de entrada para confirmar a conta.",
+					duration: 5e3
+				});
 				setShowResendButton(false);
 			}
 		} catch (error) {
@@ -39307,15 +39318,14 @@ function Login() {
 		try {
 			const { error } = await signIn(values.email, values.password);
 			if (error) {
-				const errorCode = error?.code;
-				const errorMessage = error.message;
-				if (errorCode === "email_not_confirmed" || errorMessage === "Email not confirmed") {
+				const errorMessage = error.message || "";
+				if (error?.code === "email_not_confirmed" || errorMessage.includes("Email not confirmed") || errorMessage.includes("not confirmed")) {
 					setShowResendButton(true);
 					toast.error("E-mail não confirmado", {
-						description: "Seu e-mail ainda não foi confirmado.",
+						description: "Você precisa confirmar seu e-mail antes de entrar.",
 						duration: 6e3
 					});
-				} else if (errorMessage === "Invalid login credentials") toast.error("Credenciais inválidas", { description: "E-mail ou senha inválidos." });
+				} else if (errorMessage.includes("Invalid login credentials")) toast.error("Credenciais inválidas", { description: "E-mail ou senha incorretos." });
 				else toast.error("Erro no login", { description: errorMessage });
 			} else {
 				toast.success("Login realizado com sucesso!");
@@ -39342,16 +39352,22 @@ function Login() {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [showResendButton && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Alert, {
 					variant: "destructive",
-					className: "mb-6 text-left",
+					className: "mb-6 text-left border-destructive/50 bg-destructive/5 text-destructive-foreground",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { className: "h-4 w-4" }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertTitle, { children: "Confirmação necessária" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertTitle, {
+							className: "ml-2",
+							children: "Confirmação necessária"
+						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDescription, {
 							className: "mt-2 space-y-3",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Seu e-mail ainda não foi confirmado. Por favor, verifique sua caixa de entrada para ativar sua conta." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-sm",
+								children: "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada."
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 								variant: "outline",
 								size: "sm",
-								className: "w-full border-destructive/30 hover:bg-destructive/10 hover:text-destructive bg-background text-foreground",
+								className: "w-full border-destructive/30 hover:bg-destructive/10 hover:text-destructive bg-white dark:bg-slate-950",
 								onClick: handleResendEmail,
 								disabled: isResending,
 								type: "button",
@@ -39400,7 +39416,7 @@ function Login() {
 					})
 				})] }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
-					className: "flex justify-center",
+					className: "flex justify-center flex-col gap-4",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 						className: "text-sm text-muted-foreground",
 						children: [
@@ -39673,4 +39689,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-Ds5k9qI0.js.map
+//# sourceMappingURL=index-CjPCCRyq.js.map
