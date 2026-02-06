@@ -24,6 +24,19 @@ export interface Campaign {
   created_at: string
 }
 
+export interface CampaignMessage {
+  id: string
+  campaign_id: string
+  contact_id: string
+  status: string
+  error_message: string | null
+  sent_at: string | null
+  contacts: {
+    name: string
+    phone: string
+  } | null
+}
+
 export type CampaignInsert = Database['public']['Tables']['campaigns']['Insert']
 
 export const campaignsService = {
@@ -49,7 +62,6 @@ export const campaignsService = {
   },
 
   async create(campaign: CampaignInsert, contactIds: string[]) {
-    // 1. Create the campaign
     const { data: campaignData, error: campaignError } = await supabase
       .from('campaigns')
       .insert(campaign)
@@ -60,8 +72,6 @@ export const campaignsService = {
 
     if (contactIds.length === 0) return campaignData as Campaign
 
-    // 2. Create campaign messages for each contact
-    // Process in chunks to avoid request size limits if many contacts
     const chunkSize = 100
     const messages = contactIds.map((contactId) => ({
       campaign_id: campaignData.id,
@@ -89,6 +99,39 @@ export const campaignsService = {
       .from('campaigns')
       .update({ status: 'paused' })
       .eq('id', id)
+
+    if (error) throw error
+  },
+
+  async resume(id: string) {
+    const { error } = await supabase
+      .from('campaigns')
+      .update({ status: 'active' })
+      .eq('id', id)
+
+    if (error) throw error
+  },
+
+  async getMessages(campaignId: string) {
+    const { data, error } = await supabase
+      .from('campaign_messages')
+      .select('*, contacts(name, phone)')
+      .eq('campaign_id', campaignId)
+      .order('id', { ascending: true })
+
+    if (error) throw error
+    return data as unknown as CampaignMessage[]
+  },
+
+  async retryMessage(messageId: string) {
+    const { error } = await supabase
+      .from('campaign_messages')
+      .update({
+        status: 'aguardando',
+        error_message: null,
+        sent_at: null,
+      })
+      .eq('id', messageId)
 
     if (error) throw error
   },
