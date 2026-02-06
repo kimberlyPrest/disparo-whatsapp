@@ -19,7 +19,7 @@ import {
   PlusCircle,
   Activity,
   Table as TableIcon,
-  Settings,
+  Sliders,
   Rocket,
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -241,14 +241,16 @@ export default function Dashboard() {
           <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-border -z-10" />
 
           {/* Step 1 */}
-          <div className="relative flex flex-col items-center text-center md:items-start md:text-left bg-background md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none">
-            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-primary bg-background shadow-sm mb-4 relative group hover:scale-105 transition-transform duration-300">
+          <div className="group relative flex flex-col items-center text-center md:items-start md:text-left bg-background md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none">
+            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-primary bg-background shadow-sm mb-4 relative transition-all duration-300 group-hover:scale-110 group-hover:shadow-md">
               <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-sm border-2 border-white shadow-sm">
                 1
               </div>
               <TableIcon className="h-10 w-10 text-primary" />
             </div>
-            <h3 className="text-lg font-bold mb-2">Importe sua Lista</h3>
+            <h3 className="text-lg font-bold mb-2 transition-colors duration-300 group-hover:text-primary">
+              Importe sua Lista
+            </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Carregue sua planilha de contatos (.csv ou .xlsx) para preparar
               sua audiência.
@@ -256,14 +258,16 @@ export default function Dashboard() {
           </div>
 
           {/* Step 2 */}
-          <div className="relative flex flex-col items-center text-center md:items-start md:text-left bg-background md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none">
-            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border bg-background shadow-sm mb-4 relative group hover:scale-105 transition-transform duration-300">
-              <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-muted-foreground/20 text-muted-foreground font-bold text-sm border-2 border-white shadow-sm">
+          <div className="group relative flex flex-col items-center text-center md:items-start md:text-left bg-background md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none">
+            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border bg-background shadow-sm mb-4 relative transition-all duration-300 group-hover:scale-110 group-hover:border-primary group-hover:shadow-md">
+              <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-muted-foreground/20 text-muted-foreground font-bold text-sm border-2 border-white shadow-sm transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
                 2
               </div>
-              <Settings className="h-10 w-10 text-muted-foreground" />
+              <Sliders className="h-10 w-10 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
             </div>
-            <h3 className="text-lg font-bold mb-2">Configure o Disparo</h3>
+            <h3 className="text-lg font-bold mb-2 transition-colors duration-300 group-hover:text-primary">
+              Configure o Disparo
+            </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Defina as configurações de envio e prepare a campanha para seus
               clientes.
@@ -271,14 +275,16 @@ export default function Dashboard() {
           </div>
 
           {/* Step 3 */}
-          <div className="relative flex flex-col items-center text-center md:items-start md:text-left bg-background md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none">
-            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border bg-background shadow-sm mb-4 relative group hover:scale-105 transition-transform duration-300">
-              <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-muted-foreground/20 text-muted-foreground font-bold text-sm border-2 border-white shadow-sm">
+          <div className="group relative flex flex-col items-center text-center md:items-start md:text-left bg-background md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none">
+            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border bg-background shadow-sm mb-4 relative transition-all duration-300 group-hover:scale-110 group-hover:border-primary group-hover:shadow-md">
+              <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-muted-foreground/20 text-muted-foreground font-bold text-sm border-2 border-white shadow-sm transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
                 3
               </div>
-              <Send className="h-10 w-10 text-muted-foreground ml-1" />
+              <Rocket className="h-10 w-10 text-muted-foreground ml-1 transition-colors duration-300 group-hover:text-primary" />
             </div>
-            <h3 className="text-lg font-bold mb-2">Inicie o Disparo</h3>
+            <h3 className="text-lg font-bold mb-2 transition-colors duration-300 group-hover:text-primary">
+              Inicie o Disparo
+            </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Escreva sua mensagem personalizada e dispare para todos os
               contatos.
