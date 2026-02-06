@@ -2019,6 +2019,9 @@ section[aria-label='Notifications alt+T'] {
 .\[--cell-size\:2rem\]{
   --cell-size: 2rem;
 }
+.\[animation-duration\:3000ms\]{
+  animation-duration: 3000ms;
+}
 .file\:border-0::file-selector-button{
   border-width: 0px;
 }

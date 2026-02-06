@@ -63,7 +63,7 @@ export default function Index() {
               />
 
               {/* Floating Element 1 */}
-              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce duration-[3000ms]">
+              <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce [animation-duration:3000ms]">
                 <div className="flex items-center gap-3">
                   <div className="bg-green-100 p-2 rounded-full">
                     <CheckCircle2 className="text-primary h-6 w-6" />

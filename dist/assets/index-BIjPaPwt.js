@@ -23818,7 +23818,7 @@ function Index() {
 								className: "relative z-10 w-full h-auto drop-shadow-2xl rounded-3xl transform rotate-3 transition-transform hover:rotate-0 duration-500"
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce duration-[3000ms]",
+								className: "absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce [animation-duration:3000ms]",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									className: "flex items-center gap-3",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -24233,4 +24233,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-B1CZPd0k.js.map
+//# sourceMappingURL=index-BIjPaPwt.js.map
