@@ -188,7 +188,7 @@ export const campaignsService = {
   async getMessages(campaignId: string) {
     const { data, error } = await supabase
       .from('campaign_messages')
-      .select('*, contacts(name, phone)')
+      .select('*, contacts(name, phone, message)')
       .eq('campaign_id', campaignId)
       .order('id', { ascending: true })
 
@@ -224,5 +224,25 @@ export const campaignsService = {
         )
       }
     }
+  },
+
+  async deleteMessage(messageId: string) {
+    const { error } = await supabase
+      .from('campaign_messages')
+      .delete()
+      .eq('id', messageId)
+
+    if (error) throw error
+  },
+
+  async deleteMessagesBulk(messageIds: string[]) {
+    if (messageIds.length === 0) return
+
+    const { error } = await supabase
+      .from('campaign_messages')
+      .delete()
+      .in('id', messageIds)
+
+    if (error) throw error
   },
 }

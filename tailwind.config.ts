@@ -30,6 +30,7 @@ export default {
         sans: ['Inter var', 'SF Pro Display', 'system-ui', 'sans-serif'],
         display: ['SF Pro Display', 'Inter var', 'system-ui', 'sans-serif'],
         manrope: ['Manrope', 'Inter var', 'system-ui', 'sans-serif'],
+        noto: ['Noto Sans', 'Inter var', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -82,6 +83,9 @@ export default {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        // Dark mode specific colors from user story
+        'surface-dark': '#1c2e22',
+        'background-dark': '#102216',
       },
       borderRadius: {
         lg: 'var(--radius)',
