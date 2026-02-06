@@ -73,7 +73,7 @@ export default function Login() {
         }
       } else {
         toast.success('Login realizado com sucesso!')
-        navigate('/dashboard')
+        navigate('/')
       }
     } catch (error) {
       console.error('Unexpected login error:', error)

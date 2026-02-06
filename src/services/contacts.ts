@@ -6,8 +6,14 @@ export interface Contact {
   name: string
   phone: string
   message: string
+  status: string
   created_at: string
 }
+
+export type NewContact = Omit<
+  Contact,
+  'id' | 'created_at' | 'user_id' | 'status'
+> & { status?: string }
 
 export const contactsService = {
   async getAll() {
@@ -20,7 +26,7 @@ export const contactsService = {
     return data as Contact[]
   },
 
-  async create(contact: Omit<Contact, 'id' | 'created_at' | 'user_id'>) {
+  async create(contact: NewContact) {
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -28,7 +34,11 @@ export const contactsService = {
 
     const { data, error } = await supabase
       .from('contacts')
-      .insert({ ...contact, user_id: user.id })
+      .insert({
+        ...contact,
+        user_id: user.id,
+        status: contact.status || 'pending',
+      })
       .select()
       .single()
 
@@ -36,13 +46,17 @@ export const contactsService = {
     return data as Contact
   },
 
-  async createBulk(contacts: Omit<Contact, 'id' | 'created_at' | 'user_id'>[]) {
+  async createBulk(contacts: NewContact[]) {
     const {
       data: { user },
     } = await supabase.auth.getUser()
     if (!user) throw new Error('User not authenticated')
 
-    const contactsWithUser = contacts.map((c) => ({ ...c, user_id: user.id }))
+    const contactsWithUser = contacts.map((c) => ({
+      ...c,
+      user_id: user.id,
+      status: c.status || 'pending',
+    }))
 
     // Insert in chunks of 100 to avoid limits
     const chunkSize = 100

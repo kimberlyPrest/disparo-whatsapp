@@ -70,7 +70,7 @@ export default function SignUp() {
         toast.error('Erro ao criar conta', { description: error.message })
       } else {
         toast.success('Conta criada com sucesso!')
-        navigate('/dashboard')
+        navigate('/')
       }
     } catch (error) {
       console.error(error)

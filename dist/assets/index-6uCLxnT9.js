@@ -31910,7 +31910,8 @@ const contactsService = {
 		if (!user) throw new Error("User not authenticated");
 		const { data, error } = await supabase.from("contacts").insert({
 			...contact,
-			user_id: user.id
+			user_id: user.id,
+			status: contact.status || "pending"
 		}).select().single();
 		if (error) throw error;
 		return data;
@@ -31920,7 +31921,8 @@ const contactsService = {
 		if (!user) throw new Error("User not authenticated");
 		const contactsWithUser = contacts.map((c) => ({
 			...c,
-			user_id: user.id
+			user_id: user.id,
+			status: c.status || "pending"
 		}));
 		const chunkSize = 100;
 		const errors = [];
@@ -39301,7 +39303,7 @@ function Login() {
 				else toast.error("Erro no login", { description: errorMessage });
 			} else {
 				toast.success("Login realizado com sucesso!");
-				navigate("/dashboard");
+				navigate("/");
 			}
 		} catch (error) {
 			console.error("Unexpected login error:", error);
@@ -39416,7 +39418,7 @@ function SignUp() {
 			if (error) toast.error("Erro ao criar conta", { description: error.message });
 			else {
 				toast.success("Conta criada com sucesso!");
-				navigate("/dashboard");
+				navigate("/");
 			}
 		} catch (error) {
 			console.error(error);
@@ -40826,8 +40828,8 @@ function Dashboard() {
 			]
 		})
 	});
-	const totalMessagesSent = campaigns.reduce((acc, curr) => acc + curr.messages_sent, 0);
-	const totalExecutionTime = campaigns.reduce((acc, curr) => acc + curr.execution_time, 0);
+	const totalMessagesSent = campaigns.reduce((acc, curr) => acc + (curr.sent_messages || 0), 0);
+	const totalExecutionTime = campaigns.reduce((acc, curr) => acc + (curr.execution_time || 0), 0);
 	const totalCampaigns = campaigns.length;
 	const activeOrScheduled = campaigns.filter((c) => ["active", "scheduled"].includes(c.status));
 	const formatTime = (seconds) => {
@@ -40943,9 +40945,9 @@ function Dashboard() {
 									className: `px-2 py-1 rounded-full text-xs font-semibold uppercase ${campaign.status === "active" ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"}`,
 									children: campaign.status === "active" ? "Ativo" : "Agendado"
 								})]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: campaign.scheduled_for ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: campaign.scheduled_at ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 								className: "flex items-center gap-1",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { className: "h-3 w-3" }), format(new Date(campaign.scheduled_for), "dd/MM/yyyy HH:mm")]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { className: "h-3 w-3" }), format(new Date(campaign.scheduled_at), "dd/MM/yyyy HH:mm")]
 							}) : "Iniciado imediatamente" })]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "space-y-2",
@@ -40957,19 +40959,19 @@ function Dashboard() {
 										children: "Progresso"
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 										className: "font-medium",
-										children: [Math.round(campaign.messages_sent / Math.max(campaign.total_messages, 1) * 100), "%"]
+										children: [Math.round((campaign.sent_messages || 0) / Math.max(campaign.total_messages, 1) * 100), "%"]
 									})]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 									className: "h-2 w-full bg-secondary rounded-full overflow-hidden",
 									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 										className: "h-full bg-primary transition-all duration-500",
-										style: { width: `${campaign.messages_sent / Math.max(campaign.total_messages, 1) * 100}%` }
+										style: { width: `${(campaign.sent_messages || 0) / Math.max(campaign.total_messages, 1) * 100}%` }
 									})
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									className: "flex justify-between text-xs text-muted-foreground pt-1",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [campaign.messages_sent, " enviados"] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: ["Total: ", campaign.total_messages] })]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [campaign.sent_messages || 0, " enviados"] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: ["Total: ", campaign.total_messages] })]
 								})
 							]
 						}) })]
@@ -41107,4 +41109,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-CA-1A2E_.js.map
+//# sourceMappingURL=index-6uCLxnT9.js.map

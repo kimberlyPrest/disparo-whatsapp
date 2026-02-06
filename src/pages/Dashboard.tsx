@@ -110,11 +110,11 @@ export default function Dashboard() {
 
   // Dashboard View
   const totalMessagesSent = campaigns.reduce(
-    (acc, curr) => acc + curr.messages_sent,
+    (acc, curr) => acc + (curr.sent_messages || 0),
     0,
   )
   const totalExecutionTime = campaigns.reduce(
-    (acc, curr) => acc + curr.execution_time,
+    (acc, curr) => acc + (curr.execution_time || 0),
     0,
   ) // in seconds
   const totalCampaigns = campaigns.length
@@ -250,11 +250,11 @@ export default function Dashboard() {
                     </span>
                   </div>
                   <CardDescription>
-                    {campaign.scheduled_for ? (
+                    {campaign.scheduled_at ? (
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
                         {format(
-                          new Date(campaign.scheduled_for),
+                          new Date(campaign.scheduled_at),
                           'dd/MM/yyyy HH:mm',
                         )}
                       </span>
@@ -269,7 +269,7 @@ export default function Dashboard() {
                       <span className="text-muted-foreground">Progresso</span>
                       <span className="font-medium">
                         {Math.round(
-                          (campaign.messages_sent /
+                          ((campaign.sent_messages || 0) /
                             Math.max(campaign.total_messages, 1)) *
                             100,
                         )}
@@ -280,12 +280,12 @@ export default function Dashboard() {
                       <div
                         className="h-full bg-primary transition-all duration-500"
                         style={{
-                          width: `${(campaign.messages_sent / Math.max(campaign.total_messages, 1)) * 100}%`,
+                          width: `${((campaign.sent_messages || 0) / Math.max(campaign.total_messages, 1)) * 100}%`,
                         }}
                       />
                     </div>
                     <div className="flex justify-between text-xs text-muted-foreground pt-1">
-                      <span>{campaign.messages_sent} enviados</span>
+                      <span>{campaign.sent_messages || 0} enviados</span>
                       <span>Total: {campaign.total_messages}</span>
                     </div>
                   </div>

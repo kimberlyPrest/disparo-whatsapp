@@ -15,6 +15,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaigns: {
+        Row: {
+          created_at: string | null
+          execution_time: number | null
+          id: string
+          messages_sent: number | null
+          name: string
+          scheduled_for: string | null
+          status: string | null
+          total_messages: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          execution_time?: number | null
+          id?: string
+          messages_sent?: number | null
+          name: string
+          scheduled_for?: string | null
+          status?: string | null
+          total_messages?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          execution_time?: number | null
+          id?: string
+          messages_sent?: number | null
+          name?: string
+          scheduled_for?: string | null
+          status?: string | null
+          total_messages?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'campaigns_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       contacts: {
         Row: {
           created_at: string

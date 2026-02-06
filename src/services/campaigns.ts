@@ -6,9 +6,12 @@ export interface Campaign {
   name: string
   status: 'scheduled' | 'active' | 'finished'
   total_messages: number
-  messages_sent: number
+  sent_messages: number
   execution_time: number
-  scheduled_for: string | null
+  scheduled_at: string | null
+  started_at: string | null
+  finished_at: string | null
+  config: Record<string, any> | null
   created_at: string
 }
 
