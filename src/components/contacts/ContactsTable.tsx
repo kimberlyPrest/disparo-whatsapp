@@ -37,6 +37,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [sendingIds, setSendingIds] = useState<string[]>([])
+  const [sentTimestamps, setSentTimestamps] = useState<number[]>([])
 
   const toggleSelectAll = () => {
     if (selectedIds.length === contacts.length) {
@@ -95,10 +96,41 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
   const handleSendOne = async (contact: Contact) => {
     if (sendingIds.includes(contact.id)) return
 
+    // Rate Limit Check
+    const now = Date.now()
+    const timeWindow = 30000 // 30 seconds
+    const threshold = 5
+
+    // Filter keeps only recent timestamps from the current state
+    const recentSends = sentTimestamps.filter((t) => now - t < timeWindow)
+
+    // Update state to clean up old timestamps (optional, but keeps state clean)
+    // We don't need to call setSentTimestamps here for logic, as we use recentSends
+
+    if (recentSends.length >= threshold) {
+      toast.warning(
+        "Cuidado! Envios rápidos podem derrubar seu WhatsApp. Aguarde alguns segundos ou use 'Enviar em Massa'",
+        {
+          duration: 5000,
+        },
+      )
+    }
+
     setSendingIds((prev) => [...prev, contact.id])
     try {
       await contactsService.sendWhatsappMessage(contact)
       await contactsService.update(contact.id, { status: 'enviado' })
+
+      // Record successful send timestamp
+      setSentTimestamps((prev) => {
+        const currentTime = Date.now()
+        // Keep only timestamps within the window + current one
+        return [
+          ...prev.filter((t) => currentTime - t < timeWindow),
+          currentTime,
+        ]
+      })
+
       toast.success(`Mensagem enviada para ${contact.name}`)
       onRefresh()
     } catch (error) {

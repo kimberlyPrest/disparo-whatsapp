@@ -38899,6 +38899,7 @@ function ContactsTable({ contacts, onRefresh }) {
 	const [isEditDialogOpen, setIsEditDialogOpen] = (0, import_react.useState)(false);
 	const [isDeleting, setIsDeleting] = (0, import_react.useState)(false);
 	const [sendingIds, setSendingIds] = (0, import_react.useState)([]);
+	const [sentTimestamps, setSentTimestamps] = (0, import_react.useState)([]);
 	const toggleSelectAll = () => {
 		if (selectedIds.length === contacts.length) setSelectedIds([]);
 		else setSelectedIds(contacts.map((c) => c.id));
@@ -38939,10 +38940,17 @@ function ContactsTable({ contacts, onRefresh }) {
 	};
 	const handleSendOne = async (contact) => {
 		if (sendingIds.includes(contact.id)) return;
+		const now = Date.now();
+		const timeWindow = 3e4;
+		if (sentTimestamps.filter((t$1) => now - t$1 < timeWindow).length >= 5) toast.warning("Cuidado! Envios rápidos podem derrubar seu WhatsApp. Aguarde alguns segundos ou use 'Enviar em Massa'", { duration: 5e3 });
 		setSendingIds((prev) => [...prev, contact.id]);
 		try {
 			await contactsService.sendWhatsappMessage(contact);
 			await contactsService.update(contact.id, { status: "enviado" });
+			setSentTimestamps((prev) => {
+				const currentTime = Date.now();
+				return [...prev.filter((t$1) => currentTime - t$1 < timeWindow), currentTime];
+			});
 			toast.success(`Mensagem enviada para ${contact.name}`);
 			onRefresh();
 		} catch (error) {
@@ -41194,4 +41202,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-mxvSMfJs.js.map
+//# sourceMappingURL=index-CgYyzsuf.js.map

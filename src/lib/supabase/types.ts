@@ -15,36 +15,87 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaign_messages: {
+        Row: {
+          campaign_id: string
+          contact_id: string
+          error_message: string | null
+          id: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          campaign_id: string
+          contact_id: string
+          error_message?: string | null
+          id?: string
+          sent_at?: string | null
+          status: string
+        }
+        Update: {
+          campaign_id?: string
+          contact_id?: string
+          error_message?: string | null
+          id?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'campaign_messages_campaign_id_fkey'
+            columns: ['campaign_id']
+            isOneToOne: false
+            referencedRelation: 'campaigns'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'campaign_messages_contact_id_fkey'
+            columns: ['contact_id']
+            isOneToOne: false
+            referencedRelation: 'contacts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       campaigns: {
         Row: {
+          config: Json | null
           created_at: string | null
           execution_time: number | null
+          finished_at: string | null
           id: string
-          messages_sent: number | null
           name: string
-          scheduled_for: string | null
+          scheduled_at: string | null
+          sent_messages: number | null
+          started_at: string | null
           status: string | null
           total_messages: number | null
           user_id: string
         }
         Insert: {
+          config?: Json | null
           created_at?: string | null
           execution_time?: number | null
+          finished_at?: string | null
           id?: string
-          messages_sent?: number | null
           name: string
-          scheduled_for?: string | null
+          scheduled_at?: string | null
+          sent_messages?: number | null
+          started_at?: string | null
           status?: string | null
           total_messages?: number | null
           user_id: string
         }
         Update: {
+          config?: Json | null
           created_at?: string | null
           execution_time?: number | null
+          finished_at?: string | null
           id?: string
-          messages_sent?: number | null
           name?: string
-          scheduled_for?: string | null
+          scheduled_at?: string | null
+          sent_messages?: number | null
+          started_at?: string | null
           status?: string | null
           total_messages?: number | null
           user_id?: string
@@ -66,6 +117,7 @@ export type Database = {
           message: string
           name: string
           phone: string
+          status: string | null
           user_id: string
         }
         Insert: {
@@ -74,6 +126,7 @@ export type Database = {
           message: string
           name: string
           phone: string
+          status?: string | null
           user_id: string
         }
         Update: {
@@ -82,6 +135,7 @@ export type Database = {
           message?: string
           name?: string
           phone?: string
+          status?: string | null
           user_id?: string
         }
         Relationships: []
