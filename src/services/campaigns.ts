@@ -126,6 +126,24 @@ export const campaignsService = {
     if (error) throw error
   },
 
+  async triggerQueue(campaignId: string) {
+    const { data, error } = await supabase.functions.invoke(
+      'process-campaign-queue',
+      {
+        body: { campaign_id: campaignId },
+      },
+    )
+
+    if (error) throw error
+
+    // Check if the function logic itself reported an error (even with 200 OK)
+    if (data && data.success === false) {
+      throw new Error(data.error || 'Erro desconhecido ao processar fila')
+    }
+
+    return data
+  },
+
   async getMessages(campaignId: string) {
     const { data, error } = await supabase
       .from('campaign_messages')

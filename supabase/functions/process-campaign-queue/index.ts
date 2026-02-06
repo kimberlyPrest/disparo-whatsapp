@@ -29,12 +29,31 @@ Deno.serve(async (req: Request) => {
     const startTime = Date.now()
     const MAX_EXECUTION_TIME = 55000 // 55 seconds to be safe within 60s cron
 
+    // Safely parse body
+    let body: any = {}
+    try {
+      const text = await req.text()
+      if (text) body = JSON.parse(text)
+    } catch {
+      // Body might be empty or invalid JSON, ignore
+    }
+    const { campaign_id } = body
+
     // 1. Fetch active or scheduled campaigns (Explicitly excluding paused)
-    const { data: campaigns, error: campaignsError } = await supabase
+    let query = supabase
       .from('campaigns')
       .select('*')
       .in('status', ['scheduled', 'pending', 'processing', 'active'])
-      .lte('scheduled_at', new Date().toISOString())
+
+    // If campaign_id is provided (manual trigger), filter by it
+    if (campaign_id) {
+      query = query.eq('id', campaign_id)
+    } else {
+      // Otherwise use schedule time logic
+      query = query.lte('scheduled_at', new Date().toISOString())
+    }
+
+    const { data: campaigns, error: campaignsError } = await query
 
     if (campaignsError) throw campaignsError
 
@@ -288,13 +307,14 @@ Deno.serve(async (req: Request) => {
     })
   } catch (error) {
     console.error('Process error:', error)
+    // Return 200 OK with success: false to prevent frontend invoke() from throwing
     return new Response(
       JSON.stringify({
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
       }),
       {
-        status: 500,
+        status: 200,
         headers: {
           'Content-Type': 'application/json',
           ...corsHeaders,

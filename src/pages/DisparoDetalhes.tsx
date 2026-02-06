@@ -98,6 +98,16 @@ export default function DisparoDetalhes() {
       if (isPaused) {
         await campaignsService.resume(campaign.id)
         toast.success('Campanha retomada com sucesso')
+
+        // Trigger background processing immediately
+        try {
+          await campaignsService.triggerQueue(campaign.id)
+        } catch (queueError) {
+          console.error('Failed to trigger queue', queueError)
+          toast.warning(
+            'A campanha foi retomada, mas o processamento pode demorar um pouco para iniciar.',
+          )
+        }
       } else {
         await campaignsService.pause(campaign.id)
         toast.success('Campanha pausada com sucesso')
@@ -137,6 +147,15 @@ export default function DisparoDetalhes() {
         }
         return prev
       })
+
+      // Trigger background processing immediately
+      try {
+        if (campaign) {
+          await campaignsService.triggerQueue(campaign.id)
+        }
+      } catch (queueError) {
+        console.error('Failed to trigger queue', queueError)
+      }
     } catch (error) {
       console.error(error)
       toast.error('Erro ao tentar reenviar mensagem')
