@@ -1,6 +1,7 @@
 /* Global styles - Theme, font, utilities, animations and global components */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,7 +9,7 @@
 
 @layer base {
   :root {
-    /* WhatsApp Professional Theme */
+    /* Ripple Theme */
     --background: 210 20% 98%; /* #F8FAFC */
     --foreground: 222 47% 11%; /* #0F172A */
 
@@ -18,8 +19,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 142 69% 49%; /* #25D366 WhatsApp Green */
-    --primary-foreground: 0 0% 100%;
+    --primary: 140 85% 50%; /* #13ec5b Ripple Green */
+    --primary-foreground: 145 80% 10%; /* Dark text for contrast on bright green */
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
@@ -35,7 +36,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 142 69% 49%;
+    --ring: 140 85% 50%;
 
     --radius: 0.5rem;
 
@@ -48,7 +49,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --chart-1: 142 69% 49%;
+    --chart-1: 140 85% 50%;
     --chart-2: 173 80% 40%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
@@ -65,8 +66,8 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 142 69% 49%;
-    --primary-foreground: 222.2 84% 4.9%;
+    --primary: 140 85% 50%;
+    --primary-foreground: 145 80% 10%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -82,7 +83,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 142 69% 49%;
+    --ring: 140 85% 50%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -93,7 +94,7 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --chart-1: 142 69% 49%;
+    --chart-1: 140 85% 50%;
     --chart-2: 173 80% 40%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;

@@ -29,6 +29,7 @@ export default {
       fontFamily: {
         sans: ['Inter var', 'SF Pro Display', 'system-ui', 'sans-serif'],
         display: ['SF Pro Display', 'Inter var', 'system-ui', 'sans-serif'],
+        manrope: ['Manrope', 'Inter var', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',

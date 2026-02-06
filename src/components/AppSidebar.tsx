@@ -87,12 +87,12 @@ export function AppSidebar() {
     <Sidebar className="border-r border-border bg-white">
       <SidebarHeader className="h-20 flex justify-center px-6 border-b-0">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-            <MessageSquare className="h-6 w-6 text-green-600 fill-current" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#13ec5b]">
+            <span className="font-bold text-white text-xl">R</span>
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-slate-900 leading-none">
-              ZapSender
+              Ripple
             </span>
             <span className="text-xs text-slate-500 font-medium mt-1">
               Marketing Tool
