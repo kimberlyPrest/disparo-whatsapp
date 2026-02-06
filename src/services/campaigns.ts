@@ -37,6 +37,17 @@ export const campaignsService = {
     return data as Campaign[]
   },
 
+  async getById(id: string) {
+    const { data, error } = await supabase
+      .from('campaigns')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (error) throw error
+    return data as Campaign
+  },
+
   async create(campaign: CampaignInsert, contactIds: string[]) {
     // 1. Create the campaign
     const { data: campaignData, error: campaignError } = await supabase
@@ -71,5 +82,14 @@ export const campaignsService = {
     }
 
     return campaignData as Campaign
+  },
+
+  async pause(id: string) {
+    const { error } = await supabase
+      .from('campaigns')
+      .update({ status: 'paused' })
+      .eq('id', id)
+
+    if (error) throw error
   },
 }

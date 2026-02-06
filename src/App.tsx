@@ -9,6 +9,8 @@ import Upload from './pages/Upload'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
+import Disparos from './pages/Disparos'
+import DisparoDetalhes from './pages/DisparoDetalhes'
 import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 import { AuthProvider } from '@/hooks/use-auth'
@@ -29,6 +31,8 @@ const App = () => (
             <Route path="/signup" element={<SignUp />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/disparos" element={<Disparos />} />
+            <Route path="/disparos/:id" element={<DisparoDetalhes />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
