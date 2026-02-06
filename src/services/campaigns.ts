@@ -5,7 +5,15 @@ export interface Campaign {
   id: string
   user_id: string
   name: string
-  status: 'scheduled' | 'active' | 'finished'
+  status:
+    | 'scheduled'
+    | 'active'
+    | 'finished'
+    | 'pending'
+    | 'processing'
+    | 'paused'
+    | 'failed'
+    | 'canceled'
   total_messages: number
   sent_messages: number
   execution_time: number

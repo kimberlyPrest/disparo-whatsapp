@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '@/hooks/use-auth'
 import { campaignsService, Campaign } from '@/services/campaigns'
 import { Button } from '@/components/ui/button'
@@ -21,19 +21,15 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { supabase } from '@/lib/supabase/client'
+import { cn } from '@/lib/utils'
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useAuth()
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (user) {
-      fetchCampaigns()
-    }
-  }, [user])
-
-  const fetchCampaigns = async () => {
+  const fetchCampaigns = useCallback(async () => {
     try {
       const data = await campaignsService.getAll()
       setCampaigns(data)
@@ -43,7 +39,34 @@ export default function Dashboard() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      fetchCampaigns()
+
+      // Real-time updates
+      const subscription = supabase
+        .channel('dashboard_campaigns')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'campaigns',
+            filter: `user_id=eq.${user.id}`,
+          },
+          () => {
+            fetchCampaigns()
+          },
+        )
+        .subscribe()
+
+      return () => {
+        subscription.unsubscribe()
+      }
+    }
+  }, [user, fetchCampaigns])
 
   if (authLoading) {
     return (
@@ -118,15 +141,62 @@ export default function Dashboard() {
     0,
   ) // in seconds
   const totalCampaigns = campaigns.length
+
+  // Filter including active, scheduled, pending and processing states
   const activeOrScheduled = campaigns.filter((c) =>
-    ['active', 'scheduled'].includes(c.status),
+    ['active', 'scheduled', 'pending', 'processing'].includes(c.status),
   )
 
   const formatTime = (seconds: number) => {
     if (seconds < 60) return `${seconds}s`
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
+
+    if (minutes > 60) {
+      const hours = Math.floor(minutes / 60)
+      const remMin = minutes % 60
+      return `${hours}h ${remMin}m`
+    }
+
     return `${minutes}m ${remainingSeconds > 0 ? `${remainingSeconds}s` : ''}`
+  }
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'Ativo'
+      case 'processing':
+        return 'Processando'
+      case 'scheduled':
+        return 'Agendado'
+      case 'pending':
+        return 'Pendente'
+      case 'finished':
+        return 'Finalizado'
+      case 'failed':
+        return 'Falhou'
+      case 'paused':
+        return 'Pausado'
+      default:
+        return status
+    }
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active':
+      case 'processing':
+        return 'bg-green-100 text-green-700 border-green-200'
+      case 'scheduled':
+      case 'pending':
+        return 'bg-blue-100 text-blue-700 border-blue-200'
+      case 'paused':
+        return 'bg-amber-100 text-amber-700 border-amber-200'
+      case 'failed':
+        return 'bg-red-100 text-red-700 border-red-200'
+      default:
+        return 'bg-gray-100 text-gray-700 border-gray-200'
+    }
   }
 
   return (
@@ -148,7 +218,7 @@ export default function Dashboard() {
 
       {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total de Mensagens
@@ -165,7 +235,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Tempo de Execução
@@ -182,7 +252,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total de Disparos
@@ -195,7 +265,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Ativos / Agendados
@@ -218,7 +288,8 @@ export default function Dashboard() {
         </h2>
         {activeOrScheduled.length === 0 ? (
           <Card className="bg-muted/50 border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-8 text-center">
+            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+              <Activity className="h-10 w-10 text-muted-foreground/50 mb-3" />
               <p className="text-muted-foreground text-sm">
                 Nenhum disparo ativo ou agendado no momento.
               </p>
@@ -229,29 +300,28 @@ export default function Dashboard() {
             {activeOrScheduled.map((campaign) => (
               <Card
                 key={campaign.id}
-                className="overflow-hidden border-l-4 border-l-primary"
+                className="overflow-hidden border-l-4 border-l-primary hover:shadow-lg transition-all duration-300"
               >
                 <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start gap-2">
                     <CardTitle
-                      className="text-lg truncate pr-2"
+                      className="text-lg truncate leading-tight"
                       title={campaign.name}
                     >
                       {campaign.name}
                     </CardTitle>
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold uppercase ${
-                        campaign.status === 'active'
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-blue-100 text-blue-700'
-                      }`}
+                      className={cn(
+                        'px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shrink-0',
+                        getStatusColor(campaign.status),
+                      )}
                     >
-                      {campaign.status === 'active' ? 'Ativo' : 'Agendado'}
+                      {getStatusLabel(campaign.status)}
                     </span>
                   </div>
-                  <CardDescription>
+                  <CardDescription className="pt-1">
                     {campaign.scheduled_at ? (
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1.5 text-xs">
                         <Calendar className="h-3 w-3" />
                         {format(
                           new Date(campaign.scheduled_at),
@@ -259,15 +329,20 @@ export default function Dashboard() {
                         )}
                       </span>
                     ) : (
-                      'Iniciado imediatamente'
+                      <span className="flex items-center gap-1.5 text-xs">
+                        <Clock className="h-3 w-3" />
+                        Iniciado imediatamente
+                      </span>
                     )}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Progresso</span>
-                      <span className="font-medium">
+                      <span className="text-muted-foreground font-medium">
+                        Progresso
+                      </span>
+                      <span className="font-bold text-primary">
                         {Math.round(
                           ((campaign.sent_messages || 0) /
                             Math.max(campaign.total_messages, 1)) *
@@ -276,17 +351,27 @@ export default function Dashboard() {
                         %
                       </span>
                     </div>
-                    <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                    <div className="h-2.5 w-full bg-secondary rounded-full overflow-hidden shadow-inner">
                       <div
-                        className="h-full bg-primary transition-all duration-500"
+                        className="h-full bg-primary transition-all duration-500 ease-out"
                         style={{
                           width: `${((campaign.sent_messages || 0) / Math.max(campaign.total_messages, 1)) * 100}%`,
                         }}
                       />
                     </div>
-                    <div className="flex justify-between text-xs text-muted-foreground pt-1">
-                      <span>{campaign.sent_messages || 0} enviados</span>
-                      <span>Total: {campaign.total_messages}</span>
+                    <div className="flex justify-between text-xs text-muted-foreground border-t pt-2 mt-2">
+                      <span>
+                        Enviados:{' '}
+                        <strong className="text-foreground">
+                          {campaign.sent_messages || 0}
+                        </strong>
+                      </span>
+                      <span>
+                        Total:{' '}
+                        <strong className="text-foreground">
+                          {campaign.total_messages}
+                        </strong>
+                      </span>
                     </div>
                   </div>
                 </CardContent>
