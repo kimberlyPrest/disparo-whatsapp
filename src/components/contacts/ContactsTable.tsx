@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Contact, contactsService } from '@/services/contacts'
 import { Trash2, Pencil, Send, AlertCircle, Loader2 } from 'lucide-react'
 import { EditContactDialog } from './EditContactDialog'
+import { BulkSendModal } from '@/components/campaigns/BulkSendModal'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -35,6 +36,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [editingContact, setEditingContact] = useState<Contact | null>(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isBulkSendModalOpen, setIsBulkSendModalOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [sendingIds, setSendingIds] = useState<string[]>([])
   const [sentTimestamps, setSentTimestamps] = useState<number[]>([])
@@ -85,12 +87,12 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
     }
   }
 
-  const handleBulkSend = () => {
-    if (selectedIds.length === 0) return
-    toast.success('Iniciando envio em massa', {
-      description: `Preparando envio para ${selectedIds.length} contatos selecionados.`,
-    })
-    // Implementation of actual sending would go here
+  const handleBulkSendClick = () => {
+    if (selectedIds.length === 0) {
+      toast.warning('Selecione pelo menos um contato para enviar mensagens.')
+      return
+    }
+    setIsBulkSendModalOpen(true)
   }
 
   const handleSendOne = async (contact: Contact) => {
@@ -103,9 +105,6 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
 
     // Filter keeps only recent timestamps from the current state
     const recentSends = sentTimestamps.filter((t) => now - t < timeWindow)
-
-    // Update state to clean up old timestamps (optional, but keeps state clean)
-    // We don't need to call setSentTimestamps here for logic, as we use recentSends
 
     if (recentSends.length >= threshold) {
       toast.warning(
@@ -207,7 +206,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
           <Button
             variant="default"
             size="sm"
-            onClick={handleBulkSend}
+            onClick={handleBulkSendClick}
             disabled={selectedIds.length === 0}
             className="gap-2"
           >
@@ -326,6 +325,16 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
         onSuccess={onRefresh}
+      />
+
+      <BulkSendModal
+        open={isBulkSendModalOpen}
+        onOpenChange={setIsBulkSendModalOpen}
+        selectedContactIds={selectedIds}
+        onSuccess={() => {
+          setSelectedIds([]) // Clear selection after creating campaign
+          onRefresh() // Refresh list if needed (though status update happens via campaigns not contacts usually, but good to refresh)
+        }}
       />
     </div>
   )
