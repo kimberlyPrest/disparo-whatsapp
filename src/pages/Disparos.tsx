@@ -28,6 +28,7 @@ import {
   Play,
   CheckCircle2,
   XCircle,
+  AlertTriangle,
 } from 'lucide-react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -35,7 +36,6 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { supabase } from '@/lib/supabase/client'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
 
 export default function Disparos() {
   const { user, loading: authLoading } = useAuth()
@@ -72,8 +72,18 @@ export default function Disparos() {
             table: 'campaigns',
             filter: `user_id=eq.${user.id}`,
           },
-          () => {
-            fetchCampaigns()
+          (payload) => {
+            // Optimistically update the list without full refetch for smoother UI
+            if (payload.eventType === 'UPDATE') {
+              setCampaigns((prev) =>
+                prev.map((c) =>
+                  c.id === payload.new.id ? (payload.new as Campaign) : c,
+                ),
+              )
+            } else {
+              // For INSERT or DELETE, refetch might be safer/easier
+              fetchCampaigns()
+            }
           },
         )
         .subscribe()
@@ -124,7 +134,19 @@ export default function Disparos() {
     navigate(`/disparos/${id}`)
   }
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status: string, hasErrors: boolean) => {
+    if (status === 'finished' && hasErrors) {
+      return (
+        <Badge
+          variant="outline"
+          className="border-orange-500 text-orange-600 gap-1 bg-orange-50"
+        >
+          <AlertTriangle className="h-3 w-3" />
+          Concluído com Erros
+        </Badge>
+      )
+    }
+
     switch (status) {
       case 'finished':
         return (
@@ -134,6 +156,7 @@ export default function Disparos() {
           </Badge>
         )
       case 'failed':
+      case 'error':
         return (
           <Badge variant="destructive" className="gap-1">
             <XCircle className="h-3 w-3" />
@@ -172,11 +195,14 @@ export default function Disparos() {
     }
   }
 
-  const getProgressIndicatorClass = (status: string) => {
+  const getProgressIndicatorClass = (status: string, hasErrors: boolean) => {
+    if (status === 'finished' && hasErrors) return 'bg-orange-500'
+
     switch (status) {
       case 'finished':
         return 'bg-green-500'
       case 'failed':
+      case 'error':
         return 'bg-destructive'
       case 'active':
       case 'processing':
@@ -305,6 +331,9 @@ export default function Disparos() {
                     const isActive = ['active', 'processing'].includes(status)
                     const isPaused = status === 'paused'
 
+                    // Check if finished but with errors (less sent than total)
+                    const hasErrors = status === 'finished' && sent < total
+
                     return (
                       <TableRow
                         key={campaign.id}
@@ -325,13 +354,15 @@ export default function Disparos() {
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell>{getStatusBadge(status)}</TableCell>
+                        <TableCell>
+                          {getStatusBadge(status, hasErrors)}
+                        </TableCell>
                         <TableCell>
                           <div className="space-y-1.5">
                             <div className="flex justify-between text-xs font-medium">
                               <span>{percentage}%</span>
                               <span className="text-muted-foreground">
-                                {sent} / {total}
+                                {sent} / {total} enviadas
                               </span>
                             </div>
                             <Progress
@@ -339,6 +370,7 @@ export default function Disparos() {
                               className="h-2.5"
                               indicatorClassName={getProgressIndicatorClass(
                                 status,
+                                hasErrors,
                               )}
                             />
                           </div>

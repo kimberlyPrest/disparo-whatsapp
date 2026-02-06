@@ -72,15 +72,26 @@ Deno.serve(async (req: Request) => {
       }
 
       // Update status to processing if just starting
-      if (campaign.status === 'scheduled' || campaign.status === 'pending') {
+      if (
+        campaign.status === 'scheduled' ||
+        campaign.status === 'pending' ||
+        campaign.status === 'active'
+      ) {
         const nowIso = new Date().toISOString()
+        const updateData: any = { status: 'processing' }
+
+        // Only set started_at if it wasn't set before
+        if (!campaign.started_at) {
+          updateData.started_at = nowIso
+          campaign.started_at = nowIso
+        }
+
         await supabase
           .from('campaigns')
-          .update({ status: 'processing', started_at: nowIso })
+          .update(updateData)
           .eq('id', campaign.id)
 
         campaign.status = 'processing'
-        campaign.started_at = nowIso // Update local state for accurate calculation
       }
 
       const config = campaign.config as unknown as CampaignConfig
@@ -135,14 +146,22 @@ Deno.serve(async (req: Request) => {
 
       // Check for completion (Initial Check)
       // We perform this check at the beginning to handle cases where it finished right after previous run or if empty.
-      const { count: pendingCount } = await supabase
+      const { count: pendingCount, error: pendingError } = await supabase
         .from('campaign_messages')
         .select('*', { count: 'exact', head: true })
         .eq('campaign_id', campaign.id)
-        .eq('status', 'aguardando')
+        .in('status', ['aguardando', 'pending'])
+
+      if (pendingError) {
+        console.error(
+          `Error checking pending messages for ${campaign.id}`,
+          pendingError,
+        )
+        continue
+      }
 
       if (pendingCount === 0) {
-        // Ensure there are no active messages being processed/sent
+        // Ensure there are no active messages being processed/sent (locked by other workers)
         const { count: activeCount } = await supabase
           .from('campaign_messages')
           .select('*', { count: 'exact', head: true })
@@ -245,7 +264,7 @@ Deno.serve(async (req: Request) => {
           .from('campaign_messages')
           .select('id')
           .eq('campaign_id', campaign.id)
-          .eq('status', 'aguardando')
+          .in('status', ['aguardando', 'pending'])
           .limit(1)
           .maybeSingle()
 
@@ -272,11 +291,12 @@ Deno.serve(async (req: Request) => {
           .from('campaign_messages')
           .update({ status: 'sending', sent_at: new Date().toISOString() })
           .eq('id', messageToLock.id)
-          .eq('status', 'aguardando')
+          .in('status', ['aguardando', 'pending'])
           .select('*, contacts(name, phone, message)')
           .single()
 
         if (lockError || !lockedMessage) {
+          // Could not lock, maybe another worker picked it up
           continue
         }
 
@@ -306,7 +326,7 @@ Deno.serve(async (req: Request) => {
             throw new Error(result.error || 'Failed to send')
           }
 
-          // Success
+          // Success - Update message status
           await supabase
             .from('campaign_messages')
             .update({
@@ -316,12 +336,15 @@ Deno.serve(async (req: Request) => {
             })
             .eq('id', lockedMessage.id)
 
+          // Increment campaign counter via RPC
           await supabase.rpc('increment_campaign_sent', { row_id: campaign.id })
 
           campaign.sent_messages = (campaign.sent_messages || 0) + 1
           campaignResult.messagesSent++
         } catch (err: any) {
           console.error(`Failed to send message ${lockedMessage.id}:`, err)
+
+          // Failure - Update message status
           await supabase
             .from('campaign_messages')
             .update({
@@ -329,6 +352,8 @@ Deno.serve(async (req: Request) => {
               error_message: err.message || 'Unknown error',
             })
             .eq('id', lockedMessage.id)
+
+          // We DO NOT increment sent_messages for failed messages
         }
       }
 
