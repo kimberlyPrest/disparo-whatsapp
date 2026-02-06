@@ -11,6 +11,7 @@ import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import Disparos from './pages/Disparos'
 import DisparoDetalhes from './pages/DisparoDetalhes'
+import Settings from './pages/Settings'
 import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 import { AuthProvider } from '@/hooks/use-auth'
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/disparos" element={<Disparos />} />
             <Route path="/disparos/:id" element={<DisparoDetalhes />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

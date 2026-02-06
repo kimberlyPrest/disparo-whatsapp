@@ -4,9 +4,9 @@ import {
   Home,
   PlusCircle,
   History,
-  MessageSquare,
   LogOut,
   User as UserIcon,
+  Settings,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import {
@@ -35,7 +35,7 @@ export function AppSidebar() {
       if (!user) return
 
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('profiles')
           .select('name')
           .eq('id', user.id)
@@ -56,7 +56,32 @@ export function AppSidebar() {
       }
     }
 
-    fetchProfile()
+    if (user) {
+      fetchProfile()
+
+      // Real-time updates for profile name
+      const subscription = supabase
+        .channel('sidebar_profile')
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'profiles',
+            filter: `id=eq.${user.id}`,
+          },
+          (payload) => {
+            if (payload.new && 'name' in payload.new && payload.new.name) {
+              setProfileName(payload.new.name as string)
+            }
+          },
+        )
+        .subscribe()
+
+      return () => {
+        subscription.unsubscribe()
+      }
+    }
   }, [user])
 
   const menuItems = [
@@ -74,6 +99,11 @@ export function AppSidebar() {
       title: 'Disparos',
       url: '/disparos',
       icon: History,
+    },
+    {
+      title: 'Configurações',
+      url: '/settings',
+      icon: Settings,
     },
   ]
 
