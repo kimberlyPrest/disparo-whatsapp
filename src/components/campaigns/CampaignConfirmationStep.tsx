@@ -85,14 +85,24 @@ export function CampaignConfirmationStep({
                   : 'Desativado'}
               </span>
             </div>
+            {config.automaticPause && (
+              <div className="col-span-1 sm:col-span-2 text-blue-600 dark:text-blue-400">
+                <span className="text-muted-foreground">Pausa Agendada: </span>
+                <span className="font-medium">
+                  Pausa às {config.pauseTime} e retoma dia{' '}
+                  {config.resumeDate && format(config.resumeDate, 'dd/MM')} às{' '}
+                  {config.resumeTime}
+                </span>
+              </div>
+            )}
             <div className="col-span-1 sm:col-span-2">
               <span className="text-muted-foreground">Horário Comercial: </span>
               <span
                 className={`font-medium ${config.businessHoursStrategy === 'ignore' ? 'text-amber-600' : 'text-green-600'}`}
               >
                 {config.businessHoursStrategy === 'ignore'
-                  ? 'Sim (Enviar fora do horário)'
-                  : 'Não (Pausar e retomar)'}
+                  ? 'Ignorar'
+                  : 'Pausar diariamente'}
               </span>
             </div>
           </div>

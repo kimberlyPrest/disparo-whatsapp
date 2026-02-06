@@ -13,6 +13,7 @@ import {
   Sun,
   PauseCircle,
   AlertCircle,
+  CalendarClock,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -81,6 +82,12 @@ const formSchema = z
     businessHoursStrategy: z.enum(['ignore', 'pause']).default('ignore'),
     businessHoursPauseTime: z.string().default('18:00'),
     businessHoursResumeTime: z.string().default('08:00'),
+
+    // New Automatic Pause fields
+    automaticPause: z.boolean().default(false),
+    pauseTime: z.string().optional(),
+    resumeDate: z.date().optional(),
+    resumeTime: z.string().optional(),
   })
   .refine((data) => data.maxInterval >= data.minInterval, {
     message: 'O intervalo máximo deve ser maior ou igual ao mínimo',
@@ -124,6 +131,18 @@ const formSchema = z
     {
       message: 'Defina os horários de pausa e retomada',
       path: ['businessHoursPauseTime'],
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.automaticPause) {
+        return !!data.pauseTime && !!data.resumeDate && !!data.resumeTime
+      }
+      return true
+    },
+    {
+      message: 'Preencha todos os campos da pausa automática',
+      path: ['pauseTime'],
     },
   )
 
@@ -173,10 +192,10 @@ export function BulkSendModal({
       businessHoursStrategy: 'ignore',
       businessHoursPauseTime: '18:00',
       businessHoursResumeTime: '08:00',
+      automaticPause: false,
     },
   })
 
-  // Watch values for real-time validation
   const watchedValues = form.watch()
   const {
     minInterval,
@@ -191,9 +210,12 @@ export function BulkSendModal({
     businessHoursStrategy,
     businessHoursPauseTime,
     businessHoursResumeTime,
+    automaticPause,
+    pauseTime,
+    resumeDate,
+    resumeTime,
   } = watchedValues
 
-  // Reset modal state when opening
   useEffect(() => {
     if (open) {
       setStep('config')
@@ -203,7 +225,6 @@ export function BulkSendModal({
       setConfig(null)
       setConflict({ hasConflict: false })
 
-      // Load existing campaigns for validation
       campaignsService
         .getActiveAndScheduled()
         .then((data) => {
@@ -225,7 +246,6 @@ export function BulkSendModal({
     return new Date()
   }
 
-  // Perform validation whenever config changes
   useEffect(() => {
     if (!open || existingCampaigns.length === 0) return
 
@@ -240,6 +260,10 @@ export function BulkSendModal({
       businessHoursStrategy: businessHoursStrategy as 'ignore' | 'pause',
       businessHoursPauseTime,
       businessHoursResumeTime,
+      automaticPause,
+      pauseTime,
+      resumeDate,
+      resumeTime,
       startTime,
     }
 
@@ -266,10 +290,12 @@ export function BulkSendModal({
     businessHoursStrategy,
     businessHoursPauseTime,
     businessHoursResumeTime,
+    automaticPause,
+    pauseTime,
+    resumeDate,
+    resumeTime,
   ])
 
-  // Estimation Calculation (updated to reflect 0 delay for first message)
-  // Formula: (N - 1) * AvgInterval
   const count = selectedContactIds.length
   const avgInterval = (Number(minInterval) + Number(maxInterval)) / 2
   const estimatedTime = Math.max(0, count - 1) * avgInterval
@@ -302,13 +328,11 @@ export function BulkSendModal({
 
     setIsLoading(true)
     try {
-      // 1. Fetch contacts
       const fetchedContacts = await contactsService.getByIds(selectedContactIds)
       const alignedContacts = selectedContactIds.map((id) =>
         fetchedContacts.find((c) => c.id === id),
       )
 
-      // 2. Prepare Config
       const startTime = getStartTime()
       const scheduleConfig: ScheduleConfig = {
         minInterval: values.minInterval,
@@ -320,10 +344,13 @@ export function BulkSendModal({
         businessHoursStrategy: values.businessHoursStrategy,
         businessHoursPauseTime: values.businessHoursPauseTime,
         businessHoursResumeTime: values.businessHoursResumeTime,
+        automaticPause: values.automaticPause,
+        pauseTime: values.pauseTime,
+        resumeDate: values.resumeDate,
+        resumeTime: values.resumeTime,
         startTime: startTime,
       }
 
-      // 3. Calculate Schedule
       const calculatedSchedule = calculateCampaignSchedule(
         scheduleConfig,
         selectedContactIds.length,
@@ -368,6 +395,14 @@ export function BulkSendModal({
           pause_at: values.businessHoursPauseTime,
           resume_at: values.businessHoursResumeTime,
         },
+        automatic_pause: values.automaticPause
+          ? {
+              enabled: true,
+              pause_at: values.pauseTime,
+              resume_date: values.resumeDate?.toISOString(),
+              resume_time: values.resumeTime,
+            }
+          : { enabled: false },
       }
 
       await campaignsService.create(
@@ -564,6 +599,112 @@ export function BulkSendModal({
                   )}
                 </div>
 
+                {/* Automatic Pause Section */}
+                <div className="space-y-4 border rounded-lg p-4 bg-slate-50/50">
+                  <FormField
+                    control={form.control}
+                    name="automaticPause"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm bg-white">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base flex items-center gap-2">
+                            <CalendarClock className="h-4 w-4 text-primary" />
+                            Pausa Agendada
+                          </FormLabel>
+                          <FormDescription>
+                            Pausar em horário específico e retomar em data
+                            futura.
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  {automaticPause && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-down pl-1">
+                      <FormField
+                        control={form.control}
+                        name="pauseTime"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Início da Pausa</FormLabel>
+                            <FormControl>
+                              <Input type="time" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="grid grid-cols-2 gap-2">
+                        <FormField
+                          control={form.control}
+                          name="resumeDate"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel>Dia Retorno</FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant={'outline'}
+                                      className={cn(
+                                        'w-full pl-3 text-left font-normal text-xs px-2',
+                                        !field.value && 'text-muted-foreground',
+                                      )}
+                                    >
+                                      {field.value ? (
+                                        format(field.value, 'dd/MM/yy')
+                                      ) : (
+                                        <span>Data</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-3 w-3 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                  className="w-auto p-0"
+                                  align="start"
+                                >
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) =>
+                                      date <
+                                      new Date(new Date().setHours(0, 0, 0, 0))
+                                    }
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="resumeTime"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Hora Retorno</FormLabel>
+                              <FormControl>
+                                <Input type="time" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <div className="space-y-4 border rounded-lg p-4 bg-slate-50/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Sun className="h-5 w-5 text-orange-500" />
@@ -611,7 +752,7 @@ export function BulkSendModal({
                                 <RadioGroupItem value="pause" />
                               </FormControl>
                               <FormLabel className="font-normal text-sm">
-                                Agendar pausa automática
+                                Agendar pausa diária
                               </FormLabel>
                             </FormItem>
                           </RadioGroup>
@@ -823,7 +964,6 @@ export function BulkSendModal({
   )
 }
 
-// Helper for Loader2 which was used but not imported
 function Loader2({ className }: { className?: string }) {
   return (
     <svg

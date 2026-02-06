@@ -18,6 +18,12 @@ interface CampaignConfig {
   businessHoursStrategy: 'ignore' | 'pause'
   businessHoursPauseTime?: string
   businessHoursResumeTime?: string
+  automaticPause?: {
+    enabled: boolean
+    pause_at: string
+    resume_date: string
+    resume_time: string
+  }
 }
 
 Deno.serve(async (req: Request) => {
@@ -96,12 +102,70 @@ Deno.serve(async (req: Request) => {
 
       const config = campaign.config as unknown as CampaignConfig
 
-      // Check Business Hours (Brazil Time: UTC-3)
-      if (config?.businessHoursStrategy === 'pause') {
-        const now = new Date()
-        const utcHours = now.getUTCHours()
-        const brtHours = (utcHours - 3 + 24) % 24
+      // -- PAUSE CHECK LOGIC --
+      let shouldPause = false
+      let pauseReason = ''
 
+      const now = new Date()
+      const utcHours = now.getUTCHours()
+      // Brazil Time: UTC-3
+      const brtHours = (utcHours - 3 + 24) % 24
+
+      // 1. Automatic Scheduled Pause (New Feature)
+      if (
+        config.automaticPause?.enabled &&
+        config.automaticPause.pause_at &&
+        config.automaticPause.resume_date &&
+        config.automaticPause.resume_time
+      ) {
+        try {
+          const resumeDateStr = config.automaticPause.resume_date // ISO string
+          const [resumeH, resumeM] = config.automaticPause.resume_time
+            .split(':')
+            .map(Number)
+
+          const resumeDateTime = new Date(resumeDateStr)
+          resumeDateTime.setHours(resumeH, resumeM, 0, 0)
+
+          // Only check pause if we are BEFORE the resume time
+          if (now < resumeDateTime) {
+            const [pauseH, pauseM] = config.automaticPause.pause_at
+              .split(':')
+              .map(Number)
+
+            // Check if we hit the pause time today (BRT)
+            // We need precise minutes comparison
+            const nowMinutes = brtHours * 60 + now.getUTCMinutes()
+            const pauseMinutes = pauseH * 60 + pauseM
+
+            // Check if we are past the start date
+            const startDateTime = new Date(
+              campaign.started_at || campaign.created_at,
+            )
+
+            // Simple logic:
+            // If it's currently past the daily pause time -> PAUSE
+            // OR if the current date is AFTER the start date (meaning we already passed the first day's allowed window) -> PAUSE
+
+            // Compare dates (ignoring time)
+            const todayStr = now.toISOString().split('T')[0]
+            const startStr = startDateTime.toISOString().split('T')[0]
+
+            const isAfterStartDay = todayStr > startStr
+            const isPastPauseTime = nowMinutes >= pauseMinutes
+
+            if (isPastPauseTime || isAfterStartDay) {
+              shouldPause = true
+              pauseReason = `Automatic Pause until ${resumeDateTime.toISOString()}`
+            }
+          }
+        } catch (e) {
+          console.error('Error parsing automatic pause config', e)
+        }
+      }
+
+      // 2. Business Hours Check (Recurring)
+      if (!shouldPause && config?.businessHoursStrategy === 'pause') {
         const pauseHour = config.businessHoursPauseTime
           ? parseInt(config.businessHoursPauseTime.split(':')[0])
           : 18
@@ -112,12 +176,15 @@ Deno.serve(async (req: Request) => {
         const isBusinessHours = brtHours >= resumeHour && brtHours < pauseHour
 
         if (!isBusinessHours) {
-          console.log(
-            `Campaign ${campaign.id} paused due to business hours (Current BRT: ${brtHours})`,
-          )
-          results.push({ ...campaignResult, status: 'paused_business_hours' })
-          continue
+          shouldPause = true
+          pauseReason = `Business Hours (Current BRT: ${brtHours})`
         }
+      }
+
+      if (shouldPause) {
+        console.log(`Campaign ${campaign.id} paused: ${pauseReason}`)
+        results.push({ ...campaignResult, status: 'paused_temporarily' })
+        continue
       }
 
       // Helper to finalize campaign

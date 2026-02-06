@@ -14,6 +14,7 @@ import {
   Rocket,
   AlertTriangle,
   Info,
+  CalendarClock,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -75,6 +76,12 @@ const formSchema = z
     batchPauseMax: z.coerce.number().optional(),
 
     businessHoursStrategy: z.enum(['ignore', 'pause']).default('ignore'),
+
+    // New Automatic Pause fields
+    automaticPause: z.boolean().default(false),
+    pauseTime: z.string().optional(),
+    resumeDate: z.date().optional(),
+    resumeTime: z.string().optional(),
   })
   .refine((data) => data.maxInterval >= data.minInterval, {
     message: 'Intervalo máximo deve ser maior ou igual ao mínimo',
@@ -107,6 +114,18 @@ const formSchema = z
       path: ['batchSize'],
     },
   )
+  .refine(
+    (data) => {
+      if (data.automaticPause) {
+        return !!data.pauseTime && !!data.resumeDate && !!data.resumeTime
+      }
+      return true
+    },
+    {
+      message: 'Preencha todos os campos da pausa automática',
+      path: ['pauseTime'],
+    },
+  )
 
 export interface Step3ConfigValues {
   name: string
@@ -120,6 +139,10 @@ export interface Step3ConfigValues {
   batchPauseMin?: number
   batchPauseMax?: number
   businessHoursStrategy: 'ignore' | 'pause'
+  automaticPause: boolean
+  pauseTime?: string
+  resumeDate?: Date
+  resumeTime?: string
 }
 
 interface Step3ConfigProps {
@@ -149,6 +172,7 @@ export function Step3Config({
       batchPauseMin: 60,
       batchPauseMax: 120,
       businessHoursStrategy: 'ignore',
+      automaticPause: false,
     },
   })
 
@@ -160,10 +184,8 @@ export function Step3Config({
         setCampaign(data)
         form.setValue('name', data.name)
 
-        // Populate form if config exists (e.g. going back and forth)
         if (data.config) {
-          // Logic to map existing config to form can be added here
-          // For now we trust defaults or user input preservation if not persisted
+          // We can map config here if needed for editing
         }
       } catch (error) {
         console.error(error)
@@ -178,7 +200,6 @@ export function Step3Config({
   const watchedValues = form.watch()
   const { minInterval, maxInterval } = watchedValues
 
-  // Estimate Time Calculation
   const calculateEstimatedTime = () => {
     if (!campaign?.total_messages) return 'Calculando...'
 
@@ -186,7 +207,6 @@ export function Step3Config({
     const avgInterval = (Number(minInterval) + Number(maxInterval)) / 2
     const totalSeconds = avgInterval * count
 
-    // Convert to readable format
     if (totalSeconds < 60) return `${Math.ceil(totalSeconds)} seg`
 
     const minutes = Math.floor(totalSeconds / 60)
@@ -222,7 +242,6 @@ export function Step3Config({
 
   return (
     <div className="space-y-6 animate-fade-in-up pb-20">
-      {/* Breadcrumbs */}
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -254,7 +273,6 @@ export function Step3Config({
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Safety Alert */}
           <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-4 dark:border-blue-900/50 dark:bg-blue-950/20">
             <div className="flex items-start gap-4">
               <div className="rounded-full bg-blue-100 p-2 text-blue-600 dark:bg-blue-900 dark:text-blue-400">
@@ -283,7 +301,6 @@ export function Step3Config({
             </div>
           </div>
 
-          {/* Campaign Name */}
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Nome da Campanha</CardTitle>
@@ -308,7 +325,6 @@ export function Step3Config({
           </Card>
 
           <div className="grid gap-6 md:grid-cols-2">
-            {/* Interval Config */}
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -364,7 +380,6 @@ export function Step3Config({
               </CardContent>
             </Card>
 
-            {/* Scheduling */}
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -488,7 +503,6 @@ export function Step3Config({
             </Card>
           </div>
 
-          {/* Periodic Pauses */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <div className="space-y-1">
@@ -569,7 +583,115 @@ export function Step3Config({
             )}
           </Card>
 
-          {/* Business Hours */}
+          {/* Automatic Pause (New Feature) */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <CalendarClock className="h-4 w-4 text-muted-foreground" />
+                  Pausa Agendada
+                </CardTitle>
+                <CardDescription>
+                  Defina um horário para pausar o envio e uma data para
+                  retomá-lo automaticamente.
+                </CardDescription>
+              </div>
+              <FormField
+                control={form.control}
+                name="automaticPause"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </CardHeader>
+            {form.watch('automaticPause') && (
+              <CardContent className="pt-4 animate-fade-in-down">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="pauseTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase text-muted-foreground">
+                          Horário de início da pausa
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="resumeDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel className="text-xs uppercase text-muted-foreground">
+                          Dia do retorno
+                        </FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-full pl-3 text-left font-normal',
+                                  !field.value && 'text-muted-foreground',
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, 'PPP', { locale: ptBR })
+                                ) : (
+                                  <span>Selecione uma data</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) =>
+                                date < new Date(new Date().setHours(0, 0, 0, 0))
+                              }
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="resumeTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase text-muted-foreground">
+                          Hora do retorno
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
@@ -606,7 +728,7 @@ export function Step3Config({
                             <RadioGroupItem value="pause" id="pause" />
                           </FormControl>
                           <FormLabel htmlFor="pause" className="font-normal">
-                            Agendar pausa automática
+                            Pausar e retomar diariamente
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
