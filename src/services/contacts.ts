@@ -100,4 +100,24 @@ export const contactsService = {
     if (error) throw error
     return true
   },
+
+  async sendWhatsappMessage(contact: Contact) {
+    const { data, error } = await supabase.functions.invoke(
+      'send-whatsapp-message',
+      {
+        body: {
+          name: contact.name,
+          phone: contact.phone,
+          message: contact.message,
+        },
+      },
+    )
+
+    if (error) throw error
+    if (data && data.success === false) {
+      throw new Error(data.error || 'Falha ao enviar mensagem')
+    }
+
+    return data
+  },
 }

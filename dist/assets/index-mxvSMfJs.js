@@ -31948,6 +31948,16 @@ const contactsService = {
 		const { error } = await supabase.from("contacts").delete().in("id", ids);
 		if (error) throw error;
 		return true;
+	},
+	async sendWhatsappMessage(contact) {
+		const { data, error } = await supabase.functions.invoke("send-whatsapp-message", { body: {
+			name: contact.name,
+			phone: contact.phone,
+			message: contact.message
+		} });
+		if (error) throw error;
+		if (data && data.success === false) throw new Error(data.error || "Falha ao enviar mensagem");
+		return data;
 	}
 };
 function usePrevious(value) {
@@ -38673,6 +38683,21 @@ function EditContactDialog({ contact, open, onOpenChange, onSuccess }) {
 		})
 	});
 }
+var badgeVariants = cva("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", {
+	variants: { variant: {
+		default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+		secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+		destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+		outline: "text-foreground"
+	} },
+	defaultVariants: { variant: "default" }
+});
+function Badge({ className, variant, ...props }) {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: cn(badgeVariants({ variant }), className),
+		...props
+	});
+}
 var ROOT_NAME = "AlertDialog";
 var [createAlertDialogContext, createAlertDialogScope] = createContextScope(ROOT_NAME, [createDialogScope]);
 var useDialogScope = createDialogScope();
@@ -38873,6 +38898,7 @@ function ContactsTable({ contacts, onRefresh }) {
 	const [editingContact, setEditingContact] = (0, import_react.useState)(null);
 	const [isEditDialogOpen, setIsEditDialogOpen] = (0, import_react.useState)(false);
 	const [isDeleting, setIsDeleting] = (0, import_react.useState)(false);
+	const [sendingIds, setSendingIds] = (0, import_react.useState)([]);
 	const toggleSelectAll = () => {
 		if (selectedIds.length === contacts.length) setSelectedIds([]);
 		else setSelectedIds(contacts.map((c) => c.id));
@@ -38910,6 +38936,49 @@ function ContactsTable({ contacts, onRefresh }) {
 	const handleBulkSend = () => {
 		if (selectedIds.length === 0) return;
 		toast.success("Iniciando envio em massa", { description: `Preparando envio para ${selectedIds.length} contatos selecionados.` });
+	};
+	const handleSendOne = async (contact) => {
+		if (sendingIds.includes(contact.id)) return;
+		setSendingIds((prev) => [...prev, contact.id]);
+		try {
+			await contactsService.sendWhatsappMessage(contact);
+			await contactsService.update(contact.id, { status: "enviado" });
+			toast.success(`Mensagem enviada para ${contact.name}`);
+			onRefresh();
+		} catch (error) {
+			console.error(error);
+			toast.error(`Erro ao enviar para ${contact.name}`);
+			try {
+				await contactsService.update(contact.id, { status: "falha" });
+				onRefresh();
+			} catch (e) {
+				console.error("Failed to update status", e);
+			}
+		} finally {
+			setSendingIds((prev) => prev.filter((id) => id !== contact.id));
+		}
+	};
+	const getStatusBadge = (status) => {
+		switch (status?.toLowerCase() || "pending") {
+			case "enviado": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+				variant: "default",
+				className: "bg-green-500 hover:bg-green-600",
+				children: "Enviado"
+			});
+			case "falha": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+				variant: "destructive",
+				children: "Falha"
+			});
+			case "pending":
+			case "pendente": return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+				variant: "secondary",
+				children: "Pendente"
+			});
+			default: return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Badge, {
+				variant: "outline",
+				children: status
+			});
+		}
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-4",
@@ -38969,6 +39038,7 @@ function ContactsTable({ contacts, onRefresh }) {
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Nome" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Telefone" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Status" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
 						className: "min-w-[200px]",
 						children: "Mensagem"
@@ -38978,7 +39048,7 @@ function ContactsTable({ contacts, onRefresh }) {
 						children: "Ações"
 					})
 				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: contacts.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-					colSpan: 5,
+					colSpan: 6,
 					className: "h-24 text-center text-muted-foreground",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex flex-col items-center justify-center gap-2",
@@ -38997,6 +39067,7 @@ function ContactsTable({ contacts, onRefresh }) {
 							children: contact.name
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: contact.phone }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: getStatusBadge(contact.status) }),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
 							className: "max-w-[300px] truncate",
 							title: contact.message,
@@ -39006,26 +39077,40 @@ function ContactsTable({ contacts, onRefresh }) {
 							className: "text-right",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex justify-end gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-									variant: "ghost",
-									size: "icon",
-									onClick: () => {
-										setEditingContact(contact);
-										setIsEditDialogOpen(true);
-									},
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pencil, { className: "h-4 w-4 text-muted-foreground hover:text-primary" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										className: "sr-only",
-										children: "Editar"
-									})]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-									variant: "ghost",
-									size: "icon",
-									onClick: () => handleDelete(contact.id),
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "h-4 w-4 text-muted-foreground hover:text-destructive" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										className: "sr-only",
-										children: "Excluir"
-									})]
-								})]
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+										variant: "outline",
+										size: "icon",
+										onClick: () => handleSendOne(contact),
+										disabled: sendingIds.includes(contact.id),
+										title: "Enviar mensagem",
+										children: [sendingIds.includes(contact.id) ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-4 w-4 animate-spin text-primary" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Send, { className: "h-4 w-4 text-blue-500 hover:text-blue-700" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "sr-only",
+											children: "Enviar"
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+										variant: "ghost",
+										size: "icon",
+										onClick: () => {
+											setEditingContact(contact);
+											setIsEditDialogOpen(true);
+										},
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pencil, { className: "h-4 w-4 text-muted-foreground hover:text-primary" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "sr-only",
+											children: "Editar"
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+										variant: "ghost",
+										size: "icon",
+										onClick: () => handleDelete(contact.id),
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "h-4 w-4 text-muted-foreground hover:text-destructive" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "sr-only",
+											children: "Excluir"
+										})]
+									})
+								]
 							})
 						})
 					]
@@ -41109,4 +41194,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-6uCLxnT9.js.map
+//# sourceMappingURL=index-mxvSMfJs.js.map

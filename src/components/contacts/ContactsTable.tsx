@@ -10,10 +10,10 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { Contact, contactsService } from '@/services/contacts'
-import { Trash2, Pencil, Send, AlertCircle } from 'lucide-react'
+import { Trash2, Pencil, Send, AlertCircle, Loader2 } from 'lucide-react'
 import { EditContactDialog } from './EditContactDialog'
 import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,6 +36,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
   const [editingContact, setEditingContact] = useState<Contact | null>(null)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [sendingIds, setSendingIds] = useState<string[]>([])
 
   const toggleSelectAll = () => {
     if (selectedIds.length === contacts.length) {
@@ -89,6 +90,48 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
       description: `Preparando envio para ${selectedIds.length} contatos selecionados.`,
     })
     // Implementation of actual sending would go here
+  }
+
+  const handleSendOne = async (contact: Contact) => {
+    if (sendingIds.includes(contact.id)) return
+
+    setSendingIds((prev) => [...prev, contact.id])
+    try {
+      await contactsService.sendWhatsappMessage(contact)
+      await contactsService.update(contact.id, { status: 'enviado' })
+      toast.success(`Mensagem enviada para ${contact.name}`)
+      onRefresh()
+    } catch (error) {
+      console.error(error)
+      toast.error(`Erro ao enviar para ${contact.name}`)
+      try {
+        await contactsService.update(contact.id, { status: 'falha' })
+        onRefresh()
+      } catch (e) {
+        console.error('Failed to update status', e)
+      }
+    } finally {
+      setSendingIds((prev) => prev.filter((id) => id !== contact.id))
+    }
+  }
+
+  const getStatusBadge = (status: string) => {
+    const normalizedStatus = status?.toLowerCase() || 'pending'
+    switch (normalizedStatus) {
+      case 'enviado':
+        return (
+          <Badge variant="default" className="bg-green-500 hover:bg-green-600">
+            Enviado
+          </Badge>
+        )
+      case 'falha':
+        return <Badge variant="destructive">Falha</Badge>
+      case 'pending':
+      case 'pendente':
+        return <Badge variant="secondary">Pendente</Badge>
+      default:
+        return <Badge variant="outline">{status}</Badge>
+    }
   }
 
   return (
@@ -158,6 +201,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
               </TableHead>
               <TableHead>Nome</TableHead>
               <TableHead>Telefone</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="min-w-[200px]">Mensagem</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
@@ -166,7 +210,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
             {contacts.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={5}
+                  colSpan={6}
                   className="h-24 text-center text-muted-foreground"
                 >
                   <div className="flex flex-col items-center justify-center gap-2">
@@ -194,6 +238,7 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
                   </TableCell>
                   <TableCell className="font-medium">{contact.name}</TableCell>
                   <TableCell>{contact.phone}</TableCell>
+                  <TableCell>{getStatusBadge(contact.status)}</TableCell>
                   <TableCell
                     className="max-w-[300px] truncate"
                     title={contact.message}
@@ -202,6 +247,20 @@ export function ContactsTable({ contacts, onRefresh }: ContactsTableProps) {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => handleSendOne(contact)}
+                        disabled={sendingIds.includes(contact.id)}
+                        title="Enviar mensagem"
+                      >
+                        {sendingIds.includes(contact.id) ? (
+                          <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                        ) : (
+                          <Send className="h-4 w-4 text-blue-500 hover:text-blue-700" />
+                        )}
+                        <span className="sr-only">Enviar</span>
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"
