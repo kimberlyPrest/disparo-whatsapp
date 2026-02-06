@@ -14,7 +14,7 @@ export default function Index() {
   }
 
   if (user) {
-    return <Navigate to="/upload" replace />
+    return <Navigate to="/dashboard" replace />
   }
 
   return <Navigate to="/site" replace />

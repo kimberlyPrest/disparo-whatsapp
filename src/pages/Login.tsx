@@ -52,7 +52,7 @@ export default function Login() {
   }
 
   if (user) {
-    return <Navigate to="/upload" replace />
+    return <Navigate to="/dashboard" replace />
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -73,7 +73,7 @@ export default function Login() {
         }
       } else {
         toast.success('Login realizado com sucesso!')
-        navigate('/upload')
+        navigate('/dashboard')
       }
     } catch (error) {
       console.error('Unexpected login error:', error)

@@ -59,7 +59,7 @@ export default function SignUp() {
   }
 
   if (user) {
-    return <Navigate to="/upload" replace />
+    return <Navigate to="/dashboard" replace />
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -70,7 +70,7 @@ export default function SignUp() {
         toast.error('Erro ao criar conta', { description: error.message })
       } else {
         toast.success('Conta criada com sucesso!')
-        navigate('/upload')
+        navigate('/dashboard')
       }
     } catch (error) {
       console.error(error)
