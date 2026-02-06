@@ -47,7 +47,7 @@ export const campaignsService = {
     const messages = contactIds.map((contactId) => ({
       campaign_id: campaignData.id,
       contact_id: contactId,
-      status: 'pending',
+      status: 'aguardando',
     }))
 
     for (let i = 0; i < messages.length; i += chunkSize) {
@@ -58,8 +58,6 @@ export const campaignsService = {
 
       if (messagesError) {
         console.error('Error creating campaign messages chunk', messagesError)
-        // We continue trying to insert other chunks, or we could throw.
-        // For now, throwing is safer to alert the user.
         throw messagesError
       }
     }
