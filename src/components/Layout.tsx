@@ -21,7 +21,7 @@ export default function Layout() {
 
           <nav className="flex items-center gap-6">
             <Link
-              to="/"
+              to="/site"
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors hidden sm:block"
             >
               Home

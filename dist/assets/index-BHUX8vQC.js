@@ -18980,17 +18980,6 @@ var LogOut = createLucideIcon("log-out", [
 		key: "1uf3rs"
 	}]
 ]);
-var Mail = createLucideIcon("mail", [["path", {
-	d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",
-	key: "132q7q"
-}], ["rect", {
-	x: "2",
-	y: "4",
-	width: "20",
-	height: "16",
-	rx: "2",
-	key: "izxlao"
-}]]);
 var MessageCircle = createLucideIcon("message-circle", [["path", {
 	d: "M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719",
 	key: "1sd12s"
@@ -23740,309 +23729,6 @@ var TooltipContent = import_react.forwardRef(({ className, sideOffset = 4, ...pr
 	...props
 }));
 TooltipContent.displayName = Content2$1.displayName;
-var REACT_LAZY_TYPE = Symbol.for("react.lazy");
-var use = import_react[" use ".trim().toString()];
-function isPromiseLike(value) {
-	return typeof value === "object" && value !== null && "then" in value;
-}
-function isLazyComponent(element) {
-	return element != null && typeof element === "object" && "$$typeof" in element && element.$$typeof === REACT_LAZY_TYPE && "_payload" in element && isPromiseLike(element._payload);
-}
-/* @__NO_SIDE_EFFECTS__ */
-function createSlot(ownerName) {
-	const SlotClone = /* @__PURE__ */ createSlotClone(ownerName);
-	const Slot2 = import_react.forwardRef((props, forwardedRef) => {
-		let { children, ...slotProps } = props;
-		if (isLazyComponent(children) && typeof use === "function") children = use(children._payload);
-		const childrenArray = import_react.Children.toArray(children);
-		const slottable = childrenArray.find(isSlottable);
-		if (slottable) {
-			const newElement = slottable.props.children;
-			const newChildren = childrenArray.map((child) => {
-				if (child === slottable) {
-					if (import_react.Children.count(newElement) > 1) return import_react.Children.only(null);
-					return import_react.isValidElement(newElement) ? newElement.props.children : null;
-				} else return child;
-			});
-			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, {
-				...slotProps,
-				ref: forwardedRef,
-				children: import_react.isValidElement(newElement) ? import_react.cloneElement(newElement, void 0, newChildren) : null
-			});
-		}
-		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, {
-			...slotProps,
-			ref: forwardedRef,
-			children
-		});
-	});
-	Slot2.displayName = `${ownerName}.Slot`;
-	return Slot2;
-}
-var Slot = /* @__PURE__ */ createSlot("Slot");
-/* @__NO_SIDE_EFFECTS__ */
-function createSlotClone(ownerName) {
-	const SlotClone = import_react.forwardRef((props, forwardedRef) => {
-		let { children, ...slotProps } = props;
-		if (isLazyComponent(children) && typeof use === "function") children = use(children._payload);
-		if (import_react.isValidElement(children)) {
-			const childrenRef = getElementRef(children);
-			const props2 = mergeProps(slotProps, children.props);
-			if (children.type !== import_react.Fragment) props2.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef;
-			return import_react.cloneElement(children, props2);
-		}
-		return import_react.Children.count(children) > 1 ? import_react.Children.only(null) : null;
-	});
-	SlotClone.displayName = `${ownerName}.SlotClone`;
-	return SlotClone;
-}
-var SLOTTABLE_IDENTIFIER = Symbol("radix.slottable");
-function isSlottable(child) {
-	return import_react.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
-}
-function mergeProps(slotProps, childProps) {
-	const overrideProps = { ...childProps };
-	for (const propName in childProps) {
-		const slotPropValue = slotProps[propName];
-		const childPropValue = childProps[propName];
-		if (/^on[A-Z]/.test(propName)) {
-			if (slotPropValue && childPropValue) overrideProps[propName] = (...args) => {
-				const result = childPropValue(...args);
-				slotPropValue(...args);
-				return result;
-			};
-			else if (slotPropValue) overrideProps[propName] = slotPropValue;
-		} else if (propName === "style") overrideProps[propName] = {
-			...slotPropValue,
-			...childPropValue
-		};
-		else if (propName === "className") overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
-	}
-	return {
-		...slotProps,
-		...overrideProps
-	};
-}
-function getElementRef(element) {
-	let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
-	let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
-	if (mayWarn) return element.ref;
-	getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
-	mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
-	if (mayWarn) return element.props.ref;
-	return element.props.ref || element.ref;
-}
-var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
-	variants: {
-		variant: {
-			default: "bg-primary text-primary-foreground hover:bg-primary/90",
-			destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-			outline: "border border-input bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
-			secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-			ghost: "text-foreground hover:bg-accent hover:text-accent-foreground",
-			link: "text-foreground underline-offset-4 hover:underline"
-		},
-		size: {
-			default: "h-10 px-4 py-2",
-			sm: "h-9 rounded-md px-3",
-			lg: "h-11 rounded-md px-8",
-			icon: "h-10 w-10"
-		}
-	},
-	defaultVariants: {
-		variant: "default",
-		size: "default"
-	}
-});
-var Button = import_react.forwardRef(({ className, variant, size: size$3, asChild = false, ...props }, ref) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(asChild ? Slot : "button", {
-		className: cn(buttonVariants({
-			variant,
-			size: size$3,
-			className
-		})),
-		ref,
-		...props
-	});
-});
-Button.displayName = "Button";
-function Index() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "min-h-[calc(100vh-4rem)] flex flex-col justify-center",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "container mx-auto px-4 py-12 md:py-20 max-w-7xl",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid lg:grid-cols-2 gap-12 lg:gap-8 items-center",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex flex-col gap-6 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
-							className: "text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground animate-fade-in-up",
-							children: [
-								"Disparo de ",
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-primary",
-									children: "WhatsApp"
-								}),
-								" ",
-								"Simplificado"
-							]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-lg md:text-xl text-muted-foreground leading-relaxed animate-fade-in-up delay-100",
-							children: "Envie mensagens personalizadas para múltiplos contatos simultaneamente. Carregue sua planilha e comece sua campanha em minutos."
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-4 animate-fade-in-up delay-200",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-								asChild: true,
-								size: "lg",
-								className: "text-lg px-8 h-12 shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:scale-105",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
-									to: "/upload",
-									children: ["Começar", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "ml-2 h-5 w-5" })]
-								})
-							})
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "pt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm font-medium text-muted-foreground animate-fade-in-up delay-300",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center justify-center lg:justify-start gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-5 w-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Rápido e Seguro" })]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center justify-center lg:justify-start gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-5 w-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Suporte CSV e Excel" })]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center justify-center lg:justify-start gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-5 w-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Alta Conversão" })]
-								})
-							]
-						})
-					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "relative mx-auto w-full max-w-md lg:max-w-full lg:h-auto flex justify-center animate-fade-in-up delay-300",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative animate-float",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/10 rounded-full blur-3xl -z-10" }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-								src: "https://img.usecurling.com/p/600/600?q=smartphone%20chat%20messages%20app&color=green&dpr=2",
-								alt: "WhatsApp Messaging Mockup",
-								className: "relative z-10 w-full h-auto drop-shadow-2xl rounded-3xl transform rotate-3 transition-transform hover:rotate-0 duration-500"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce [animation-duration:3000ms]",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center gap-3",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "bg-green-100 p-2 rounded-full",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-6 w-6" })
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "font-bold text-sm",
-										children: "Enviado"
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-xs text-muted-foreground",
-										children: "1,234 mensagens"
-									})] })]
-								})
-							})
-						]
-					})
-				})]
-			})
-		})
-	});
-}
-var Card = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	ref,
-	className: cn("rounded-lg border bg-card text-card-foreground shadow-sm", className),
-	...props
-}));
-Card.displayName = "Card";
-var CardHeader = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	ref,
-	className: cn("flex flex-col space-y-1.5 p-6", className),
-	...props
-}));
-CardHeader.displayName = "CardHeader";
-var CardTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	ref,
-	className: cn("text-2xl font-semibold leading-none tracking-tight", className),
-	...props
-}));
-CardTitle.displayName = "CardTitle";
-var CardDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	ref,
-	className: cn("text-sm text-muted-foreground", className),
-	...props
-}));
-CardDescription.displayName = "CardDescription";
-var CardContent = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	ref,
-	className: cn("p-6 pt-0", className),
-	...props
-}));
-CardContent.displayName = "CardContent";
-var CardFooter = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	ref,
-	className: cn("flex items-center p-6 pt-0", className),
-	...props
-}));
-CardFooter.displayName = "CardFooter";
-var Table = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-	className: "relative w-full overflow-auto",
-	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("table", {
-		ref,
-		className: cn("w-full caption-bottom text-sm", className),
-		...props
-	})
-}));
-Table.displayName = "Table";
-var TableHeader = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("thead", {
-	ref,
-	className: cn("[&_tr]:border-b", className),
-	...props
-}));
-TableHeader.displayName = "TableHeader";
-var TableBody = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
-	ref,
-	className: cn("[&_tr:last-child]:border-0", className),
-	...props
-}));
-TableBody.displayName = "TableBody";
-var TableFooter = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tfoot", {
-	ref,
-	className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className),
-	...props
-}));
-TableFooter.displayName = "TableFooter";
-var TableRow = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tr", {
-	ref,
-	className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className),
-	...props
-}));
-TableRow.displayName = "TableRow";
-var TableHead = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
-	ref,
-	className: cn("h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0", className),
-	...props
-}));
-TableHead.displayName = "TableHead";
-var TableCell = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
-	ref,
-	className: cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className),
-	...props
-}));
-TableCell.displayName = "TableCell";
-var TableCaption = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("caption", {
-	ref,
-	className: cn("mt-4 text-sm text-muted-foreground", className),
-	...props
-}));
-TableCaption.displayName = "TableCaption";
 var __assign = function() {
 	__assign = Object.assign || function __assign$1(t$1) {
 		for (var s$2, i$2 = 1, n$1 = arguments.length; i$2 < n$1; i$2++) {
@@ -31727,13 +31413,27 @@ const AuthProvider = ({ children }) => {
 		});
 		return () => subscription.unsubscribe();
 	}, []);
-	const signInWithEmail = async (email$1) => {
-		const redirectUrl = window.location.origin + "/upload";
-		const { error } = await supabase.auth.signInWithOtp({
+	const signUp = async (email$1, password) => {
+		const redirectUrl = `${window.location.origin}/upload`;
+		const { data, error } = await supabase.auth.signUp({
 			email: email$1,
+			password,
 			options: { emailRedirectTo: redirectUrl }
 		});
-		return { error };
+		return {
+			data,
+			error
+		};
+	};
+	const signIn = async (email$1, password) => {
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email: email$1,
+			password
+		});
+		return {
+			data,
+			error
+		};
 	};
 	const signOut = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -31742,7 +31442,8 @@ const AuthProvider = ({ children }) => {
 	const value = {
 		user,
 		session,
-		signInWithEmail,
+		signUp,
+		signIn,
 		signOut,
 		loading
 	};
@@ -31751,6 +31452,324 @@ const AuthProvider = ({ children }) => {
 		children
 	});
 };
+function Index() {
+	const { user, loading } = useAuth();
+	if (loading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-8 w-8 animate-spin text-primary" })
+	});
+	if (user) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
+		to: "/upload",
+		replace: true
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
+		to: "/site",
+		replace: true
+	});
+}
+var REACT_LAZY_TYPE = Symbol.for("react.lazy");
+var use = import_react[" use ".trim().toString()];
+function isPromiseLike(value) {
+	return typeof value === "object" && value !== null && "then" in value;
+}
+function isLazyComponent(element) {
+	return element != null && typeof element === "object" && "$$typeof" in element && element.$$typeof === REACT_LAZY_TYPE && "_payload" in element && isPromiseLike(element._payload);
+}
+/* @__NO_SIDE_EFFECTS__ */
+function createSlot(ownerName) {
+	const SlotClone = /* @__PURE__ */ createSlotClone(ownerName);
+	const Slot2 = import_react.forwardRef((props, forwardedRef) => {
+		let { children, ...slotProps } = props;
+		if (isLazyComponent(children) && typeof use === "function") children = use(children._payload);
+		const childrenArray = import_react.Children.toArray(children);
+		const slottable = childrenArray.find(isSlottable);
+		if (slottable) {
+			const newElement = slottable.props.children;
+			const newChildren = childrenArray.map((child) => {
+				if (child === slottable) {
+					if (import_react.Children.count(newElement) > 1) return import_react.Children.only(null);
+					return import_react.isValidElement(newElement) ? newElement.props.children : null;
+				} else return child;
+			});
+			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, {
+				...slotProps,
+				ref: forwardedRef,
+				children: import_react.isValidElement(newElement) ? import_react.cloneElement(newElement, void 0, newChildren) : null
+			});
+		}
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SlotClone, {
+			...slotProps,
+			ref: forwardedRef,
+			children
+		});
+	});
+	Slot2.displayName = `${ownerName}.Slot`;
+	return Slot2;
+}
+var Slot = /* @__PURE__ */ createSlot("Slot");
+/* @__NO_SIDE_EFFECTS__ */
+function createSlotClone(ownerName) {
+	const SlotClone = import_react.forwardRef((props, forwardedRef) => {
+		let { children, ...slotProps } = props;
+		if (isLazyComponent(children) && typeof use === "function") children = use(children._payload);
+		if (import_react.isValidElement(children)) {
+			const childrenRef = getElementRef(children);
+			const props2 = mergeProps(slotProps, children.props);
+			if (children.type !== import_react.Fragment) props2.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef;
+			return import_react.cloneElement(children, props2);
+		}
+		return import_react.Children.count(children) > 1 ? import_react.Children.only(null) : null;
+	});
+	SlotClone.displayName = `${ownerName}.SlotClone`;
+	return SlotClone;
+}
+var SLOTTABLE_IDENTIFIER = Symbol("radix.slottable");
+function isSlottable(child) {
+	return import_react.isValidElement(child) && typeof child.type === "function" && "__radixId" in child.type && child.type.__radixId === SLOTTABLE_IDENTIFIER;
+}
+function mergeProps(slotProps, childProps) {
+	const overrideProps = { ...childProps };
+	for (const propName in childProps) {
+		const slotPropValue = slotProps[propName];
+		const childPropValue = childProps[propName];
+		if (/^on[A-Z]/.test(propName)) {
+			if (slotPropValue && childPropValue) overrideProps[propName] = (...args) => {
+				const result = childPropValue(...args);
+				slotPropValue(...args);
+				return result;
+			};
+			else if (slotPropValue) overrideProps[propName] = slotPropValue;
+		} else if (propName === "style") overrideProps[propName] = {
+			...slotPropValue,
+			...childPropValue
+		};
+		else if (propName === "className") overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(" ");
+	}
+	return {
+		...slotProps,
+		...overrideProps
+	};
+}
+function getElementRef(element) {
+	let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
+	let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+	if (mayWarn) return element.ref;
+	getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
+	mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+	if (mayWarn) return element.props.ref;
+	return element.props.ref || element.ref;
+}
+var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
+	variants: {
+		variant: {
+			default: "bg-primary text-primary-foreground hover:bg-primary/90",
+			destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+			outline: "border border-input bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
+			secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+			ghost: "text-foreground hover:bg-accent hover:text-accent-foreground",
+			link: "text-foreground underline-offset-4 hover:underline"
+		},
+		size: {
+			default: "h-10 px-4 py-2",
+			sm: "h-9 rounded-md px-3",
+			lg: "h-11 rounded-md px-8",
+			icon: "h-10 w-10"
+		}
+	},
+	defaultVariants: {
+		variant: "default",
+		size: "default"
+	}
+});
+var Button = import_react.forwardRef(({ className, variant, size: size$3, asChild = false, ...props }, ref) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(asChild ? Slot : "button", {
+		className: cn(buttonVariants({
+			variant,
+			size: size$3,
+			className
+		})),
+		ref,
+		...props
+	});
+});
+Button.displayName = "Button";
+function Site() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-[calc(100vh-4rem)] flex flex-col justify-center",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "container mx-auto px-4 py-12 md:py-20 max-w-7xl",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid lg:grid-cols-2 gap-12 lg:gap-8 items-center",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex flex-col gap-6 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+							className: "text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground animate-fade-in-up",
+							children: [
+								"Disparo de ",
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "text-primary",
+									children: "WhatsApp"
+								}),
+								" ",
+								"Simplificado"
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-lg md:text-xl text-muted-foreground leading-relaxed animate-fade-in-up delay-100",
+							children: "Envie mensagens personalizadas para múltiplos contatos simultaneamente. Carregue sua planilha e comece sua campanha em minutos."
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-4 animate-fade-in-up delay-200",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								asChild: true,
+								size: "lg",
+								className: "text-lg px-8 h-12 shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:scale-105",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+									to: "/login",
+									children: ["Começar", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "ml-2 h-5 w-5" })]
+								})
+							})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "pt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm font-medium text-muted-foreground animate-fade-in-up delay-300",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center justify-center lg:justify-start gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-5 w-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Rápido e Seguro" })]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center justify-center lg:justify-start gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-5 w-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Suporte CSV e Excel" })]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center justify-center lg:justify-start gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-5 w-5" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Alta Conversão" })]
+								})
+							]
+						})
+					]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "relative mx-auto w-full max-w-md lg:max-w-full lg:h-auto flex justify-center animate-fade-in-up delay-300",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "relative animate-float",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/10 rounded-full blur-3xl -z-10" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: "https://img.usecurling.com/p/600/600?q=smartphone%20chat%20messages%20app&color=green&dpr=2",
+								alt: "WhatsApp Messaging Mockup",
+								className: "relative z-10 w-full h-auto drop-shadow-2xl rounded-3xl transform rotate-3 transition-transform hover:rotate-0 duration-500"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce [animation-duration:3000ms]",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "bg-green-100 p-2 rounded-full",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "text-primary h-6 w-6" })
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "font-bold text-sm",
+										children: "Enviado"
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "text-xs text-muted-foreground",
+										children: "1,234 mensagens"
+									})] })]
+								})
+							})
+						]
+					})
+				})]
+			})
+		})
+	});
+}
+var Card = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("rounded-lg border bg-card text-card-foreground shadow-sm", className),
+	...props
+}));
+Card.displayName = "Card";
+var CardHeader = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("flex flex-col space-y-1.5 p-6", className),
+	...props
+}));
+CardHeader.displayName = "CardHeader";
+var CardTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("text-2xl font-semibold leading-none tracking-tight", className),
+	...props
+}));
+CardTitle.displayName = "CardTitle";
+var CardDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("text-sm text-muted-foreground", className),
+	...props
+}));
+CardDescription.displayName = "CardDescription";
+var CardContent = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("p-6 pt-0", className),
+	...props
+}));
+CardContent.displayName = "CardContent";
+var CardFooter = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	ref,
+	className: cn("flex items-center p-6 pt-0", className),
+	...props
+}));
+CardFooter.displayName = "CardFooter";
+var Table = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: "relative w-full overflow-auto",
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("table", {
+		ref,
+		className: cn("w-full caption-bottom text-sm", className),
+		...props
+	})
+}));
+Table.displayName = "Table";
+var TableHeader = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("thead", {
+	ref,
+	className: cn("[&_tr]:border-b", className),
+	...props
+}));
+TableHeader.displayName = "TableHeader";
+var TableBody = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
+	ref,
+	className: cn("[&_tr:last-child]:border-0", className),
+	...props
+}));
+TableBody.displayName = "TableBody";
+var TableFooter = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tfoot", {
+	ref,
+	className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className),
+	...props
+}));
+TableFooter.displayName = "TableFooter";
+var TableRow = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tr", {
+	ref,
+	className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className),
+	...props
+}));
+TableRow.displayName = "TableRow";
+var TableHead = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+	ref,
+	className: cn("h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0", className),
+	...props
+}));
+TableHead.displayName = "TableHead";
+var TableCell = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+	ref,
+	className: cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className),
+	...props
+}));
+TableCell.displayName = "TableCell";
+var TableCaption = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("caption", {
+	ref,
+	className: cn("mt-4 text-sm text-muted-foreground", className),
+	...props
+}));
+TableCaption.displayName = "TableCaption";
 const parseCSV = async (file) => {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
@@ -38479,7 +38498,7 @@ var Textarea = import_react.forwardRef(({ className, ...props }, ref) => {
 	});
 });
 Textarea.displayName = "Textarea";
-var formSchema$1 = object({
+var formSchema$2 = object({
 	name: string().min(1, "Nome é obrigatório"),
 	phone: string().min(1, "Telefone é obrigatório"),
 	message: string().min(1, "Mensagem é obrigatória")
@@ -38487,7 +38506,7 @@ var formSchema$1 = object({
 function EditContactDialog({ contact, open, onOpenChange, onSuccess }) {
 	const [isLoading, setIsLoading] = (0, import_react.useState)(false);
 	const form = useForm({
-		resolver: a(formSchema$1),
+		resolver: a(formSchema$2),
 		defaultValues: {
 			name: contact?.name || "",
 			phone: contact?.phone || "",
@@ -39035,7 +39054,7 @@ function Upload() {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-8 w-8 animate-spin text-primary" })
 	});
 	if (!user) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
-		to: "/auth",
+		to: "/login",
 		replace: true
 	});
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -39170,14 +39189,20 @@ function Upload() {
 		})]
 	});
 }
-var formSchema = object({ email: string().email("Email inválido") });
-function AuthPage() {
-	const { signInWithEmail, user, loading } = useAuth();
+var formSchema$1 = object({
+	email: string().email("Email inválido"),
+	password: string().min(6, "A senha deve ter pelo menos 6 caracteres")
+});
+function Login() {
+	const { signIn, user, loading } = useAuth();
 	const [isSubmitting, setIsSubmitting] = (0, import_react.useState)(false);
-	const [emailSent, setEmailSent] = (0, import_react.useState)(false);
+	const navigate = useNavigate();
 	const form = useForm({
-		resolver: a(formSchema),
-		defaultValues: { email: "" }
+		resolver: a(formSchema$1),
+		defaultValues: {
+			email: "",
+			password: ""
+		}
 	});
 	if (loading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "min-h-screen flex items-center justify-center",
@@ -39190,11 +39215,12 @@ function AuthPage() {
 	const onSubmit = async (values) => {
 		setIsSubmitting(true);
 		try {
-			const { error } = await signInWithEmail(values.email);
-			if (error) toast.error("Erro ao enviar link", { description: error.message });
+			const { error } = await signIn(values.email, values.password);
+			if (error) if (error.message === "Invalid login credentials") toast.error("Credenciais inválidas", { description: "Verifique seu email e senha." });
+			else toast.error("Erro no login", { description: error.message });
 			else {
-				setEmailSent(true);
-				toast.success("Link enviado!", { description: "Verifique sua caixa de entrada para fazer login." });
+				toast.success("Login realizado com sucesso!");
+				navigate("/upload");
 			}
 		} catch (error) {
 			console.error(error);
@@ -39204,61 +39230,204 @@ function AuthPage() {
 		}
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "min-h-screen flex items-center justify-center bg-slate-50 p-4",
+		className: "min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 animate-fade-in-up",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
 			className: "w-full max-w-md",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
-				className: "text-center",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
-					className: "text-2xl",
-					children: "Bem-vindo de volta"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Digite seu email para receber um link de acesso mágico" })]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: emailSent ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "text-center space-y-4 py-6",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "bg-green-100 p-4 rounded-full w-fit mx-auto",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { className: "h-8 w-8 text-green-600" })
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						className: "text-lg font-medium text-green-700",
-						children: "Email enviado!"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-muted-foreground",
-						children: "Verifique sua caixa de entrada e clique no link para acessar."
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-						variant: "outline",
-						onClick: () => setEmailSent(false),
-						className: "mt-4",
-						children: "Tentar outro email"
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+					className: "text-center",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+						className: "text-2xl",
+						children: "Acesse sua conta"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Entre com seu email e senha para continuar" })]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
+					...form,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+						onSubmit: form.handleSubmit(onSubmit),
+						className: "space-y-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+								control: form.control,
+								name: "email",
+								render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Email" }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										placeholder: "seu@email.com",
+										...field
+									}) }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+								] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+								control: form.control,
+								name: "password",
+								render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Senha" }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										type: "password",
+										placeholder: "******",
+										...field
+									}) }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+								] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								type: "submit",
+								className: "w-full",
+								disabled: isSubmitting,
+								children: isSubmitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Entrando..."] }) : "Entrar"
+							})
+						]
 					})
-				]
-			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
-				...form,
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
-					onSubmit: form.handleSubmit(onSubmit),
-					className: "space-y-4",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
-						control: form.control,
-						name: "email",
-						render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Email" }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-								placeholder: "seu@email.com",
-								...field
-							}) }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
-						] })
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-						type: "submit",
-						className: "w-full",
-						disabled: isSubmitting,
-						children: isSubmitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Enviando..."] }) : "Enviar Link de Acesso"
-					})]
+				}) }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
+					className: "flex justify-center",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "text-sm text-muted-foreground",
+						children: [
+							"Não tem uma conta?",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/signup",
+								className: "text-primary hover:underline font-medium",
+								children: "Cadastre-se"
+							})
+						]
+					})
 				})
-			}) })]
+			]
+		})
+	});
+}
+var formSchema = object({
+	email: string().email("Email inválido"),
+	password: string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+	confirmPassword: string()
+}).refine((data) => data.password === data.confirmPassword, {
+	message: "As senhas não coincidem",
+	path: ["confirmPassword"]
+});
+function SignUp() {
+	const { signUp, user, loading } = useAuth();
+	const [isSubmitting, setIsSubmitting] = (0, import_react.useState)(false);
+	const navigate = useNavigate();
+	const form = useForm({
+		resolver: a(formSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+			confirmPassword: ""
+		}
+	});
+	if (loading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-8 w-8 animate-spin text-primary" })
+	});
+	if (user) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
+		to: "/upload",
+		replace: true
+	});
+	const onSubmit = async (values) => {
+		setIsSubmitting(true);
+		try {
+			const { data, error } = await signUp(values.email, values.password);
+			if (error) toast.error("Erro ao criar conta", { description: error.message });
+			else if (data?.session) {
+				toast.success("Conta criada com sucesso!");
+				navigate("/upload");
+			} else if (data?.user) {
+				toast.success("Conta criada!", { description: "Verifique seu email para confirmar o cadastro." });
+				navigate("/login");
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Ocorreu um erro inesperado");
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 animate-fade-in-up",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+			className: "w-full max-w-md",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+					className: "text-center",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+						className: "text-2xl",
+						children: "Crie sua conta"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Comece a enviar mensagens em massa hoje mesmo" })]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
+					...form,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+						onSubmit: form.handleSubmit(onSubmit),
+						className: "space-y-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+								control: form.control,
+								name: "email",
+								render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Email" }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										placeholder: "seu@email.com",
+										...field
+									}) }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+								] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+								control: form.control,
+								name: "password",
+								render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Senha" }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										type: "password",
+										placeholder: "******",
+										...field
+									}) }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+								] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+								control: form.control,
+								name: "confirmPassword",
+								render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Confirmar Senha" }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+										type: "password",
+										placeholder: "******",
+										...field
+									}) }),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+								] })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+								type: "submit",
+								className: "w-full",
+								disabled: isSubmitting,
+								children: isSubmitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Criando conta..."] }) : "Criar Conta"
+							})
+						]
+					})
+				}) }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardFooter, {
+					className: "flex justify-center",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "text-sm text-muted-foreground",
+						children: [
+							"Já tem uma conta?",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/login",
+								className: "text-primary hover:underline font-medium",
+								children: "Fazer login"
+							})
+						]
+					})
+				})
+			]
 		})
 	});
 }
@@ -39311,7 +39480,7 @@ function Layout() {
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("nav", {
 						className: "flex items-center gap-6",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
-							to: "/",
+							to: "/site",
 							className: "text-sm font-medium text-muted-foreground hover:text-primary transition-colors hidden sm:block",
 							children: "Home"
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
@@ -39361,8 +39530,16 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index, {})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-					path: "/auth",
-					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthPage, {})
+					path: "/site",
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Site, {})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+					path: "/login",
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Login, {})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+					path: "/signup",
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SignUp, {})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 					path: "/upload",
@@ -39378,4 +39555,4 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { chil
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-Dg8V63oy.js.map
+//# sourceMappingURL=index-BHUX8vQC.js.map

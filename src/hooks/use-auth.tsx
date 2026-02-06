@@ -11,7 +11,14 @@ import { supabase } from '@/lib/supabase/client'
 interface AuthContextType {
   user: User | null
   session: Session | null
-  signInWithEmail: (email: string) => Promise<{ error: any }>
+  signUp: (
+    email: string,
+    password: string,
+  ) => Promise<{ error: any; data: any }>
+  signIn: (
+    email: string,
+    password: string,
+  ) => Promise<{ error: any; data: any }>
   signOut: () => Promise<{ error: any }>
   loading: boolean
 }
@@ -51,16 +58,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe()
   }, [])
 
-  const signInWithEmail = async (email: string) => {
-    // Simple magic link login for this demo
-    const redirectUrl = window.location.origin + '/upload'
-    const { error } = await supabase.auth.signInWithOtp({
+  const signUp = async (email: string, password: string) => {
+    const redirectUrl = `${window.location.origin}/upload`
+
+    const { data, error } = await supabase.auth.signUp({
       email,
+      password,
       options: {
         emailRedirectTo: redirectUrl,
       },
     })
-    return { error }
+    return { data, error }
+  }
+
+  const signIn = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    return { data, error }
   }
 
   const signOut = async () => {
@@ -71,7 +87,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     user,
     session,
-    signInWithEmail,
+    signUp,
+    signIn,
     signOut,
     loading,
   }

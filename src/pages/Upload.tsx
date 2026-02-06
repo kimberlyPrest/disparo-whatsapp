@@ -20,7 +20,6 @@ import {
   FileSpreadsheet,
   X,
   Loader2,
-  FileCheck,
   LogOut,
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -172,7 +171,7 @@ export default function Upload() {
   }
 
   if (!user) {
-    return <Navigate to="/auth" replace />
+    return <Navigate to="/login" replace />
   }
 
   return (
