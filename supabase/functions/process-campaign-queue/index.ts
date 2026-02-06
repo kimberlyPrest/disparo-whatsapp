@@ -132,13 +132,35 @@ Deno.serve(async (req: Request) => {
           Math.floor((now.getTime() - startedAt.getTime()) / 1000),
         )
 
+        // SYNC: Count actual sent messages to ensure consistency and correct UI display
+        // This fixes the issue where sent_messages might be incorrect (e.g. 0/1 for success)
+        const { count: realSentCount, error: countError } = await supabase
+          .from('campaign_messages')
+          .select('*', { count: 'exact', head: true })
+          .eq('campaign_id', campaign.id)
+          .eq('status', 'sent')
+
+        if (countError) {
+          console.error(
+            `Error counting sent messages for ${campaign.id}`,
+            countError,
+          )
+        }
+
+        const updatePayload: any = {
+          status: 'finished',
+          finished_at: now.toISOString(),
+          execution_time: executionTime,
+        }
+
+        // Only update sent_messages if the count was successful
+        if (!countError && realSentCount !== null) {
+          updatePayload.sent_messages = realSentCount
+        }
+
         await supabase
           .from('campaigns')
-          .update({
-            status: 'finished',
-            finished_at: now.toISOString(),
-            execution_time: executionTime,
-          })
+          .update(updatePayload)
           .eq('id', campaign.id)
 
         campaignResult.status = 'finished'
@@ -337,6 +359,8 @@ Deno.serve(async (req: Request) => {
             .eq('id', lockedMessage.id)
 
           // Increment campaign counter via RPC
+          // This should work, but relies on DB transaction integrity which is separate.
+          // The finalizeCampaign sync is the safety net.
           await supabase.rpc('increment_campaign_sent', { row_id: campaign.id })
 
           campaign.sent_messages = (campaign.sent_messages || 0) + 1

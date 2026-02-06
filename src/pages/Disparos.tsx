@@ -320,6 +320,7 @@ export default function Disparos() {
                 <TableBody>
                   {campaigns.map((campaign) => {
                     const total = Math.max(campaign.total_messages || 0, 0)
+                    // Ensure sent is not negative and respect the DB value, clamping to total is optional but good for UI sanity if DB desyncs
                     const sent = Math.min(
                       Math.max(campaign.sent_messages || 0, 0),
                       total,
@@ -331,7 +332,8 @@ export default function Disparos() {
                     const isActive = ['active', 'processing'].includes(status)
                     const isPaused = status === 'paused'
 
-                    // Check if finished but with errors (less sent than total)
+                    // Logic to detect if finished with errors:
+                    // Status is 'finished' BUT sent messages count is less than total messages count
                     const hasErrors = status === 'finished' && sent < total
 
                     return (
