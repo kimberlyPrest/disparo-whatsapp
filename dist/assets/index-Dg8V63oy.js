@@ -6,8 +6,8 @@ var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJSMin = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
 var __copyProps = (to, from, except, desc) => {
-	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
-		key = keys[i];
+	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i$2 = 0, n$1 = keys.length, key; i$2 < n$1; i$2++) {
+		key = keys[i$2];
 		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
 			get: ((k) => from[k]).bind(null, key),
 			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
@@ -136,9 +136,9 @@ var require_scheduler_development = /* @__PURE__ */ __commonJSMin(((exports) => 
 			}
 			return first;
 		}
-		function compare(a, b$1) {
-			var diff = a.sortIndex - b$1.sortIndex;
-			return 0 !== diff ? diff : a.id - b$1.id;
+		function compare(a$1, b$1) {
+			var diff = a$1.sortIndex - b$1.sortIndex;
+			return 0 !== diff ? diff : a$1.id - b$1.id;
 		}
 		function advanceTimers(currentTime) {
 			for (var timer = peek(timerQueue); null !== timer;) {
@@ -243,9 +243,9 @@ var require_scheduler_development = /* @__PURE__ */ __commonJSMin(((exports) => 
 				currentPriorityLevel = previousPriorityLevel;
 			}
 		};
-		exports.unstable_scheduleCallback = function(priorityLevel, callback, options) {
+		exports.unstable_scheduleCallback = function(priorityLevel, callback, options$1) {
 			var currentTime = exports.unstable_now();
-			"object" === typeof options && null !== options ? (options = options.delay, options = "number" === typeof options && 0 < options ? currentTime + options : currentTime) : options = currentTime;
+			"object" === typeof options$1 && null !== options$1 ? (options$1 = options$1.delay, options$1 = "number" === typeof options$1 && 0 < options$1 ? currentTime + options$1 : currentTime) : options$1 = currentTime;
 			switch (priorityLevel) {
 				case 1:
 					var timeout = -1;
@@ -261,16 +261,16 @@ var require_scheduler_development = /* @__PURE__ */ __commonJSMin(((exports) => 
 					break;
 				default: timeout = 5e3;
 			}
-			timeout = options + timeout;
+			timeout = options$1 + timeout;
 			priorityLevel = {
 				id: taskIdCounter++,
 				callback,
 				priorityLevel,
-				startTime: options,
+				startTime: options$1,
 				expirationTime: timeout,
 				sortIndex: -1
 			};
-			options > currentTime ? (priorityLevel.sortIndex = options, push(timerQueue, priorityLevel), null === peek(taskQueue) && priorityLevel === peek(timerQueue) && (isHostTimeoutScheduled ? (localClearTimeout(taskTimeoutID), taskTimeoutID = -1) : isHostTimeoutScheduled = !0, requestHostTimeout(handleTimeout, options - currentTime))) : (priorityLevel.sortIndex = timeout, push(taskQueue, priorityLevel), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, isMessageLoopRunning || (isMessageLoopRunning = !0, schedulePerformWorkUntilDeadline())));
+			options$1 > currentTime ? (priorityLevel.sortIndex = options$1, push(timerQueue, priorityLevel), null === peek(taskQueue) && priorityLevel === peek(timerQueue) && (isHostTimeoutScheduled ? (localClearTimeout(taskTimeoutID), taskTimeoutID = -1) : isHostTimeoutScheduled = !0, requestHostTimeout(handleTimeout, options$1 - currentTime))) : (priorityLevel.sortIndex = timeout, push(taskQueue, priorityLevel), isHostCallbackScheduled || isPerformingWork || (isHostCallbackScheduled = !0, isMessageLoopRunning || (isMessageLoopRunning = !0, schedulePerformWorkUntilDeadline())));
 			return priorityLevel;
 		};
 		exports.unstable_shouldYield = shouldYieldToHost;
@@ -331,7 +331,7 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 			this.refs = emptyObject;
 			this.updater = updater || ReactNoopUpdateQueue;
 		}
-		function noop() {}
+		function noop$2() {}
 		function testStringCoercion(value) {
 			return "" + value;
 		}
@@ -398,12 +398,12 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 		function UnknownOwner() {
 			return Error("react-stack-top-frame");
 		}
-		function hasValidKey(config) {
-			if (hasOwnProperty.call(config, "key")) {
-				var getter = Object.getOwnPropertyDescriptor(config, "key").get;
+		function hasValidKey(config$1) {
+			if (hasOwnProperty.call(config$1, "key")) {
+				var getter = Object.getOwnPropertyDescriptor(config$1, "key").get;
 				if (getter && getter.isReactWarning) return !1;
 			}
-			return void 0 !== config.key;
+			return void 0 !== config$1.key;
 		}
 		function defineKeyPropWarningGetter(props, displayName) {
 			function warnAboutAccessingKey() {
@@ -473,8 +473,8 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 		function validateChildKeys(node) {
 			isValidElement(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE$1 && ("fulfilled" === node._payload.status ? isValidElement(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
 		}
-		function isValidElement(object) {
-			return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+		function isValidElement(object$1) {
+			return "object" === typeof object$1 && null !== object$1 && object$1.$$typeof === REACT_ELEMENT_TYPE;
 		}
 		function escape(key) {
 			var escaperLookup = {
@@ -492,7 +492,7 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 			switch (thenable.status) {
 				case "fulfilled": return thenable.value;
 				case "rejected": throw thenable.reason;
-				default: switch ("string" === typeof thenable.status ? thenable.then(noop, noop) : (thenable.status = "pending", thenable.then(function(fulfilledValue) {
+				default: switch ("string" === typeof thenable.status ? thenable.then(noop$2, noop$2) : (thenable.status = "pending", thenable.then(function(fulfilledValue) {
 					"pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
 				}, function(error) {
 					"pending" === thenable.status && (thenable.status = "rejected", thenable.reason = error);
@@ -503,7 +503,7 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 			}
 			throw thenable;
 		}
-		function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
+		function mapIntoArray(children, array$1, escapedPrefix, nameSoFar, callback) {
 			var type = typeof children;
 			if ("undefined" === type || "boolean" === type) children = null;
 			var invokeCallback = !1;
@@ -519,34 +519,34 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 					case REACT_PORTAL_TYPE:
 						invokeCallback = !0;
 						break;
-					case REACT_LAZY_TYPE$1: return invokeCallback = children._init, mapIntoArray(invokeCallback(children._payload), array, escapedPrefix, nameSoFar, callback);
+					case REACT_LAZY_TYPE$1: return invokeCallback = children._init, mapIntoArray(invokeCallback(children._payload), array$1, escapedPrefix, nameSoFar, callback);
 				}
 			}
 			if (invokeCallback) {
 				invokeCallback = children;
 				callback = callback(invokeCallback);
 				var childKey = "" === nameSoFar ? "." + getElementKey(invokeCallback, 0) : nameSoFar;
-				isArrayImpl(callback) ? (escapedPrefix = "", null != childKey && (escapedPrefix = childKey.replace(userProvidedKeyEscapeRegex, "$&/") + "/"), mapIntoArray(callback, array, escapedPrefix, "", function(c) {
+				isArrayImpl(callback) ? (escapedPrefix = "", null != childKey && (escapedPrefix = childKey.replace(userProvidedKeyEscapeRegex, "$&/") + "/"), mapIntoArray(callback, array$1, escapedPrefix, "", function(c) {
 					return c;
-				})) : null != callback && (isValidElement(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(callback, escapedPrefix + (null == callback.key || invokeCallback && invokeCallback.key === callback.key ? "" : ("" + callback.key).replace(userProvidedKeyEscapeRegex, "$&/") + "/") + childKey), "" !== nameSoFar && null != invokeCallback && isValidElement(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array.push(callback));
+				})) : null != callback && (isValidElement(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(callback, escapedPrefix + (null == callback.key || invokeCallback && invokeCallback.key === callback.key ? "" : ("" + callback.key).replace(userProvidedKeyEscapeRegex, "$&/") + "/") + childKey), "" !== nameSoFar && null != invokeCallback && isValidElement(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array$1.push(callback));
 				return 1;
 			}
 			invokeCallback = 0;
 			childKey = "" === nameSoFar ? "." : nameSoFar + ":";
-			if (isArrayImpl(children)) for (var i = 0; i < children.length; i++) nameSoFar = children[i], type = childKey + getElementKey(nameSoFar, i), invokeCallback += mapIntoArray(nameSoFar, array, escapedPrefix, type, callback);
-			else if (i = getIteratorFn(children), "function" === typeof i) for (i === children.entries && (didWarnAboutMaps || console.warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0), children = i.call(children), i = 0; !(nameSoFar = children.next()).done;) nameSoFar = nameSoFar.value, type = childKey + getElementKey(nameSoFar, i++), invokeCallback += mapIntoArray(nameSoFar, array, escapedPrefix, type, callback);
+			if (isArrayImpl(children)) for (var i$2 = 0; i$2 < children.length; i$2++) nameSoFar = children[i$2], type = childKey + getElementKey(nameSoFar, i$2), invokeCallback += mapIntoArray(nameSoFar, array$1, escapedPrefix, type, callback);
+			else if (i$2 = getIteratorFn(children), "function" === typeof i$2) for (i$2 === children.entries && (didWarnAboutMaps || console.warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0), children = i$2.call(children), i$2 = 0; !(nameSoFar = children.next()).done;) nameSoFar = nameSoFar.value, type = childKey + getElementKey(nameSoFar, i$2++), invokeCallback += mapIntoArray(nameSoFar, array$1, escapedPrefix, type, callback);
 			else if ("object" === type) {
-				if ("function" === typeof children.then) return mapIntoArray(resolveThenable(children), array, escapedPrefix, nameSoFar, callback);
-				array = String(children);
-				throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === array ? "object with keys {" + Object.keys(children).join(", ") + "}" : array) + "). If you meant to render a collection of children, use an array instead.");
+				if ("function" === typeof children.then) return mapIntoArray(resolveThenable(children), array$1, escapedPrefix, nameSoFar, callback);
+				array$1 = String(children);
+				throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === array$1 ? "object with keys {" + Object.keys(children).join(", ") + "}" : array$1) + "). If you meant to render a collection of children, use an array instead.");
 			}
 			return invokeCallback;
 		}
 		function mapChildren(children, func, context) {
 			if (null == children) return children;
-			var result = [], count$2 = 0;
+			var result = [], count$3 = 0;
 			mapIntoArray(children, result, "", "", function(child) {
-				return func.call(context, child, count$2++);
+				return func.call(context, child, count$3++);
 			});
 			return result;
 		}
@@ -630,17 +630,17 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 		function flushActQueue(queue) {
 			if (!isFlushing) {
 				isFlushing = !0;
-				var i = 0;
+				var i$2 = 0;
 				try {
-					for (; i < queue.length; i++) {
-						var callback = queue[i];
+					for (; i$2 < queue.length; i$2++) {
+						var callback = queue[i$2];
 						do {
 							ReactSharedInternals.didUsePromise = !1;
 							var continuation = callback(!1);
 							if (null !== continuation) {
 								if (ReactSharedInternals.didUsePromise) {
-									queue[i] = callback;
-									queue.splice(0, i);
+									queue[i$2] = callback;
+									queue.splice(0, i$2);
 									return;
 								}
 								callback = continuation;
@@ -649,7 +649,7 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 					}
 					queue.length = 0;
 				} catch (error) {
-					queue.splice(0, i + 1), ReactSharedInternals.thrownErrors.push(error);
+					queue.splice(0, i$2 + 1), ReactSharedInternals.thrownErrors.push(error);
 				} finally {
 					isFlushing = !1;
 				}
@@ -745,11 +745,11 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 				}, forEachContext);
 			},
 			count: function(children) {
-				var n = 0;
+				var n$1 = 0;
 				mapChildren(children, function() {
-					n++;
+					n$1++;
 				});
-				return n;
+				return n$1;
 			},
 			toArray: function(children) {
 				return mapChildren(children, function(child) {
@@ -835,27 +835,27 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 			var getCurrentStack = ReactSharedInternals.getCurrentStack;
 			return null === getCurrentStack ? null : getCurrentStack();
 		};
-		exports.cloneElement = function(element, config, children) {
+		exports.cloneElement = function(element, config$1, children) {
 			if (null === element || void 0 === element) throw Error("The argument must be a React element, but you passed " + element + ".");
 			var props = assign({}, element.props), key = element.key, owner = element._owner;
-			if (null != config) {
+			if (null != config$1) {
 				var JSCompiler_inline_result;
 				a: {
-					if (hasOwnProperty.call(config, "ref") && (JSCompiler_inline_result = Object.getOwnPropertyDescriptor(config, "ref").get) && JSCompiler_inline_result.isReactWarning) {
+					if (hasOwnProperty.call(config$1, "ref") && (JSCompiler_inline_result = Object.getOwnPropertyDescriptor(config$1, "ref").get) && JSCompiler_inline_result.isReactWarning) {
 						JSCompiler_inline_result = !1;
 						break a;
 					}
-					JSCompiler_inline_result = void 0 !== config.ref;
+					JSCompiler_inline_result = void 0 !== config$1.ref;
 				}
 				JSCompiler_inline_result && (owner = getOwner());
-				hasValidKey(config) && (checkKeyStringCoercion(config.key), key = "" + config.key);
-				for (propName in config) !hasOwnProperty.call(config, propName) || "key" === propName || "__self" === propName || "__source" === propName || "ref" === propName && void 0 === config.ref || (props[propName] = config[propName]);
+				hasValidKey(config$1) && (checkKeyStringCoercion(config$1.key), key = "" + config$1.key);
+				for (propName in config$1) !hasOwnProperty.call(config$1, propName) || "key" === propName || "__self" === propName || "__source" === propName || "ref" === propName && void 0 === config$1.ref || (props[propName] = config$1[propName]);
 			}
 			var propName = arguments.length - 2;
 			if (1 === propName) props.children = children;
 			else if (1 < propName) {
 				JSCompiler_inline_result = Array(propName);
-				for (var i = 0; i < propName; i++) JSCompiler_inline_result[i] = arguments[i + 2];
+				for (var i$2 = 0; i$2 < propName; i$2++) JSCompiler_inline_result[i$2] = arguments[i$2 + 2];
 				props.children = JSCompiler_inline_result;
 			}
 			props = ReactElement(element.type, key, props, owner, element._debugStack, element._debugTask);
@@ -880,22 +880,22 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 			defaultValue._currentRenderer2 = null;
 			return defaultValue;
 		};
-		exports.createElement = function(type, config, children) {
-			for (var i = 2; i < arguments.length; i++) validateChildKeys(arguments[i]);
-			i = {};
+		exports.createElement = function(type, config$1, children) {
+			for (var i$2 = 2; i$2 < arguments.length; i$2++) validateChildKeys(arguments[i$2]);
+			i$2 = {};
 			var key = null;
-			if (null != config) for (propName in didWarnAboutOldJSXRuntime || !("__self" in config) || "key" in config || (didWarnAboutOldJSXRuntime = !0, console.warn("Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform")), hasValidKey(config) && (checkKeyStringCoercion(config.key), key = "" + config.key), config) hasOwnProperty.call(config, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i[propName] = config[propName]);
+			if (null != config$1) for (propName in didWarnAboutOldJSXRuntime || !("__self" in config$1) || "key" in config$1 || (didWarnAboutOldJSXRuntime = !0, console.warn("Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform")), hasValidKey(config$1) && (checkKeyStringCoercion(config$1.key), key = "" + config$1.key), config$1) hasOwnProperty.call(config$1, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i$2[propName] = config$1[propName]);
 			var childrenLength = arguments.length - 2;
-			if (1 === childrenLength) i.children = children;
+			if (1 === childrenLength) i$2.children = children;
 			else if (1 < childrenLength) {
 				for (var childArray = Array(childrenLength), _i = 0; _i < childrenLength; _i++) childArray[_i] = arguments[_i + 2];
 				Object.freeze && Object.freeze(childArray);
-				i.children = childArray;
+				i$2.children = childArray;
 			}
-			if (type && type.defaultProps) for (propName in childrenLength = type.defaultProps, childrenLength) void 0 === i[propName] && (i[propName] = childrenLength[propName]);
-			key && defineKeyPropWarningGetter(i, "function" === typeof type ? type.displayName || type.name || "Unknown" : type);
+			if (type && type.defaultProps) for (propName in childrenLength = type.defaultProps, childrenLength) void 0 === i$2[propName] && (i$2[propName] = childrenLength[propName]);
+			key && defineKeyPropWarningGetter(i$2, "function" === typeof type ? type.displayName || type.name || "Unknown" : type);
 			var propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-			return ReactElement(type, key, i, getOwner(), propName ? Error("react-stack-top-frame") : unknownOwnerDebugStack, propName ? createTask(getTaskName(type)) : unknownOwnerDebugTask);
+			return ReactElement(type, key, i$2, getOwner(), propName ? Error("react-stack-top-frame") : unknownOwnerDebugStack, propName ? createTask(getTaskName(type)) : unknownOwnerDebugTask);
 		};
 		exports.createRef = function() {
 			var refObject = { current: null };
@@ -973,7 +973,7 @@ var require_react_development = /* @__PURE__ */ __commonJSMin(((exports, module)
 			try {
 				var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
 				null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-				"object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop, reportGlobalError));
+				"object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop$2, reportGlobalError));
 			} catch (error) {
 				reportGlobalError(error);
 			} finally {
@@ -1063,7 +1063,7 @@ var require_react = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 */
 var require_react_dom_development = /* @__PURE__ */ __commonJSMin(((exports) => {
 	(function() {
-		function noop() {}
+		function noop$2() {}
 		function testStringCoercion(value) {
 			return "" + value;
 		}
@@ -1100,23 +1100,23 @@ var require_react_dom_development = /* @__PURE__ */ __commonJSMin(((exports) => 
 			return dispatcher;
 		}
 		"undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-		var React$2 = require_react(), Internals = {
+		var React$3 = require_react(), Internals = {
 			d: {
-				f: noop,
+				f: noop$2,
 				r: function() {
 					throw Error("Invalid form element. requestFormReset must be passed a form that was rendered by React.");
 				},
-				D: noop,
-				C: noop,
-				L: noop,
-				m: noop,
-				X: noop,
-				S: noop,
-				M: noop
+				D: noop$2,
+				C: noop$2,
+				L: noop$2,
+				m: noop$2,
+				X: noop$2,
+				S: noop$2,
+				M: noop$2
 			},
 			p: 0,
 			findDOMNode: null
-		}, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React$2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+		}, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React$3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
 		"function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills");
 		exports.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = Internals;
 		exports.createPortal = function(children, container) {
@@ -1132,23 +1132,23 @@ var require_react_dom_development = /* @__PURE__ */ __commonJSMin(((exports) => 
 				ReactSharedInternals.T = previousTransition, Internals.p = previousUpdatePriority, Internals.d.f() && console.error("flushSync was called from inside a lifecycle method. React cannot flush when React is already rendering. Consider moving this call to a scheduler task or micro task.");
 			}
 		};
-		exports.preconnect = function(href, options) {
-			"string" === typeof href && href ? null != options && "object" !== typeof options ? console.error("ReactDOM.preconnect(): Expected the `options` argument (second) to be an object but encountered %s instead. The only supported option at this time is `crossOrigin` which accepts a string.", getValueDescriptorExpectingEnumForWarning(options)) : null != options && "string" !== typeof options.crossOrigin && console.error("ReactDOM.preconnect(): Expected the `crossOrigin` option (second argument) to be a string but encountered %s instead. Try removing this option or passing a string value instead.", getValueDescriptorExpectingObjectForWarning(options.crossOrigin)) : console.error("ReactDOM.preconnect(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.", getValueDescriptorExpectingObjectForWarning(href));
-			"string" === typeof href && (options ? (options = options.crossOrigin, options = "string" === typeof options ? "use-credentials" === options ? options : "" : void 0) : options = null, Internals.d.C(href, options));
+		exports.preconnect = function(href, options$1) {
+			"string" === typeof href && href ? null != options$1 && "object" !== typeof options$1 ? console.error("ReactDOM.preconnect(): Expected the `options` argument (second) to be an object but encountered %s instead. The only supported option at this time is `crossOrigin` which accepts a string.", getValueDescriptorExpectingEnumForWarning(options$1)) : null != options$1 && "string" !== typeof options$1.crossOrigin && console.error("ReactDOM.preconnect(): Expected the `crossOrigin` option (second argument) to be a string but encountered %s instead. Try removing this option or passing a string value instead.", getValueDescriptorExpectingObjectForWarning(options$1.crossOrigin)) : console.error("ReactDOM.preconnect(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.", getValueDescriptorExpectingObjectForWarning(href));
+			"string" === typeof href && (options$1 ? (options$1 = options$1.crossOrigin, options$1 = "string" === typeof options$1 ? "use-credentials" === options$1 ? options$1 : "" : void 0) : options$1 = null, Internals.d.C(href, options$1));
 		};
 		exports.prefetchDNS = function(href) {
 			if ("string" !== typeof href || !href) console.error("ReactDOM.prefetchDNS(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.", getValueDescriptorExpectingObjectForWarning(href));
 			else if (1 < arguments.length) {
-				var options = arguments[1];
-				"object" === typeof options && options.hasOwnProperty("crossOrigin") ? console.error("ReactDOM.prefetchDNS(): Expected only one argument, `href`, but encountered %s as a second argument instead. This argument is reserved for future options and is currently disallowed. It looks like the you are attempting to set a crossOrigin property for this DNS lookup hint. Browsers do not perform DNS queries using CORS and setting this attribute on the resource hint has no effect. Try calling ReactDOM.prefetchDNS() with just a single string argument, `href`.", getValueDescriptorExpectingEnumForWarning(options)) : console.error("ReactDOM.prefetchDNS(): Expected only one argument, `href`, but encountered %s as a second argument instead. This argument is reserved for future options and is currently disallowed. Try calling ReactDOM.prefetchDNS() with just a single string argument, `href`.", getValueDescriptorExpectingEnumForWarning(options));
+				var options$1 = arguments[1];
+				"object" === typeof options$1 && options$1.hasOwnProperty("crossOrigin") ? console.error("ReactDOM.prefetchDNS(): Expected only one argument, `href`, but encountered %s as a second argument instead. This argument is reserved for future options and is currently disallowed. It looks like the you are attempting to set a crossOrigin property for this DNS lookup hint. Browsers do not perform DNS queries using CORS and setting this attribute on the resource hint has no effect. Try calling ReactDOM.prefetchDNS() with just a single string argument, `href`.", getValueDescriptorExpectingEnumForWarning(options$1)) : console.error("ReactDOM.prefetchDNS(): Expected only one argument, `href`, but encountered %s as a second argument instead. This argument is reserved for future options and is currently disallowed. Try calling ReactDOM.prefetchDNS() with just a single string argument, `href`.", getValueDescriptorExpectingEnumForWarning(options$1));
 			}
 			"string" === typeof href && Internals.d.D(href);
 		};
-		exports.preinit = function(href, options) {
-			"string" === typeof href && href ? null == options || "object" !== typeof options ? console.error("ReactDOM.preinit(): Expected the `options` argument (second) to be an object with an `as` property describing the type of resource to be preinitialized but encountered %s instead.", getValueDescriptorExpectingEnumForWarning(options)) : "style" !== options.as && "script" !== options.as && console.error("ReactDOM.preinit(): Expected the `as` property in the `options` argument (second) to contain a valid value describing the type of resource to be preinitialized but encountered %s instead. Valid values for `as` are \"style\" and \"script\".", getValueDescriptorExpectingEnumForWarning(options.as)) : console.error("ReactDOM.preinit(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.", getValueDescriptorExpectingObjectForWarning(href));
-			if ("string" === typeof href && options && "string" === typeof options.as) {
-				var as = options.as, crossOrigin = getCrossOriginStringAs(as, options.crossOrigin), integrity = "string" === typeof options.integrity ? options.integrity : void 0, fetchPriority = "string" === typeof options.fetchPriority ? options.fetchPriority : void 0;
-				"style" === as ? Internals.d.S(href, "string" === typeof options.precedence ? options.precedence : void 0, {
+		exports.preinit = function(href, options$1) {
+			"string" === typeof href && href ? null == options$1 || "object" !== typeof options$1 ? console.error("ReactDOM.preinit(): Expected the `options` argument (second) to be an object with an `as` property describing the type of resource to be preinitialized but encountered %s instead.", getValueDescriptorExpectingEnumForWarning(options$1)) : "style" !== options$1.as && "script" !== options$1.as && console.error("ReactDOM.preinit(): Expected the `as` property in the `options` argument (second) to contain a valid value describing the type of resource to be preinitialized but encountered %s instead. Valid values for `as` are \"style\" and \"script\".", getValueDescriptorExpectingEnumForWarning(options$1.as)) : console.error("ReactDOM.preinit(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.", getValueDescriptorExpectingObjectForWarning(href));
+			if ("string" === typeof href && options$1 && "string" === typeof options$1.as) {
+				var as = options$1.as, crossOrigin = getCrossOriginStringAs(as, options$1.crossOrigin), integrity = "string" === typeof options$1.integrity ? options$1.integrity : void 0, fetchPriority = "string" === typeof options$1.fetchPriority ? options$1.fetchPriority : void 0;
+				"style" === as ? Internals.d.S(href, "string" === typeof options$1.precedence ? options$1.precedence : void 0, {
 					crossOrigin,
 					integrity,
 					fetchPriority
@@ -1156,64 +1156,64 @@ var require_react_dom_development = /* @__PURE__ */ __commonJSMin(((exports) => 
 					crossOrigin,
 					integrity,
 					fetchPriority,
-					nonce: "string" === typeof options.nonce ? options.nonce : void 0
+					nonce: "string" === typeof options$1.nonce ? options$1.nonce : void 0
 				});
 			}
 		};
-		exports.preinitModule = function(href, options) {
+		exports.preinitModule = function(href, options$1) {
 			var encountered = "";
 			"string" === typeof href && href || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href) + ".");
-			void 0 !== options && "object" !== typeof options ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options) + "." : options && "as" in options && "script" !== options.as && (encountered += " The `as` option encountered was " + getValueDescriptorExpectingEnumForWarning(options.as) + ".");
+			void 0 !== options$1 && "object" !== typeof options$1 ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options$1) + "." : options$1 && "as" in options$1 && "script" !== options$1.as && (encountered += " The `as` option encountered was " + getValueDescriptorExpectingEnumForWarning(options$1.as) + ".");
 			if (encountered) console.error("ReactDOM.preinitModule(): Expected up to two arguments, a non-empty `href` string and, optionally, an `options` object with a valid `as` property.%s", encountered);
-			else switch (encountered = options && "string" === typeof options.as ? options.as : "script", encountered) {
+			else switch (encountered = options$1 && "string" === typeof options$1.as ? options$1.as : "script", encountered) {
 				case "script": break;
 				default: encountered = getValueDescriptorExpectingEnumForWarning(encountered), console.error("ReactDOM.preinitModule(): Currently the only supported \"as\" type for this function is \"script\" but received \"%s\" instead. This warning was generated for `href` \"%s\". In the future other module types will be supported, aligning with the import-attributes proposal. Learn more here: (https://github.com/tc39/proposal-import-attributes)", encountered, href);
 			}
-			if ("string" === typeof href) if ("object" === typeof options && null !== options) {
-				if (null == options.as || "script" === options.as) encountered = getCrossOriginStringAs(options.as, options.crossOrigin), Internals.d.M(href, {
+			if ("string" === typeof href) if ("object" === typeof options$1 && null !== options$1) {
+				if (null == options$1.as || "script" === options$1.as) encountered = getCrossOriginStringAs(options$1.as, options$1.crossOrigin), Internals.d.M(href, {
 					crossOrigin: encountered,
-					integrity: "string" === typeof options.integrity ? options.integrity : void 0,
-					nonce: "string" === typeof options.nonce ? options.nonce : void 0
+					integrity: "string" === typeof options$1.integrity ? options$1.integrity : void 0,
+					nonce: "string" === typeof options$1.nonce ? options$1.nonce : void 0
 				});
-			} else options ?? Internals.d.M(href);
+			} else options$1 ?? Internals.d.M(href);
 		};
-		exports.preload = function(href, options) {
+		exports.preload = function(href, options$1) {
 			var encountered = "";
 			"string" === typeof href && href || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href) + ".");
-			null == options || "object" !== typeof options ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options) + "." : "string" === typeof options.as && options.as || (encountered += " The `as` option encountered was " + getValueDescriptorExpectingObjectForWarning(options.as) + ".");
+			null == options$1 || "object" !== typeof options$1 ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options$1) + "." : "string" === typeof options$1.as && options$1.as || (encountered += " The `as` option encountered was " + getValueDescriptorExpectingObjectForWarning(options$1.as) + ".");
 			encountered && console.error("ReactDOM.preload(): Expected two arguments, a non-empty `href` string and an `options` object with an `as` property valid for a `<link rel=\"preload\" as=\"...\" />` tag.%s", encountered);
-			if ("string" === typeof href && "object" === typeof options && null !== options && "string" === typeof options.as) {
-				encountered = options.as;
-				var crossOrigin = getCrossOriginStringAs(encountered, options.crossOrigin);
+			if ("string" === typeof href && "object" === typeof options$1 && null !== options$1 && "string" === typeof options$1.as) {
+				encountered = options$1.as;
+				var crossOrigin = getCrossOriginStringAs(encountered, options$1.crossOrigin);
 				Internals.d.L(href, encountered, {
 					crossOrigin,
-					integrity: "string" === typeof options.integrity ? options.integrity : void 0,
-					nonce: "string" === typeof options.nonce ? options.nonce : void 0,
-					type: "string" === typeof options.type ? options.type : void 0,
-					fetchPriority: "string" === typeof options.fetchPriority ? options.fetchPriority : void 0,
-					referrerPolicy: "string" === typeof options.referrerPolicy ? options.referrerPolicy : void 0,
-					imageSrcSet: "string" === typeof options.imageSrcSet ? options.imageSrcSet : void 0,
-					imageSizes: "string" === typeof options.imageSizes ? options.imageSizes : void 0,
-					media: "string" === typeof options.media ? options.media : void 0
+					integrity: "string" === typeof options$1.integrity ? options$1.integrity : void 0,
+					nonce: "string" === typeof options$1.nonce ? options$1.nonce : void 0,
+					type: "string" === typeof options$1.type ? options$1.type : void 0,
+					fetchPriority: "string" === typeof options$1.fetchPriority ? options$1.fetchPriority : void 0,
+					referrerPolicy: "string" === typeof options$1.referrerPolicy ? options$1.referrerPolicy : void 0,
+					imageSrcSet: "string" === typeof options$1.imageSrcSet ? options$1.imageSrcSet : void 0,
+					imageSizes: "string" === typeof options$1.imageSizes ? options$1.imageSizes : void 0,
+					media: "string" === typeof options$1.media ? options$1.media : void 0
 				});
 			}
 		};
-		exports.preloadModule = function(href, options) {
+		exports.preloadModule = function(href, options$1) {
 			var encountered = "";
 			"string" === typeof href && href || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href) + ".");
-			void 0 !== options && "object" !== typeof options ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options) + "." : options && "as" in options && "string" !== typeof options.as && (encountered += " The `as` option encountered was " + getValueDescriptorExpectingObjectForWarning(options.as) + ".");
+			void 0 !== options$1 && "object" !== typeof options$1 ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options$1) + "." : options$1 && "as" in options$1 && "string" !== typeof options$1.as && (encountered += " The `as` option encountered was " + getValueDescriptorExpectingObjectForWarning(options$1.as) + ".");
 			encountered && console.error("ReactDOM.preloadModule(): Expected two arguments, a non-empty `href` string and, optionally, an `options` object with an `as` property valid for a `<link rel=\"modulepreload\" as=\"...\" />` tag.%s", encountered);
-			"string" === typeof href && (options ? (encountered = getCrossOriginStringAs(options.as, options.crossOrigin), Internals.d.m(href, {
-				as: "string" === typeof options.as && "script" !== options.as ? options.as : void 0,
+			"string" === typeof href && (options$1 ? (encountered = getCrossOriginStringAs(options$1.as, options$1.crossOrigin), Internals.d.m(href, {
+				as: "string" === typeof options$1.as && "script" !== options$1.as ? options$1.as : void 0,
 				crossOrigin: encountered,
-				integrity: "string" === typeof options.integrity ? options.integrity : void 0
+				integrity: "string" === typeof options$1.integrity ? options$1.integrity : void 0
 			})) : Internals.d.m(href));
 		};
 		exports.requestFormReset = function(form) {
 			Internals.d.r(form);
 		};
-		exports.unstable_batchedUpdates = function(fn, a) {
-			return fn(a);
+		exports.unstable_batchedUpdates = function(fn, a$1) {
+			return fn(a$1);
 		};
 		exports.useFormState = function(action, initialState, permalink) {
 			return resolveDispatcher().useFormState(action, initialState, permalink);
@@ -1252,7 +1252,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function copyWithRename(obj, oldPath, newPath) {
 			if (oldPath.length !== newPath.length) console.warn("copyWithRename() expects paths of the same length");
 			else {
-				for (var i = 0; i < newPath.length - 1; i++) if (oldPath[i] !== newPath[i]) {
+				for (var i$2 = 0; i$2 < newPath.length - 1; i$2++) if (oldPath[i$2] !== newPath[i$2]) {
 					console.warn("copyWithRename() expects paths to be the same except for the deepest key");
 					return;
 				}
@@ -1282,14 +1282,14 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function warnInvalidContextAccess() {
 			console.error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
 		}
-		function noop() {}
+		function noop$2() {}
 		function warnForMissingKey() {}
-		function setToSortedString(set) {
-			var array = [];
-			set.forEach(function(value) {
-				array.push(value);
+		function setToSortedString(set$1) {
+			var array$1 = [];
+			set$1.forEach(function(value) {
+				array$1.push(value);
 			});
-			return array.sort().join(", ");
+			return array$1.sort().join(", ");
 		}
 		function createFiber(tag, pendingProps, key, mode) {
 			return new FiberNode(tag, pendingProps, key, mode);
@@ -1349,55 +1349,55 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				if (null === alternate) throw Error("Unable to find node on an unmounted component.");
 				return alternate !== fiber ? null : fiber;
 			}
-			for (var a = fiber, b$1 = alternate;;) {
-				var parentA = a.return;
+			for (var a$1 = fiber, b$1 = alternate;;) {
+				var parentA = a$1.return;
 				if (null === parentA) break;
 				var parentB = parentA.alternate;
 				if (null === parentB) {
 					b$1 = parentA.return;
 					if (null !== b$1) {
-						a = b$1;
+						a$1 = b$1;
 						continue;
 					}
 					break;
 				}
 				if (parentA.child === parentB.child) {
 					for (parentB = parentA.child; parentB;) {
-						if (parentB === a) return assertIsMounted(parentA), fiber;
+						if (parentB === a$1) return assertIsMounted(parentA), fiber;
 						if (parentB === b$1) return assertIsMounted(parentA), alternate;
 						parentB = parentB.sibling;
 					}
 					throw Error("Unable to find node on an unmounted component.");
 				}
-				if (a.return !== b$1.return) a = parentA, b$1 = parentB;
+				if (a$1.return !== b$1.return) a$1 = parentA, b$1 = parentB;
 				else {
 					for (var didFindChild = !1, _child = parentA.child; _child;) {
-						if (_child === a) {
+						if (_child === a$1) {
 							didFindChild = !0;
-							a = parentA;
+							a$1 = parentA;
 							b$1 = parentB;
 							break;
 						}
 						if (_child === b$1) {
 							didFindChild = !0;
 							b$1 = parentA;
-							a = parentB;
+							a$1 = parentB;
 							break;
 						}
 						_child = _child.sibling;
 					}
 					if (!didFindChild) {
 						for (_child = parentB.child; _child;) {
-							if (_child === a) {
+							if (_child === a$1) {
 								didFindChild = !0;
-								a = parentB;
+								a$1 = parentB;
 								b$1 = parentA;
 								break;
 							}
 							if (_child === b$1) {
 								didFindChild = !0;
 								b$1 = parentB;
-								a = parentA;
+								a$1 = parentA;
 								break;
 							}
 							_child = _child.sibling;
@@ -1405,10 +1405,10 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 						if (!didFindChild) throw Error("Child was not found in either parent set. This indicates a bug in React related to the return pointer. Please file an issue.");
 					}
 				}
-				if (a.alternate !== b$1) throw Error("Return fibers should always be each others' alternates. This error is likely caused by a bug in React. Please file an issue.");
+				if (a$1.alternate !== b$1) throw Error("Return fibers should always be each others' alternates. This error is likely caused by a bug in React. Please file an issue.");
 			}
-			if (3 !== a.tag) throw Error("Unable to find node on an unmounted component.");
-			return a.stateNode.current === a ? fiber : alternate;
+			if (3 !== a$1.tag) throw Error("Unable to find node on an unmounted component.");
+			return a$1.stateNode.current === a$1 ? fiber : alternate;
 		}
 		function findCurrentHostFiberImpl(node) {
 			var tag = node.tag;
@@ -1493,7 +1493,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				case 29:
 					type = fiber._debugInfo;
 					if (null != type) {
-						for (var i = type.length - 1; 0 <= i; i--) if ("string" === typeof type[i].name) return type[i].name;
+						for (var i$2 = type.length - 1; 0 <= i$2; i$2--) if ("string" === typeof type[i$2].name) return type[i$2].name;
 					}
 					if (null !== fiber.return) return getComponentNameFromFiber(fiber.return);
 			}
@@ -1741,8 +1741,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				do {
 					info += describeFiber(workInProgress$1, previous);
 					var debugInfo = workInProgress$1._debugInfo;
-					if (debugInfo) for (var i = debugInfo.length - 1; 0 <= i; i--) {
-						var entry = debugInfo[i];
+					if (debugInfo) for (var i$2 = debugInfo.length - 1; 0 <= i$2; i$2--) {
+						var entry = debugInfo[i$2];
 						if ("string" === typeof entry.name) {
 							var JSCompiler_temp_const = info;
 							a: {
@@ -1859,13 +1859,13 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function checkFormFieldValueStringCoercion(value) {
 			if (willCoercionThrow(value)) return console.error("Form field values (value, checked, defaultValue, or defaultChecked props) must be strings, not %s. This value must be coerced to a string before using it here.", typeName(value)), testStringCoercion(value);
 		}
-		function injectInternals(internals) {
+		function injectInternals(internals$1) {
 			if ("undefined" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
 			var hook = __REACT_DEVTOOLS_GLOBAL_HOOK__;
 			if (hook.isDisabled) return !0;
 			if (!hook.supportsFiber) return console.error("The installed version of React DevTools is too old and will not work with the current version of React. Please update React DevTools. https://react.dev/link/react-devtools"), !0;
 			try {
-				rendererID = hook.inject(internals), injectedHook = hook;
+				rendererID = hook.inject(internals$1), injectedHook = hook;
 			} catch (err) {
 				console.error("React instrumentation encountered an error: %o.", err);
 			}
@@ -1976,7 +1976,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			return lane;
 		}
 		function createLaneMap(initial) {
-			for (var laneMap = [], i = 0; 31 > i; i++) laneMap.push(initial);
+			for (var laneMap = [], i$2 = 0; 31 > i$2; i$2++) laneMap.push(initial);
 			return laneMap;
 		}
 		function markRootUpdated$1(root$1, updateLane) {
@@ -2259,16 +2259,16 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function trackValueOnNode(node, valueField, currentValue) {
 			var descriptor = Object.getOwnPropertyDescriptor(node.constructor.prototype, valueField);
 			if (!node.hasOwnProperty(valueField) && "undefined" !== typeof descriptor && "function" === typeof descriptor.get && "function" === typeof descriptor.set) {
-				var get = descriptor.get, set = descriptor.set;
+				var get$2 = descriptor.get, set$1 = descriptor.set;
 				Object.defineProperty(node, valueField, {
 					configurable: !0,
 					get: function() {
-						return get.call(this);
+						return get$2.call(this);
 					},
 					set: function(value) {
 						checkFormFieldValueStringCoercion(value);
 						currentValue = "" + value;
-						set.call(this, value);
+						set$1.call(this, value);
 					}
 				});
 				Object.defineProperty(node, valueField, { enumerable: descriptor.enumerable });
@@ -2356,7 +2356,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			"number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
 		}
 		function validateOptionProps(element, props) {
-			props.value ?? ("object" === typeof props.children && null !== props.children ? React$2.Children.forEach(props.children, function(child) {
+			props.value ?? ("object" === typeof props.children && null !== props.children ? React$3.Children.forEach(props.children, function(child) {
 				null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = !0, console.error("Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."));
 			}) : null == props.dangerouslySetInnerHTML || didWarnInvalidInnerHTML || (didWarnInvalidInnerHTML = !0, console.error("Pass a `value` prop if you set dangerouslyInnerHTML so React knows which value should be selected.")));
 			null == props.selected || didWarnSelectedSetOnOption || (console.error("Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>."), didWarnSelectedSetOnOption = !0);
@@ -2369,18 +2369,18 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			node = node.options;
 			if (multiple) {
 				multiple = {};
-				for (var i = 0; i < propValue.length; i++) multiple["$" + propValue[i]] = !0;
-				for (propValue = 0; propValue < node.length; propValue++) i = multiple.hasOwnProperty("$" + node[propValue].value), node[propValue].selected !== i && (node[propValue].selected = i), i && setDefaultSelected && (node[propValue].defaultSelected = !0);
+				for (var i$2 = 0; i$2 < propValue.length; i$2++) multiple["$" + propValue[i$2]] = !0;
+				for (propValue = 0; propValue < node.length; propValue++) i$2 = multiple.hasOwnProperty("$" + node[propValue].value), node[propValue].selected !== i$2 && (node[propValue].selected = i$2), i$2 && setDefaultSelected && (node[propValue].defaultSelected = !0);
 			} else {
 				propValue = "" + getToStringValue(propValue);
 				multiple = null;
-				for (i = 0; i < node.length; i++) {
-					if (node[i].value === propValue) {
-						node[i].selected = !0;
-						setDefaultSelected && (node[i].defaultSelected = !0);
+				for (i$2 = 0; i$2 < node.length; i$2++) {
+					if (node[i$2].value === propValue) {
+						node[i$2].selected = !0;
+						setDefaultSelected && (node[i$2].defaultSelected = !0);
 						return;
 					}
-					null !== multiple || node[i].disabled || (multiple = node[i]);
+					null !== multiple || node[i$2].disabled || (multiple = node[i$2]);
 				}
 				null !== multiple && (multiple.selected = !0);
 			}
@@ -2466,8 +2466,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			}
 			return indentation(indent) + describeTextNode(clientText, maxLength) + "\n";
 		}
-		function objectName(object) {
-			return Object.prototype.toString.call(object).replace(/^\[object (.*)\]$/, function(m, p0) {
+		function objectName(object$1) {
+			return Object.prototype.toString.call(object$1).replace(/^\[object (.*)\]$/, function(m, p0) {
 				return p0;
 			});
 		}
@@ -2570,18 +2570,18 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			if (skipToNode !== node && (1 !== node.children.length || node.children[0] !== skipToNode)) return indentation(indent) + "...\n" + describeNode(skipToNode, indent + 1);
 			skipToNode = "";
 			var debugInfo = node.fiber._debugInfo;
-			if (debugInfo) for (var i = 0; i < debugInfo.length; i++) {
-				var serverComponentName = debugInfo[i].name;
+			if (debugInfo) for (var i$2 = 0; i$2 < debugInfo.length; i$2++) {
+				var serverComponentName = debugInfo[i$2].name;
 				"string" === typeof serverComponentName && (skipToNode += indentation(indent) + "<" + serverComponentName + ">\n", indent++);
 			}
 			debugInfo = "";
-			i = node.fiber.pendingProps;
-			if (6 === node.fiber.tag) debugInfo = describeTextDiff(i, node.serverProps, indent), indent++;
+			i$2 = node.fiber.pendingProps;
+			if (6 === node.fiber.tag) debugInfo = describeTextDiff(i$2, node.serverProps, indent), indent++;
 			else if (serverComponentName = describeFiberType(node.fiber), null !== serverComponentName) if (void 0 === node.serverProps) {
 				debugInfo = indent;
 				var maxLength = 120 - 2 * debugInfo - serverComponentName.length - 2, content = "";
-				for (propName in i) if (i.hasOwnProperty(propName) && "children" !== propName) {
-					var propValue = describePropValue(i[propName], 15);
+				for (propName in i$2) if (i$2.hasOwnProperty(propName) && "children" !== propName) {
+					var propValue = describePropValue(i$2[propName], 15);
 					maxLength -= propName.length + propValue.length + 2;
 					if (0 > maxLength) {
 						content += " ...";
@@ -2591,14 +2591,14 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				}
 				debugInfo = indentation(debugInfo) + "<" + serverComponentName + content + ">\n";
 				indent++;
-			} else null === node.serverProps ? (debugInfo = describeExpandedElement(serverComponentName, i, added(indent)), indent++) : "string" === typeof node.serverProps ? console.error("Should not have matched a non HostText fiber to a Text node. This is a bug in React.") : (debugInfo = describeElementDiff(serverComponentName, i, node.serverProps, indent), indent++);
+			} else null === node.serverProps ? (debugInfo = describeExpandedElement(serverComponentName, i$2, added(indent)), indent++) : "string" === typeof node.serverProps ? console.error("Should not have matched a non HostText fiber to a Text node. This is a bug in React.") : (debugInfo = describeElementDiff(serverComponentName, i$2, node.serverProps, indent), indent++);
 			var propName = "";
-			i = node.fiber.child;
-			for (serverComponentName = 0; i && serverComponentName < node.children.length;) maxLength = node.children[serverComponentName], maxLength.fiber === i ? (propName += describeNode(maxLength, indent), serverComponentName++) : propName += describeSiblingFiber(i, indent), i = i.sibling;
-			i && 0 < node.children.length && (propName += indentation(indent) + "...\n");
-			i = node.serverTail;
+			i$2 = node.fiber.child;
+			for (serverComponentName = 0; i$2 && serverComponentName < node.children.length;) maxLength = node.children[serverComponentName], maxLength.fiber === i$2 ? (propName += describeNode(maxLength, indent), serverComponentName++) : propName += describeSiblingFiber(i$2, indent), i$2 = i$2.sibling;
+			i$2 && 0 < node.children.length && (propName += indentation(indent) + "...\n");
+			i$2 = node.serverTail;
 			null === node.serverProps && indent--;
-			for (node = 0; node < i.length; node++) serverComponentName = i[node], propName = "string" === typeof serverComponentName ? propName + (removed(indent) + describeTextNode(serverComponentName, 120 - 2 * indent) + "\n") : propName + describeExpandedElement(serverComponentName.type, serverComponentName.props, removed(indent));
+			for (node = 0; node < i$2.length; node++) serverComponentName = i$2[node], propName = "string" === typeof serverComponentName ? propName + (removed(indent) + describeTextNode(serverComponentName, 120 - 2 * indent) + "\n") : propName + describeExpandedElement(serverComponentName.type, serverComponentName.props, removed(indent));
 			return skipToNode + debugInfo + propName;
 		}
 		function describeDiff(rootNode) {
@@ -2774,8 +2774,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			}
 			node.textContent = text;
 		}
-		function camelize(string) {
-			return string.replace(hyphenPattern, function(_$1, character) {
+		function camelize(string$2) {
+			return string$2.replace(hyphenPattern, function(_$1, character) {
 				return character.toUpperCase();
 			});
 		}
@@ -2792,17 +2792,17 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				if (styles) {
 					var expandedUpdates = {};
 					if (prevStyles) {
-						for (var key in prevStyles) if (prevStyles.hasOwnProperty(key) && !styles.hasOwnProperty(key)) for (var longhands = shorthandToLonghand[key] || [key], i = 0; i < longhands.length; i++) expandedUpdates[longhands[i]] = key;
+						for (var key in prevStyles) if (prevStyles.hasOwnProperty(key) && !styles.hasOwnProperty(key)) for (var longhands = shorthandToLonghand[key] || [key], i$2 = 0; i$2 < longhands.length; i$2++) expandedUpdates[longhands[i$2]] = key;
 					}
 					for (var _key in styles) if (styles.hasOwnProperty(_key) && (!prevStyles || prevStyles[_key] !== styles[_key])) for (key = shorthandToLonghand[_key] || [_key], longhands = 0; longhands < key.length; longhands++) expandedUpdates[key[longhands]] = _key;
 					_key = {};
 					for (var key$jscomp$0 in styles) for (key = shorthandToLonghand[key$jscomp$0] || [key$jscomp$0], longhands = 0; longhands < key.length; longhands++) _key[key[longhands]] = key$jscomp$0;
 					key$jscomp$0 = {};
-					for (var _key2 in expandedUpdates) if (key = expandedUpdates[_key2], (longhands = _key[_key2]) && key !== longhands && (i = key + "," + longhands, !key$jscomp$0[i])) {
-						key$jscomp$0[i] = !0;
-						i = console;
+					for (var _key2 in expandedUpdates) if (key = expandedUpdates[_key2], (longhands = _key[_key2]) && key !== longhands && (i$2 = key + "," + longhands, !key$jscomp$0[i$2])) {
+						key$jscomp$0[i$2] = !0;
+						i$2 = console;
 						var value = styles[key];
-						i.error.call(i, "%s a style property during rerender (%s) when a conflicting property is set (%s) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.", null == value || "boolean" === typeof value || "" === value ? "Removing" : "Updating", key, longhands);
+						i$2.error.call(i$2, "%s a style property during rerender (%s) when a conflicting property is set (%s) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.", null == value || "boolean" === typeof value || "" === value ? "Removing" : "Updating", key, longhands);
 					}
 				}
 				for (var styleName in prevStyles) !prevStyles.hasOwnProperty(styleName) || null != styles && styles.hasOwnProperty(styleName) || (0 === styleName.indexOf("--") ? node.setProperty(styleName, "") : "float" === styleName ? node.cssFloat = "" : node[styleName] = "");
@@ -2979,7 +2979,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function sanitizeURL(url) {
 			return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
 		}
-		function noop$1() {}
+		function noop$1$1() {}
 		function getEventTarget(nativeEvent) {
 			nativeEvent = nativeEvent.target || nativeEvent.srcElement || window;
 			nativeEvent.correspondingUseElement && (nativeEvent = nativeEvent.correspondingUseElement);
@@ -3015,14 +3015,14 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				}
 			}
 		}
-		function batchedUpdates$1(fn, a, b$1) {
-			if (isInsideEventHandler) return fn(a, b$1);
+		function batchedUpdates$1(fn, a$1, b$1) {
+			if (isInsideEventHandler) return fn(a$1, b$1);
 			isInsideEventHandler = !0;
 			try {
-				return fn(a);
+				return fn(a$1);
 			} finally {
 				if (isInsideEventHandler = !1, null !== restoreTarget || null !== restoreQueue) {
-					if (flushSyncWork$1(), restoreTarget && (a = restoreTarget, fn = restoreQueue, restoreQueue = restoreTarget = null, restoreStateOfTarget(a), fn)) for (a = 0; a < fn.length; a++) restoreStateOfTarget(fn[a]);
+					if (flushSyncWork$1(), restoreTarget && (a$1 = restoreTarget, fn = restoreQueue, restoreQueue = restoreTarget = null, restoreStateOfTarget(a$1), fn)) for (a$1 = 0; a$1 < fn.length; a$1++) restoreStateOfTarget(fn[a$1]);
 				}
 			}
 		}
@@ -3294,9 +3294,9 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			topLevelEventsToReactNames.set(domEventName, reactName);
 			registerTwoPhaseEvent(reactName, [domEventName]);
 		}
-		function getArrayKind(array) {
-			for (var kind = EMPTY_ARRAY, i = 0; i < array.length; i++) {
-				var value = array[i];
+		function getArrayKind(array$1) {
+			for (var kind = EMPTY_ARRAY, i$2 = 0; i$2 < array$1.length; i$2++) {
+				var value = array$1[i$2];
 				if ("object" === typeof value && null !== value) if (isArrayImpl(value) && 2 === value.length && "string" === typeof value[0]) {
 					if (kind !== EMPTY_ARRAY && kind !== ENTRIES_ARRAY) return COMPLEX_ARRAY;
 					kind = ENTRIES_ARRAY;
@@ -3308,8 +3308,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			}
 			return kind;
 		}
-		function addObjectToProperties(object, properties, indent, prefix$1) {
-			for (var key in object) hasOwnProperty.call(object, key) && "_" !== key[0] && addValueToProperties(key, object[key], properties, indent, prefix$1);
+		function addObjectToProperties(object$1, properties, indent, prefix$1) {
+			for (var key in object$1) hasOwnProperty.call(object$1, key) && "_" !== key[0] && addValueToProperties(key, object$1[key], properties, indent, prefix$1);
 		}
 		function addValueToProperties(propertyName, value, properties, indent, prefix$1) {
 			switch (typeof value) {
@@ -3451,8 +3451,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			if (supportsUserTiming) {
 				var name = getComponentNameFromFiber(fiber);
 				if (null !== name) {
-					for (var debugTask = null, properties = [], i = 0; i < errors.length; i++) {
-						var capturedValue = errors[i];
+					for (var debugTask = null, properties = [], i$2 = 0; i$2 < errors.length; i$2++) {
+						var capturedValue = errors[i$2];
 						null == debugTask && null !== capturedValue.source && (debugTask = capturedValue.source._debugTask);
 						capturedValue = capturedValue.value;
 						properties.push(["Error", "object" === typeof capturedValue && null !== capturedValue && "string" === typeof capturedValue.message ? String(capturedValue.message) : String(capturedValue)]);
@@ -3480,8 +3480,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					var name = getComponentNameFromFiber(fiber);
 					if (null !== name) {
 						selfTime = [];
-						for (var i = 0; i < errors.length; i++) {
-							var error = errors[i].value;
+						for (var i$2 = 0; i$2 < errors.length; i$2++) {
+							var error = errors[i$2].value;
 							selfTime.push(["Error", "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error)]);
 						}
 						null !== fiber.key && addValueToProperties("key", fiber.key, selfTime, 0, "");
@@ -3517,8 +3517,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function logRecoveredRenderPhase(startTime, endTime, lanes, recoverableErrors, hydrationFailed, debugTask) {
 			if (supportsUserTiming && !(endTime <= startTime)) {
 				lanes = [];
-				for (var i = 0; i < recoverableErrors.length; i++) {
-					var error = recoverableErrors[i].value;
+				for (var i$2 = 0; i$2 < recoverableErrors.length; i$2++) {
+					var error = recoverableErrors[i$2].value;
 					lanes.push(["Recoverable Error", "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error)]);
 				}
 				startTime = {
@@ -3543,8 +3543,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function logCommitErrored(startTime, endTime, errors, passive, debugTask) {
 			if (supportsUserTiming && !(endTime <= startTime)) {
-				for (var properties = [], i = 0; i < errors.length; i++) {
-					var error = errors[i].value;
+				for (var properties = [], i$2 = 0; i$2 < errors.length; i$2++) {
+					var error = errors[i$2].value;
 					properties.push(["Error", "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error)]);
 				}
 				startTime = {
@@ -3565,15 +3565,15 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			!supportsUserTiming || endTime <= startTime || (debugTask ? debugTask.run(console.timeStamp.bind(console, "Animating", startTime, endTime, currentTrack, LANES_TRACK_GROUP, "secondary-dark")) : console.timeStamp("Animating", startTime, endTime, currentTrack, LANES_TRACK_GROUP, "secondary-dark"));
 		}
 		function finishQueueingConcurrentUpdates() {
-			for (var endIndex = concurrentQueuesIndex, i = concurrentlyUpdatedLanes = concurrentQueuesIndex = 0; i < endIndex;) {
-				var fiber = concurrentQueues[i];
-				concurrentQueues[i++] = null;
-				var queue = concurrentQueues[i];
-				concurrentQueues[i++] = null;
-				var update = concurrentQueues[i];
-				concurrentQueues[i++] = null;
-				var lane = concurrentQueues[i];
-				concurrentQueues[i++] = null;
+			for (var endIndex = concurrentQueuesIndex, i$2 = concurrentlyUpdatedLanes = concurrentQueuesIndex = 0; i$2 < endIndex;) {
+				var fiber = concurrentQueues[i$2];
+				concurrentQueues[i$2++] = null;
+				var queue = concurrentQueues[i$2];
+				concurrentQueues[i$2++] = null;
+				var update = concurrentQueues[i$2];
+				concurrentQueues[i$2++] = null;
+				var lane = concurrentQueues[i$2];
+				concurrentQueues[i$2++] = null;
 				if (null !== queue && null !== update) {
 					var pending = queue.pending;
 					null === pending ? update.next = update : (update.next = pending.next, pending.next = update);
@@ -3604,8 +3604,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			sourceFiber.lanes |= lane;
 			var alternate = sourceFiber.alternate;
 			null !== alternate && (alternate.lanes |= lane);
-			for (var isHidden = !1, parent = sourceFiber.return; null !== parent;) parent.childLanes |= lane, alternate = parent.alternate, null !== alternate && (alternate.childLanes |= lane), 22 === parent.tag && (sourceFiber = parent.stateNode, null === sourceFiber || sourceFiber._visibility & OffscreenVisible || (isHidden = !0)), sourceFiber = parent, parent = parent.return;
-			return 3 === sourceFiber.tag ? (parent = sourceFiber.stateNode, isHidden && null !== update && (isHidden = 31 - clz32(lane), sourceFiber = parent.hiddenUpdates, alternate = sourceFiber[isHidden], null === alternate ? sourceFiber[isHidden] = [update] : alternate.push(update), update.lane = lane | 536870912), parent) : null;
+			for (var isHidden$1 = !1, parent = sourceFiber.return; null !== parent;) parent.childLanes |= lane, alternate = parent.alternate, null !== alternate && (alternate.childLanes |= lane), 22 === parent.tag && (sourceFiber = parent.stateNode, null === sourceFiber || sourceFiber._visibility & OffscreenVisible || (isHidden$1 = !0)), sourceFiber = parent, parent = parent.return;
+			return 3 === sourceFiber.tag ? (parent = sourceFiber.stateNode, isHidden$1 && null !== update && (isHidden$1 = 31 - clz32(lane), sourceFiber = parent.hiddenUpdates, alternate = sourceFiber[isHidden$1], null === alternate ? sourceFiber[isHidden$1] = [update] : alternate.push(update), update.lane = lane | 536870912), parent) : null;
 		}
 		function getRootForUpdatedFiber(sourceFiber) {
 			if (nestedUpdateCount > NESTED_UPDATE_LIMIT) throw nestedPassiveUpdateCount = nestedUpdateCount = 0, rootWithPassiveNestedUpdates = rootWithNestedUpdates = null, Error("Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.");
@@ -3995,7 +3995,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				case "textarea": checkControlledValueProps("textarea", props), listenToNonDelegatedEvent("invalid", didHydrate), validateTextareaProps(didHydrate, props), initTextarea(didHydrate, props.value, props.defaultValue, props.children);
 			}
 			type = props.children;
-			"string" !== typeof type && "number" !== typeof type && "bigint" !== typeof type || didHydrate.textContent === "" + type || !0 === props.suppressHydrationWarning || checkForUnmatchedText(didHydrate.textContent, type) ? (null != props.popover && (listenToNonDelegatedEvent("beforetoggle", didHydrate), listenToNonDelegatedEvent("toggle", didHydrate)), null != props.onScroll && listenToNonDelegatedEvent("scroll", didHydrate), null != props.onScrollEnd && listenToNonDelegatedEvent("scrollend", didHydrate), null != props.onClick && (didHydrate.onclick = noop$1), didHydrate = !0) : didHydrate = !1;
+			"string" !== typeof type && "number" !== typeof type && "bigint" !== typeof type || didHydrate.textContent === "" + type || !0 === props.suppressHydrationWarning || checkForUnmatchedText(didHydrate.textContent, type) ? (null != props.popover && (listenToNonDelegatedEvent("beforetoggle", didHydrate), listenToNonDelegatedEvent("toggle", didHydrate)), null != props.onScroll && listenToNonDelegatedEvent("scroll", didHydrate), null != props.onScrollEnd && listenToNonDelegatedEvent("scrollend", didHydrate), null != props.onClick && (didHydrate.onclick = noop$1$1), didHydrate = !0) : didHydrate = !1;
 			didHydrate || throwOnHydrationMismatch(fiber, !0);
 		}
 		function popToNextHostParent(fiber) {
@@ -4102,7 +4102,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					a: for (; null !== list;) {
 						var dependency = list;
 						list = fiber;
-						for (var i = 0; i < contexts.length; i++) if (dependency.context === contexts[i]) {
+						for (var i$2 = 0; i$2 < contexts.length; i$2++) if (dependency.context === contexts[i$2]) {
 							list.lanes |= renderLanes$1;
 							dependency = list.alternate;
 							null !== dependency && (dependency.lanes |= renderLanes$1);
@@ -4358,7 +4358,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				currentEntangledListeners = null;
 				currentEntangledLane = 0;
 				currentEntangledActionThenable = null;
-				for (var i = 0; i < listeners$1.length; i++) (0, listeners$1[i])();
+				for (var i$2 = 0; i$2 < listeners$1.length; i$2++) (0, listeners$1[i$2])();
 			}
 		}
 		function chainThenableValue(thenable, result) {
@@ -4373,7 +4373,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			thenable.then(function() {
 				thenableWithOverride.status = "fulfilled";
 				thenableWithOverride.value = result;
-				for (var i = 0; i < listeners$1.length; i++) (0, listeners$1[i])(result);
+				for (var i$2 = 0; i$2 < listeners$1.length; i$2++) (0, listeners$1[i$2])(result);
 			}, function(error) {
 				thenableWithOverride.status = "rejected";
 				thenableWithOverride.reason = error;
@@ -4409,7 +4409,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			null !== ReactSharedInternals.actQueue && (ReactSharedInternals.didUsePromise = !0);
 			var trackedThenables = thenableState$2.thenables;
 			index$1 = trackedThenables[index$1];
-			void 0 === index$1 ? trackedThenables.push(thenable) : index$1 !== thenable && (thenableState$2.didWarnAboutUncachedPromise || (thenableState$2.didWarnAboutUncachedPromise = !0, console.error("A component was suspended by an uncached promise. Creating promises inside a Client Component or hook is not yet supported, except via a Suspense-compatible library or framework.")), thenable.then(noop$1, noop$1), thenable = index$1);
+			void 0 === index$1 ? trackedThenables.push(thenable) : index$1 !== thenable && (thenableState$2.didWarnAboutUncachedPromise || (thenableState$2.didWarnAboutUncachedPromise = !0, console.error("A component was suspended by an uncached promise. Creating promises inside a Client Component or hook is not yet supported, except via a Suspense-compatible library or framework.")), thenable.then(noop$1$1, noop$1$1), thenable = index$1);
 			if (void 0 === thenable._debugInfo) {
 				thenableState$2 = performance.now();
 				trackedThenables = thenable.displayName;
@@ -4428,7 +4428,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				case "fulfilled": return thenable.value;
 				case "rejected": throw thenableState$2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState$2), thenableState$2;
 				default:
-					if ("string" === typeof thenable.status) thenable.then(noop$1, noop$1);
+					if ("string" === typeof thenable.status) thenable.then(noop$1$1, noop$1$1);
 					else {
 						thenableState$2 = workInProgressRoot;
 						if (null !== thenableState$2 && 100 < thenableState$2.shellSuspendCounter) throw Error("An unknown Component is an async Client Component. Only Server Components can be async at the moment. This error is often caused by accidentally adding `'use client'` to a module that was originally written for the server.");
@@ -4483,16 +4483,16 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function getCurrentDebugTask() {
 			var debugInfo = currentDebugInfo;
 			if (null != debugInfo) {
-				for (var i = debugInfo.length - 1; 0 <= i; i--) if (null != debugInfo[i].name) {
-					var debugTask = debugInfo[i].debugTask;
+				for (var i$2 = debugInfo.length - 1; 0 <= i$2; i$2--) if (null != debugInfo[i$2].name) {
+					var debugTask = debugInfo[i$2].debugTask;
 					if (null != debugTask) return debugTask;
 				}
 			}
 			return null;
 		}
 		function validateFragmentProps(element, fiber, returnFiber) {
-			for (var keys = Object.keys(element.props), i = 0; i < keys.length; i++) {
-				var key = keys[i];
+			for (var keys = Object.keys(element.props), i$2 = 0; i$2 < keys.length; i$2++) {
+				var key = keys[i$2];
 				if ("children" !== key && "key" !== key) {
 					null === fiber && (fiber = createFiberFromElement(element, returnFiber.mode, 0), fiber._debugInfo = currentDebugInfo, fiber.return = returnFiber);
 					runWithFiberInDEV(fiber, function(erroredKey) {
@@ -4856,9 +4856,9 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					fiber._debugOwner = returnFiber._debugOwner;
 					fiber._debugTask = returnFiber._debugTask;
 					if (null != debugInfo) {
-						for (var i = debugInfo.length - 1; 0 <= i; i--) if ("string" === typeof debugInfo[i].stack) {
-							fiber._debugOwner = debugInfo[i];
-							fiber._debugTask = debugInfo[i].debugTask;
+						for (var i$2 = debugInfo.length - 1; 0 <= i$2; i$2--) if ("string" === typeof debugInfo[i$2].stack) {
+							fiber._debugOwner = debugInfo[i$2];
+							fiber._debugTask = debugInfo[i$2].debugTask;
 							break;
 						}
 					}
@@ -4935,14 +4935,14 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				queue = queue.firstBaseUpdate;
 				if (null !== queue) {
 					do {
-						var clone = {
+						var clone$1 = {
 							lane: queue.lane,
 							tag: queue.tag,
 							payload: queue.payload,
 							callback: null,
 							next: null
 						};
-						null === newLast ? newFirst = newLast = clone : newLast = newLast.next = clone;
+						null === newLast ? newFirst = newLast = clone$1 : newLast = newLast.next = clone$1;
 						queue = queue.next;
 					} while (null !== queue);
 					null === newLast ? newFirst = newLast = capturedUpdate : newLast = newLast.next = capturedUpdate;
@@ -5149,9 +5149,9 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			if (null !== hookTypesDev && (hookTypesUpdateIndexDev++, hookTypesDev[hookTypesUpdateIndexDev] !== hookName)) {
 				var componentName$1 = getComponentNameFromFiber(currentlyRenderingFiber);
 				if (!didWarnAboutMismatchedHooksForComponent.has(componentName$1) && (didWarnAboutMismatchedHooksForComponent.add(componentName$1), null !== hookTypesDev)) {
-					for (var table = "", i = 0; i <= hookTypesUpdateIndexDev; i++) {
-						var oldHookName = hookTypesDev[i], newHookName = i === hookTypesUpdateIndexDev ? hookName : oldHookName;
-						for (oldHookName = i + 1 + ". " + oldHookName; 30 > oldHookName.length;) oldHookName += " ";
+					for (var table = "", i$2 = 0; i$2 <= hookTypesUpdateIndexDev; i$2++) {
+						var oldHookName = hookTypesDev[i$2], newHookName = i$2 === hookTypesUpdateIndexDev ? hookName : oldHookName;
+						for (oldHookName = i$2 + 1 + ". " + oldHookName; 30 > oldHookName.length;) oldHookName += " ";
 						oldHookName += newHookName + "\n";
 						table += oldHookName;
 					}
@@ -5173,7 +5173,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			if (ignorePreviousDependencies) return !1;
 			if (null === prevDeps) return console.error("%s received a final argument during this render, but not during the previous render. Even though the final argument is optional, its type cannot change between renders.", currentHookNameInDev), !1;
 			nextDeps.length !== prevDeps.length && console.error("The final argument passed to %s changed size between renders. The order and size of this array must remain constant.\n\nPrevious: %s\nIncoming: %s", currentHookNameInDev, "[" + prevDeps.join(", ") + "]", "[" + nextDeps.join(", ") + "]");
-			for (var i = 0; i < prevDeps.length && i < nextDeps.length; i++) if (!objectIs(nextDeps[i], prevDeps[i])) return !1;
+			for (var i$2 = 0; i$2 < prevDeps.length && i$2 < nextDeps.length; i$2++) if (!objectIs(nextDeps[i$2], prevDeps[i$2])) return !1;
 			return !0;
 		}
 		function renderWithHooks(current$1, workInProgress$1, Component, props, secondArg, nextRenderLanes) {
@@ -5346,8 +5346,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			if (null == memoCache) {
 				var current$1 = currentlyRenderingFiber.alternate;
 				null !== current$1 && (current$1 = current$1.updateQueue, null !== current$1 && (current$1 = current$1.memoCache, null != current$1 && (memoCache = {
-					data: current$1.data.map(function(array) {
-						return array.slice();
+					data: current$1.data.map(function(array$1) {
+						return array$1.slice();
 					}),
 					index: 0
 				})));
@@ -5689,7 +5689,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function notifyActionListeners(actionNode) {
 			actionNode = actionNode.listeners;
-			for (var i = 0; i < actionNode.length; i++) (0, actionNode[i])();
+			for (var i$2 = 0; i$2 < actionNode.length; i$2++) (0, actionNode[i$2])();
 		}
 		function actionStateReducer(oldState, newState) {
 			return newState;
@@ -5995,7 +5995,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			if (5 !== formFiber.tag) throw Error("Expected the form instance to be a HostComponent. This is a bug in React.");
 			var queue = ensureFormComponentIsStateful(formFiber).queue;
 			startHostActionTimer(formFiber);
-			startTransition(formFiber, queue, pendingState, NotPendingTransition, null === action ? noop : function() {
+			startTransition(formFiber, queue, pendingState, NotPendingTransition, null === action ? noop$2 : function() {
 				requestFormReset$1(formFiber);
 				return action(formData);
 			});
@@ -7597,8 +7597,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 							hookName = 0 !== (updateQueue.tag & Layout$1) ? "useLayoutEffect" : 0 !== (updateQueue.tag & Insertion) ? "useInsertionEffect" : "useEffect";
 							var addendum = void 0;
 							addendum = null === lastEffect ? " You returned null. If your effect does not require clean up, return undefined (or nothing)." : "function" === typeof lastEffect.then ? "\n\nIt looks like you wrote " + hookName + "(async () => ...) or returned a Promise. Instead, write the async function inside your effect and call it immediately:\n\n" + hookName + "(() => {\n  async function fetchData() {\n    // You can await here\n    const response = await MyAPI.getData(someId);\n    // ...\n  }\n  fetchData();\n}, [someId]); // Or [] if effect doesn't need props or state\n\nLearn more about data fetching with Hooks: https://react.dev/link/hooks-data-fetching" : " You returned: " + lastEffect;
-							runWithFiberInDEV(finishedWork, function(n, a) {
-								console.error("%s must not return anything besides a function, which is used for clean-up.%s", n, a);
+							runWithFiberInDEV(finishedWork, function(n$1, a$1) {
+								console.error("%s must not return anything besides a function, which is used for clean-up.%s", n$1, a$1);
 							}, hookName, addendum);
 						}
 						updateQueue = updateQueue.next;
@@ -7776,7 +7776,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
 			var tag = node.tag;
-			if (5 === tag || 6 === tag) node = node.stateNode, before ? (warnForReactChildrenConflict(parent), (9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent).insertBefore(node, before)) : (warnForReactChildrenConflict(parent), before = 9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent, before.appendChild(node), parent = parent._reactRootContainer, null !== parent && void 0 !== parent || null !== before.onclick || (before.onclick = noop$1));
+			if (5 === tag || 6 === tag) node = node.stateNode, before ? (warnForReactChildrenConflict(parent), (9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent).insertBefore(node, before)) : (warnForReactChildrenConflict(parent), before = 9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent, before.appendChild(node), parent = parent._reactRootContainer, null !== parent && void 0 !== parent || null !== before.onclick || (before.onclick = noop$1$1));
 			else if (4 !== tag && (27 === tag && isSingletonScope(node.type) && (parent = node.stateNode, before = null), node = node.child, null !== node)) for (insertOrAppendPlacementNodeIntoContainer(node, before, parent), node = node.sibling; null !== node;) insertOrAppendPlacementNodeIntoContainer(node, before, parent), node = node.sibling;
 		}
 		function insertOrAppendPlacementNode(node, before, parent) {
@@ -8174,8 +8174,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function recursivelyTraverseMutationEffects(root$jscomp$0, parentFiber) {
 			var deletions = parentFiber.deletions;
-			if (null !== deletions) for (var i = 0; i < deletions.length; i++) {
-				var root$1 = root$jscomp$0, returnFiber = parentFiber, deletedFiber = deletions[i], prevEffectStart = pushComponentEffectStart(), parent = returnFiber;
+			if (null !== deletions) for (var i$2 = 0; i$2 < deletions.length; i$2++) {
+				var root$1 = root$jscomp$0, returnFiber = parentFiber, deletedFiber = deletions[i$2], prevEffectStart = pushComponentEffectStart(), parent = returnFiber;
 				a: for (; null !== parent;) {
 					switch (parent.tag) {
 						case 27:
@@ -8255,8 +8255,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 									case "link":
 										var maybeNodes = getHydratableHoistableCache("link", "href", existingHiddenCallbacks).get(flags + (current$1.href || ""));
 										if (maybeNodes) {
-											for (var i = 0; i < maybeNodes.length; i++) if (currentResource = maybeNodes[i], currentResource.getAttribute("href") === (null == current$1.href || "" === current$1.href ? null : current$1.href) && currentResource.getAttribute("rel") === (null == current$1.rel ? null : current$1.rel) && currentResource.getAttribute("title") === (null == current$1.title ? null : current$1.title) && currentResource.getAttribute("crossorigin") === (null == current$1.crossOrigin ? null : current$1.crossOrigin)) {
-												maybeNodes.splice(i, 1);
+											for (var i$2 = 0; i$2 < maybeNodes.length; i$2++) if (currentResource = maybeNodes[i$2], currentResource.getAttribute("href") === (null == current$1.href || "" === current$1.href ? null : current$1.href) && currentResource.getAttribute("rel") === (null == current$1.rel ? null : current$1.rel) && currentResource.getAttribute("title") === (null == current$1.title ? null : current$1.title) && currentResource.getAttribute("crossorigin") === (null == current$1.crossOrigin ? null : current$1.crossOrigin)) {
+												maybeNodes.splice(i$2, 1);
 												break b;
 											}
 										}
@@ -8266,8 +8266,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 										break;
 									case "meta":
 										if (maybeNodes = getHydratableHoistableCache("meta", "content", existingHiddenCallbacks).get(flags + (current$1.content || ""))) {
-											for (i = 0; i < maybeNodes.length; i++) if (currentResource = maybeNodes[i], checkAttributeStringCoercion(current$1.content, "content"), currentResource.getAttribute("content") === (null == current$1.content ? null : "" + current$1.content) && currentResource.getAttribute("name") === (null == current$1.name ? null : current$1.name) && currentResource.getAttribute("property") === (null == current$1.property ? null : current$1.property) && currentResource.getAttribute("http-equiv") === (null == current$1.httpEquiv ? null : current$1.httpEquiv) && currentResource.getAttribute("charset") === (null == current$1.charSet ? null : current$1.charSet)) {
-												maybeNodes.splice(i, 1);
+											for (i$2 = 0; i$2 < maybeNodes.length; i$2++) if (currentResource = maybeNodes[i$2], checkAttributeStringCoercion(current$1.content, "content"), currentResource.getAttribute("content") === (null == current$1.content ? null : "" + current$1.content) && currentResource.getAttribute("name") === (null == current$1.name ? null : current$1.name) && currentResource.getAttribute("property") === (null == current$1.property ? null : current$1.property) && currentResource.getAttribute("http-equiv") === (null == current$1.httpEquiv ? null : current$1.httpEquiv) && currentResource.getAttribute("charset") === (null == current$1.charSet ? null : current$1.charSet)) {
+												maybeNodes.splice(i$2, 1);
 												break b;
 											}
 										}
@@ -8396,7 +8396,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 							if (null === current$1) {
 								wasHidden = root$1;
 								try {
-									i = wasHidden.stateNode, existingHiddenCallbacks ? runWithFiberInDEV(wasHidden, hideDehydratedBoundary, i) : runWithFiberInDEV(wasHidden, unhideDehydratedBoundary, wasHidden.stateNode);
+									i$2 = wasHidden.stateNode, existingHiddenCallbacks ? runWithFiberInDEV(wasHidden, hideDehydratedBoundary, i$2) : runWithFiberInDEV(wasHidden, unhideDehydratedBoundary, wasHidden.stateNode);
 								} catch (error) {
 									captureCommitPhaseError(wasHidden, wasHidden.return, error);
 								}
@@ -8755,8 +8755,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function recursivelyTraversePassiveUnmountEffects(parentFiber) {
 			var deletions = parentFiber.deletions;
 			if (0 !== (parentFiber.flags & 16)) {
-				if (null !== deletions) for (var i = 0; i < deletions.length; i++) {
-					var childToDelete = deletions[i], prevEffectStart = pushComponentEffectStart();
+				if (null !== deletions) for (var i$2 = 0; i$2 < deletions.length; i$2++) {
+					var childToDelete = deletions[i$2], prevEffectStart = pushComponentEffectStart();
 					nextEffect = childToDelete;
 					commitPassiveUnmountEffectsInsideOfDeletedTree_begin(childToDelete, parentFiber);
 					(childToDelete.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && .05 < componentEffectEndTime - componentEffectStartTime && logComponentTrigger(childToDelete, componentEffectStartTime, componentEffectEndTime, "Unmount");
@@ -8800,8 +8800,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function recursivelyTraverseDisconnectPassiveEffects(parentFiber) {
 			var deletions = parentFiber.deletions;
 			if (0 !== (parentFiber.flags & 16)) {
-				if (null !== deletions) for (var i = 0; i < deletions.length; i++) {
-					var childToDelete = deletions[i], prevEffectStart = pushComponentEffectStart();
+				if (null !== deletions) for (var i$2 = 0; i$2 < deletions.length; i$2++) {
+					var childToDelete = deletions[i$2], prevEffectStart = pushComponentEffectStart();
 					nextEffect = childToDelete;
 					commitPassiveUnmountEffectsInsideOfDeletedTree_begin(childToDelete, parentFiber);
 					(childToDelete.mode & ProfileMode) !== NoMode && 0 <= componentEffectStartTime && 0 <= componentEffectEndTime && .05 < componentEffectEndTime - componentEffectStartTime && logComponentTrigger(childToDelete, componentEffectStartTime, componentEffectEndTime, "Unmount");
@@ -9046,7 +9046,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					suspenseyImages: [],
 					waitingForImages: !0,
 					waitingForViewTransition: !1,
-					unsuspend: noop$1
+					unsuspend: noop$1$1
 				}, accumulateSuspenseyCommitOnFiber(finishedWork, lanes, suspendedState), subtreeFlags = (lanes & 62914560) === lanes ? globalMostRecentFallbackTime - now$1() : (lanes & 4194048) === lanes ? globalMostRecentTransitionTime - now$1() : 0, subtreeFlags = waitForCommitToBeReady(suspendedState, subtreeFlags), null !== subtreeFlags) {
 					pendingEffectsLanes = lanes;
 					root$1.cancelPendingCommit = subtreeFlags(commitRoot.bind(null, root$1, finishedWork, lanes, recoverableErrors, transitions, didIncludeRenderPhaseUpdate, spawnedLane, updatedLanes, suspendedRetryLanes, exitStatus, suspendedState, suspendedState.waitingForViewTransition ? "Waiting for the previous Animation" : 0 < suspendedState.count ? 0 < suspendedState.imgCount ? "Suspended on CSS and Images" : "Suspended on CSS" : 1 === suspendedState.imgCount ? "Suspended on an Image" : 0 < suspendedState.imgCount ? "Suspended on Images" : null, completedRenderStartTime, completedRenderEndTime));
@@ -9059,8 +9059,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function isRenderConsistentWithExternalStores(finishedWork) {
 			for (var node = finishedWork;;) {
 				var tag = node.tag;
-				if ((0 === tag || 11 === tag || 15 === tag) && node.flags & 16384 && (tag = node.updateQueue, null !== tag && (tag = tag.stores, null !== tag))) for (var i = 0; i < tag.length; i++) {
-					var check = tag[i], getSnapshot = check.getSnapshot;
+				if ((0 === tag || 11 === tag || 15 === tag) && node.flags & 16384 && (tag = node.updateQueue, null !== tag && (tag = tag.stores, null !== tag))) for (var i$2 = 0; i$2 < tag.length; i$2++) {
+					var check = tag[i$2], getSnapshot = check.getSnapshot;
 					check = check.value;
 					try {
 						if (!objectIs(getSnapshot(), check)) return !1;
@@ -10124,8 +10124,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function processDispatchQueue(dispatchQueue, eventSystemFlags) {
 			eventSystemFlags = 0 !== (eventSystemFlags & 4);
-			for (var i = 0; i < dispatchQueue.length; i++) {
-				var _dispatchQueue$i = dispatchQueue[i];
+			for (var i$2 = 0; i$2 < dispatchQueue.length; i$2++) {
+				var _dispatchQueue$i = dispatchQueue[i$2];
 				a: {
 					var previousInstance = void 0, event = _dispatchQueue$i.event;
 					_dispatchQueue$i = _dispatchQueue$i.listeners;
@@ -10560,7 +10560,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					domElement.setAttribute(key, value);
 					break;
 				case "onClick":
-					null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1);
+					null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1$1);
 					break;
 				case "onScroll":
 					null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scroll", domElement));
@@ -10716,7 +10716,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scrollend", domElement));
 					break;
 				case "onClick":
-					null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1);
+					null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1$1);
 					break;
 				case "suppressContentEditableWarning":
 				case "suppressHydrationWarning":
@@ -11059,8 +11059,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function getStylesObjectFromElement(domElement) {
 			var serverValueInObjectForm = {};
 			domElement = domElement.style;
-			for (var i = 0; i < domElement.length; i++) {
-				var styleName = domElement[i];
+			for (var i$2 = 0; i$2 < domElement.length; i$2++) {
+				var styleName = domElement[i$2];
 				serverValueInObjectForm[styleName] = domElement.getPropertyValue(styleName);
 			}
 			return serverValueInObjectForm;
@@ -11163,11 +11163,11 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			warnForPropDifference(propKey, domElement, value, serverDifferences);
 		}
 		function diffHydratedProperties(domElement, tag, props, hostContext) {
-			for (var serverDifferences = {}, extraAttributes = /* @__PURE__ */ new Set(), attributes = domElement.attributes, i = 0; i < attributes.length; i++) switch (attributes[i].name.toLowerCase()) {
+			for (var serverDifferences = {}, extraAttributes = /* @__PURE__ */ new Set(), attributes = domElement.attributes, i$2 = 0; i$2 < attributes.length; i$2++) switch (attributes[i$2].name.toLowerCase()) {
 				case "value": break;
 				case "checked": break;
 				case "selected": break;
-				default: extraAttributes.add(attributes[i].name);
+				default: extraAttributes.add(attributes[i$2].name);
 			}
 			if (isCustomElement(tag)) {
 				for (var propKey in props) if (props.hasOwnProperty(propKey)) {
@@ -11326,11 +11326,11 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					case "capture":
 					case "download":
 						a: {
-							i = domElement;
+							i$2 = domElement;
 							var attributeName = attributes = value, serverDifferences$jscomp$0 = serverDifferences;
 							extraAttributes.delete(attributeName);
-							i = i.getAttribute(attributeName);
-							if (null === i) switch (typeof propKey) {
+							i$2 = i$2.getAttribute(attributeName);
+							if (null === i$2) switch (typeof propKey) {
 								case "undefined":
 								case "function":
 								case "symbol": break a;
@@ -11340,11 +11340,11 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 								case "function":
 								case "symbol": break;
 								case "boolean":
-									if (!0 === propKey && "" === i) break a;
+									if (!0 === propKey && "" === i$2) break a;
 									break;
-								default: if (checkAttributeStringCoercion(propKey, attributes), i === "" + propKey) break a;
+								default: if (checkAttributeStringCoercion(propKey, attributes), i$2 === "" + propKey) break a;
 							}
-							warnForPropDifference(attributes, i, propKey, serverDifferences$jscomp$0);
+							warnForPropDifference(attributes, i$2, propKey, serverDifferences$jscomp$0);
 						}
 						continue;
 					case "cols":
@@ -11352,12 +11352,12 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					case "size":
 					case "span":
 						a: {
-							i = domElement;
+							i$2 = domElement;
 							attributeName = attributes = value;
 							serverDifferences$jscomp$0 = serverDifferences;
 							extraAttributes.delete(attributeName);
-							i = i.getAttribute(attributeName);
-							if (null === i) switch (typeof propKey) {
+							i$2 = i$2.getAttribute(attributeName);
+							if (null === i$2) switch (typeof propKey) {
 								case "undefined":
 								case "function":
 								case "symbol":
@@ -11368,9 +11368,9 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 								case "function":
 								case "symbol":
 								case "boolean": break;
-								default: if (!(isNaN(propKey) || 1 > propKey) && (checkAttributeStringCoercion(propKey, attributes), i === "" + propKey)) break a;
+								default: if (!(isNaN(propKey) || 1 > propKey) && (checkAttributeStringCoercion(propKey, attributes), i$2 === "" + propKey)) break a;
 							}
-							warnForPropDifference(attributes, i, propKey, serverDifferences$jscomp$0);
+							warnForPropDifference(attributes, i$2, propKey, serverDifferences$jscomp$0);
 						}
 						continue;
 					case "rowSpan":
@@ -11414,20 +11414,20 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 						hydrateBooleanAttribute(domElement, value, value, propKey, extraAttributes, serverDifferences);
 						continue;
 					default: if (!(2 < value.length) || "o" !== value[0] && "O" !== value[0] || "n" !== value[1] && "N" !== value[1]) {
-						i = getAttributeAlias(value);
+						i$2 = getAttributeAlias(value);
 						attributes = !1;
-						hostContext.context === HostContextNamespaceNone && "svg" !== tag && "math" !== tag ? extraAttributes.delete(i.toLowerCase()) : (attributeName = value.toLowerCase(), attributeName = possibleStandardNames.hasOwnProperty(attributeName) ? possibleStandardNames[attributeName] || null : null, null !== attributeName && attributeName !== value && (attributes = !0, extraAttributes.delete(attributeName)), extraAttributes.delete(i));
-						a: if (attributeName = domElement, serverDifferences$jscomp$0 = i, i = propKey, isAttributeNameSafe(serverDifferences$jscomp$0)) if (attributeName.hasAttribute(serverDifferences$jscomp$0)) attributeName = attributeName.getAttribute(serverDifferences$jscomp$0), checkAttributeStringCoercion(i, serverDifferences$jscomp$0), i = attributeName === "" + i ? i : attributeName;
+						hostContext.context === HostContextNamespaceNone && "svg" !== tag && "math" !== tag ? extraAttributes.delete(i$2.toLowerCase()) : (attributeName = value.toLowerCase(), attributeName = possibleStandardNames.hasOwnProperty(attributeName) ? possibleStandardNames[attributeName] || null : null, null !== attributeName && attributeName !== value && (attributes = !0, extraAttributes.delete(attributeName)), extraAttributes.delete(i$2));
+						a: if (attributeName = domElement, serverDifferences$jscomp$0 = i$2, i$2 = propKey, isAttributeNameSafe(serverDifferences$jscomp$0)) if (attributeName.hasAttribute(serverDifferences$jscomp$0)) attributeName = attributeName.getAttribute(serverDifferences$jscomp$0), checkAttributeStringCoercion(i$2, serverDifferences$jscomp$0), i$2 = attributeName === "" + i$2 ? i$2 : attributeName;
 						else {
-							switch (typeof i) {
+							switch (typeof i$2) {
 								case "function":
 								case "symbol": break a;
 								case "boolean": if (attributeName = serverDifferences$jscomp$0.toLowerCase().slice(0, 5), "data-" !== attributeName && "aria-" !== attributeName) break a;
 							}
-							i = void 0 === i ? void 0 : null;
+							i$2 = void 0 === i$2 ? void 0 : null;
 						}
-						else i = void 0;
-						attributes || warnForPropDifference(value, i, propKey, serverDifferences);
+						else i$2 = void 0;
+						attributes || warnForPropDifference(value, i$2, propKey, serverDifferences);
 					}
 				}
 			}
@@ -11456,26 +11456,26 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function estimateBandwidth() {
 			if ("function" === typeof performance.getEntriesByType) {
-				for (var count$2 = 0, bits = 0, resourceEntries = performance.getEntriesByType("resource"), i = 0; i < resourceEntries.length; i++) {
-					var entry = resourceEntries[i], transferSize = entry.transferSize, initiatorType = entry.initiatorType, duration = entry.duration;
-					if (transferSize && duration && isLikelyStaticResource(initiatorType)) {
+				for (var count$3 = 0, bits = 0, resourceEntries = performance.getEntriesByType("resource"), i$2 = 0; i$2 < resourceEntries.length; i$2++) {
+					var entry = resourceEntries[i$2], transferSize = entry.transferSize, initiatorType = entry.initiatorType, duration$2 = entry.duration;
+					if (transferSize && duration$2 && isLikelyStaticResource(initiatorType)) {
 						initiatorType = 0;
-						duration = entry.responseEnd;
-						for (i += 1; i < resourceEntries.length; i++) {
-							var overlapEntry = resourceEntries[i], overlapStartTime = overlapEntry.startTime;
-							if (overlapStartTime > duration) break;
+						duration$2 = entry.responseEnd;
+						for (i$2 += 1; i$2 < resourceEntries.length; i$2++) {
+							var overlapEntry = resourceEntries[i$2], overlapStartTime = overlapEntry.startTime;
+							if (overlapStartTime > duration$2) break;
 							var overlapTransferSize = overlapEntry.transferSize, overlapInitiatorType = overlapEntry.initiatorType;
-							overlapTransferSize && isLikelyStaticResource(overlapInitiatorType) && (overlapEntry = overlapEntry.responseEnd, initiatorType += overlapTransferSize * (overlapEntry < duration ? 1 : (duration - overlapStartTime) / (overlapEntry - overlapStartTime)));
+							overlapTransferSize && isLikelyStaticResource(overlapInitiatorType) && (overlapEntry = overlapEntry.responseEnd, initiatorType += overlapTransferSize * (overlapEntry < duration$2 ? 1 : (duration$2 - overlapStartTime) / (overlapEntry - overlapStartTime)));
 						}
-						--i;
+						--i$2;
 						bits += 8 * (transferSize + initiatorType) / (entry.duration / 1e3);
-						count$2++;
-						if (10 < count$2) break;
+						count$3++;
+						if (10 < count$3) break;
 					}
 				}
-				if (0 < count$2) return bits / count$2 / 1e6;
+				if (0 < count$3) return bits / count$3 / 1e6;
 			}
-			return navigator.connection && (count$2 = navigator.connection.downlink, "number" === typeof count$2) ? count$2 : 5;
+			return navigator.connection && (count$3 = navigator.connection.downlink, "number" === typeof count$3) ? count$3 : 5;
 		}
 		function getOwnerDocumentFromRootContainer(rootContainerElement) {
 			return 9 === rootContainerElement.nodeType ? rootContainerElement : rootContainerElement.ownerDocument;
@@ -11592,12 +11592,12 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			} while (node);
 			retryIfBlockedOn(hydrationInstance);
 		}
-		function hideOrUnhideDehydratedBoundary(suspenseInstance, isHidden) {
+		function hideOrUnhideDehydratedBoundary(suspenseInstance, isHidden$1) {
 			var node = suspenseInstance;
 			suspenseInstance = 0;
 			do {
 				var nextNode = node.nextSibling;
-				1 === node.nodeType ? isHidden ? (node._stashedDisplay = node.style.display, node.style.display = "none") : (node.style.display = node._stashedDisplay || "", "" === node.getAttribute("style") && node.removeAttribute("style")) : 3 === node.nodeType && (isHidden ? (node._stashedText = node.nodeValue, node.nodeValue = "") : node.nodeValue = node._stashedText || "");
+				1 === node.nodeType ? isHidden$1 ? (node._stashedDisplay = node.style.display, node.style.display = "none") : (node.style.display = node._stashedDisplay || "", "" === node.getAttribute("style") && node.removeAttribute("style")) : 3 === node.nodeType && (isHidden$1 ? (node._stashedText = node.nodeValue, node.nodeValue = "") : node.nodeValue = node._stashedText || "");
 				if (nextNode && 8 === nextNode.nodeType) if (node = nextNode.data, node === SUSPENSE_END_DATA) if (0 === suspenseInstance) break;
 				else suspenseInstance--;
 				else node !== SUSPENSE_START_DATA && node !== SUSPENSE_PENDING_START_DATA && node !== SUSPENSE_QUEUED_START_DATA && node !== SUSPENSE_FALLBACK_START_DATA || suspenseInstance++;
@@ -11728,8 +11728,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		}
 		function describeHydratableInstanceForDevWarnings(instance) {
 			if (1 === instance.nodeType) {
-				for (var JSCompiler_temp_const = instance.nodeName.toLowerCase(), serverDifferences = {}, attributes = instance.attributes, i = 0; i < attributes.length; i++) {
-					var attr = attributes[i];
+				for (var JSCompiler_temp_const = instance.nodeName.toLowerCase(), serverDifferences = {}, attributes = instance.attributes, i$2 = 0; i$2 < attributes.length; i$2++) {
+					var attr = attributes[i$2];
 					serverDifferences[getPropNameFromAttributeName(attr.name)] = "style" === attr.name.toLowerCase() ? getStylesObjectFromElement(instance) : attr.value;
 				}
 				return {
@@ -11987,8 +11987,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			return resource.instance;
 		}
 		function insertStylesheet(instance, precedence, root$1) {
-			for (var nodes = root$1.querySelectorAll("link[rel=\"stylesheet\"][data-precedence],style[data-precedence]"), last = nodes.length ? nodes[nodes.length - 1] : null, prior = last, i = 0; i < nodes.length; i++) {
-				var node = nodes[i];
+			for (var nodes = root$1.querySelectorAll("link[rel=\"stylesheet\"][data-precedence],style[data-precedence]"), last = nodes.length ? nodes[nodes.length - 1] : null, prior = last, i$2 = 0; i$2 < nodes.length; i$2++) {
+				var node = nodes[i$2];
 				if (node.dataset.precedence === precedence) prior = node;
 				else if (prior !== last) break;
 			}
@@ -12156,22 +12156,22 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				else {
 					precedences = /* @__PURE__ */ new Map();
 					precedencesByRoot.set(root$1, precedences);
-					for (var nodes = root$1.querySelectorAll("link[data-precedence],style[data-precedence]"), i = 0; i < nodes.length; i++) {
-						var node = nodes[i];
+					for (var nodes = root$1.querySelectorAll("link[data-precedence],style[data-precedence]"), i$2 = 0; i$2 < nodes.length; i$2++) {
+						var node = nodes[i$2];
 						if ("LINK" === node.nodeName || "not all" !== node.getAttribute("media")) precedences.set(node.dataset.precedence, node), last = node;
 					}
 					last && precedences.set(LAST_PRECEDENCE, last);
 				}
 				nodes = resource.instance;
 				node = nodes.getAttribute("data-precedence");
-				i = precedences.get(node) || last;
-				i === last && precedences.set(LAST_PRECEDENCE, nodes);
+				i$2 = precedences.get(node) || last;
+				i$2 === last && precedences.set(LAST_PRECEDENCE, nodes);
 				precedences.set(node, nodes);
 				this.count++;
 				last = onUnsuspend.bind(this);
 				nodes.addEventListener("load", last);
 				nodes.addEventListener("error", last);
-				i ? i.parentNode.insertBefore(nodes, i.nextSibling) : (root$1 = 9 === root$1.nodeType ? root$1.head : root$1, root$1.insertBefore(nodes, root$1.firstChild));
+				i$2 ? i$2.parentNode.insertBefore(nodes, i$2.nextSibling) : (root$1 = 9 === root$1.nodeType ? root$1.head : root$1, root$1.insertBefore(nodes, root$1.firstChild));
 				resource.state.loading |= Inserted;
 			}
 		}
@@ -12244,8 +12244,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function markRetryLaneImpl(fiber, retryLane) {
 			fiber = fiber.memoizedState;
 			if (null !== fiber && null !== fiber.dehydrated) {
-				var a = fiber.retryLane;
-				fiber.retryLane = 0 !== a && a < retryLane ? a : retryLane;
+				var a$1 = fiber.retryLane;
+				fiber.retryLane = 0 !== a$1 && a$1 < retryLane ? a$1 : retryLane;
 			}
 		}
 		function markRetryLaneIfNotHydrated(fiber, retryLane) {
@@ -12553,12 +12553,12 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		function scheduleReplayQueueIfNeeded(formReplayingQueue) {
 			lastScheduledReplayQueue !== formReplayingQueue && (lastScheduledReplayQueue = formReplayingQueue, Scheduler.unstable_scheduleCallback(Scheduler.unstable_NormalPriority, function() {
 				lastScheduledReplayQueue === formReplayingQueue && (lastScheduledReplayQueue = null);
-				for (var i = 0; i < formReplayingQueue.length; i += 3) {
-					var form = formReplayingQueue[i], submitterOrAction = formReplayingQueue[i + 1], formData = formReplayingQueue[i + 2];
+				for (var i$2 = 0; i$2 < formReplayingQueue.length; i$2 += 3) {
+					var form = formReplayingQueue[i$2], submitterOrAction = formReplayingQueue[i$2 + 1], formData = formReplayingQueue[i$2 + 2];
 					if ("function" !== typeof submitterOrAction) if (null === findInstanceBlockingTarget(submitterOrAction || form)) continue;
 					else break;
 					var formInst = getInstanceFromNode(form);
-					null !== formInst && (formReplayingQueue.splice(i, 3), i -= 3, form = {
+					null !== formInst && (formReplayingQueue.splice(i$2, 3), i$2 -= 3, form = {
 						pending: !0,
 						data: formData,
 						method: form.method,
@@ -12576,23 +12576,23 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			null !== queuedMouse && scheduleCallbackIfUnblocked(queuedMouse, unblocked);
 			queuedPointers.forEach(unblock);
 			queuedPointerCaptures.forEach(unblock);
-			for (var i = 0; i < queuedExplicitHydrationTargets.length; i++) {
-				var queuedTarget = queuedExplicitHydrationTargets[i];
+			for (var i$2 = 0; i$2 < queuedExplicitHydrationTargets.length; i$2++) {
+				var queuedTarget = queuedExplicitHydrationTargets[i$2];
 				queuedTarget.blockedOn === unblocked && (queuedTarget.blockedOn = null);
 			}
-			for (; 0 < queuedExplicitHydrationTargets.length && (i = queuedExplicitHydrationTargets[0], null === i.blockedOn);) attemptExplicitHydrationTarget(i), null === i.blockedOn && queuedExplicitHydrationTargets.shift();
-			i = (unblocked.ownerDocument || unblocked).$$reactFormReplay;
-			if (null != i) for (queuedTarget = 0; queuedTarget < i.length; queuedTarget += 3) {
-				var form = i[queuedTarget], submitterOrAction = i[queuedTarget + 1], formProps = form[internalPropsKey] || null;
-				if ("function" === typeof submitterOrAction) formProps || scheduleReplayQueueIfNeeded(i);
+			for (; 0 < queuedExplicitHydrationTargets.length && (i$2 = queuedExplicitHydrationTargets[0], null === i$2.blockedOn);) attemptExplicitHydrationTarget(i$2), null === i$2.blockedOn && queuedExplicitHydrationTargets.shift();
+			i$2 = (unblocked.ownerDocument || unblocked).$$reactFormReplay;
+			if (null != i$2) for (queuedTarget = 0; queuedTarget < i$2.length; queuedTarget += 3) {
+				var form = i$2[queuedTarget], submitterOrAction = i$2[queuedTarget + 1], formProps = form[internalPropsKey] || null;
+				if ("function" === typeof submitterOrAction) formProps || scheduleReplayQueueIfNeeded(i$2);
 				else if (formProps) {
 					var action = null;
 					if (submitterOrAction && submitterOrAction.hasAttribute("formAction")) {
 						if (form = submitterOrAction, formProps = submitterOrAction[internalPropsKey] || null) action = formProps.formAction;
 						else if (null !== findInstanceBlockingTarget(form)) continue;
 					} else action = formProps.action;
-					"function" === typeof action ? i[queuedTarget + 1] = action : (i.splice(queuedTarget, 3), queuedTarget -= 3);
-					scheduleReplayQueueIfNeeded(i);
+					"function" === typeof action ? i$2[queuedTarget + 1] = action : (i$2.splice(queuedTarget, 3), queuedTarget -= 3);
+					scheduleReplayQueueIfNeeded(i$2);
 				}
 			}
 		}
@@ -12647,10 +12647,10 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			container[internalContainerInstanceKey] && (container._reactRootContainer ? console.error("You are calling ReactDOMClient.createRoot() on a container that was previously passed to ReactDOM.render(). This is not supported.") : console.error("You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it."));
 		}
 		"undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-		var Scheduler = require_scheduler(), React$2 = require_react(), ReactDOM$2 = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE$1 = Symbol.for("react.lazy");
+		var Scheduler = require_scheduler(), React$3 = require_react(), ReactDOM$2 = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE$1 = Symbol.for("react.lazy");
 		var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
 		var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel");
-		var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React$2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM$2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+		var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React$3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM$2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
 			pending: !1,
 			data: null,
 			method: null,
@@ -14993,8 +14993,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 		var didWarnAboutUpdateInRenderForAnotherComponent = /* @__PURE__ */ new Set();
 		var fakeActCallbackNode$1 = {}, firstScheduledRoot = null, lastScheduledRoot = null, didScheduleMicrotask = !1, didScheduleMicrotask_act = !1, mightHavePendingSyncWork = !1, isFlushingWork = !1, currentEventTransitionLane = 0, fakeActCallbackNode = {};
 		(function() {
-			for (var i = 0; i < simpleEventPluginEvents.length; i++) {
-				var eventName = simpleEventPluginEvents[i], domEventName = eventName.toLowerCase();
+			for (var i$2 = 0; i$2 < simpleEventPluginEvents.length; i$2++) {
+				var eventName = simpleEventPluginEvents[i$2], domEventName = eventName.toLowerCase();
 				eventName = eventName[0].toUpperCase() + eventName.slice(1);
 				registerSimpleEvent(domEventName, "on" + eventName);
 			}
@@ -15049,12 +15049,12 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 				previousDispatcher.C(href, crossOrigin);
 				preconnectAs("preconnect", href, crossOrigin);
 			},
-			L: function(href, as, options) {
-				previousDispatcher.L(href, as, options);
+			L: function(href, as, options$1) {
+				previousDispatcher.L(href, as, options$1);
 				var ownerDocument = globalDocument;
 				if (ownerDocument && href && as) {
 					var preloadSelector = "link[rel=\"preload\"][as=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(as) + "\"]";
-					"image" === as ? options && options.imageSrcSet ? (preloadSelector += "[imagesrcset=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(options.imageSrcSet) + "\"]", "string" === typeof options.imageSizes && (preloadSelector += "[imagesizes=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(options.imageSizes) + "\"]")) : preloadSelector += "[href=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(href) + "\"]" : preloadSelector += "[href=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(href) + "\"]";
+					"image" === as ? options$1 && options$1.imageSrcSet ? (preloadSelector += "[imagesrcset=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(options$1.imageSrcSet) + "\"]", "string" === typeof options$1.imageSizes && (preloadSelector += "[imagesizes=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(options$1.imageSizes) + "\"]")) : preloadSelector += "[href=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(href) + "\"]" : preloadSelector += "[href=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(href) + "\"]";
 					var key = preloadSelector;
 					switch (as) {
 						case "style":
@@ -15064,16 +15064,16 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					}
 					preloadPropsMap.has(key) || (href = assign({
 						rel: "preload",
-						href: "image" === as && options && options.imageSrcSet ? void 0 : href,
+						href: "image" === as && options$1 && options$1.imageSrcSet ? void 0 : href,
 						as
-					}, options), preloadPropsMap.set(key, href), null !== ownerDocument.querySelector(preloadSelector) || "style" === as && ownerDocument.querySelector(getStylesheetSelectorFromKey(key)) || "script" === as && ownerDocument.querySelector(getScriptSelectorFromKey(key)) || (as = ownerDocument.createElement("link"), setInitialProperties(as, "link", href), markNodeAsHoistable(as), ownerDocument.head.appendChild(as)));
+					}, options$1), preloadPropsMap.set(key, href), null !== ownerDocument.querySelector(preloadSelector) || "style" === as && ownerDocument.querySelector(getStylesheetSelectorFromKey(key)) || "script" === as && ownerDocument.querySelector(getScriptSelectorFromKey(key)) || (as = ownerDocument.createElement("link"), setInitialProperties(as, "link", href), markNodeAsHoistable(as), ownerDocument.head.appendChild(as)));
 				}
 			},
-			m: function(href, options) {
-				previousDispatcher.m(href, options);
+			m: function(href, options$1) {
+				previousDispatcher.m(href, options$1);
 				var ownerDocument = globalDocument;
 				if (ownerDocument && href) {
-					var as = options && "string" === typeof options.as ? options.as : "script", preloadSelector = "link[rel=\"modulepreload\"][as=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(as) + "\"][href=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(href) + "\"]", key = preloadSelector;
+					var as = options$1 && "string" === typeof options$1.as ? options$1.as : "script", preloadSelector = "link[rel=\"modulepreload\"][as=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(as) + "\"][href=\"" + escapeSelectorAttributeValueInsideDoubleQuotes(href) + "\"]", key = preloadSelector;
 					switch (as) {
 						case "audioworklet":
 						case "paintworklet":
@@ -15085,7 +15085,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					if (!preloadPropsMap.has(key) && (href = assign({
 						rel: "modulepreload",
 						href
-					}, options), preloadPropsMap.set(key, href), null === ownerDocument.querySelector(preloadSelector))) {
+					}, options$1), preloadPropsMap.set(key, href), null === ownerDocument.querySelector(preloadSelector))) {
 						switch (as) {
 							case "audioworklet":
 							case "paintworklet":
@@ -15101,15 +15101,15 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					}
 				}
 			},
-			X: function(src, options) {
-				previousDispatcher.X(src, options);
+			X: function(src, options$1) {
+				previousDispatcher.X(src, options$1);
 				var ownerDocument = globalDocument;
 				if (ownerDocument && src) {
 					var scripts = getResourcesFromRoot(ownerDocument).hoistableScripts, key = getScriptKey(src), resource = scripts.get(key);
 					resource || (resource = ownerDocument.querySelector(getScriptSelectorFromKey(key)), resource || (src = assign({
 						src,
 						async: !0
-					}, options), (options = preloadPropsMap.get(key)) && adoptPreloadPropsForScript(src, options), resource = ownerDocument.createElement("script"), markNodeAsHoistable(resource), setInitialProperties(resource, "link", src), ownerDocument.head.appendChild(resource)), resource = {
+					}, options$1), (options$1 = preloadPropsMap.get(key)) && adoptPreloadPropsForScript(src, options$1), resource = ownerDocument.createElement("script"), markNodeAsHoistable(resource), setInitialProperties(resource, "link", src), ownerDocument.head.appendChild(resource)), resource = {
 						type: "script",
 						instance: resource,
 						count: 1,
@@ -15117,8 +15117,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					}, scripts.set(key, resource));
 				}
 			},
-			S: function(href, precedence, options) {
-				previousDispatcher.S(href, precedence, options);
+			S: function(href, precedence, options$1) {
+				previousDispatcher.S(href, precedence, options$1);
 				var ownerDocument = globalDocument;
 				if (ownerDocument && href) {
 					var styles = getResourcesFromRoot(ownerDocument).hoistableStyles, key = getStyleKey(href);
@@ -15135,8 +15135,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 								rel: "stylesheet",
 								href,
 								"data-precedence": precedence
-							}, options);
-							(options = preloadPropsMap.get(key)) && adoptPreloadPropsForStylesheet(href, options);
+							}, options$1);
+							(options$1 = preloadPropsMap.get(key)) && adoptPreloadPropsForStylesheet(href, options$1);
 							var link = resource = ownerDocument.createElement("link");
 							markNodeAsHoistable(link);
 							setInitialProperties(link, "link", href);
@@ -15163,8 +15163,8 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					}
 				}
 			},
-			M: function(src, options) {
-				previousDispatcher.M(src, options);
+			M: function(src, options$1) {
+				previousDispatcher.M(src, options$1);
 				var ownerDocument = globalDocument;
 				if (ownerDocument && src) {
 					var scripts = getResourcesFromRoot(ownerDocument).hoistableScripts, key = getScriptKey(src), resource = scripts.get(key);
@@ -15172,7 +15172,7 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 						src,
 						async: !0,
 						type: "module"
-					}, options), (options = preloadPropsMap.get(key)) && adoptPreloadPropsForScript(src, options), resource = ownerDocument.createElement("script"), markNodeAsHoistable(resource), setInitialProperties(resource, "link", src), ownerDocument.head.appendChild(resource)), resource = {
+					}, options$1), (options$1 = preloadPropsMap.get(key)) && adoptPreloadPropsForScript(src, options$1), resource = ownerDocument.createElement("script"), markNodeAsHoistable(resource), setInitialProperties(resource, "link", src), ownerDocument.head.appendChild(resource)), resource = {
 						type: "script",
 						instance: resource,
 						count: 1,
@@ -15266,13 +15266,13 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 					target,
 					priority: updatePriority
 				};
-				for (var i = 0; i < queuedExplicitHydrationTargets.length && 0 !== updatePriority && updatePriority < queuedExplicitHydrationTargets[i].priority; i++);
-				queuedExplicitHydrationTargets.splice(i, 0, target);
-				0 === i && attemptExplicitHydrationTarget(target);
+				for (var i$2 = 0; i$2 < queuedExplicitHydrationTargets.length && 0 !== updatePriority && updatePriority < queuedExplicitHydrationTargets[i$2].priority; i$2++);
+				queuedExplicitHydrationTargets.splice(i$2, 0, target);
+				0 === i$2 && attemptExplicitHydrationTarget(target);
 			}
 		};
 		(function() {
-			var isomorphicReactPackageVersion = React$2.version;
+			var isomorphicReactPackageVersion = React$3.version;
 			if ("19.2.3" !== isomorphicReactPackageVersion) throw Error("Incompatible React versions: The \"react\" and \"react-dom\" packages must have the exact same version. Instead got:\n  - react:      " + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.3\nLearn more: https://react.dev/warnings/version-mismatch"));
 		})();
 		"function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://react.dev/link/react-polyfills");
@@ -15289,60 +15289,60 @@ var require_react_dom_client_development = /* @__PURE__ */ __commonJSMin(((expor
 			return componentOrElement;
 		};
 		if (!(function() {
-			var internals = {
+			var internals$1 = {
 				bundleType: 1,
 				version: "19.2.3",
 				rendererPackageName: "react-dom",
 				currentDispatcherRef: ReactSharedInternals,
 				reconcilerVersion: "19.2.3"
 			};
-			internals.overrideHookState = overrideHookState;
-			internals.overrideHookStateDeletePath = overrideHookStateDeletePath;
-			internals.overrideHookStateRenamePath = overrideHookStateRenamePath;
-			internals.overrideProps = overrideProps;
-			internals.overridePropsDeletePath = overridePropsDeletePath;
-			internals.overridePropsRenamePath = overridePropsRenamePath;
-			internals.scheduleUpdate = scheduleUpdate;
-			internals.scheduleRetry = scheduleRetry;
-			internals.setErrorHandler = setErrorHandler;
-			internals.setSuspenseHandler = setSuspenseHandler;
-			internals.scheduleRefresh = scheduleRefresh;
-			internals.scheduleRoot = scheduleRoot;
-			internals.setRefreshHandler = setRefreshHandler;
-			internals.getCurrentFiber = getCurrentFiberForDevTools;
-			return injectInternals(internals);
+			internals$1.overrideHookState = overrideHookState;
+			internals$1.overrideHookStateDeletePath = overrideHookStateDeletePath;
+			internals$1.overrideHookStateRenamePath = overrideHookStateRenamePath;
+			internals$1.overrideProps = overrideProps;
+			internals$1.overridePropsDeletePath = overridePropsDeletePath;
+			internals$1.overridePropsRenamePath = overridePropsRenamePath;
+			internals$1.scheduleUpdate = scheduleUpdate;
+			internals$1.scheduleRetry = scheduleRetry;
+			internals$1.setErrorHandler = setErrorHandler;
+			internals$1.setSuspenseHandler = setSuspenseHandler;
+			internals$1.scheduleRefresh = scheduleRefresh;
+			internals$1.scheduleRoot = scheduleRoot;
+			internals$1.setRefreshHandler = setRefreshHandler;
+			internals$1.getCurrentFiber = getCurrentFiberForDevTools;
+			return injectInternals(internals$1);
 		})() && canUseDOM$1 && window.top === window.self && (-1 < navigator.userAgent.indexOf("Chrome") && -1 === navigator.userAgent.indexOf("Edge") || -1 < navigator.userAgent.indexOf("Firefox"))) {
 			var protocol = window.location.protocol;
 			/^(https?|file):$/.test(protocol) && console.info("%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools" + ("file:" === protocol ? "\nYou might need to use a local HTTP server (instead of file://): https://react.dev/link/react-devtools-faq" : ""), "font-weight:bold");
 		}
-		exports.createRoot = function(container, options) {
+		exports.createRoot = function(container, options$1) {
 			if (!isValidContainer(container)) throw Error("Target container is not a DOM element.");
 			warnIfReactDOMContainerInDEV(container);
 			var isStrictMode = !1, identifierPrefix = "", onUncaughtError = defaultOnUncaughtError, onCaughtError = defaultOnCaughtError, onRecoverableError = defaultOnRecoverableError;
-			null !== options && void 0 !== options && (options.hydrate ? console.warn("hydrate through createRoot is deprecated. Use ReactDOMClient.hydrateRoot(container, <App />) instead.") : "object" === typeof options && null !== options && options.$$typeof === REACT_ELEMENT_TYPE && console.error("You passed a JSX element to createRoot. You probably meant to call root.render instead. Example usage:\n\n  let root = createRoot(domContainer);\n  root.render(<App />);"), !0 === options.unstable_strictMode && (isStrictMode = !0), void 0 !== options.identifierPrefix && (identifierPrefix = options.identifierPrefix), void 0 !== options.onUncaughtError && (onUncaughtError = options.onUncaughtError), void 0 !== options.onCaughtError && (onCaughtError = options.onCaughtError), void 0 !== options.onRecoverableError && (onRecoverableError = options.onRecoverableError));
-			options = createFiberRoot(container, 1, !1, null, null, isStrictMode, identifierPrefix, null, onUncaughtError, onCaughtError, onRecoverableError, defaultOnDefaultTransitionIndicator);
-			container[internalContainerInstanceKey] = options.current;
+			null !== options$1 && void 0 !== options$1 && (options$1.hydrate ? console.warn("hydrate through createRoot is deprecated. Use ReactDOMClient.hydrateRoot(container, <App />) instead.") : "object" === typeof options$1 && null !== options$1 && options$1.$$typeof === REACT_ELEMENT_TYPE && console.error("You passed a JSX element to createRoot. You probably meant to call root.render instead. Example usage:\n\n  let root = createRoot(domContainer);\n  root.render(<App />);"), !0 === options$1.unstable_strictMode && (isStrictMode = !0), void 0 !== options$1.identifierPrefix && (identifierPrefix = options$1.identifierPrefix), void 0 !== options$1.onUncaughtError && (onUncaughtError = options$1.onUncaughtError), void 0 !== options$1.onCaughtError && (onCaughtError = options$1.onCaughtError), void 0 !== options$1.onRecoverableError && (onRecoverableError = options$1.onRecoverableError));
+			options$1 = createFiberRoot(container, 1, !1, null, null, isStrictMode, identifierPrefix, null, onUncaughtError, onCaughtError, onRecoverableError, defaultOnDefaultTransitionIndicator);
+			container[internalContainerInstanceKey] = options$1.current;
 			listenToAllSupportedEvents(container);
-			return new ReactDOMRoot(options);
+			return new ReactDOMRoot(options$1);
 		};
-		exports.hydrateRoot = function(container, initialChildren, options) {
+		exports.hydrateRoot = function(container, initialChildren, options$1) {
 			if (!isValidContainer(container)) throw Error("Target container is not a DOM element.");
 			warnIfReactDOMContainerInDEV(container);
 			void 0 === initialChildren && console.error("Must provide initial children as second argument to hydrateRoot. Example usage: hydrateRoot(domContainer, <App />)");
 			var isStrictMode = !1, identifierPrefix = "", onUncaughtError = defaultOnUncaughtError, onCaughtError = defaultOnCaughtError, onRecoverableError = defaultOnRecoverableError, formState = null;
-			null !== options && void 0 !== options && (!0 === options.unstable_strictMode && (isStrictMode = !0), void 0 !== options.identifierPrefix && (identifierPrefix = options.identifierPrefix), void 0 !== options.onUncaughtError && (onUncaughtError = options.onUncaughtError), void 0 !== options.onCaughtError && (onCaughtError = options.onCaughtError), void 0 !== options.onRecoverableError && (onRecoverableError = options.onRecoverableError), void 0 !== options.formState && (formState = options.formState));
-			initialChildren = createFiberRoot(container, 1, !0, initialChildren, null != options ? options : null, isStrictMode, identifierPrefix, formState, onUncaughtError, onCaughtError, onRecoverableError, defaultOnDefaultTransitionIndicator);
+			null !== options$1 && void 0 !== options$1 && (!0 === options$1.unstable_strictMode && (isStrictMode = !0), void 0 !== options$1.identifierPrefix && (identifierPrefix = options$1.identifierPrefix), void 0 !== options$1.onUncaughtError && (onUncaughtError = options$1.onUncaughtError), void 0 !== options$1.onCaughtError && (onCaughtError = options$1.onCaughtError), void 0 !== options$1.onRecoverableError && (onRecoverableError = options$1.onRecoverableError), void 0 !== options$1.formState && (formState = options$1.formState));
+			initialChildren = createFiberRoot(container, 1, !0, initialChildren, null != options$1 ? options$1 : null, isStrictMode, identifierPrefix, formState, onUncaughtError, onCaughtError, onRecoverableError, defaultOnDefaultTransitionIndicator);
 			initialChildren.context = getContextForSubtree(null);
-			options = initialChildren.current;
-			isStrictMode = requestUpdateLane(options);
+			options$1 = initialChildren.current;
+			isStrictMode = requestUpdateLane(options$1);
 			isStrictMode = getBumpedLaneForHydrationByLane(isStrictMode);
 			identifierPrefix = createUpdate(isStrictMode);
 			identifierPrefix.callback = null;
-			enqueueUpdate(options, identifierPrefix, isStrictMode);
+			enqueueUpdate(options$1, identifierPrefix, isStrictMode);
 			startUpdateTimerByLane(isStrictMode, "hydrateRoot()", null);
-			options = isStrictMode;
-			initialChildren.current.lanes = options;
-			markRootUpdated$1(initialChildren, options);
+			options$1 = isStrictMode;
+			initialChildren.current.lanes = options$1;
+			markRootUpdated$1(initialChildren, options$1);
 			ensureRootIsScheduled(initialChildren);
 			container[internalContainerInstanceKey] = initialChildren.current;
 			listenToAllSupportedEvents(container);
@@ -15381,8 +15381,8 @@ const __vitePreload = function preload(baseModule, deps, importerUrl) {
 			seen[dep] = true;
 			const isCss = dep.endsWith(".css");
 			const cssSelector = isCss ? "[rel=\"stylesheet\"]" : "";
-			if (!!importerUrl) for (let i$1 = links.length - 1; i$1 >= 0; i$1--) {
-				const link$1 = links[i$1];
+			if (!!importerUrl) for (let i$1$1 = links.length - 1; i$1$1 >= 0; i$1$1--) {
+				const link$1 = links[i$1$1];
 				if (link$1.href === dep && (!isCss || link$1.rel === "stylesheet")) return;
 			}
 			else if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) return;
@@ -15415,7 +15415,7 @@ const __vitePreload = function preload(baseModule, deps, importerUrl) {
 };
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 var PopStateEventType = "popstate";
-function createBrowserHistory(options = {}) {
+function createBrowserHistory(options$1 = {}) {
 	function createBrowserLocation(window2, globalHistory) {
 		let { pathname, search, hash } = window2.location;
 		return createLocation("", {
@@ -15427,7 +15427,7 @@ function createBrowserHistory(options = {}) {
 	function createBrowserHref(window2, to) {
 		return typeof to === "string" ? to : createPath(to);
 	}
-	return getUrlBasedHistory(createBrowserLocation, createBrowserHref, null, options);
+	return getUrlBasedHistory(createBrowserLocation, createBrowserHref, null, options$1);
 }
 function invariant(value, message) {
 	if (value === false || value === null || typeof value === "undefined") throw new Error(message);
@@ -15482,8 +15482,8 @@ function parsePath(path) {
 	}
 	return parsedPath;
 }
-function getUrlBasedHistory(getLocation, createHref2, validateLocation, options = {}) {
-	let { window: window2 = document.defaultView, v5Compat = false } = options;
+function getUrlBasedHistory(getLocation, createHref2, validateLocation, options$1 = {}) {
+	let { window: window2 = document.defaultView, v5Compat = false } = options$1;
 	let globalHistory = window2.history;
 	let action = "POP";
 	let listener = null;
@@ -15575,8 +15575,8 @@ function getUrlBasedHistory(getLocation, createHref2, validateLocation, options 
 		},
 		push,
 		replace: replace2,
-		go(n) {
-			return globalHistory.go(n);
+		go(n$1) {
+			return globalHistory.go(n$1);
 		}
 	};
 	return history;
@@ -15599,9 +15599,9 @@ function matchRoutesImpl(routes, locationArg, basename, allowPartial) {
 	let branches = flattenRoutes(routes);
 	rankRouteBranches(branches);
 	let matches = null;
-	for (let i = 0; matches == null && i < branches.length; ++i) {
+	for (let i$2 = 0; matches == null && i$2 < branches.length; ++i$2) {
 		let decoded = decodePath(pathname);
-		matches = matchRouteBranch(branches[i], decoded, allowPartial);
+		matches = matchRouteBranch(branches[i$2], decoded, allowPartial);
 	}
 	return matches;
 }
@@ -15618,19 +15618,19 @@ function convertRouteMatchToUiMatch(match, loaderData) {
 }
 function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "", _hasParentOptionalSegments = false) {
 	let flattenRoute = (route, index$1, hasParentOptionalSegments = _hasParentOptionalSegments, relativePath) => {
-		let meta = {
+		let meta$2 = {
 			relativePath: relativePath === void 0 ? route.path || "" : relativePath,
 			caseSensitive: route.caseSensitive === true,
 			childrenIndex: index$1,
 			route
 		};
-		if (meta.relativePath.startsWith("/")) {
-			if (!meta.relativePath.startsWith(parentPath) && hasParentOptionalSegments) return;
-			invariant(meta.relativePath.startsWith(parentPath), `Absolute route path "${meta.relativePath}" nested under path "${parentPath}" is not valid. An absolute child route path must start with the combined path of all its parent routes.`);
-			meta.relativePath = meta.relativePath.slice(parentPath.length);
+		if (meta$2.relativePath.startsWith("/")) {
+			if (!meta$2.relativePath.startsWith(parentPath) && hasParentOptionalSegments) return;
+			invariant(meta$2.relativePath.startsWith(parentPath), `Absolute route path "${meta$2.relativePath}" nested under path "${parentPath}" is not valid. An absolute child route path must start with the combined path of all its parent routes.`);
+			meta$2.relativePath = meta$2.relativePath.slice(parentPath.length);
 		}
-		let path = joinPaths([parentPath, meta.relativePath]);
-		let routesMeta = parentsMeta.concat(meta);
+		let path = joinPaths([parentPath, meta$2.relativePath]);
+		let routesMeta = parentsMeta.concat(meta$2);
 		if (route.children && route.children.length > 0) {
 			invariant(route.index !== true, `Index routes must not have child routes. Please remove all child routes from route path "${path}".`);
 			flattenRoutes(route.children, branches, routesMeta, path, hasParentOptionalSegments);
@@ -15653,16 +15653,16 @@ function explodeOptionalSegments(path) {
 	if (segments.length === 0) return [];
 	let [first, ...rest] = segments;
 	let isOptional = first.endsWith("?");
-	let required = first.replace(/\?$/, "");
-	if (rest.length === 0) return isOptional ? [required, ""] : [required];
+	let required$1 = first.replace(/\?$/, "");
+	if (rest.length === 0) return isOptional ? [required$1, ""] : [required$1];
 	let restExploded = explodeOptionalSegments(rest.join("/"));
 	let result = [];
-	result.push(...restExploded.map((subpath) => subpath === "" ? required : [required, subpath].join("/")));
+	result.push(...restExploded.map((subpath) => subpath === "" ? required$1 : [required$1, subpath].join("/")));
 	if (isOptional) result.push(...restExploded);
 	return result.map((exploded) => path.startsWith("/") && exploded === "" ? "/" : exploded);
 }
 function rankRouteBranches(branches) {
-	branches.sort((a, b$1) => a.score !== b$1.score ? b$1.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b$1.routesMeta.map((meta) => meta.childrenIndex)));
+	branches.sort((a$1, b$1) => a$1.score !== b$1.score ? b$1.score - a$1.score : compareIndexes(a$1.routesMeta.map((meta$2) => meta$2.childrenIndex), b$1.routesMeta.map((meta$2) => meta$2.childrenIndex)));
 }
 var paramRe = /^:[\w-]+$/;
 var dynamicSegmentValue = 3;
@@ -15670,35 +15670,35 @@ var indexRouteValue = 2;
 var emptySegmentValue = 1;
 var staticSegmentValue = 10;
 var splatPenalty = -2;
-var isSplat = (s) => s === "*";
+var isSplat = (s$2) => s$2 === "*";
 function computeScore(path, index$1) {
 	let segments = path.split("/");
 	let initialScore = segments.length;
 	if (segments.some(isSplat)) initialScore += splatPenalty;
 	if (index$1) initialScore += indexRouteValue;
-	return segments.filter((s) => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
+	return segments.filter((s$2) => !isSplat(s$2)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
 }
-function compareIndexes(a, b$1) {
-	return a.length === b$1.length && a.slice(0, -1).every((n, i) => n === b$1[i]) ? a[a.length - 1] - b$1[b$1.length - 1] : 0;
+function compareIndexes(a$1, b$1) {
+	return a$1.length === b$1.length && a$1.slice(0, -1).every((n$1, i$2) => n$1 === b$1[i$2]) ? a$1[a$1.length - 1] - b$1[b$1.length - 1] : 0;
 }
 function matchRouteBranch(branch, pathname, allowPartial = false) {
 	let { routesMeta } = branch;
 	let matchedParams = {};
 	let matchedPathname = "/";
 	let matches = [];
-	for (let i = 0; i < routesMeta.length; ++i) {
-		let meta = routesMeta[i];
-		let end = i === routesMeta.length - 1;
+	for (let i$2 = 0; i$2 < routesMeta.length; ++i$2) {
+		let meta$2 = routesMeta[i$2];
+		let end = i$2 === routesMeta.length - 1;
 		let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
 		let match = matchPath({
-			path: meta.relativePath,
-			caseSensitive: meta.caseSensitive,
+			path: meta$2.relativePath,
+			caseSensitive: meta$2.caseSensitive,
 			end
 		}, remainingPathname);
-		let route = meta.route;
+		let route = meta$2.route;
 		if (!match && end && allowPartial && !routesMeta[routesMeta.length - 1].route.index) match = matchPath({
-			path: meta.relativePath,
-			caseSensitive: meta.caseSensitive,
+			path: meta$2.relativePath,
+			caseSensitive: meta$2.caseSensitive,
 			end: false
 		}, remainingPathname);
 		if (!match) return null;
@@ -15867,7 +15867,7 @@ function isRouteErrorResponse(error) {
 function getRoutePattern(matches) {
 	return matches.map((m) => m.route.path).filter(Boolean).join("/").replace(/\/\/*/g, "/") || "/";
 }
-var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
+var isBrowser$1 = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 function parseToInfo(_to, basename) {
 	let to = _to;
 	if (typeof to !== "string" || !ABSOLUTE_URL_REGEX.test(to)) return {
@@ -15877,7 +15877,7 @@ function parseToInfo(_to, basename) {
 	};
 	let absoluteURL = to;
 	let isExternal = false;
-	if (isBrowser) try {
+	if (isBrowser$1) try {
 		let currentUrl = new URL(window.location.href);
 		let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
 		let path = stripBasename(targetUrl.pathname, basename);
@@ -15951,7 +15951,7 @@ function useLocation() {
 	return import_react.useContext(LocationContext).location;
 }
 var navigateEffectWarning = `You should call navigate() in a React.useEffect(), not when your component is first rendered.`;
-function useIsomorphicLayoutEffect(cb) {
+function useIsomorphicLayoutEffect$2(cb) {
 	if (!import_react.useContext(NavigationContext).static) import_react.useLayoutEffect(cb);
 }
 function useNavigate() {
@@ -15966,19 +15966,19 @@ function useNavigateUnstable() {
 	let { pathname: locationPathname } = useLocation();
 	let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
 	let activeRef = import_react.useRef(false);
-	useIsomorphicLayoutEffect(() => {
+	useIsomorphicLayoutEffect$2(() => {
 		activeRef.current = true;
 	});
-	return import_react.useCallback((to, options = {}) => {
+	return import_react.useCallback((to, options$1 = {}) => {
 		warning(activeRef.current, navigateEffectWarning);
 		if (!activeRef.current) return;
 		if (typeof to === "number") {
 			navigator$1.go(to);
 			return;
 		}
-		let path = resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, options.relative === "path");
+		let path = resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, options$1.relative === "path");
 		if (dataRouterContext == null && basename !== "/") path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
-		(!!options.replace ? navigator$1.replace : navigator$1.push)(path, options.state, options);
+		(!!options$1.replace ? navigator$1.replace : navigator$1.push)(path, options$1.state, options$1);
 	}, [
 		basename,
 		navigator$1,
@@ -16126,7 +16126,7 @@ function RSCErrorHandler({ children, error }) {
 			let existingRedirect = errorRedirectHandledMap.get(error);
 			if (existingRedirect) throw existingRedirect;
 			let parsed = parseToInfo(redirect2.location, basename);
-			if (isBrowser && !errorRedirectHandledMap.get(error)) if (parsed.isExternal || redirect2.reloadDocument) window.location.href = parsed.absoluteURL || parsed.to;
+			if (isBrowser$1 && !errorRedirectHandledMap.get(error)) if (parsed.isExternal || redirect2.reloadDocument) window.location.href = parsed.absoluteURL || parsed.to;
 			else {
 				const redirectPromise = Promise.resolve().then(() => window.__reactRouterDataRouter.navigate(parsed.to, { replace: redirect2.replace }));
 				errorRedirectHandledMap.set(error, redirectPromise);
@@ -16161,9 +16161,9 @@ function _renderMatches(matches, parentMatches = [], dataRouterState = null, onE
 	}
 	let renderFallback = false;
 	let fallbackIndex = -1;
-	if (dataRouterState) for (let i = 0; i < renderedMatches.length; i++) {
-		let match = renderedMatches[i];
-		if (match.route.HydrateFallback || match.route.hydrateFallbackElement) fallbackIndex = i;
+	if (dataRouterState) for (let i$2 = 0; i$2 < renderedMatches.length; i$2++) {
+		let match = renderedMatches[i$2];
+		if (match.route.HydrateFallback || match.route.hydrateFallbackElement) fallbackIndex = i$2;
 		if (match.route.id) {
 			let { loaderData, errors: errors2 } = dataRouterState;
 			let needsToRunLoader = match.route.loader && !loaderData.hasOwnProperty(match.route.id) && (!errors2 || errors2[match.route.id] === void 0);
@@ -16280,16 +16280,16 @@ function useNavigateStable() {
 	let { router } = useDataRouterContext("useNavigate");
 	let id = useCurrentRouteId("useNavigate");
 	let activeRef = import_react.useRef(false);
-	useIsomorphicLayoutEffect(() => {
+	useIsomorphicLayoutEffect$2(() => {
 		activeRef.current = true;
 	});
-	return import_react.useCallback(async (to, options = {}) => {
+	return import_react.useCallback(async (to, options$1 = {}) => {
 		warning(activeRef.current, navigateEffectWarning);
 		if (!activeRef.current) return;
 		if (typeof to === "number") await router.navigate(to);
 		else await router.navigate(to, {
 			fromRouteId: id,
-			...options
+			...options$1
 		});
 	}, [router, id]);
 }
@@ -16304,6 +16304,30 @@ import_react.useOptimistic;
 import_react.memo(DataRoutes);
 function DataRoutes({ routes, future, state, onError }) {
 	return useRoutesImpl(routes, void 0, state, onError, future);
+}
+function Navigate({ to, replace: replace2, state, relative }) {
+	invariant(useInRouterContext(), `<Navigate> may be used only in the context of a <Router> component.`);
+	let { static: isStatic } = import_react.useContext(NavigationContext);
+	warning(!isStatic, `<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.`);
+	let { matches } = import_react.useContext(RouteContext);
+	let { pathname: locationPathname } = useLocation();
+	let navigate = useNavigate();
+	let path = resolveTo(to, getResolveToMatches(matches), locationPathname, relative === "path");
+	let jsonPath = JSON.stringify(path);
+	import_react.useEffect(() => {
+		navigate(JSON.parse(jsonPath), {
+			replace: replace2,
+			state,
+			relative
+		});
+	}, [
+		navigate,
+		jsonPath,
+		relative,
+		replace2,
+		state
+	]);
+	return null;
 }
 function Outlet(props) {
 	return useOutlet(props.context);
@@ -16397,17 +16421,17 @@ function createRoutesFromChildren(children, parentPath = []) {
 }
 var defaultMethod = "get";
 var defaultEncType = "application/x-www-form-urlencoded";
-function isHtmlElement(object) {
-	return typeof HTMLElement !== "undefined" && object instanceof HTMLElement;
+function isHtmlElement(object$1) {
+	return typeof HTMLElement !== "undefined" && object$1 instanceof HTMLElement;
 }
-function isButtonElement(object) {
-	return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
+function isButtonElement(object$1) {
+	return isHtmlElement(object$1) && object$1.tagName.toLowerCase() === "button";
 }
-function isFormElement(object) {
-	return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
+function isFormElement(object$1) {
+	return isHtmlElement(object$1) && object$1.tagName.toLowerCase() === "form";
 }
-function isInputElement(object) {
-	return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
+function isInputElement(object$1) {
+	return isHtmlElement(object$1) && object$1.tagName.toLowerCase() === "input";
 }
 function isModifiedEvent(event) {
 	return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
@@ -16526,13 +16550,13 @@ async function loadRouteModule(route, routeModulesCache) {
 		return new Promise(() => {});
 	}
 }
-function isPageLinkDescriptor(object) {
-	return object != null && typeof object.page === "string";
+function isPageLinkDescriptor(object$1) {
+	return object$1 != null && typeof object$1.page === "string";
 }
-function isHtmlLinkDescriptor(object) {
-	if (object == null) return false;
-	if (object.href == null) return object.rel === "preload" && typeof object.imageSrcSet === "string" && typeof object.imageSizes === "string";
-	return typeof object.rel === "string" && typeof object.href === "string";
+function isHtmlLinkDescriptor(object$1) {
+	if (object$1 == null) return false;
+	if (object$1.href == null) return object$1.rel === "preload" && typeof object$1.imageSrcSet === "string" && typeof object$1.imageSizes === "string";
+	return typeof object$1.rel === "string" && typeof object$1.href === "string";
 }
 async function getKeyedPrefetchLinks(matches, manifest, routeModules) {
 	return dedupeLinkDescriptors((await Promise.all(matches.map(async (match) => {
@@ -16600,13 +16624,13 @@ function sortKeys(obj) {
 	return sorted;
 }
 function dedupeLinkDescriptors(descriptors, preloads) {
-	let set = /* @__PURE__ */ new Set();
+	let set$1 = /* @__PURE__ */ new Set();
 	let preloadsSet = new Set(preloads);
 	return descriptors.reduce((deduped, descriptor) => {
 		if (preloads && !isPageLinkDescriptor(descriptor) && descriptor.as === "script" && descriptor.href && preloadsSet.has(descriptor.href)) return deduped;
 		let key = JSON.stringify(sortKeys(descriptor));
-		if (!set.has(key)) {
-			set.add(key);
+		if (!set$1.has(key)) {
+			set$1.add(key);
 			deduped.push({
 				key,
 				link: descriptor
@@ -16929,7 +16953,7 @@ var NavLink = import_react.forwardRef(function NavLinkWithRef({ "aria-current": 
 	}, typeof children === "function" ? children(renderProps) : children);
 });
 NavLink.displayName = "NavLink";
-var Form = import_react.forwardRef(({ discover = "render", fetcherKey, navigate, reloadDocument, replace: replace2, state, method = defaultMethod, action, onSubmit, relative, preventScrollReset, viewTransition, unstable_defaultShouldRevalidate, ...props }, forwardedRef) => {
+var Form$1 = import_react.forwardRef(({ discover = "render", fetcherKey, navigate, reloadDocument, replace: replace2, state, method = defaultMethod, action, onSubmit, relative, preventScrollReset, viewTransition, unstable_defaultShouldRevalidate, ...props }, forwardedRef) => {
 	let { unstable_useTransitions } = import_react.useContext(NavigationContext);
 	let submit = useSubmit();
 	let formAction = useFormAction(action, { relative });
@@ -16964,7 +16988,7 @@ var Form = import_react.forwardRef(({ discover = "render", fetcherKey, navigate,
 		"data-discover": !isAbsolute && discover === "render" ? "true" : void 0
 	});
 });
-Form.displayName = "Form";
+Form$1.displayName = "Form";
 function ScrollRestoration({ getKey, storageKey, ...props }) {
 	let remixContext = import_react.useContext(FrameworkContext);
 	let { basename } = import_react.useContext(NavigationContext);
@@ -17055,29 +17079,29 @@ function useSubmit() {
 	let currentRouteId = useRouteId();
 	let routerFetch = router.fetch;
 	let routerNavigate = router.navigate;
-	return import_react.useCallback(async (target, options = {}) => {
+	return import_react.useCallback(async (target, options$1 = {}) => {
 		let { action, method, encType, formData, body } = getFormSubmissionInfo(target, basename);
-		if (options.navigate === false) await routerFetch(options.fetcherKey || getUniqueFetcherId(), currentRouteId, options.action || action, {
-			unstable_defaultShouldRevalidate: options.unstable_defaultShouldRevalidate,
-			preventScrollReset: options.preventScrollReset,
+		if (options$1.navigate === false) await routerFetch(options$1.fetcherKey || getUniqueFetcherId(), currentRouteId, options$1.action || action, {
+			unstable_defaultShouldRevalidate: options$1.unstable_defaultShouldRevalidate,
+			preventScrollReset: options$1.preventScrollReset,
 			formData,
 			body,
-			formMethod: options.method || method,
-			formEncType: options.encType || encType,
-			flushSync: options.flushSync
+			formMethod: options$1.method || method,
+			formEncType: options$1.encType || encType,
+			flushSync: options$1.flushSync
 		});
-		else await routerNavigate(options.action || action, {
-			unstable_defaultShouldRevalidate: options.unstable_defaultShouldRevalidate,
-			preventScrollReset: options.preventScrollReset,
+		else await routerNavigate(options$1.action || action, {
+			unstable_defaultShouldRevalidate: options$1.unstable_defaultShouldRevalidate,
+			preventScrollReset: options$1.preventScrollReset,
 			formData,
 			body,
-			formMethod: options.method || method,
-			formEncType: options.encType || encType,
-			replace: options.replace,
-			state: options.state,
+			formMethod: options$1.method || method,
+			formEncType: options$1.encType || encType,
+			replace: options$1.replace,
+			state: options$1.state,
 			fromRouteId: currentRouteId,
-			flushSync: options.flushSync,
-			viewTransition: options.viewTransition
+			flushSync: options$1.flushSync,
+			viewTransition: options$1.viewTransition
 		});
 	}, [
 		routerFetch,
@@ -17193,8 +17217,8 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 		]);
 	}
 }
-function usePageHide(callback, options) {
-	let { capture } = options || {};
+function usePageHide(callback, options$1) {
+	let { capture } = options$1 || {};
 	import_react.useEffect(() => {
 		let opts = capture != null ? { capture } : void 0;
 		window.addEventListener("pagehide", callback, opts);
@@ -17216,10 +17240,10 @@ function useViewTransitionState(to, { relative } = {}) {
 var import_client = require_client();
 var TOAST_LIMIT = 1;
 var TOAST_REMOVE_DELAY = 1e6;
-var count$1 = 0;
+var count$2 = 0;
 function genId() {
-	count$1 = (count$1 + 1) % Number.MAX_SAFE_INTEGER;
-	return count$1.toString();
+	count$2 = (count$2 + 1) % Number.MAX_SAFE_INTEGER;
+	return count$2.toString();
 }
 var toastTimeouts = /* @__PURE__ */ new Map();
 var addToRemoveQueue = (toastId) => {
@@ -17241,10 +17265,10 @@ const reducer = (state, action) => {
 		};
 		case "UPDATE_TOAST": return {
 			...state,
-			toasts: state.toasts.map((t) => t.id === action.toast.id ? {
-				...t,
+			toasts: state.toasts.map((t$1) => t$1.id === action.toast.id ? {
+				...t$1,
 				...action.toast
-			} : t)
+			} : t$1)
 		};
 		case "DISMISS_TOAST": {
 			const { toastId } = action;
@@ -17254,10 +17278,10 @@ const reducer = (state, action) => {
 			});
 			return {
 				...state,
-				toasts: state.toasts.map((t) => t.id === toastId || toastId === void 0 ? {
-					...t,
+				toasts: state.toasts.map((t$1) => t$1.id === toastId || toastId === void 0 ? {
+					...t$1,
 					open: false
-				} : t)
+				} : t$1)
 			};
 		}
 		case "REMOVE_TOAST":
@@ -17267,7 +17291,7 @@ const reducer = (state, action) => {
 			};
 			return {
 				...state,
-				toasts: state.toasts.filter((t) => t.id !== action.toastId)
+				toasts: state.toasts.filter((t$1) => t$1.id !== action.toastId)
 			};
 	}
 };
@@ -17327,7 +17351,7 @@ function useToast() {
 		})
 	};
 }
-var import_react_dom$4 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+var import_react_dom$5 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
 typeof window !== "undefined" && window.document && window.document.createElement;
 function composeEventHandlers(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
 	return function handleEvent(event) {
@@ -17348,10 +17372,10 @@ function composeRefs(...refs) {
 			return cleanup;
 		});
 		if (hasCleanup) return () => {
-			for (let i = 0; i < cleanups.length; i++) {
-				const cleanup = cleanups[i];
+			for (let i$2 = 0; i$2 < cleanups.length; i$2++) {
+				const cleanup = cleanups[i$2];
 				if (typeof cleanup == "function") cleanup();
-				else setRef(refs[i], null);
+				else setRef(refs[i$2], null);
 			}
 		};
 	};
@@ -17436,12 +17460,12 @@ var require_react_jsx_runtime_development = /* @__PURE__ */ __commonJSMin(((expo
 		function UnknownOwner() {
 			return Error("react-stack-top-frame");
 		}
-		function hasValidKey(config) {
-			if (hasOwnProperty.call(config, "key")) {
-				var getter = Object.getOwnPropertyDescriptor(config, "key").get;
+		function hasValidKey(config$1) {
+			if (hasOwnProperty.call(config$1, "key")) {
+				var getter = Object.getOwnPropertyDescriptor(config$1, "key").get;
 				if (getter && getter.isReactWarning) return !1;
 			}
-			return void 0 !== config.key;
+			return void 0 !== config$1.key;
 		}
 		function defineKeyPropWarningGetter(props, displayName) {
 			function warnAboutAccessingKey() {
@@ -17503,16 +17527,16 @@ var require_react_jsx_runtime_development = /* @__PURE__ */ __commonJSMin(((expo
 			Object.freeze && (Object.freeze(type.props), Object.freeze(type));
 			return type;
 		}
-		function jsxDEVImpl(type, config, maybeKey, isStaticChildren, debugStack, debugTask) {
-			var children = config.children;
+		function jsxDEVImpl(type, config$1, maybeKey, isStaticChildren, debugStack, debugTask) {
+			var children = config$1.children;
 			if (void 0 !== children) if (isStaticChildren) if (isArrayImpl(children)) {
 				for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++) validateChildKeys(children[isStaticChildren]);
 				Object.freeze && Object.freeze(children);
 			} else console.error("React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead.");
 			else validateChildKeys(children);
-			if (hasOwnProperty.call(config, "key")) {
+			if (hasOwnProperty.call(config$1, "key")) {
 				children = getComponentNameFromType(type);
-				var keys = Object.keys(config).filter(function(k) {
+				var keys = Object.keys(config$1).filter(function(k) {
 					return "key" !== k;
 				});
 				isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
@@ -17520,45 +17544,64 @@ var require_react_jsx_runtime_development = /* @__PURE__ */ __commonJSMin(((expo
 			}
 			children = null;
 			void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
-			hasValidKey(config) && (checkKeyStringCoercion(config.key), children = "" + config.key);
-			if ("key" in config) {
+			hasValidKey(config$1) && (checkKeyStringCoercion(config$1.key), children = "" + config$1.key);
+			if ("key" in config$1) {
 				maybeKey = {};
-				for (var propName in config) "key" !== propName && (maybeKey[propName] = config[propName]);
-			} else maybeKey = config;
+				for (var propName in config$1) "key" !== propName && (maybeKey[propName] = config$1[propName]);
+			} else maybeKey = config$1;
 			children && defineKeyPropWarningGetter(maybeKey, "function" === typeof type ? type.displayName || type.name || "Unknown" : type);
 			return ReactElement(type, children, maybeKey, getOwner(), debugStack, debugTask);
 		}
 		function validateChildKeys(node) {
 			isValidElement(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE$1 && ("fulfilled" === node._payload.status ? isValidElement(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
 		}
-		function isValidElement(object) {
-			return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+		function isValidElement(object$1) {
+			return "object" === typeof object$1 && null !== object$1 && object$1.$$typeof === REACT_ELEMENT_TYPE;
 		}
-		var React$2 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE$1 = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React$2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+		var React$3 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE$1 = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React$3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
 			return null;
 		};
-		React$2 = { react_stack_bottom_frame: function(callStackForError) {
+		React$3 = { react_stack_bottom_frame: function(callStackForError) {
 			return callStackForError();
 		} };
 		var specialPropKeyWarningShown;
 		var didWarnAboutElementRef = {};
-		var unknownOwnerDebugStack = React$2.react_stack_bottom_frame.bind(React$2, UnknownOwner)();
+		var unknownOwnerDebugStack = React$3.react_stack_bottom_frame.bind(React$3, UnknownOwner)();
 		var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
 		var didWarnAboutKeySpread = {};
 		exports.Fragment = REACT_FRAGMENT_TYPE;
-		exports.jsx = function(type, config, maybeKey) {
+		exports.jsx = function(type, config$1, maybeKey) {
 			var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-			return jsxDEVImpl(type, config, maybeKey, !1, trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack, trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask);
+			return jsxDEVImpl(type, config$1, maybeKey, !1, trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack, trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask);
 		};
-		exports.jsxs = function(type, config, maybeKey) {
+		exports.jsxs = function(type, config$1, maybeKey) {
 			var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-			return jsxDEVImpl(type, config, maybeKey, !0, trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack, trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask);
+			return jsxDEVImpl(type, config$1, maybeKey, !0, trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack, trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask);
 		};
 	})();
 }));
 var import_jsx_runtime = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_development();
 })))(), 1);
+function createContext2(rootComponentName, defaultContext) {
+	const Context = import_react.createContext(defaultContext);
+	const Provider$2 = (props) => {
+		const { children, ...context } = props;
+		const value = import_react.useMemo(() => context, Object.values(context));
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Context.Provider, {
+			value,
+			children
+		});
+	};
+	Provider$2.displayName = rootComponentName + "Provider";
+	function useContext2(consumerName) {
+		const context = import_react.useContext(Context);
+		if (context) return context;
+		if (defaultContext !== void 0) return defaultContext;
+		throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+	}
+	return [Provider$2, useContext2];
+}
 function createContextScope(scopeName, createContextScopeDeps = []) {
 	let defaultContexts = [];
 	function createContext3(rootComponentName, defaultContext) {
@@ -17768,7 +17811,7 @@ function createCollection(name) {
 			const collectionNode = context.collectionRef.current;
 			if (!collectionNode) return [];
 			const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`));
-			return Array.from(context.itemMap.values()).sort((a, b$1) => orderedNodes.indexOf(a.ref.current) - orderedNodes.indexOf(b$1.ref.current));
+			return Array.from(context.itemMap.values()).sort((a$1, b$1) => orderedNodes.indexOf(a$1.ref.current) - orderedNodes.indexOf(b$1.ref.current));
 		}, [context.collectionRef, context.itemMap]);
 	}
 	return [
@@ -17781,7 +17824,7 @@ function createCollection(name) {
 		createCollectionScope$1
 	];
 }
-var Primitive = [
+var Primitive$1 = [
 	"a",
 	"button",
 	"div",
@@ -17800,10 +17843,10 @@ var Primitive = [
 	"svg",
 	"ul"
 ].reduce((primitive, node) => {
-	const Slot$1 = /* @__PURE__ */ createSlot$1(`Primitive.${node}`);
+	const Slot$2 = /* @__PURE__ */ createSlot$1(`Primitive.${node}`);
 	const Node$1 = import_react.forwardRef((props, forwardedRef) => {
 		const { asChild, ...primitiveProps } = props;
-		const Comp = asChild ? Slot$1 : node;
+		const Comp = asChild ? Slot$2 : node;
 		if (typeof window !== "undefined") window[Symbol.for("radix-ui")] = true;
 		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Comp, {
 			...primitiveProps,
@@ -17817,9 +17860,9 @@ var Primitive = [
 	};
 }, {});
 function dispatchDiscreteCustomEvent(target, event) {
-	if (target) import_react_dom$4.flushSync(() => target.dispatchEvent(event));
+	if (target) import_react_dom$5.flushSync(() => target.dispatchEvent(event));
 }
-function useCallbackRef(callback) {
+function useCallbackRef$1(callback) {
 	const callbackRef = import_react.useRef(callback);
 	import_react.useEffect(() => {
 		callbackRef.current = callback;
@@ -17827,7 +17870,7 @@ function useCallbackRef(callback) {
 	return import_react.useMemo(() => (...args) => callbackRef.current?.(...args), []);
 }
 function useEscapeKeydown(onEscapeKeyDownProp, ownerDocument = globalThis?.document) {
-	const onEscapeKeyDown = useCallbackRef(onEscapeKeyDownProp);
+	const onEscapeKeyDown = useCallbackRef$1(onEscapeKeyDownProp);
 	import_react.useEffect(() => {
 		const handleKeyDown = (event) => {
 			if (event.key === "Escape") onEscapeKeyDown(event);
@@ -17915,7 +17958,7 @@ var DismissableLayer = import_react.forwardRef((props, forwardedRef) => {
 		document.addEventListener(CONTEXT_UPDATE, handleUpdate);
 		return () => document.removeEventListener(CONTEXT_UPDATE, handleUpdate);
 	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		...layerProps,
 		ref: composedRefs,
 		style: {
@@ -17942,14 +17985,14 @@ var DismissableLayerBranch = import_react.forwardRef((props, forwardedRef) => {
 			};
 		}
 	}, [context.branches]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		...props,
 		ref: composedRefs
 	});
 });
 DismissableLayerBranch.displayName = BRANCH_NAME;
 function usePointerDownOutside(onPointerDownOutside, ownerDocument = globalThis?.document) {
-	const handlePointerDownOutside = useCallbackRef(onPointerDownOutside);
+	const handlePointerDownOutside = useCallbackRef$1(onPointerDownOutside);
 	const isPointerInsideReactTreeRef = import_react.useRef(false);
 	const handleClickRef = import_react.useRef(() => {});
 	import_react.useEffect(() => {
@@ -17979,7 +18022,7 @@ function usePointerDownOutside(onPointerDownOutside, ownerDocument = globalThis?
 	return { onPointerDownCapture: () => isPointerInsideReactTreeRef.current = true };
 }
 function useFocusOutside(onFocusOutside, ownerDocument = globalThis?.document) {
-	const handleFocusOutside = useCallbackRef(onFocusOutside);
+	const handleFocusOutside = useCallbackRef$1(onFocusOutside);
 	const isFocusInsideReactTreeRef = import_react.useRef(false);
 	import_react.useEffect(() => {
 		const handleFocus = (event) => {
@@ -18008,22 +18051,22 @@ function handleAndDispatchCustomEvent$1(name, handler, detail, { discrete }) {
 	if (discrete) dispatchDiscreteCustomEvent(target, event);
 	else target.dispatchEvent(event);
 }
-var Root$2 = DismissableLayer;
+var Root$4 = DismissableLayer;
 var Branch = DismissableLayerBranch;
 var useLayoutEffect2 = globalThis?.document ? import_react.useLayoutEffect : () => {};
-var import_react_dom$3 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
-var PORTAL_NAME$1 = "Portal";
+var import_react_dom$4 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+var PORTAL_NAME$3 = "Portal";
 var Portal = import_react.forwardRef((props, forwardedRef) => {
 	const { container: containerProp, ...portalProps } = props;
 	const [mounted, setMounted] = import_react.useState(false);
 	useLayoutEffect2(() => setMounted(true), []);
 	const container = containerProp || mounted && globalThis?.document?.body;
-	return container ? import_react_dom$3.createPortal(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return container ? import_react_dom$4.createPortal(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		...portalProps,
 		ref: forwardedRef
 	}), container) : null;
 });
-Portal.displayName = PORTAL_NAME$1;
+Portal.displayName = PORTAL_NAME$3;
 function useStateMachine(initialState, machine) {
 	return import_react.useReducer((state, event) => {
 		return machine[state][event] ?? state;
@@ -18143,7 +18186,7 @@ function useControllableState({ prop, defaultProp, onChange = () => {}, caller }
 	}
 	return [value, import_react.useCallback((nextValue) => {
 		if (isControlled) {
-			const value2 = isFunction(nextValue) ? nextValue(prop) : nextValue;
+			const value2 = isFunction$2(nextValue) ? nextValue(prop) : nextValue;
 			if (value2 !== prop) onChangeRef.current?.(value2);
 		} else setUncontrolledProp(nextValue);
 	}, [
@@ -18172,7 +18215,7 @@ function useUncontrolledState({ defaultProp, onChange }) {
 		onChangeRef
 	];
 }
-function isFunction(value) {
+function isFunction$2(value) {
 	return typeof value === "function";
 }
 var VISUALLY_HIDDEN_STYLES = Object.freeze({
@@ -18187,9 +18230,9 @@ var VISUALLY_HIDDEN_STYLES = Object.freeze({
 	whiteSpace: "nowrap",
 	wordWrap: "normal"
 });
-var NAME$1 = "VisuallyHidden";
+var NAME$2 = "VisuallyHidden";
 var VisuallyHidden = import_react.forwardRef((props, forwardedRef) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.span, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.span, {
 		...props,
 		ref: forwardedRef,
 		style: {
@@ -18198,15 +18241,15 @@ var VisuallyHidden = import_react.forwardRef((props, forwardedRef) => {
 		}
 	});
 });
-VisuallyHidden.displayName = NAME$1;
-var Root$1 = VisuallyHidden;
-var import_react_dom$2 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+VisuallyHidden.displayName = NAME$2;
+var Root$3 = VisuallyHidden;
+var import_react_dom$3 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
 var PROVIDER_NAME$1 = "ToastProvider";
 var [Collection, useCollection, createCollectionScope] = createCollection("Toast");
 var [createToastContext, createToastScope] = createContextScope("Toast", [createCollectionScope]);
 var [ToastProviderProvider, useToastProviderContext] = createToastContext(PROVIDER_NAME$1);
 var ToastProvider$1 = (props) => {
-	const { __scopeToast, label = "Notification", duration = 5e3, swipeDirection = "right", swipeThreshold = 50, children } = props;
+	const { __scopeToast, label = "Notification", duration: duration$2 = 5e3, swipeDirection = "right", swipeThreshold = 50, children } = props;
 	const [viewport, setViewport] = import_react.useState(null);
 	const [toastCount, setToastCount] = import_react.useState(0);
 	const isFocusedToastEscapeKeyDownRef = import_react.useRef(false);
@@ -18217,7 +18260,7 @@ var ToastProvider$1 = (props) => {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToastProviderProvider, {
 			scope: __scopeToast,
 			label,
-			duration,
+			duration: duration$2,
 			swipeDirection,
 			swipeThreshold,
 			toastCount,
@@ -18297,7 +18340,7 @@ var ToastViewport$1 = import_react.forwardRef((props, forwardedRef) => {
 	const getSortedTabbableCandidates = import_react.useCallback(({ tabbingDirection }) => {
 		const tabbableCandidates = getItems().map((toastItem) => {
 			const toastNode = toastItem.ref.current;
-			const toastTabbableCandidates = [toastNode, ...getTabbableCandidates(toastNode)];
+			const toastTabbableCandidates = [toastNode, ...getTabbableCandidates$1(toastNode)];
 			return tabbingDirection === "forwards" ? toastTabbableCandidates : toastTabbableCandidates.reverse();
 		});
 		return (tabbingDirection === "forwards" ? tabbableCandidates.reverse() : tabbableCandidates).flat();
@@ -18316,7 +18359,7 @@ var ToastViewport$1 = import_react.forwardRef((props, forwardedRef) => {
 					}
 					const sortedCandidates = getSortedTabbableCandidates({ tabbingDirection: isTabbingBackwards ? "backwards" : "forwards" });
 					const index$1 = sortedCandidates.findIndex((candidate) => candidate === focusedElement);
-					if (focusFirst(sortedCandidates.slice(index$1 + 1))) event.preventDefault();
+					if (focusFirst$1(sortedCandidates.slice(index$1 + 1))) event.preventDefault();
 					else isTabbingBackwards ? headFocusProxyRef.current?.focus() : tailFocusProxyRef.current?.focus();
 				}
 			};
@@ -18334,12 +18377,12 @@ var ToastViewport$1 = import_react.forwardRef((props, forwardedRef) => {
 			hasToasts && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusProxy, {
 				ref: headFocusProxyRef,
 				onFocusFromOutsideViewport: () => {
-					focusFirst(getSortedTabbableCandidates({ tabbingDirection: "forwards" }));
+					focusFirst$1(getSortedTabbableCandidates({ tabbingDirection: "forwards" }));
 				}
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection.Slot, {
 				scope: __scopeToast,
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.ol, {
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.ol, {
 					tabIndex: -1,
 					...viewportProps,
 					ref: composedRefs
@@ -18348,7 +18391,7 @@ var ToastViewport$1 = import_react.forwardRef((props, forwardedRef) => {
 			hasToasts && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusProxy, {
 				ref: tailFocusProxyRef,
 				onFocusFromOutsideViewport: () => {
-					focusFirst(getSortedTabbableCandidates({ tabbingDirection: "backwards" }));
+					focusFirst$1(getSortedTabbableCandidates({ tabbingDirection: "backwards" }));
 				}
 			})
 		]
@@ -18391,8 +18434,8 @@ var Toast$2 = import_react.forwardRef((props, forwardedRef) => {
 			...toastProps,
 			ref: forwardedRef,
 			onClose: () => setOpen(false),
-			onPause: useCallbackRef(props.onPause),
-			onResume: useCallbackRef(props.onResume),
+			onPause: useCallbackRef$1(props.onPause),
+			onResume: useCallbackRef$1(props.onResume),
 			onSwipeStart: composeEventHandlers(props.onSwipeStart, (event) => {
 				event.currentTarget.setAttribute("data-swipe", "start");
 			}),
@@ -18430,12 +18473,12 @@ var ToastImpl = import_react.forwardRef((props, forwardedRef) => {
 	const composedRefs = useComposedRefs(forwardedRef, (node2) => setNode(node2));
 	const pointerStartRef = import_react.useRef(null);
 	const swipeDeltaRef = import_react.useRef(null);
-	const duration = durationProp || context.duration;
+	const duration$2 = durationProp || context.duration;
 	const closeTimerStartTimeRef = import_react.useRef(0);
-	const closeTimerRemainingTimeRef = import_react.useRef(duration);
+	const closeTimerRemainingTimeRef = import_react.useRef(duration$2);
 	const closeTimerRef = import_react.useRef(0);
 	const { onToastAdd, onToastRemove } = context;
-	const handleClose = useCallbackRef(() => {
+	const handleClose = useCallbackRef$1(() => {
 		if (node?.contains(document.activeElement)) context.viewport?.focus();
 		onClose();
 	});
@@ -18467,16 +18510,16 @@ var ToastImpl = import_react.forwardRef((props, forwardedRef) => {
 		}
 	}, [
 		context.viewport,
-		duration,
+		duration$2,
 		onPause,
 		onResume,
 		startTimer
 	]);
 	import_react.useEffect(() => {
-		if (open && !context.isClosePausedRef.current) startTimer(duration);
+		if (open && !context.isClosePausedRef.current) startTimer(duration$2);
 	}, [
 		open,
-		duration,
+		duration$2,
 		context.isClosePausedRef,
 		startTimer
 	]);
@@ -18496,15 +18539,15 @@ var ToastImpl = import_react.forwardRef((props, forwardedRef) => {
 	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToastInteractiveProvider, {
 		scope: __scopeToast,
 		onClose: handleClose,
-		children: import_react_dom$2.createPortal(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection.ItemSlot, {
+		children: import_react_dom$3.createPortal(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Collection.ItemSlot, {
 			scope: __scopeToast,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$2, {
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$4, {
 				asChild: true,
 				onEscapeKeyDown: composeEventHandlers(onEscapeKeyDown, () => {
 					if (!context.isFocusedToastEscapeKeyDownRef.current) handleClose();
 					context.isFocusedToastEscapeKeyDownRef.current = false;
 				}),
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.li, {
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.li, {
 					tabIndex: 0,
 					"data-state": open ? "open" : "closed",
 					"data-swipe-direction": context.swipeDirection,
@@ -18601,29 +18644,29 @@ var ToastAnnounce = (props) => {
 		})
 	});
 };
-var TITLE_NAME = "ToastTitle";
+var TITLE_NAME$2 = "ToastTitle";
 var ToastTitle$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeToast, ...titleProps } = props;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		...titleProps,
 		ref: forwardedRef
 	});
 });
-ToastTitle$1.displayName = TITLE_NAME;
-var DESCRIPTION_NAME = "ToastDescription";
+ToastTitle$1.displayName = TITLE_NAME$2;
+var DESCRIPTION_NAME$2 = "ToastDescription";
 var ToastDescription$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeToast, ...descriptionProps } = props;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		...descriptionProps,
 		ref: forwardedRef
 	});
 });
-ToastDescription$1.displayName = DESCRIPTION_NAME;
-var ACTION_NAME = "ToastAction";
+ToastDescription$1.displayName = DESCRIPTION_NAME$2;
+var ACTION_NAME$1 = "ToastAction";
 var ToastAction$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { altText, ...actionProps } = props;
 	if (!altText.trim()) {
-		console.error(`Invalid prop \`altText\` supplied to \`${ACTION_NAME}\`. Expected non-empty \`string\`.`);
+		console.error(`Invalid prop \`altText\` supplied to \`${ACTION_NAME$1}\`. Expected non-empty \`string\`.`);
 		return null;
 	}
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToastAnnounceExclude, {
@@ -18635,14 +18678,14 @@ var ToastAction$1 = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-ToastAction$1.displayName = ACTION_NAME;
-var CLOSE_NAME = "ToastClose";
+ToastAction$1.displayName = ACTION_NAME$1;
+var CLOSE_NAME$1 = "ToastClose";
 var ToastClose$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeToast, ...closeProps } = props;
-	const interactiveContext = useToastInteractiveContext(CLOSE_NAME, __scopeToast);
+	const interactiveContext = useToastInteractiveContext(CLOSE_NAME$1, __scopeToast);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToastAnnounceExclude, {
 		asChild: true,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.button, {
 			type: "button",
 			...closeProps,
 			ref: forwardedRef,
@@ -18650,10 +18693,10 @@ var ToastClose$1 = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-ToastClose$1.displayName = CLOSE_NAME;
+ToastClose$1.displayName = CLOSE_NAME$1;
 var ToastAnnounceExclude = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeToast, altText, ...announceExcludeProps } = props;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		"data-radix-toast-announce-exclude": "",
 		"data-radix-toast-announce-alt": altText || void 0,
 		...announceExcludeProps,
@@ -18664,10 +18707,10 @@ function getAnnounceTextContent(container) {
 	const textContent = [];
 	Array.from(container.childNodes).forEach((node) => {
 		if (node.nodeType === node.TEXT_NODE && node.textContent) textContent.push(node.textContent);
-		if (isHTMLElement$1(node)) {
-			const isHidden = node.ariaHidden || node.hidden || node.style.display === "none";
+		if (isHTMLElement$2(node)) {
+			const isHidden$1 = node.ariaHidden || node.hidden || node.style.display === "none";
 			const isExcluded = node.dataset.radixToastAnnounceExclude === "";
-			if (!isHidden) if (isExcluded) {
+			if (!isHidden$1) if (isExcluded) {
 				const altText = node.dataset.radixToastAnnounceAlt;
 				if (altText) textContent.push(altText);
 			} else textContent.push(...getAnnounceTextContent(node));
@@ -18694,7 +18737,7 @@ var isDeltaInDirection = (delta, direction, threshold = 0) => {
 	else return !isDeltaX && deltaY > threshold;
 };
 function useNextFrame(callback = () => {}) {
-	const fn = useCallbackRef(callback);
+	const fn = useCallbackRef$1(callback);
 	useLayoutEffect2(() => {
 		let raf1 = 0;
 		let raf2 = 0;
@@ -18705,10 +18748,10 @@ function useNextFrame(callback = () => {}) {
 		};
 	}, [fn]);
 }
-function isHTMLElement$1(node) {
+function isHTMLElement$2(node) {
 	return node.nodeType === node.ELEMENT_NODE;
 }
-function getTabbableCandidates(container) {
+function getTabbableCandidates$1(container) {
 	const nodes = [];
 	const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, { acceptNode: (node) => {
 		const isHiddenInput = node.tagName === "INPUT" && node.type === "hidden";
@@ -18718,7 +18761,7 @@ function getTabbableCandidates(container) {
 	while (walker.nextNode()) nodes.push(walker.currentNode);
 	return nodes;
 }
-function focusFirst(candidates) {
+function focusFirst$1(candidates) {
 	const previouslyFocusedElement = document.activeElement;
 	return candidates.some((candidate) => {
 		if (candidate === previouslyFocusedElement) return true;
@@ -18728,30 +18771,30 @@ function focusFirst(candidates) {
 }
 var Provider$1 = ToastProvider$1;
 var Viewport = ToastViewport$1;
-var Root2$1 = Toast$2;
-var Title = ToastTitle$1;
-var Description = ToastDescription$1;
-var Action = ToastAction$1;
-var Close = ToastClose$1;
-function r(e) {
-	var t, f, n = "";
-	if ("string" == typeof e || "number" == typeof e) n += e;
+var Root2$2 = Toast$2;
+var Title$1 = ToastTitle$1;
+var Description$1 = ToastDescription$1;
+var Action$1 = ToastAction$1;
+var Close$1 = ToastClose$1;
+function r$1(e) {
+	var t$1, f, n$1 = "";
+	if ("string" == typeof e || "number" == typeof e) n$1 += e;
 	else if ("object" == typeof e) if (Array.isArray(e)) {
-		var o = e.length;
-		for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
-	} else for (f in e) e[f] && (n && (n += " "), n += f);
-	return n;
+		var o$1 = e.length;
+		for (t$1 = 0; t$1 < o$1; t$1++) e[t$1] && (f = r$1(e[t$1])) && (n$1 && (n$1 += " "), n$1 += f);
+	} else for (f in e) e[f] && (n$1 && (n$1 += " "), n$1 += f);
+	return n$1;
 }
 function clsx() {
-	for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
-	return n;
+	for (var e, t$1, f = 0, n$1 = "", o$1 = arguments.length; f < o$1; f++) (e = arguments[f]) && (t$1 = r$1(e)) && (n$1 && (n$1 += " "), n$1 += t$1);
+	return n$1;
 }
 var falsyToString = (value) => typeof value === "boolean" ? `${value}` : value === 0 ? "0" : value;
 const cx = clsx;
-const cva = (base, config) => (props) => {
+const cva = (base, config$1) => (props) => {
 	var _config_compoundVariants;
-	if ((config === null || config === void 0 ? void 0 : config.variants) == null) return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
-	const { variants, defaultVariants } = config;
+	if ((config$1 === null || config$1 === void 0 ? void 0 : config$1.variants) == null) return cx(base, props === null || props === void 0 ? void 0 : props.class, props === null || props === void 0 ? void 0 : props.className);
+	const { variants, defaultVariants } = config$1;
 	const getVariantClassNames = Object.keys(variants).map((variant) => {
 		const variantProp = props === null || props === void 0 ? void 0 : props[variant];
 		const defaultVariantProp = defaultVariants === null || defaultVariants === void 0 ? void 0 : defaultVariants[variant];
@@ -18765,7 +18808,7 @@ const cva = (base, config) => (props) => {
 		acc[key] = value;
 		return acc;
 	}, {});
-	return cx(base, getVariantClassNames, config === null || config === void 0 ? void 0 : (_config_compoundVariants = config.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param) => {
+	return cx(base, getVariantClassNames, config$1 === null || config$1 === void 0 ? void 0 : (_config_compoundVariants = config$1.compoundVariants) === null || _config_compoundVariants === void 0 ? void 0 : _config_compoundVariants.reduce((acc, param) => {
 		let { class: cvClass, className: cvClassName, ...compoundVariantOptions } = param;
 		return Object.entries(compoundVariantOptions).every((param$1) => {
 			let [key, value] = param$1;
@@ -18789,14 +18832,14 @@ const cva = (base, config) => (props) => {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-var toCamelCase = (string) => string.replace(/^([A-Z])|[\s-_]+(\w)/g, (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase());
-var toPascalCase = (string) => {
-	const camelCase = toCamelCase(string);
+var toKebabCase = (string$2) => string$2.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+var toCamelCase = (string$2) => string$2.replace(/^([A-Z])|[\s-_]+(\w)/g, (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase());
+var toPascalCase = (string$2) => {
+	const camelCase = toCamelCase(string$2);
 	return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
 };
-var mergeClasses = (...classes) => classes.filter((className, index$1, array) => {
-	return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index$1;
+var mergeClasses = (...classes) => classes.filter((className, index$1, array$1) => {
+	return Boolean(className) && className.trim() !== "" && array$1.indexOf(className) === index$1;
 }).join(" ").trim();
 var hasA11yProp = (props) => {
 	for (const prop in props) if (prop.startsWith("aria-") || prop === "role" || prop === "title") return true;
@@ -18858,6 +18901,32 @@ var ArrowRight = createLucideIcon("arrow-right", [["path", {
 	d: "m12 5 7 7-7 7",
 	key: "xquz4c"
 }]]);
+var Check = createLucideIcon("check", [["path", {
+	d: "M20 6 9 17l-5-5",
+	key: "1gmf2c"
+}]]);
+var CircleAlert = createLucideIcon("circle-alert", [
+	["circle", {
+		cx: "12",
+		cy: "12",
+		r: "10",
+		key: "1mglay"
+	}],
+	["line", {
+		x1: "12",
+		x2: "12",
+		y1: "8",
+		y2: "12",
+		key: "1pkeuh"
+	}],
+	["line", {
+		x1: "12",
+		x2: "12.01",
+		y1: "16",
+		y2: "16",
+		key: "4dfq90"
+	}]
+]);
 var CircleCheck = createLucideIcon("circle-check", [["circle", {
 	cx: "12",
 	cy: "12",
@@ -18867,20 +18936,6 @@ var CircleCheck = createLucideIcon("circle-check", [["circle", {
 	d: "m9 12 2 2 4-4",
 	key: "dzmm74"
 }]]);
-var FileCheck = createLucideIcon("file-check", [
-	["path", {
-		d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-		key: "1oefj6"
-	}],
-	["path", {
-		d: "M14 2v5a1 1 0 0 0 1 1h5",
-		key: "wfsgrz"
-	}],
-	["path", {
-		d: "m9 15 2 2 4-4",
-		key: "1grp1n"
-	}]
-]);
 var FileSpreadsheet = createLucideIcon("file-spreadsheet", [
 	["path", {
 		d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
@@ -18911,10 +18966,71 @@ var LoaderCircle = createLucideIcon("loader-circle", [["path", {
 	d: "M21 12a9 9 0 1 1-6.219-8.56",
 	key: "13zald"
 }]]);
+var LogOut = createLucideIcon("log-out", [
+	["path", {
+		d: "m16 17 5-5-5-5",
+		key: "1bji2h"
+	}],
+	["path", {
+		d: "M21 12H9",
+		key: "dn1m92"
+	}],
+	["path", {
+		d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4",
+		key: "1uf3rs"
+	}]
+]);
+var Mail = createLucideIcon("mail", [["path", {
+	d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",
+	key: "132q7q"
+}], ["rect", {
+	x: "2",
+	y: "4",
+	width: "20",
+	height: "16",
+	rx: "2",
+	key: "izxlao"
+}]]);
 var MessageCircle = createLucideIcon("message-circle", [["path", {
 	d: "M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719",
 	key: "1sd12s"
 }]]);
+var Pencil = createLucideIcon("pencil", [["path", {
+	d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
+	key: "1a8usu"
+}], ["path", {
+	d: "m15 5 4 4",
+	key: "1mk7zo"
+}]]);
+var Send = createLucideIcon("send", [["path", {
+	d: "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",
+	key: "1ffxy3"
+}], ["path", {
+	d: "m21.854 2.147-10.94 10.939",
+	key: "12cjpa"
+}]]);
+var Trash2 = createLucideIcon("trash-2", [
+	["path", {
+		d: "M10 11v6",
+		key: "nco0om"
+	}],
+	["path", {
+		d: "M14 11v6",
+		key: "outv1u"
+	}],
+	["path", {
+		d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6",
+		key: "miytrc"
+	}],
+	["path", {
+		d: "M3 6h18",
+		key: "d0wm0j"
+	}],
+	["path", {
+		d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
+		key: "e791ji"
+	}]
+]);
 var Upload$1 = createLucideIcon("upload", [
 	["path", {
 		d: "M12 3v12",
@@ -18937,9 +19053,9 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 var CLASS_PART_SEPARATOR = "-";
-var createClassGroupUtils = (config) => {
-	const classMap = createClassMap(config);
-	const { conflictingClassGroups, conflictingClassGroupModifiers } = config;
+var createClassGroupUtils = (config$1) => {
+	const classMap = createClassMap(config$1);
+	const { conflictingClassGroups, conflictingClassGroupModifiers } = config$1;
 	const getClassGroupId = (className) => {
 		const classParts = className.split(CLASS_PART_SEPARATOR);
 		if (classParts[0] === "" && classParts.length !== 1) classParts.shift();
@@ -18973,13 +19089,13 @@ var getGroupIdForArbitraryProperty = (className) => {
 		if (property) return "arbitrary.." + property;
 	}
 };
-var createClassMap = (config) => {
-	const { theme, prefix } = config;
+var createClassMap = (config$1) => {
+	const { theme, prefix } = config$1;
 	const classMap = {
 		nextPart: /* @__PURE__ */ new Map(),
 		validators: []
 	};
-	getPrefixedClassGroupEntries(Object.entries(config.classGroups), prefix).forEach(([classGroupId, classGroup]) => {
+	getPrefixedClassGroupEntries(Object.entries(config$1.classGroups), prefix).forEach(([classGroupId, classGroup]) => {
 		processClassesRecursively(classGroup, classMap, classGroupId, theme);
 	});
 	return classMap;
@@ -19062,8 +19178,8 @@ var createLruCache = (maxCacheSize) => {
 	};
 };
 var IMPORTANT_MODIFIER = "!";
-var createParseClassName = (config) => {
-	const { separator, experimentalParseClassName } = config;
+var createParseClassName = (config$1) => {
+	const { separator, experimentalParseClassName } = config$1;
 	const isSeparatorSingleCharacter = separator.length === 1;
 	const firstSeparatorCharacter = separator[0];
 	const separatorLength = separator.length;
@@ -19116,10 +19232,10 @@ var sortModifiers = (modifiers) => {
 	sortedModifiers.push(...unsortedModifiers.sort());
 	return sortedModifiers;
 };
-var createConfigUtils = (config) => ({
-	cache: createLruCache(config.cacheSize),
-	parseClassName: createParseClassName(config),
-	...createClassGroupUtils(config)
+var createConfigUtils = (config$1) => ({
+	cache: createLruCache(config$1.cacheSize),
+	parseClassName: createParseClassName(config$1),
+	...createClassGroupUtils(config$1)
 });
 var SPLIT_CLASSES_REGEX = /\s+/;
 var mergeClassList = (classList, configUtils) => {
@@ -19150,8 +19266,8 @@ var mergeClassList = (classList, configUtils) => {
 		if (classGroupsInConflict.includes(classId)) continue;
 		classGroupsInConflict.push(classId);
 		const conflictGroups = getConflictingClassGroupIds(classGroupId, hasPostfixModifier);
-		for (let i = 0; i < conflictGroups.length; ++i) {
-			const group = conflictGroups[i];
+		for (let i$2 = 0; i$2 < conflictGroups.length; ++i$2) {
+			const group = conflictGroups[i$2];
 			classGroupsInConflict.push(modifierId + group);
 		}
 		result = originalClassName + (result.length > 0 ? " " + result : result);
@@ -19162,26 +19278,26 @@ function twJoin() {
 	let index$1 = 0;
 	let argument;
 	let resolvedValue;
-	let string = "";
+	let string$2 = "";
 	while (index$1 < arguments.length) if (argument = arguments[index$1++]) {
 		if (resolvedValue = toValue(argument)) {
-			string && (string += " ");
-			string += resolvedValue;
+			string$2 && (string$2 += " ");
+			string$2 += resolvedValue;
 		}
 	}
-	return string;
+	return string$2;
 }
 var toValue = (mix) => {
 	if (typeof mix === "string") return mix;
 	let resolvedValue;
-	let string = "";
+	let string$2 = "";
 	for (let k = 0; k < mix.length; k++) if (mix[k]) {
 		if (resolvedValue = toValue(mix[k])) {
-			string && (string += " ");
-			string += resolvedValue;
+			string$2 && (string$2 += " ");
+			string$2 += resolvedValue;
 		}
 	}
-	return string;
+	return string$2;
 };
 function createTailwindMerge(createConfigFirst, ...createConfigRest) {
 	let configUtils;
@@ -20339,39 +20455,39 @@ var toastVariants = cva("group pointer-events-auto relative flex w-full items-ce
 	defaultVariants: { variant: "default" }
 });
 var Toast$1 = import_react.forwardRef(({ className, variant, ...props }, ref) => {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$1, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$2, {
 		ref,
 		className: cn(toastVariants({ variant }), className),
 		...props
 	});
 });
-Toast$1.displayName = Root2$1.displayName;
-var ToastAction = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Action, {
+Toast$1.displayName = Root2$2.displayName;
+var ToastAction = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Action$1, {
 	ref,
 	className: cn("inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive", className),
 	...props
 }));
-ToastAction.displayName = Action.displayName;
-var ToastClose = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Close, {
+ToastAction.displayName = Action$1.displayName;
+var ToastClose = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Close$1, {
 	ref,
 	className: cn("absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600", className),
 	"toast-close": "",
 	...props,
 	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" })
 }));
-ToastClose.displayName = Close.displayName;
-var ToastTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
+ToastClose.displayName = Close$1.displayName;
+var ToastTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title$1, {
 	ref,
 	className: cn("text-sm font-semibold", className),
 	...props
 }));
-ToastTitle.displayName = Title.displayName;
-var ToastDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
+ToastTitle.displayName = Title$1.displayName;
+var ToastDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description$1, {
 	ref,
 	className: cn("text-sm opacity-90", className),
 	...props
 }));
-ToastDescription.displayName = Description.displayName;
+ToastDescription.displayName = Description$1.displayName;
 function Toaster() {
 	const { toasts } = useToast();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(ToastProvider, { children: [toasts.map(function({ id, title, description, action, ...props }) {
@@ -20388,25 +20504,25 @@ function Toaster() {
 		}, id);
 	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ToastViewport, {})] });
 }
-var M = (e, i, s, u, m, a, l, h) => {
+var M = (e, i$2, s$2, u, m, a$1, l, h) => {
 	let d = document.documentElement, w = ["light", "dark"];
-	function p(n) {
+	function p(n$1) {
 		(Array.isArray(e) ? e : [e]).forEach((y) => {
-			let k = y === "class", S = k && a ? m.map((f) => a[f] || f) : m;
-			k ? (d.classList.remove(...S), d.classList.add(a && a[n] ? a[n] : n)) : d.setAttribute(y, n);
-		}), R(n);
+			let k = y === "class", S = k && a$1 ? m.map((f) => a$1[f] || f) : m;
+			k ? (d.classList.remove(...S), d.classList.add(a$1 && a$1[n$1] ? a$1[n$1] : n$1)) : d.setAttribute(y, n$1);
+		}), R(n$1);
 	}
-	function R(n) {
-		h && w.includes(n) && (d.style.colorScheme = n);
+	function R(n$1) {
+		h && w.includes(n$1) && (d.style.colorScheme = n$1);
 	}
 	function c() {
 		return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 	}
 	if (u) p(u);
 	else try {
-		let n = localStorage.getItem(i) || s;
-		p(l && n === "system" ? c() : n);
-	} catch (n) {}
+		let n$1 = localStorage.getItem(i$2) || s$2;
+		p(l && n$1 === "system" ? c() : n$1);
+	} catch (n$1) {}
 }, x = import_react.createContext(void 0), U = {
 	setTheme: (e) => {},
 	themes: []
@@ -20414,11 +20530,11 @@ var M = (e, i, s, u, m, a, l, h) => {
 	var e;
 	return (e = import_react.useContext(x)) != null ? e : U;
 };
-import_react.memo(({ forcedTheme: e, storageKey: i, attribute: s, enableSystem: u, enableColorScheme: m, defaultTheme: a, value: l, themes: h, nonce: d, scriptProps: w }) => {
+import_react.memo(({ forcedTheme: e, storageKey: i$2, attribute: s$2, enableSystem: u, enableColorScheme: m, defaultTheme: a$1, value: l, themes: h, nonce: d, scriptProps: w }) => {
 	let p = JSON.stringify([
-		s,
-		i,
-		a,
+		s$2,
+		i$2,
+		a$1,
 		e,
 		h,
 		l,
@@ -20432,13 +20548,13 @@ import_react.memo(({ forcedTheme: e, storageKey: i, attribute: s, enableSystem: 
 		dangerouslySetInnerHTML: { __html: `(${M.toString()})(${p})` }
 	});
 });
-var import_react_dom$1 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+var import_react_dom$2 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
 function __insertCSS(code) {
 	if (!code || typeof document == "undefined") return;
-	let head = document.head || document.getElementsByTagName("head")[0];
+	let head$1 = document.head || document.getElementsByTagName("head")[0];
 	let style = document.createElement("style");
 	style.type = "text/css";
-	head.appendChild(style);
+	head$1.appendChild(style);
 	style.styleSheet ? style.styleSheet.cssText = code : style.appendChild(document.createTextNode(code));
 }
 var getAsset = (type) => {
@@ -20455,9 +20571,9 @@ var Loader = ({ visible, className }) => {
 	return /* @__PURE__ */ import_react.createElement("div", {
 		className: ["sonner-loading-wrapper", className].filter(Boolean).join(" "),
 		"data-visible": visible
-	}, /* @__PURE__ */ import_react.createElement("div", { className: "sonner-spinner" }, bars.map((_$1, i) => /* @__PURE__ */ import_react.createElement("div", {
+	}, /* @__PURE__ */ import_react.createElement("div", { className: "sonner-spinner" }, bars.map((_$1, i$2) => /* @__PURE__ */ import_react.createElement("div", {
 		className: "sonner-loading-bar",
-		key: `spinner-bar-${i}`
+		key: `spinner-bar-${i$2}`
 	}))));
 };
 var SuccessIcon = /* @__PURE__ */ import_react.createElement("svg", {
@@ -20725,10 +20841,10 @@ var Observer = class {
 			if (typeof id !== "string" && typeof id !== "number") return { unwrap };
 			else return Object.assign(id, { unwrap });
 		};
-		this.custom = (jsx$12, data) => {
+		this.custom = (jsx$18, data) => {
 			const id = (data == null ? void 0 : data.id) || toastsCounter++;
 			this.create({
-				jsx: jsx$12(id),
+				jsx: jsx$18(id),
 				id,
 				...data
 			});
@@ -20820,7 +20936,7 @@ var Toast = (props) => {
 		var _toast_closeButton;
 		return (_toast_closeButton = toast$2.closeButton) != null ? _toast_closeButton : closeButtonFromToaster;
 	}, [toast$2.closeButton, closeButtonFromToaster]);
-	const duration = import_react.useMemo(() => toast$2.duration || durationFromToaster || TOAST_LIFETIME, [toast$2.duration, durationFromToaster]);
+	const duration$2 = import_react.useMemo(() => toast$2.duration || durationFromToaster || TOAST_LIFETIME, [toast$2.duration, durationFromToaster]);
 	const closeTimerStartTimeRef = import_react.useRef(0);
 	const offset$3 = import_react.useRef(0);
 	const lastCloseTimerStartTimeRef = import_react.useRef(0);
@@ -20837,8 +20953,8 @@ var Toast = (props) => {
 	const disabled = toastType === "loading";
 	offset$3.current = import_react.useMemo(() => heightIndex * gap + toastsHeightBefore, [heightIndex, toastsHeightBefore]);
 	import_react.useEffect(() => {
-		remainingTime.current = duration;
-	}, [duration]);
+		remainingTime.current = duration$2;
+	}, [duration$2]);
 	import_react.useEffect(() => {
 		setMounted(true);
 	}, []);
@@ -21141,7 +21257,7 @@ function assignOffset(defaultOffset, mobileOffset) {
 	return styles;
 }
 var Toaster$2 = /* @__PURE__ */ import_react.forwardRef(function Toaster$3(props, ref) {
-	const { id, invert, position = "bottom-right", hotkey = ["altKey", "KeyT"], expand, closeButton, className, offset: offset$3, mobileOffset, theme = "light", richColors, duration, style, visibleToasts = VISIBLE_TOASTS_AMOUNT, toastOptions, dir = getDocumentDirection(), gap = GAP, icons, containerAriaLabel = "Notifications" } = props;
+	const { id, invert, position = "bottom-right", hotkey = ["altKey", "KeyT"], expand, closeButton, className, offset: offset$3, mobileOffset, theme = "light", richColors, duration: duration$2, style, visibleToasts = VISIBLE_TOASTS_AMOUNT, toastOptions, dir = getDocumentDirection(), gap = GAP, icons, containerAriaLabel = "Notifications" } = props;
 	const [toasts, setToasts] = import_react.useState([]);
 	const filteredToasts = import_react.useMemo(() => {
 		if (id) return toasts.filter((toast$2) => toast$2.toasterId === id);
@@ -21169,17 +21285,17 @@ var Toaster$2 = /* @__PURE__ */ import_react.forwardRef(function Toaster$3(props
 		return ToastState.subscribe((toast$2) => {
 			if (toast$2.dismiss) {
 				requestAnimationFrame(() => {
-					setToasts((toasts$1) => toasts$1.map((t) => t.id === toast$2.id ? {
-						...t,
+					setToasts((toasts$1) => toasts$1.map((t$1) => t$1.id === toast$2.id ? {
+						...t$1,
 						delete: true
-					} : t));
+					} : t$1));
 				});
 				return;
 			}
 			setTimeout(() => {
-				import_react_dom$1.flushSync(() => {
+				import_react_dom$2.flushSync(() => {
 					setToasts((toasts$1) => {
-						const indexOfExistingToast = toasts$1.findIndex((t) => t.id === toast$2.id);
+						const indexOfExistingToast = toasts$1.findIndex((t$1) => t$1.id === toast$2.id);
 						if (indexOfExistingToast !== -1) return [
 							...toasts$1.slice(0, indexOfExistingToast),
 							{
@@ -21308,7 +21424,7 @@ var Toaster$2 = /* @__PURE__ */ import_react.forwardRef(function Toaster$3(props
 				index: index$2,
 				toast: toast$2,
 				defaultRichColors: richColors,
-				duration: (_toastOptions_duration = toastOptions == null ? void 0 : toastOptions.duration) != null ? _toastOptions_duration : duration,
+				duration: (_toastOptions_duration = toastOptions == null ? void 0 : toastOptions.duration) != null ? _toastOptions_duration : duration$2,
 				className: toastOptions == null ? void 0 : toastOptions.className,
 				descriptionClassName: toastOptions == null ? void 0 : toastOptions.descriptionClassName,
 				invert,
@@ -21323,7 +21439,7 @@ var Toaster$2 = /* @__PURE__ */ import_react.forwardRef(function Toaster$3(props
 				actionButtonStyle: toastOptions == null ? void 0 : toastOptions.actionButtonStyle,
 				closeButtonAriaLabel: toastOptions == null ? void 0 : toastOptions.closeButtonAriaLabel,
 				removeToast,
-				toasts: filteredToasts.filter((t) => t.position == toast$2.position),
+				toasts: filteredToasts.filter((t$1) => t$1.position == toast$2.position),
 				heights: heights.filter((h) => h.position == toast$2.position),
 				setHeights,
 				expandByDefault: expand,
@@ -21349,11 +21465,11 @@ var Toaster$1 = ({ ...props }) => {
 	});
 };
 var useReactId = import_react[" useId ".trim().toString()] || (() => void 0);
-var count = 0;
+var count$1 = 0;
 function useId(deterministicId) {
 	const [id, setId] = import_react.useState(useReactId());
 	useLayoutEffect2(() => {
-		if (!deterministicId) setId((reactId) => reactId ?? String(count++));
+		if (!deterministicId) setId((reactId) => reactId ?? String(count$1++));
 	}, [deterministicId]);
 	return deterministicId || (id ? `radix-${id}` : "");
 }
@@ -21534,8 +21650,8 @@ function computeCoordsFromPlacement(_ref, placement, rtl) {
 	}
 	return coords;
 }
-var computePosition$1 = async (reference, floating, config) => {
-	const { placement = "bottom", strategy = "absolute", middleware = [], platform: platform$1 } = config;
+var computePosition$1 = async (reference, floating, config$1) => {
+	const { placement = "bottom", strategy = "absolute", middleware = [], platform: platform$1 } = config$1;
 	const validMiddleware = middleware.filter(Boolean);
 	const rtl = await (platform$1.isRTL == null ? void 0 : platform$1.isRTL(floating));
 	let rects = await platform$1.getElementRects({
@@ -21547,8 +21663,8 @@ var computePosition$1 = async (reference, floating, config) => {
 	let statefulPlacement = placement;
 	let middlewareData = {};
 	let resetCount = 0;
-	for (let i = 0; i < validMiddleware.length; i++) {
-		const { name, fn } = validMiddleware[i];
+	for (let i$2 = 0; i$2 < validMiddleware.length; i$2++) {
+		const { name, fn } = validMiddleware[i$2];
 		const { x: nextX, y: nextY, data, reset } = await fn({
 			x: x$1,
 			y,
@@ -21583,7 +21699,7 @@ var computePosition$1 = async (reference, floating, config) => {
 				}) : reset.rects;
 				({x: x$1, y} = computeCoordsFromPlacement(rects, statefulPlacement, rtl));
 			}
-			i = -1;
+			i$2 = -1;
 		}
 	}
 	return {
@@ -21594,11 +21710,11 @@ var computePosition$1 = async (reference, floating, config) => {
 		middlewareData
 	};
 };
-async function detectOverflow$1(state, options) {
+async function detectOverflow$1(state, options$1) {
 	var _await$platform$isEle;
-	if (options === void 0) options = {};
+	if (options$1 === void 0) options$1 = {};
 	const { x: x$1, y, platform: platform$1, rects, elements, strategy } = state;
-	const { boundary = "clippingAncestors", rootBoundary = "viewport", elementContext = "floating", altBoundary = false, padding = 0 } = evaluate(options, state);
+	const { boundary = "clippingAncestors", rootBoundary = "viewport", elementContext = "floating", altBoundary = false, padding = 0 } = evaluate(options$1, state);
 	const paddingObject = getPaddingObject(padding);
 	const element = elements[altBoundary ? elementContext === "floating" ? "reference" : "floating" : elementContext];
 	const clippingClientRect = rectToClientRect(await platform$1.getClippingRect({
@@ -21634,12 +21750,12 @@ async function detectOverflow$1(state, options) {
 		right: (elementClientRect.right - clippingClientRect.right + paddingObject.right) / offsetScale.x
 	};
 }
-var arrow$2 = (options) => ({
+var arrow$2 = (options$1) => ({
 	name: "arrow",
-	options,
+	options: options$1,
 	async fn(state) {
 		const { x: x$1, y, placement, rects, platform: platform$1, elements, middlewareData } = state;
-		const { element, padding = 0 } = evaluate(options, state) || {};
+		const { element, padding = 0 } = evaluate(options$1, state) || {};
 		if (element == null) return {};
 		const paddingObject = getPaddingObject(padding);
 		const coords = {
@@ -21679,15 +21795,15 @@ var arrow$2 = (options) => ({
 		};
 	}
 });
-var flip$2 = function(options) {
-	if (options === void 0) options = {};
+var flip$2 = function(options$1) {
+	if (options$1 === void 0) options$1 = {};
 	return {
 		name: "flip",
-		options,
+		options: options$1,
 		async fn(state) {
 			var _middlewareData$arrow, _middlewareData$flip;
 			const { placement, middlewareData, rects, initialPlacement, platform: platform$1, elements } = state;
-			const { mainAxis: checkMainAxis = true, crossAxis: checkCrossAxis = true, fallbackPlacements: specifiedFallbackPlacements, fallbackStrategy = "bestFit", fallbackAxisSideDirection = "none", flipAlignment = true, ...detectOverflowOptions } = evaluate(options, state);
+			const { mainAxis: checkMainAxis = true, crossAxis: checkCrossAxis = true, fallbackPlacements: specifiedFallbackPlacements, fallbackStrategy = "bestFit", fallbackAxisSideDirection = "none", flipAlignment = true, ...detectOverflowOptions } = evaluate(options$1, state);
 			if ((_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) return {};
 			const side = getSide(placement);
 			const initialSideAxis = getSideAxis(initialPlacement);
@@ -21722,7 +21838,7 @@ var flip$2 = function(options) {
 						reset: { placement: nextPlacement }
 					};
 				}
-				let resetPlacement = (_overflowsData$filter = overflowsData.filter((d) => d.overflows[0] <= 0).sort((a, b$1) => a.overflows[1] - b$1.overflows[1])[0]) == null ? void 0 : _overflowsData$filter.placement;
+				let resetPlacement = (_overflowsData$filter = overflowsData.filter((d) => d.overflows[0] <= 0).sort((a$1, b$1) => a$1.overflows[1] - b$1.overflows[1])[0]) == null ? void 0 : _overflowsData$filter.placement;
 				if (!resetPlacement) switch (fallbackStrategy) {
 					case "bestFit": {
 						var _overflowsData$filter2;
@@ -21732,7 +21848,7 @@ var flip$2 = function(options) {
 								return currentSideAxis === initialSideAxis || currentSideAxis === "y";
 							}
 							return true;
-						}).map((d) => [d.placement, d.overflows.filter((overflow$1) => overflow$1 > 0).reduce((acc, overflow$1) => acc + overflow$1, 0)]).sort((a, b$1) => a[1] - b$1[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
+						}).map((d) => [d.placement, d.overflows.filter((overflow$1) => overflow$1 > 0).reduce((acc, overflow$1) => acc + overflow$1, 0)]).sort((a$1, b$1) => a$1[1] - b$1[1])[0]) == null ? void 0 : _overflowsData$filter2[0];
 						if (placement$1) resetPlacement = placement$1;
 						break;
 					}
@@ -21757,14 +21873,14 @@ function getSideOffsets(overflow, rect) {
 function isAnySideFullyClipped(overflow) {
 	return sides.some((side) => overflow[side] >= 0);
 }
-var hide$2 = function(options) {
-	if (options === void 0) options = {};
+var hide$2 = function(options$1) {
+	if (options$1 === void 0) options$1 = {};
 	return {
 		name: "hide",
-		options,
+		options: options$1,
 		async fn(state) {
 			const { rects } = state;
-			const { strategy = "referenceHidden", ...detectOverflowOptions } = evaluate(options, state);
+			const { strategy = "referenceHidden", ...detectOverflowOptions } = evaluate(options$1, state);
 			switch (strategy) {
 				case "referenceHidden": {
 					const offsets = getSideOffsets(await detectOverflow$1(state, {
@@ -21792,7 +21908,7 @@ var hide$2 = function(options) {
 	};
 };
 var originSides = /* @__PURE__ */ new Set(["left", "top"]);
-async function convertValueToCoords(state, options) {
+async function convertValueToCoords(state, options$1) {
 	const { placement, platform: platform$1, elements } = state;
 	const rtl = await (platform$1.isRTL == null ? void 0 : platform$1.isRTL(elements.floating));
 	const side = getSide(placement);
@@ -21800,7 +21916,7 @@ async function convertValueToCoords(state, options) {
 	const isVertical = getSideAxis(placement) === "y";
 	const mainAxisMulti = originSides.has(side) ? -1 : 1;
 	const crossAxisMulti = rtl && isVertical ? -1 : 1;
-	const rawValue = evaluate(options, state);
+	const rawValue = evaluate(options$1, state);
 	let { mainAxis, crossAxis, alignmentAxis } = typeof rawValue === "number" ? {
 		mainAxis: rawValue,
 		crossAxis: 0,
@@ -21819,15 +21935,15 @@ async function convertValueToCoords(state, options) {
 		y: crossAxis * crossAxisMulti
 	};
 }
-var offset$2 = function(options) {
-	if (options === void 0) options = 0;
+var offset$2 = function(options$1) {
+	if (options$1 === void 0) options$1 = 0;
 	return {
 		name: "offset",
-		options,
+		options: options$1,
 		async fn(state) {
 			var _middlewareData$offse, _middlewareData$arrow;
 			const { x: x$1, y, placement, middlewareData } = state;
-			const diffCoords = await convertValueToCoords(state, options);
+			const diffCoords = await convertValueToCoords(state, options$1);
 			if (placement === ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse.placement) && (_middlewareData$arrow = middlewareData.arrow) != null && _middlewareData$arrow.alignmentOffset) return {};
 			return {
 				x: x$1 + diffCoords.x,
@@ -21840,11 +21956,11 @@ var offset$2 = function(options) {
 		}
 	};
 };
-var shift$2 = function(options) {
-	if (options === void 0) options = {};
+var shift$2 = function(options$1) {
+	if (options$1 === void 0) options$1 = {};
 	return {
 		name: "shift",
-		options,
+		options: options$1,
 		async fn(state) {
 			const { x: x$1, y, placement } = state;
 			const { mainAxis: checkMainAxis = true, crossAxis: checkCrossAxis = false, limiter = { fn: (_ref) => {
@@ -21853,7 +21969,7 @@ var shift$2 = function(options) {
 					x: x$2,
 					y: y$1
 				};
-			} }, ...detectOverflowOptions } = evaluate(options, state);
+			} }, ...detectOverflowOptions } = evaluate(options$1, state);
 			const coords = {
 				x: x$1,
 				y
@@ -21896,13 +22012,13 @@ var shift$2 = function(options) {
 		}
 	};
 };
-var limitShift$2 = function(options) {
-	if (options === void 0) options = {};
+var limitShift$2 = function(options$1) {
+	if (options$1 === void 0) options$1 = {};
 	return {
-		options,
+		options: options$1,
 		fn(state) {
 			const { x: x$1, y, placement, rects, middlewareData } = state;
-			const { offset: offset$3 = 0, mainAxis: checkMainAxis = true, crossAxis: checkCrossAxis = true } = evaluate(options, state);
+			const { offset: offset$3 = 0, mainAxis: checkMainAxis = true, crossAxis: checkCrossAxis = true } = evaluate(options$1, state);
 			const coords = {
 				x: x$1,
 				y
@@ -21943,15 +22059,15 @@ var limitShift$2 = function(options) {
 		}
 	};
 };
-var size$2 = function(options) {
-	if (options === void 0) options = {};
+var size$2 = function(options$1) {
+	if (options$1 === void 0) options$1 = {};
 	return {
 		name: "size",
-		options,
+		options: options$1,
 		async fn(state) {
 			var _state$middlewareData, _state$middlewareData2;
 			const { placement, rects, platform: platform$1, elements } = state;
-			const { apply = () => {}, ...detectOverflowOptions } = evaluate(options, state);
+			const { apply = () => {}, ...detectOverflowOptions } = evaluate(options$1, state);
 			const overflow = await detectOverflow$1(state, detectOverflowOptions);
 			const side = getSide(placement);
 			const alignment = getAlignment(placement);
@@ -22017,7 +22133,7 @@ function isElement(value) {
 	if (!hasWindow()) return false;
 	return value instanceof Element || value instanceof getWindow(value).Element;
 }
-function isHTMLElement(value) {
+function isHTMLElement$1(value) {
 	if (!hasWindow()) return false;
 	return value instanceof HTMLElement || value instanceof getWindow(value).HTMLElement;
 }
@@ -22076,7 +22192,7 @@ function isContainingBlock(elementOrCss) {
 }
 function getContainingBlock(element) {
 	let currentNode = getParentNode(element);
-	while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
+	while (isHTMLElement$1(currentNode) && !isLastTraversableNode(currentNode)) {
 		if (isContainingBlock(currentNode)) return currentNode;
 		else if (isTopLayer(currentNode)) return null;
 		currentNode = getParentNode(currentNode);
@@ -22116,7 +22232,7 @@ function getParentNode(node) {
 function getNearestOverflowAncestor(node) {
 	const parentNode = getParentNode(node);
 	if (isLastTraversableNode(parentNode)) return node.ownerDocument ? node.ownerDocument.body : node.body;
-	if (isHTMLElement(parentNode) && isOverflowElement(parentNode)) return parentNode;
+	if (isHTMLElement$1(parentNode) && isOverflowElement(parentNode)) return parentNode;
 	return getNearestOverflowAncestor(parentNode);
 }
 function getOverflowAncestors(node, list, traverseIframes) {
@@ -22139,7 +22255,7 @@ function getCssDimensions(element) {
 	const css = getComputedStyle$1(element);
 	let width = parseFloat(css.width) || 0;
 	let height = parseFloat(css.height) || 0;
-	const hasOffset = isHTMLElement(element);
+	const hasOffset = isHTMLElement$1(element);
 	const offsetWidth = hasOffset ? element.offsetWidth : width;
 	const offsetHeight = hasOffset ? element.offsetHeight : height;
 	const shouldFallback = round(width) !== offsetWidth || round(height) !== offsetHeight;
@@ -22158,7 +22274,7 @@ function unwrapElement(element) {
 }
 function getScale(element) {
 	const domElement = unwrapElement(element);
-	if (!isHTMLElement(domElement)) return createCoords(1);
+	if (!isHTMLElement$1(domElement)) return createCoords(1);
 	const rect = domElement.getBoundingClientRect();
 	const { width, height, $ } = getCssDimensions(domElement);
 	let x$1 = ($ ? round(rect.width) : rect.width) / width;
@@ -22250,10 +22366,10 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
 	};
 	let scale = createCoords(1);
 	const offsets = createCoords(0);
-	const isOffsetParentAnElement = isHTMLElement(offsetParent);
+	const isOffsetParentAnElement = isHTMLElement$1(offsetParent);
 	if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
 		if (getNodeName(offsetParent) !== "body" || isOverflowElement(documentElement)) scroll = getNodeScroll(offsetParent);
-		if (isHTMLElement(offsetParent)) {
+		if (isHTMLElement$1(offsetParent)) {
 			const offsetRect = getBoundingClientRect(offsetParent);
 			scale = getScale(offsetParent);
 			offsets.x = offsetRect.x + offsetParent.clientLeft;
@@ -22326,7 +22442,7 @@ function getInnerBoundingClientRect(element, strategy) {
 	const clientRect = getBoundingClientRect(element, true, strategy === "fixed");
 	const top = clientRect.top + element.clientTop;
 	const left = clientRect.left + element.clientLeft;
-	const scale = isHTMLElement(element) ? getScale(element) : createCoords(1);
+	const scale = isHTMLElement$1(element) ? getScale(element) : createCoords(1);
 	return {
 		width: element.clientWidth * scale.x,
 		height: element.clientHeight * scale.y,
@@ -22400,7 +22516,7 @@ function getDimensions(element) {
 	};
 }
 function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
-	const isOffsetParentAnElement = isHTMLElement(offsetParent);
+	const isOffsetParentAnElement = isHTMLElement$1(offsetParent);
 	const documentElement = getDocumentElement(offsetParent);
 	const isFixed = strategy === "fixed";
 	const rect = getBoundingClientRect(element, true, isFixed, offsetParent);
@@ -22433,7 +22549,7 @@ function isStaticPositioned(element) {
 	return getComputedStyle$1(element).position === "static";
 }
 function getTrueOffsetParent(element, polyfill) {
-	if (!isHTMLElement(element) || getComputedStyle$1(element).position === "fixed") return null;
+	if (!isHTMLElement$1(element) || getComputedStyle$1(element).position === "fixed") return null;
 	if (polyfill) return polyfill(element);
 	let rawOffsetParent = element.offsetParent;
 	if (getDocumentElement(element) === rawOffsetParent) rawOffsetParent = rawOffsetParent.ownerDocument.body;
@@ -22442,7 +22558,7 @@ function getTrueOffsetParent(element, polyfill) {
 function getOffsetParent(element, polyfill) {
 	const win = getWindow(element);
 	if (isTopLayer(element)) return win;
-	if (!isHTMLElement(element)) {
+	if (!isHTMLElement$1(element)) {
 		let svgOffsetParent = getParentNode(element);
 		while (svgOffsetParent && !isLastTraversableNode(svgOffsetParent)) {
 			if (isElement(svgOffsetParent) && !isStaticPositioned(svgOffsetParent)) return svgOffsetParent;
@@ -22484,8 +22600,8 @@ var platform = {
 	isElement,
 	isRTL
 };
-function rectsAreEqual(a, b$1) {
-	return a.x === b$1.x && a.y === b$1.y && a.width === b$1.width && a.height === b$1.height;
+function rectsAreEqual(a$1, b$1) {
+	return a$1.x === b$1.x && a$1.y === b$1.y && a$1.width === b$1.width && a$1.height === b$1.height;
 }
 function observeMove(element, onMove) {
 	let io = null;
@@ -22509,7 +22625,7 @@ function observeMove(element, onMove) {
 		const insetRight = floor(root.clientWidth - (left + width));
 		const insetBottom = floor(root.clientHeight - (top + height));
 		const insetLeft = floor(left);
-		const options = {
+		const options$1 = {
 			rootMargin: -insetTop + "px " + -insetRight + "px " + -insetBottom + "px " + -insetLeft + "px",
 			threshold: max(0, min(1, threshold)) || 1
 		};
@@ -22528,20 +22644,20 @@ function observeMove(element, onMove) {
 		}
 		try {
 			io = new IntersectionObserver(handleObserve, {
-				...options,
+				...options$1,
 				root: root.ownerDocument
 			});
 		} catch (_e) {
-			io = new IntersectionObserver(handleObserve, options);
+			io = new IntersectionObserver(handleObserve, options$1);
 		}
 		io.observe(element);
 	}
 	refresh(true);
 	return cleanup;
 }
-function autoUpdate(reference, floating, update, options) {
-	if (options === void 0) options = {};
-	const { ancestorScroll = true, ancestorResize = true, elementResize = typeof ResizeObserver === "function", layoutShift = typeof IntersectionObserver === "function", animationFrame = false } = options;
+function autoUpdate(reference, floating, update, options$1) {
+	if (options$1 === void 0) options$1 = {};
+	const { ancestorScroll = true, ancestorResize = true, elementResize = typeof ResizeObserver === "function", layoutShift = typeof IntersectionObserver === "function", animationFrame = false } = options$1;
 	const referenceEl = unwrapElement(reference);
 	const ancestors = ancestorScroll || ancestorResize ? [...referenceEl ? getOverflowAncestors(referenceEl) : [], ...getOverflowAncestors(floating)] : [];
 	ancestors.forEach((ancestor) => {
@@ -22596,11 +22712,11 @@ var size$1 = size$2;
 var hide$1 = hide$2;
 var arrow$1 = arrow$2;
 var limitShift$1 = limitShift$2;
-var computePosition = (reference, floating, options) => {
+var computePosition = (reference, floating, options$1) => {
 	const cache = /* @__PURE__ */ new Map();
 	const mergedOptions = {
 		platform,
-		...options
+		...options$1
 	};
 	const platformWithCache = {
 		...mergedOptions.platform,
@@ -22611,34 +22727,34 @@ var computePosition = (reference, floating, options) => {
 		platform: platformWithCache
 	});
 };
-var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
-var index = typeof document !== "undefined" ? import_react.useLayoutEffect : function noop() {};
-function deepEqual(a, b$1) {
-	if (a === b$1) return true;
-	if (typeof a !== typeof b$1) return false;
-	if (typeof a === "function" && a.toString() === b$1.toString()) return true;
+var import_react_dom$1 = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+var index = typeof document !== "undefined" ? import_react.useLayoutEffect : function noop$2() {};
+function deepEqual$1(a$1, b$1) {
+	if (a$1 === b$1) return true;
+	if (typeof a$1 !== typeof b$1) return false;
+	if (typeof a$1 === "function" && a$1.toString() === b$1.toString()) return true;
 	let length;
-	let i;
+	let i$2;
 	let keys;
-	if (a && b$1 && typeof a === "object") {
-		if (Array.isArray(a)) {
-			length = a.length;
+	if (a$1 && b$1 && typeof a$1 === "object") {
+		if (Array.isArray(a$1)) {
+			length = a$1.length;
 			if (length !== b$1.length) return false;
-			for (i = length; i-- !== 0;) if (!deepEqual(a[i], b$1[i])) return false;
+			for (i$2 = length; i$2-- !== 0;) if (!deepEqual$1(a$1[i$2], b$1[i$2])) return false;
 			return true;
 		}
-		keys = Object.keys(a);
+		keys = Object.keys(a$1);
 		length = keys.length;
 		if (length !== Object.keys(b$1).length) return false;
-		for (i = length; i-- !== 0;) if (!{}.hasOwnProperty.call(b$1, keys[i])) return false;
-		for (i = length; i-- !== 0;) {
-			const key = keys[i];
-			if (key === "_owner" && a.$$typeof) continue;
-			if (!deepEqual(a[key], b$1[key])) return false;
+		for (i$2 = length; i$2-- !== 0;) if (!{}.hasOwnProperty.call(b$1, keys[i$2])) return false;
+		for (i$2 = length; i$2-- !== 0;) {
+			const key = keys[i$2];
+			if (key === "_owner" && a$1.$$typeof) continue;
+			if (!deepEqual$1(a$1[key], b$1[key])) return false;
 		}
 		return true;
 	}
-	return a !== a && b$1 !== b$1;
+	return a$1 !== a$1 && b$1 !== b$1;
 }
 function getDPR(element) {
 	if (typeof window === "undefined") return 1;
@@ -22655,9 +22771,9 @@ function useLatestRef(value) {
 	});
 	return ref;
 }
-function useFloating(options) {
-	if (options === void 0) options = {};
-	const { placement = "bottom", strategy = "absolute", middleware = [], platform: platform$1, elements: { reference: externalReference, floating: externalFloating } = {}, transform = true, whileElementsMounted, open } = options;
+function useFloating(options$1) {
+	if (options$1 === void 0) options$1 = {};
+	const { placement = "bottom", strategy = "absolute", middleware = [], platform: platform$1, elements: { reference: externalReference, floating: externalFloating } = {}, transform: transform$1 = true, whileElementsMounted, open } = options$1;
 	const [data, setData] = import_react.useState({
 		x: 0,
 		y: 0,
@@ -22667,7 +22783,7 @@ function useFloating(options) {
 		isPositioned: false
 	});
 	const [latestMiddleware, setLatestMiddleware] = import_react.useState(middleware);
-	if (!deepEqual(latestMiddleware, middleware)) setLatestMiddleware(middleware);
+	if (!deepEqual$1(latestMiddleware, middleware)) setLatestMiddleware(middleware);
 	const [_reference, _setReference] = import_react.useState(null);
 	const [_floating, _setFloating] = import_react.useState(null);
 	const setReference = import_react.useCallback((node) => {
@@ -22693,20 +22809,20 @@ function useFloating(options) {
 	const openRef = useLatestRef(open);
 	const update = import_react.useCallback(() => {
 		if (!referenceRef.current || !floatingRef.current) return;
-		const config = {
+		const config$1 = {
 			placement,
 			strategy,
 			middleware: latestMiddleware
 		};
-		if (platformRef.current) config.platform = platformRef.current;
-		computePosition(referenceRef.current, floatingRef.current, config).then((data$1) => {
+		if (platformRef.current) config$1.platform = platformRef.current;
+		computePosition(referenceRef.current, floatingRef.current, config$1).then((data$1) => {
 			const fullData = {
 				...data$1,
 				isPositioned: openRef.current !== false
 			};
-			if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
+			if (isMountedRef.current && !deepEqual$1(dataRef.current, fullData)) {
 				dataRef.current = fullData;
-				import_react_dom.flushSync(() => {
+				import_react_dom$1.flushSync(() => {
 					setData(fullData);
 				});
 			}
@@ -22767,7 +22883,7 @@ function useFloating(options) {
 		if (!elements.floating) return initialStyles;
 		const x$1 = roundByDPR(elements.floating, data.x);
 		const y = roundByDPR(elements.floating, data.y);
-		if (transform) return {
+		if (transform$1) return {
 			...initialStyles,
 			transform: "translate(" + x$1 + "px, " + y + "px)",
 			...getDPR(elements.floating) >= 1.5 && { willChange: "transform" }
@@ -22779,7 +22895,7 @@ function useFloating(options) {
 		};
 	}, [
 		strategy,
-		transform,
+		transform$1,
 		elements.floating,
 		data.x,
 		data.y
@@ -22798,15 +22914,15 @@ function useFloating(options) {
 		floatingStyles
 	]);
 }
-var arrow$1$1 = (options) => {
+var arrow$1$1 = (options$1) => {
 	function isRef(value) {
 		return {}.hasOwnProperty.call(value, "current");
 	}
 	return {
 		name: "arrow",
-		options,
+		options: options$1,
 		fn(state) {
-			const { element, padding } = typeof options === "function" ? options(state) : options;
+			const { element, padding } = typeof options$1 === "function" ? options$1(state) : options$1;
 			if (element && isRef(element)) {
 				if (element.current != null) return arrow$1({
 					element: element.current,
@@ -22822,38 +22938,38 @@ var arrow$1$1 = (options) => {
 		}
 	};
 };
-var offset = (options, deps) => ({
-	...offset$1(options),
-	options: [options, deps]
+var offset = (options$1, deps) => ({
+	...offset$1(options$1),
+	options: [options$1, deps]
 });
-var shift = (options, deps) => ({
-	...shift$1(options),
-	options: [options, deps]
+var shift = (options$1, deps) => ({
+	...shift$1(options$1),
+	options: [options$1, deps]
 });
-var limitShift = (options, deps) => ({
-	...limitShift$1(options),
-	options: [options, deps]
+var limitShift = (options$1, deps) => ({
+	...limitShift$1(options$1),
+	options: [options$1, deps]
 });
-var flip = (options, deps) => ({
-	...flip$1(options),
-	options: [options, deps]
+var flip = (options$1, deps) => ({
+	...flip$1(options$1),
+	options: [options$1, deps]
 });
-var size = (options, deps) => ({
-	...size$1(options),
-	options: [options, deps]
+var size = (options$1, deps) => ({
+	...size$1(options$1),
+	options: [options$1, deps]
 });
-var hide = (options, deps) => ({
-	...hide$1(options),
-	options: [options, deps]
+var hide = (options$1, deps) => ({
+	...hide$1(options$1),
+	options: [options$1, deps]
 });
-var arrow = (options, deps) => ({
-	...arrow$1$1(options),
-	options: [options, deps]
+var arrow = (options$1, deps) => ({
+	...arrow$1$1(options$1),
+	options: [options$1, deps]
 });
-var NAME = "Arrow";
+var NAME$1 = "Arrow";
 var Arrow$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { children, width = 10, height = 5, ...arrowProps } = props;
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.svg, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.svg, {
 		...arrowProps,
 		ref: forwardedRef,
 		width,
@@ -22863,8 +22979,8 @@ var Arrow$1 = import_react.forwardRef((props, forwardedRef) => {
 		children: props.asChild ? children : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("polygon", { points: "0,0 30,0 15,10" })
 	});
 });
-Arrow$1.displayName = NAME;
-var Root = Arrow$1;
+Arrow$1.displayName = NAME$1;
+var Root$2 = Arrow$1;
 function useSize(element) {
 	const [size$3, setSize] = import_react.useState(void 0);
 	useLayoutEffect2(() => {
@@ -22925,17 +23041,17 @@ var PopperAnchor = import_react.forwardRef((props, forwardedRef) => {
 		anchorRef.current = virtualRef?.current || ref.current;
 		if (previousAnchor !== anchorRef.current) context.onAnchorChange(anchorRef.current);
 	});
-	return virtualRef ? null : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+	return virtualRef ? null : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 		...anchorProps,
 		ref: composedRefs
 	});
 });
 PopperAnchor.displayName = ANCHOR_NAME;
-var CONTENT_NAME$1 = "PopperContent";
-var [PopperContentProvider, useContentContext] = createPopperContext(CONTENT_NAME$1);
+var CONTENT_NAME$3 = "PopperContent";
+var [PopperContentProvider, useContentContext] = createPopperContext(CONTENT_NAME$3);
 var PopperContent = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopePopper, side = "bottom", sideOffset = 0, align = "center", alignOffset = 0, arrowPadding = 0, avoidCollisions = true, collisionBoundary = [], collisionPadding: collisionPaddingProp = 0, sticky = "partial", hideWhenDetached = false, updatePositionStrategy = "optimized", onPlaced, ...contentProps } = props;
-	const context = usePopperContext(CONTENT_NAME$1, __scopePopper);
+	const context = usePopperContext(CONTENT_NAME$3, __scopePopper);
 	const [content, setContent] = import_react.useState(null);
 	const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node));
 	const [arrow$3, setArrow] = import_react.useState(null);
@@ -23002,7 +23118,7 @@ var PopperContent = import_react.forwardRef((props, forwardedRef) => {
 		]
 	});
 	const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
-	const handlePlaced = useCallbackRef(onPlaced);
+	const handlePlaced = useCallbackRef$1(onPlaced);
 	useLayoutEffect2(() => {
 		if (isPositioned) handlePlaced?.();
 	}, [isPositioned, handlePlaced]);
@@ -23035,7 +23151,7 @@ var PopperContent = import_react.forwardRef((props, forwardedRef) => {
 			arrowX,
 			arrowY,
 			shouldHideArrow: cannotCenterArrow,
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.div, {
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
 				"data-side": placedSide,
 				"data-align": placedAlign,
 				...contentProps,
@@ -23048,7 +23164,7 @@ var PopperContent = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-PopperContent.displayName = CONTENT_NAME$1;
+PopperContent.displayName = CONTENT_NAME$3;
 var ARROW_NAME$1 = "PopperArrow";
 var OPPOSITE_SIDE = {
 	top: "bottom",
@@ -23081,7 +23197,7 @@ var PopperArrow = import_react.forwardRef(function PopperArrow2(props, forwarded
 			}[contentContext.placedSide],
 			visibility: contentContext.shouldHideArrow ? "hidden" : void 0
 		},
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root, {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$2, {
 			...arrowProps,
 			ref: forwardedRef,
 			style: {
@@ -23095,14 +23211,14 @@ PopperArrow.displayName = ARROW_NAME$1;
 function isNotNull(value) {
 	return value !== null;
 }
-var transformOrigin = (options) => ({
+var transformOrigin = (options$1) => ({
 	name: "transformOrigin",
-	options,
+	options: options$1,
 	fn(data) {
 		const { placement, rects, middlewareData } = data;
 		const isArrowHidden = middlewareData.arrow?.centerOffset !== 0;
-		const arrowWidth = isArrowHidden ? 0 : options.arrowWidth;
-		const arrowHeight = isArrowHidden ? 0 : options.arrowHeight;
+		const arrowWidth = isArrowHidden ? 0 : options$1.arrowWidth;
+		const arrowHeight = isArrowHidden ? 0 : options$1.arrowHeight;
 		const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
 		const noArrowAlign = {
 			start: "0%",
@@ -23136,9 +23252,9 @@ function getSideAndAlignFromPlacement(placement) {
 	const [side, align = "center"] = placement.split("-");
 	return [side, align];
 }
-var Root2 = Popper;
+var Root2$1 = Popper;
 var Anchor = PopperAnchor;
-var Content = PopperContent;
+var Content$1 = PopperContent;
 var Arrow = PopperArrow;
 var [createTooltipContext, createTooltipScope] = createContextScope("Tooltip", [createPopperScope]);
 var usePopperScope = createPopperScope();
@@ -23230,7 +23346,7 @@ var Tooltip$1 = (props) => {
 			}
 		};
 	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root2$1, {
 		...popperScope,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TooltipContextProvider, {
 			scope: __scopeTooltip,
@@ -23262,11 +23378,11 @@ var Tooltip$1 = (props) => {
 	});
 };
 Tooltip$1.displayName = TOOLTIP_NAME;
-var TRIGGER_NAME = "TooltipTrigger";
+var TRIGGER_NAME$3 = "TooltipTrigger";
 var TooltipTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeTooltip, ...triggerProps } = props;
-	const context = useTooltipContext(TRIGGER_NAME, __scopeTooltip);
-	const providerContext = useTooltipProviderContext(TRIGGER_NAME, __scopeTooltip);
+	const context = useTooltipContext(TRIGGER_NAME$3, __scopeTooltip);
+	const providerContext = useTooltipProviderContext(TRIGGER_NAME$3, __scopeTooltip);
 	const popperScope = usePopperScope(__scopeTooltip);
 	const composedRefs = useComposedRefs(forwardedRef, import_react.useRef(null), context.onTriggerChange);
 	const isPointerDownRef = import_react.useRef(false);
@@ -23278,7 +23394,7 @@ var TooltipTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Anchor, {
 		asChild: true,
 		...popperScope,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.button, {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.button, {
 			"aria-describedby": context.open ? context.contentId : void 0,
 			"data-state": context.stateAttribute,
 			...triggerProps,
@@ -23307,13 +23423,13 @@ var TooltipTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-TooltipTrigger$1.displayName = TRIGGER_NAME;
-var PORTAL_NAME = "TooltipPortal";
-var [PortalProvider, usePortalContext] = createTooltipContext(PORTAL_NAME, { forceMount: void 0 });
+TooltipTrigger$1.displayName = TRIGGER_NAME$3;
+var PORTAL_NAME$2 = "TooltipPortal";
+var [PortalProvider$1, usePortalContext$1] = createTooltipContext(PORTAL_NAME$2, { forceMount: void 0 });
 var TooltipPortal = (props) => {
 	const { __scopeTooltip, forceMount, children, container } = props;
-	const context = useTooltipContext(PORTAL_NAME, __scopeTooltip);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider, {
+	const context = useTooltipContext(PORTAL_NAME$2, __scopeTooltip);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider$1, {
 		scope: __scopeTooltip,
 		forceMount,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
@@ -23326,12 +23442,12 @@ var TooltipPortal = (props) => {
 		})
 	});
 };
-TooltipPortal.displayName = PORTAL_NAME;
-var CONTENT_NAME = "TooltipContent";
+TooltipPortal.displayName = PORTAL_NAME$2;
+var CONTENT_NAME$2 = "TooltipContent";
 var TooltipContent$1 = import_react.forwardRef((props, forwardedRef) => {
-	const portalContext = usePortalContext(CONTENT_NAME, props.__scopeTooltip);
+	const portalContext = usePortalContext$1(CONTENT_NAME$2, props.__scopeTooltip);
 	const { forceMount = portalContext.forceMount, side = "top", ...contentProps } = props;
-	const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip);
+	const context = useTooltipContext(CONTENT_NAME$2, props.__scopeTooltip);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
 		present: forceMount || context.open,
 		children: context.disableHoverableContent ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TooltipContentImpl, {
@@ -23346,8 +23462,8 @@ var TooltipContent$1 = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 var TooltipContentHoverable = import_react.forwardRef((props, forwardedRef) => {
-	const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip);
-	const providerContext = useTooltipProviderContext(CONTENT_NAME, props.__scopeTooltip);
+	const context = useTooltipContext(CONTENT_NAME$2, props.__scopeTooltip);
+	const providerContext = useTooltipProviderContext(CONTENT_NAME$2, props.__scopeTooltip);
 	const ref = import_react.useRef(null);
 	const composedRefs = useComposedRefs(forwardedRef, ref);
 	const [pointerGraceArea, setPointerGraceArea] = import_react.useState(null);
@@ -23421,10 +23537,10 @@ var TooltipContentHoverable = import_react.forwardRef((props, forwardedRef) => {
 	});
 });
 var [VisuallyHiddenContentContextProvider, useVisuallyHiddenContentContext] = createTooltipContext(TOOLTIP_NAME, { isInside: false });
-var Slottable = /* @__PURE__ */ createSlottable("TooltipContent");
+var Slottable$1 = /* @__PURE__ */ createSlottable("TooltipContent");
 var TooltipContentImpl = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeTooltip, children, "aria-label": ariaLabel, onEscapeKeyDown, onPointerDownOutside, ...contentProps } = props;
-	const context = useTooltipContext(CONTENT_NAME, __scopeTooltip);
+	const context = useTooltipContext(CONTENT_NAME$2, __scopeTooltip);
 	const popperScope = usePopperScope(__scopeTooltip);
 	const { onClose } = context;
 	import_react.useEffect(() => {
@@ -23433,11 +23549,11 @@ var TooltipContentImpl = import_react.forwardRef((props, forwardedRef) => {
 	}, [onClose]);
 	import_react.useEffect(() => {
 		if (context.trigger) {
-			const handleScroll = (event) => {
+			const handleScroll$1 = (event) => {
 				if (event.target?.contains(context.trigger)) onClose();
 			};
-			window.addEventListener("scroll", handleScroll, { capture: true });
-			return () => window.removeEventListener("scroll", handleScroll, { capture: true });
+			window.addEventListener("scroll", handleScroll$1, { capture: true });
+			return () => window.removeEventListener("scroll", handleScroll$1, { capture: true });
 		}
 	}, [context.trigger, onClose]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
@@ -23447,7 +23563,7 @@ var TooltipContentImpl = import_react.forwardRef((props, forwardedRef) => {
 		onPointerDownOutside,
 		onFocusOutside: (event) => event.preventDefault(),
 		onDismiss: onClose,
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content$1, {
 			"data-state": context.stateAttribute,
 			...popperScope,
 			...contentProps,
@@ -23460,10 +23576,10 @@ var TooltipContentImpl = import_react.forwardRef((props, forwardedRef) => {
 				"--radix-tooltip-trigger-width": "var(--radix-popper-anchor-width)",
 				"--radix-tooltip-trigger-height": "var(--radix-popper-anchor-height)"
 			},
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Slottable, { children }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(VisuallyHiddenContentContextProvider, {
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Slottable$1, { children }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(VisuallyHiddenContentContextProvider, {
 				scope: __scopeTooltip,
 				isInside: true,
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$1, {
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$3, {
 					id: context.contentId,
 					role: "tooltip",
 					children: ariaLabel || children
@@ -23472,7 +23588,7 @@ var TooltipContentImpl = import_react.forwardRef((props, forwardedRef) => {
 		})
 	});
 });
-TooltipContent$1.displayName = CONTENT_NAME;
+TooltipContent$1.displayName = CONTENT_NAME$2;
 var ARROW_NAME = "TooltipArrow";
 var TooltipArrow = import_react.forwardRef((props, forwardedRef) => {
 	const { __scopeTooltip, ...arrowProps } = props;
@@ -23563,8 +23679,8 @@ function getPointsFromRect(rect) {
 function isPointInPolygon(point, polygon) {
 	const { x: x$1, y } = point;
 	let inside = false;
-	for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-		const ii = polygon[i];
+	for (let i$2 = 0, j = polygon.length - 1; i$2 < polygon.length; j = i$2++) {
+		const ii = polygon[i$2];
 		const jj = polygon[j];
 		const xi = ii.x;
 		const yi = ii.y;
@@ -23576,11 +23692,11 @@ function isPointInPolygon(point, polygon) {
 }
 function getHull(points) {
 	const newPoints = points.slice();
-	newPoints.sort((a, b$1) => {
-		if (a.x < b$1.x) return -1;
-		else if (a.x > b$1.x) return 1;
-		else if (a.y < b$1.y) return -1;
-		else if (a.y > b$1.y) return 1;
+	newPoints.sort((a$1, b$1) => {
+		if (a$1.x < b$1.x) return -1;
+		else if (a$1.x > b$1.x) return 1;
+		else if (a$1.y < b$1.y) return -1;
+		else if (a$1.y > b$1.y) return 1;
 		else return 0;
 	});
 	return getHullPresorted(newPoints);
@@ -23588,24 +23704,24 @@ function getHull(points) {
 function getHullPresorted(points) {
 	if (points.length <= 1) return points.slice();
 	const upperHull = [];
-	for (let i = 0; i < points.length; i++) {
-		const p = points[i];
+	for (let i$2 = 0; i$2 < points.length; i$2++) {
+		const p = points[i$2];
 		while (upperHull.length >= 2) {
 			const q = upperHull[upperHull.length - 1];
-			const r$1 = upperHull[upperHull.length - 2];
-			if ((q.x - r$1.x) * (p.y - r$1.y) >= (q.y - r$1.y) * (p.x - r$1.x)) upperHull.pop();
+			const r$2 = upperHull[upperHull.length - 2];
+			if ((q.x - r$2.x) * (p.y - r$2.y) >= (q.y - r$2.y) * (p.x - r$2.x)) upperHull.pop();
 			else break;
 		}
 		upperHull.push(p);
 	}
 	upperHull.pop();
 	const lowerHull = [];
-	for (let i = points.length - 1; i >= 0; i--) {
-		const p = points[i];
+	for (let i$2 = points.length - 1; i$2 >= 0; i$2--) {
+		const p = points[i$2];
 		while (lowerHull.length >= 2) {
 			const q = lowerHull[lowerHull.length - 1];
-			const r$1 = lowerHull[lowerHull.length - 2];
-			if ((q.x - r$1.x) * (p.y - r$1.y) >= (q.y - r$1.y) * (p.x - r$1.x)) lowerHull.pop();
+			const r$2 = lowerHull[lowerHull.length - 2];
+			if ((q.x - r$2.x) * (p.y - r$2.y) >= (q.y - r$2.y) * (p.x - r$2.x)) lowerHull.pop();
 			else break;
 		}
 		lowerHull.push(p);
@@ -23615,15 +23731,15 @@ function getHullPresorted(points) {
 	else return upperHull.concat(lowerHull);
 }
 var Provider = TooltipProvider$1;
-var Content2 = TooltipContent$1;
+var Content2$1 = TooltipContent$1;
 var TooltipProvider = Provider;
-var TooltipContent = import_react.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Content2, {
+var TooltipContent = import_react.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Content2$1, {
 	ref,
 	sideOffset,
 	className: cn("z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-tooltip-content-transform-origin]", className),
 	...props
 }));
-TooltipContent.displayName = Content2.displayName;
+TooltipContent.displayName = Content2$1.displayName;
 var REACT_LAZY_TYPE = Symbol.for("react.lazy");
 var use = import_react[" use ".trim().toString()];
 function isPromiseLike(value) {
@@ -23927,11 +24043,14925 @@ var TableCaption = import_react.forwardRef(({ className, ...props }, ref) => /* 
 	...props
 }));
 TableCaption.displayName = "TableCaption";
+var __assign = function() {
+	__assign = Object.assign || function __assign$1(t$1) {
+		for (var s$2, i$2 = 1, n$1 = arguments.length; i$2 < n$1; i$2++) {
+			s$2 = arguments[i$2];
+			for (var p in s$2) if (Object.prototype.hasOwnProperty.call(s$2, p)) t$1[p] = s$2[p];
+		}
+		return t$1;
+	};
+	return __assign.apply(this, arguments);
+};
+function __rest(s$2, e) {
+	var t$1 = {};
+	for (var p in s$2) if (Object.prototype.hasOwnProperty.call(s$2, p) && e.indexOf(p) < 0) t$1[p] = s$2[p];
+	if (s$2 != null && typeof Object.getOwnPropertySymbols === "function") {
+		for (var i$2 = 0, p = Object.getOwnPropertySymbols(s$2); i$2 < p.length; i$2++) if (e.indexOf(p[i$2]) < 0 && Object.prototype.propertyIsEnumerable.call(s$2, p[i$2])) t$1[p[i$2]] = s$2[p[i$2]];
+	}
+	return t$1;
+}
+function __awaiter(thisArg, _arguments, P, generator) {
+	function adopt(value) {
+		return value instanceof P ? value : new P(function(resolve) {
+			resolve(value);
+		});
+	}
+	return new (P || (P = Promise))(function(resolve, reject) {
+		function fulfilled(value) {
+			try {
+				step(generator.next(value));
+			} catch (e) {
+				reject(e);
+			}
+		}
+		function rejected(value) {
+			try {
+				step(generator["throw"](value));
+			} catch (e) {
+				reject(e);
+			}
+		}
+		function step(result) {
+			result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+		}
+		step((generator = generator.apply(thisArg, _arguments || [])).next());
+	});
+}
+function __spreadArray(to, from, pack) {
+	if (pack || arguments.length === 2) {
+		for (var i$2 = 0, l = from.length, ar; i$2 < l; i$2++) if (ar || !(i$2 in from)) {
+			if (!ar) ar = Array.prototype.slice.call(from, 0, i$2);
+			ar[i$2] = from[i$2];
+		}
+	}
+	return to.concat(ar || Array.prototype.slice.call(from));
+}
+const resolveFetch$3 = (customFetch) => {
+	if (customFetch) return (...args) => customFetch(...args);
+	return (...args) => fetch(...args);
+};
+var FunctionsError = class extends Error {
+	constructor(message, name = "FunctionsError", context) {
+		super(message);
+		this.name = name;
+		this.context = context;
+	}
+};
+var FunctionsFetchError = class extends FunctionsError {
+	constructor(context) {
+		super("Failed to send a request to the Edge Function", "FunctionsFetchError", context);
+	}
+};
+var FunctionsRelayError = class extends FunctionsError {
+	constructor(context) {
+		super("Relay Error invoking the Edge Function", "FunctionsRelayError", context);
+	}
+};
+var FunctionsHttpError = class extends FunctionsError {
+	constructor(context) {
+		super("Edge Function returned a non-2xx status code", "FunctionsHttpError", context);
+	}
+};
+var FunctionRegion;
+(function(FunctionRegion$1) {
+	FunctionRegion$1["Any"] = "any";
+	FunctionRegion$1["ApNortheast1"] = "ap-northeast-1";
+	FunctionRegion$1["ApNortheast2"] = "ap-northeast-2";
+	FunctionRegion$1["ApSouth1"] = "ap-south-1";
+	FunctionRegion$1["ApSoutheast1"] = "ap-southeast-1";
+	FunctionRegion$1["ApSoutheast2"] = "ap-southeast-2";
+	FunctionRegion$1["CaCentral1"] = "ca-central-1";
+	FunctionRegion$1["EuCentral1"] = "eu-central-1";
+	FunctionRegion$1["EuWest1"] = "eu-west-1";
+	FunctionRegion$1["EuWest2"] = "eu-west-2";
+	FunctionRegion$1["EuWest3"] = "eu-west-3";
+	FunctionRegion$1["SaEast1"] = "sa-east-1";
+	FunctionRegion$1["UsEast1"] = "us-east-1";
+	FunctionRegion$1["UsWest1"] = "us-west-1";
+	FunctionRegion$1["UsWest2"] = "us-west-2";
+})(FunctionRegion || (FunctionRegion = {}));
+var FunctionsClient = class {
+	constructor(url, { headers = {}, customFetch, region = FunctionRegion.Any } = {}) {
+		this.url = url;
+		this.headers = headers;
+		this.region = region;
+		this.fetch = resolveFetch$3(customFetch);
+	}
+	setAuth(token) {
+		this.headers.Authorization = `Bearer ${token}`;
+	}
+	invoke(functionName_1) {
+		return __awaiter(this, arguments, void 0, function* (functionName, options$1 = {}) {
+			var _a$1;
+			let timeoutId;
+			let timeoutController;
+			try {
+				const { headers, method, body: functionArgs, signal, timeout } = options$1;
+				let _headers = {};
+				let { region } = options$1;
+				if (!region) region = this.region;
+				const url = new URL(`${this.url}/${functionName}`);
+				if (region && region !== "any") {
+					_headers["x-region"] = region;
+					url.searchParams.set("forceFunctionRegion", region);
+				}
+				let body;
+				if (functionArgs && (headers && !Object.prototype.hasOwnProperty.call(headers, "Content-Type") || !headers)) if (typeof Blob !== "undefined" && functionArgs instanceof Blob || functionArgs instanceof ArrayBuffer) {
+					_headers["Content-Type"] = "application/octet-stream";
+					body = functionArgs;
+				} else if (typeof functionArgs === "string") {
+					_headers["Content-Type"] = "text/plain";
+					body = functionArgs;
+				} else if (typeof FormData !== "undefined" && functionArgs instanceof FormData) body = functionArgs;
+				else {
+					_headers["Content-Type"] = "application/json";
+					body = JSON.stringify(functionArgs);
+				}
+				else if (functionArgs && typeof functionArgs !== "string" && !(typeof Blob !== "undefined" && functionArgs instanceof Blob) && !(functionArgs instanceof ArrayBuffer) && !(typeof FormData !== "undefined" && functionArgs instanceof FormData)) body = JSON.stringify(functionArgs);
+				else body = functionArgs;
+				let effectiveSignal = signal;
+				if (timeout) {
+					timeoutController = new AbortController();
+					timeoutId = setTimeout(() => timeoutController.abort(), timeout);
+					if (signal) {
+						effectiveSignal = timeoutController.signal;
+						signal.addEventListener("abort", () => timeoutController.abort());
+					} else effectiveSignal = timeoutController.signal;
+				}
+				const response = yield this.fetch(url.toString(), {
+					method: method || "POST",
+					headers: Object.assign(Object.assign(Object.assign({}, _headers), this.headers), headers),
+					body,
+					signal: effectiveSignal
+				}).catch((fetchError) => {
+					throw new FunctionsFetchError(fetchError);
+				});
+				const isRelayError = response.headers.get("x-relay-error");
+				if (isRelayError && isRelayError === "true") throw new FunctionsRelayError(response);
+				if (!response.ok) throw new FunctionsHttpError(response);
+				let responseType = ((_a$1 = response.headers.get("Content-Type")) !== null && _a$1 !== void 0 ? _a$1 : "text/plain").split(";")[0].trim();
+				let data;
+				if (responseType === "application/json") data = yield response.json();
+				else if (responseType === "application/octet-stream" || responseType === "application/pdf") data = yield response.blob();
+				else if (responseType === "text/event-stream") data = response;
+				else if (responseType === "multipart/form-data") data = yield response.formData();
+				else data = yield response.text();
+				return {
+					data,
+					error: null,
+					response
+				};
+			} catch (error) {
+				return {
+					data: null,
+					error,
+					response: error instanceof FunctionsHttpError || error instanceof FunctionsRelayError ? error.context : void 0
+				};
+			} finally {
+				if (timeoutId) clearTimeout(timeoutId);
+			}
+		});
+	}
+};
+var PostgrestError = class extends Error {
+	constructor(context) {
+		super(context.message);
+		this.name = "PostgrestError";
+		this.details = context.details;
+		this.hint = context.hint;
+		this.code = context.code;
+	}
+};
+var PostgrestBuilder = class {
+	constructor(builder) {
+		var _builder$shouldThrowO, _builder$isMaybeSingl, _builder$urlLengthLim;
+		this.shouldThrowOnError = false;
+		this.method = builder.method;
+		this.url = builder.url;
+		this.headers = new Headers(builder.headers);
+		this.schema = builder.schema;
+		this.body = builder.body;
+		this.shouldThrowOnError = (_builder$shouldThrowO = builder.shouldThrowOnError) !== null && _builder$shouldThrowO !== void 0 ? _builder$shouldThrowO : false;
+		this.signal = builder.signal;
+		this.isMaybeSingle = (_builder$isMaybeSingl = builder.isMaybeSingle) !== null && _builder$isMaybeSingl !== void 0 ? _builder$isMaybeSingl : false;
+		this.urlLengthLimit = (_builder$urlLengthLim = builder.urlLengthLimit) !== null && _builder$urlLengthLim !== void 0 ? _builder$urlLengthLim : 8e3;
+		if (builder.fetch) this.fetch = builder.fetch;
+		else this.fetch = fetch;
+	}
+	throwOnError() {
+		this.shouldThrowOnError = true;
+		return this;
+	}
+	setHeader(name, value) {
+		this.headers = new Headers(this.headers);
+		this.headers.set(name, value);
+		return this;
+	}
+	then(onfulfilled, onrejected) {
+		var _this = this;
+		if (this.schema === void 0) {} else if (["GET", "HEAD"].includes(this.method)) this.headers.set("Accept-Profile", this.schema);
+		else this.headers.set("Content-Profile", this.schema);
+		if (this.method !== "GET" && this.method !== "HEAD") this.headers.set("Content-Type", "application/json");
+		const _fetch = this.fetch;
+		let res = _fetch(this.url.toString(), {
+			method: this.method,
+			headers: this.headers,
+			body: JSON.stringify(this.body),
+			signal: this.signal
+		}).then(async (res$1) => {
+			let error = null;
+			let data = null;
+			let count$3 = null;
+			let status = res$1.status;
+			let statusText = res$1.statusText;
+			if (res$1.ok) {
+				var _this$headers$get2, _res$headers$get;
+				if (_this.method !== "HEAD") {
+					var _this$headers$get;
+					const body = await res$1.text();
+					if (body === "") {} else if (_this.headers.get("Accept") === "text/csv") data = body;
+					else if (_this.headers.get("Accept") && ((_this$headers$get = _this.headers.get("Accept")) === null || _this$headers$get === void 0 ? void 0 : _this$headers$get.includes("application/vnd.pgrst.plan+text"))) data = body;
+					else data = JSON.parse(body);
+				}
+				const countHeader = (_this$headers$get2 = _this.headers.get("Prefer")) === null || _this$headers$get2 === void 0 ? void 0 : _this$headers$get2.match(/count=(exact|planned|estimated)/);
+				const contentRange = (_res$headers$get = res$1.headers.get("content-range")) === null || _res$headers$get === void 0 ? void 0 : _res$headers$get.split("/");
+				if (countHeader && contentRange && contentRange.length > 1) count$3 = parseInt(contentRange[1]);
+				if (_this.isMaybeSingle && _this.method === "GET" && Array.isArray(data)) if (data.length > 1) {
+					error = {
+						code: "PGRST116",
+						details: `Results contain ${data.length} rows, application/vnd.pgrst.object+json requires 1 row`,
+						hint: null,
+						message: "JSON object requested, multiple (or no) rows returned"
+					};
+					data = null;
+					count$3 = null;
+					status = 406;
+					statusText = "Not Acceptable";
+				} else if (data.length === 1) data = data[0];
+				else data = null;
+			} else {
+				var _error$details;
+				const body = await res$1.text();
+				try {
+					error = JSON.parse(body);
+					if (Array.isArray(error) && res$1.status === 404) {
+						data = [];
+						error = null;
+						status = 200;
+						statusText = "OK";
+					}
+				} catch (_unused) {
+					if (res$1.status === 404 && body === "") {
+						status = 204;
+						statusText = "No Content";
+					} else error = { message: body };
+				}
+				if (error && _this.isMaybeSingle && (error === null || error === void 0 || (_error$details = error.details) === null || _error$details === void 0 ? void 0 : _error$details.includes("0 rows"))) {
+					error = null;
+					status = 200;
+					statusText = "OK";
+				}
+				if (error && _this.shouldThrowOnError) throw new PostgrestError(error);
+			}
+			return {
+				error,
+				data,
+				count: count$3,
+				status,
+				statusText
+			};
+		});
+		if (!this.shouldThrowOnError) res = res.catch((fetchError) => {
+			var _fetchError$name2;
+			let errorDetails = "";
+			let hint = "";
+			let code = "";
+			const cause = fetchError === null || fetchError === void 0 ? void 0 : fetchError.cause;
+			if (cause) {
+				var _cause$message, _cause$code, _fetchError$name, _cause$name;
+				const causeMessage = (_cause$message = cause === null || cause === void 0 ? void 0 : cause.message) !== null && _cause$message !== void 0 ? _cause$message : "";
+				const causeCode = (_cause$code = cause === null || cause === void 0 ? void 0 : cause.code) !== null && _cause$code !== void 0 ? _cause$code : "";
+				errorDetails = `${(_fetchError$name = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _fetchError$name !== void 0 ? _fetchError$name : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`;
+				errorDetails += `\n\nCaused by: ${(_cause$name = cause === null || cause === void 0 ? void 0 : cause.name) !== null && _cause$name !== void 0 ? _cause$name : "Error"}: ${causeMessage}`;
+				if (causeCode) errorDetails += ` (${causeCode})`;
+				if (cause === null || cause === void 0 ? void 0 : cause.stack) errorDetails += `\n${cause.stack}`;
+			} else {
+				var _fetchError$stack;
+				errorDetails = (_fetchError$stack = fetchError === null || fetchError === void 0 ? void 0 : fetchError.stack) !== null && _fetchError$stack !== void 0 ? _fetchError$stack : "";
+			}
+			const urlLength = this.url.toString().length;
+			if ((fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) === "AbortError" || (fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) === "ABORT_ERR") {
+				code = "";
+				hint = "Request was aborted (timeout or manual cancellation)";
+				if (urlLength > this.urlLengthLimit) hint += `. Note: Your request URL is ${urlLength} characters, which may exceed server limits. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [many IDs])), consider using an RPC function to pass values server-side.`;
+			} else if ((cause === null || cause === void 0 ? void 0 : cause.name) === "HeadersOverflowError" || (cause === null || cause === void 0 ? void 0 : cause.code) === "UND_ERR_HEADERS_OVERFLOW") {
+				code = "";
+				hint = "HTTP headers exceeded server limits (typically 16KB)";
+				if (urlLength > this.urlLengthLimit) hint += `. Your request URL is ${urlLength} characters. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [200+ IDs])), consider using an RPC function instead.`;
+			}
+			return {
+				error: {
+					message: `${(_fetchError$name2 = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _fetchError$name2 !== void 0 ? _fetchError$name2 : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`,
+					details: errorDetails,
+					hint,
+					code
+				},
+				data: null,
+				count: null,
+				status: 0,
+				statusText: ""
+			};
+		});
+		return res.then(onfulfilled, onrejected);
+	}
+	returns() {
+		/* istanbul ignore next */
+		return this;
+	}
+	overrideTypes() {
+		return this;
+	}
+};
+var PostgrestTransformBuilder = class extends PostgrestBuilder {
+	select(columns) {
+		let quoted = false;
+		const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
+			if (/\s/.test(c) && !quoted) return "";
+			if (c === "\"") quoted = !quoted;
+			return c;
+		}).join("");
+		this.url.searchParams.set("select", cleanedColumns);
+		this.headers.append("Prefer", "return=representation");
+		return this;
+	}
+	order(column, { ascending = true, nullsFirst, foreignTable, referencedTable = foreignTable } = {}) {
+		const key = referencedTable ? `${referencedTable}.order` : "order";
+		const existingOrder = this.url.searchParams.get(key);
+		this.url.searchParams.set(key, `${existingOrder ? `${existingOrder},` : ""}${column}.${ascending ? "asc" : "desc"}${nullsFirst === void 0 ? "" : nullsFirst ? ".nullsfirst" : ".nullslast"}`);
+		return this;
+	}
+	limit(count$3, { foreignTable, referencedTable = foreignTable } = {}) {
+		const key = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
+		this.url.searchParams.set(key, `${count$3}`);
+		return this;
+	}
+	range(from, to, { foreignTable, referencedTable = foreignTable } = {}) {
+		const keyOffset = typeof referencedTable === "undefined" ? "offset" : `${referencedTable}.offset`;
+		const keyLimit = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
+		this.url.searchParams.set(keyOffset, `${from}`);
+		this.url.searchParams.set(keyLimit, `${to - from + 1}`);
+		return this;
+	}
+	abortSignal(signal) {
+		this.signal = signal;
+		return this;
+	}
+	single() {
+		this.headers.set("Accept", "application/vnd.pgrst.object+json");
+		return this;
+	}
+	maybeSingle() {
+		if (this.method === "GET") this.headers.set("Accept", "application/json");
+		else this.headers.set("Accept", "application/vnd.pgrst.object+json");
+		this.isMaybeSingle = true;
+		return this;
+	}
+	csv() {
+		this.headers.set("Accept", "text/csv");
+		return this;
+	}
+	geojson() {
+		this.headers.set("Accept", "application/geo+json");
+		return this;
+	}
+	explain({ analyze = false, verbose = false, settings = false, buffers = false, wal = false, format = "text" } = {}) {
+		var _this$headers$get;
+		const options$1 = [
+			analyze ? "analyze" : null,
+			verbose ? "verbose" : null,
+			settings ? "settings" : null,
+			buffers ? "buffers" : null,
+			wal ? "wal" : null
+		].filter(Boolean).join("|");
+		const forMediatype = (_this$headers$get = this.headers.get("Accept")) !== null && _this$headers$get !== void 0 ? _this$headers$get : "application/json";
+		this.headers.set("Accept", `application/vnd.pgrst.plan+${format}; for="${forMediatype}"; options=${options$1};`);
+		if (format === "json") return this;
+		else return this;
+	}
+	rollback() {
+		this.headers.append("Prefer", "tx=rollback");
+		return this;
+	}
+	returns() {
+		return this;
+	}
+	maxAffected(value) {
+		this.headers.append("Prefer", "handling=strict");
+		this.headers.append("Prefer", `max-affected=${value}`);
+		return this;
+	}
+};
+var PostgrestReservedCharsRegexp = /* @__PURE__ */ new RegExp("[,()]");
+var PostgrestFilterBuilder = class extends PostgrestTransformBuilder {
+	eq(column, value) {
+		this.url.searchParams.append(column, `eq.${value}`);
+		return this;
+	}
+	neq(column, value) {
+		this.url.searchParams.append(column, `neq.${value}`);
+		return this;
+	}
+	gt(column, value) {
+		this.url.searchParams.append(column, `gt.${value}`);
+		return this;
+	}
+	gte(column, value) {
+		this.url.searchParams.append(column, `gte.${value}`);
+		return this;
+	}
+	lt(column, value) {
+		this.url.searchParams.append(column, `lt.${value}`);
+		return this;
+	}
+	lte(column, value) {
+		this.url.searchParams.append(column, `lte.${value}`);
+		return this;
+	}
+	like(column, pattern) {
+		this.url.searchParams.append(column, `like.${pattern}`);
+		return this;
+	}
+	likeAllOf(column, patterns) {
+		this.url.searchParams.append(column, `like(all).{${patterns.join(",")}}`);
+		return this;
+	}
+	likeAnyOf(column, patterns) {
+		this.url.searchParams.append(column, `like(any).{${patterns.join(",")}}`);
+		return this;
+	}
+	ilike(column, pattern) {
+		this.url.searchParams.append(column, `ilike.${pattern}`);
+		return this;
+	}
+	ilikeAllOf(column, patterns) {
+		this.url.searchParams.append(column, `ilike(all).{${patterns.join(",")}}`);
+		return this;
+	}
+	ilikeAnyOf(column, patterns) {
+		this.url.searchParams.append(column, `ilike(any).{${patterns.join(",")}}`);
+		return this;
+	}
+	regexMatch(column, pattern) {
+		this.url.searchParams.append(column, `match.${pattern}`);
+		return this;
+	}
+	regexIMatch(column, pattern) {
+		this.url.searchParams.append(column, `imatch.${pattern}`);
+		return this;
+	}
+	is(column, value) {
+		this.url.searchParams.append(column, `is.${value}`);
+		return this;
+	}
+	isDistinct(column, value) {
+		this.url.searchParams.append(column, `isdistinct.${value}`);
+		return this;
+	}
+	in(column, values) {
+		const cleanedValues = Array.from(new Set(values)).map((s$2) => {
+			if (typeof s$2 === "string" && PostgrestReservedCharsRegexp.test(s$2)) return `"${s$2}"`;
+			else return `${s$2}`;
+		}).join(",");
+		this.url.searchParams.append(column, `in.(${cleanedValues})`);
+		return this;
+	}
+	notIn(column, values) {
+		const cleanedValues = Array.from(new Set(values)).map((s$2) => {
+			if (typeof s$2 === "string" && PostgrestReservedCharsRegexp.test(s$2)) return `"${s$2}"`;
+			else return `${s$2}`;
+		}).join(",");
+		this.url.searchParams.append(column, `not.in.(${cleanedValues})`);
+		return this;
+	}
+	contains(column, value) {
+		if (typeof value === "string") this.url.searchParams.append(column, `cs.${value}`);
+		else if (Array.isArray(value)) this.url.searchParams.append(column, `cs.{${value.join(",")}}`);
+		else this.url.searchParams.append(column, `cs.${JSON.stringify(value)}`);
+		return this;
+	}
+	containedBy(column, value) {
+		if (typeof value === "string") this.url.searchParams.append(column, `cd.${value}`);
+		else if (Array.isArray(value)) this.url.searchParams.append(column, `cd.{${value.join(",")}}`);
+		else this.url.searchParams.append(column, `cd.${JSON.stringify(value)}`);
+		return this;
+	}
+	rangeGt(column, range) {
+		this.url.searchParams.append(column, `sr.${range}`);
+		return this;
+	}
+	rangeGte(column, range) {
+		this.url.searchParams.append(column, `nxl.${range}`);
+		return this;
+	}
+	rangeLt(column, range) {
+		this.url.searchParams.append(column, `sl.${range}`);
+		return this;
+	}
+	rangeLte(column, range) {
+		this.url.searchParams.append(column, `nxr.${range}`);
+		return this;
+	}
+	rangeAdjacent(column, range) {
+		this.url.searchParams.append(column, `adj.${range}`);
+		return this;
+	}
+	overlaps(column, value) {
+		if (typeof value === "string") this.url.searchParams.append(column, `ov.${value}`);
+		else this.url.searchParams.append(column, `ov.{${value.join(",")}}`);
+		return this;
+	}
+	textSearch(column, query, { config: config$1, type } = {}) {
+		let typePart = "";
+		if (type === "plain") typePart = "pl";
+		else if (type === "phrase") typePart = "ph";
+		else if (type === "websearch") typePart = "w";
+		const configPart = config$1 === void 0 ? "" : `(${config$1})`;
+		this.url.searchParams.append(column, `${typePart}fts${configPart}.${query}`);
+		return this;
+	}
+	match(query) {
+		Object.entries(query).forEach(([column, value]) => {
+			this.url.searchParams.append(column, `eq.${value}`);
+		});
+		return this;
+	}
+	not(column, operator, value) {
+		this.url.searchParams.append(column, `not.${operator}.${value}`);
+		return this;
+	}
+	or(filters, { foreignTable, referencedTable = foreignTable } = {}) {
+		const key = referencedTable ? `${referencedTable}.or` : "or";
+		this.url.searchParams.append(key, `(${filters})`);
+		return this;
+	}
+	filter(column, operator, value) {
+		this.url.searchParams.append(column, `${operator}.${value}`);
+		return this;
+	}
+};
+var PostgrestQueryBuilder = class {
+	constructor(url, { headers = {}, schema, fetch: fetch$1, urlLengthLimit = 8e3 }) {
+		this.url = url;
+		this.headers = new Headers(headers);
+		this.schema = schema;
+		this.fetch = fetch$1;
+		this.urlLengthLimit = urlLengthLimit;
+	}
+	cloneRequestState() {
+		return {
+			url: new URL(this.url.toString()),
+			headers: new Headers(this.headers)
+		};
+	}
+	select(columns, options$1) {
+		const { head: head$1 = false, count: count$3 } = options$1 !== null && options$1 !== void 0 ? options$1 : {};
+		const method = head$1 ? "HEAD" : "GET";
+		let quoted = false;
+		const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
+			if (/\s/.test(c) && !quoted) return "";
+			if (c === "\"") quoted = !quoted;
+			return c;
+		}).join("");
+		const { url, headers } = this.cloneRequestState();
+		url.searchParams.set("select", cleanedColumns);
+		if (count$3) headers.append("Prefer", `count=${count$3}`);
+		return new PostgrestFilterBuilder({
+			method,
+			url,
+			headers,
+			schema: this.schema,
+			fetch: this.fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+	insert(values, { count: count$3, defaultToNull = true } = {}) {
+		var _this$fetch;
+		const method = "POST";
+		const { url, headers } = this.cloneRequestState();
+		if (count$3) headers.append("Prefer", `count=${count$3}`);
+		if (!defaultToNull) headers.append("Prefer", `missing=default`);
+		if (Array.isArray(values)) {
+			const columns = values.reduce((acc, x$1) => acc.concat(Object.keys(x$1)), []);
+			if (columns.length > 0) {
+				const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
+				url.searchParams.set("columns", uniqueColumns.join(","));
+			}
+		}
+		return new PostgrestFilterBuilder({
+			method,
+			url,
+			headers,
+			schema: this.schema,
+			body: values,
+			fetch: (_this$fetch = this.fetch) !== null && _this$fetch !== void 0 ? _this$fetch : fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+	upsert(values, { onConflict, ignoreDuplicates = false, count: count$3, defaultToNull = true } = {}) {
+		var _this$fetch2;
+		const method = "POST";
+		const { url, headers } = this.cloneRequestState();
+		headers.append("Prefer", `resolution=${ignoreDuplicates ? "ignore" : "merge"}-duplicates`);
+		if (onConflict !== void 0) url.searchParams.set("on_conflict", onConflict);
+		if (count$3) headers.append("Prefer", `count=${count$3}`);
+		if (!defaultToNull) headers.append("Prefer", "missing=default");
+		if (Array.isArray(values)) {
+			const columns = values.reduce((acc, x$1) => acc.concat(Object.keys(x$1)), []);
+			if (columns.length > 0) {
+				const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
+				url.searchParams.set("columns", uniqueColumns.join(","));
+			}
+		}
+		return new PostgrestFilterBuilder({
+			method,
+			url,
+			headers,
+			schema: this.schema,
+			body: values,
+			fetch: (_this$fetch2 = this.fetch) !== null && _this$fetch2 !== void 0 ? _this$fetch2 : fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+	update(values, { count: count$3 } = {}) {
+		var _this$fetch3;
+		const method = "PATCH";
+		const { url, headers } = this.cloneRequestState();
+		if (count$3) headers.append("Prefer", `count=${count$3}`);
+		return new PostgrestFilterBuilder({
+			method,
+			url,
+			headers,
+			schema: this.schema,
+			body: values,
+			fetch: (_this$fetch3 = this.fetch) !== null && _this$fetch3 !== void 0 ? _this$fetch3 : fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+	delete({ count: count$3 } = {}) {
+		var _this$fetch4;
+		const method = "DELETE";
+		const { url, headers } = this.cloneRequestState();
+		if (count$3) headers.append("Prefer", `count=${count$3}`);
+		return new PostgrestFilterBuilder({
+			method,
+			url,
+			headers,
+			schema: this.schema,
+			fetch: (_this$fetch4 = this.fetch) !== null && _this$fetch4 !== void 0 ? _this$fetch4 : fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+};
+function _typeof$2(o$1) {
+	"@babel/helpers - typeof";
+	return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1$1) {
+		return typeof o$1$1;
+	} : function(o$1$1) {
+		return o$1$1 && "function" == typeof Symbol && o$1$1.constructor === Symbol && o$1$1 !== Symbol.prototype ? "symbol" : typeof o$1$1;
+	}, _typeof$2(o$1);
+}
+function toPrimitive$2(t$1, r$2) {
+	if ("object" != _typeof$2(t$1) || !t$1) return t$1;
+	var e = t$1[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i$2 = e.call(t$1, r$2 || "default");
+		if ("object" != _typeof$2(i$2)) return i$2;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r$2 ? String : Number)(t$1);
+}
+function toPropertyKey$2(t$1) {
+	var i$2 = toPrimitive$2(t$1, "string");
+	return "symbol" == _typeof$2(i$2) ? i$2 : i$2 + "";
+}
+function _defineProperty$2(e, r$2, t$1) {
+	return (r$2 = toPropertyKey$2(r$2)) in e ? Object.defineProperty(e, r$2, {
+		value: t$1,
+		enumerable: !0,
+		configurable: !0,
+		writable: !0
+	}) : e[r$2] = t$1, e;
+}
+function ownKeys$2(e, r$2) {
+	var t$1 = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o$1 = Object.getOwnPropertySymbols(e);
+		r$2 && (o$1 = o$1.filter(function(r$1$1) {
+			return Object.getOwnPropertyDescriptor(e, r$1$1).enumerable;
+		})), t$1.push.apply(t$1, o$1);
+	}
+	return t$1;
+}
+function _objectSpread2$2(e) {
+	for (var r$2 = 1; r$2 < arguments.length; r$2++) {
+		var t$1 = null != arguments[r$2] ? arguments[r$2] : {};
+		r$2 % 2 ? ownKeys$2(Object(t$1), !0).forEach(function(r$1$1) {
+			_defineProperty$2(e, r$1$1, t$1[r$1$1]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t$1)) : ownKeys$2(Object(t$1)).forEach(function(r$1$1) {
+			Object.defineProperty(e, r$1$1, Object.getOwnPropertyDescriptor(t$1, r$1$1));
+		});
+	}
+	return e;
+}
+var PostgrestClient = class PostgrestClient$1 {
+	constructor(url, { headers = {}, schema, fetch: fetch$1, timeout, urlLengthLimit = 8e3 } = {}) {
+		this.url = url;
+		this.headers = new Headers(headers);
+		this.schemaName = schema;
+		this.urlLengthLimit = urlLengthLimit;
+		const originalFetch = fetch$1 !== null && fetch$1 !== void 0 ? fetch$1 : globalThis.fetch;
+		if (timeout !== void 0 && timeout > 0) this.fetch = (input, init) => {
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), timeout);
+			const existingSignal = init === null || init === void 0 ? void 0 : init.signal;
+			if (existingSignal) {
+				if (existingSignal.aborted) {
+					clearTimeout(timeoutId);
+					return originalFetch(input, init);
+				}
+				const abortHandler = () => {
+					clearTimeout(timeoutId);
+					controller.abort();
+				};
+				existingSignal.addEventListener("abort", abortHandler, { once: true });
+				return originalFetch(input, _objectSpread2$2(_objectSpread2$2({}, init), {}, { signal: controller.signal })).finally(() => {
+					clearTimeout(timeoutId);
+					existingSignal.removeEventListener("abort", abortHandler);
+				});
+			}
+			return originalFetch(input, _objectSpread2$2(_objectSpread2$2({}, init), {}, { signal: controller.signal })).finally(() => clearTimeout(timeoutId));
+		};
+		else this.fetch = originalFetch;
+	}
+	from(relation) {
+		if (!relation || typeof relation !== "string" || relation.trim() === "") throw new Error("Invalid relation name: relation must be a non-empty string.");
+		return new PostgrestQueryBuilder(new URL(`${this.url}/${relation}`), {
+			headers: new Headers(this.headers),
+			schema: this.schemaName,
+			fetch: this.fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+	schema(schema) {
+		return new PostgrestClient$1(this.url, {
+			headers: this.headers,
+			schema,
+			fetch: this.fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+	rpc(fn, args = {}, { head: head$1 = false, get: get$2 = false, count: count$3 } = {}) {
+		var _this$fetch;
+		let method;
+		const url = new URL(`${this.url}/rpc/${fn}`);
+		let body;
+		const _isObject = (v) => v !== null && typeof v === "object" && (!Array.isArray(v) || v.some(_isObject));
+		const _hasObjectArg = head$1 && Object.values(args).some(_isObject);
+		if (_hasObjectArg) {
+			method = "POST";
+			body = args;
+		} else if (head$1 || get$2) {
+			method = head$1 ? "HEAD" : "GET";
+			Object.entries(args).filter(([_$1, value]) => value !== void 0).map(([name, value]) => [name, Array.isArray(value) ? `{${value.join(",")}}` : `${value}`]).forEach(([name, value]) => {
+				url.searchParams.append(name, value);
+			});
+		} else {
+			method = "POST";
+			body = args;
+		}
+		const headers = new Headers(this.headers);
+		if (_hasObjectArg) headers.set("Prefer", count$3 ? `count=${count$3},return=minimal` : "return=minimal");
+		else if (count$3) headers.set("Prefer", `count=${count$3}`);
+		return new PostgrestFilterBuilder({
+			method,
+			url,
+			headers,
+			schema: this.schemaName,
+			body,
+			fetch: (_this$fetch = this.fetch) !== null && _this$fetch !== void 0 ? _this$fetch : fetch,
+			urlLengthLimit: this.urlLengthLimit
+		});
+	}
+};
+var WebSocketFactory = class {
+	constructor() {}
+	static detectEnvironment() {
+		var _a$1;
+		if (typeof WebSocket !== "undefined") return {
+			type: "native",
+			constructor: WebSocket
+		};
+		if (typeof globalThis !== "undefined" && typeof globalThis.WebSocket !== "undefined") return {
+			type: "native",
+			constructor: globalThis.WebSocket
+		};
+		if (typeof global !== "undefined" && typeof global.WebSocket !== "undefined") return {
+			type: "native",
+			constructor: global.WebSocket
+		};
+		if (typeof globalThis !== "undefined" && typeof globalThis.WebSocketPair !== "undefined" && typeof globalThis.WebSocket === "undefined") return {
+			type: "cloudflare",
+			error: "Cloudflare Workers detected. WebSocket clients are not supported in Cloudflare Workers.",
+			workaround: "Use Cloudflare Workers WebSocket API for server-side WebSocket handling, or deploy to a different runtime."
+		};
+		if (typeof globalThis !== "undefined" && globalThis.EdgeRuntime || typeof navigator !== "undefined" && ((_a$1 = navigator.userAgent) === null || _a$1 === void 0 ? void 0 : _a$1.includes("Vercel-Edge"))) return {
+			type: "unsupported",
+			error: "Edge runtime detected (Vercel Edge/Netlify Edge). WebSockets are not supported in edge functions.",
+			workaround: "Use serverless functions or a different deployment target for WebSocket functionality."
+		};
+		const _process = globalThis["process"];
+		if (_process) {
+			const processVersions = _process["versions"];
+			if (processVersions && processVersions["node"]) {
+				const versionString = processVersions["node"];
+				const nodeVersion = parseInt(versionString.replace(/^v/, "").split(".")[0]);
+				if (nodeVersion >= 22) {
+					if (typeof globalThis.WebSocket !== "undefined") return {
+						type: "native",
+						constructor: globalThis.WebSocket
+					};
+					return {
+						type: "unsupported",
+						error: `Node.js ${nodeVersion} detected but native WebSocket not found.`,
+						workaround: "Provide a WebSocket implementation via the transport option."
+					};
+				}
+				return {
+					type: "unsupported",
+					error: `Node.js ${nodeVersion} detected without native WebSocket support.`,
+					workaround: "For Node.js < 22, install \"ws\" package and provide it via the transport option:\nimport ws from \"ws\"\nnew RealtimeClient(url, { transport: ws })"
+				};
+			}
+		}
+		return {
+			type: "unsupported",
+			error: "Unknown JavaScript runtime without WebSocket support.",
+			workaround: "Ensure you're running in a supported environment (browser, Node.js, Deno) or provide a custom WebSocket implementation."
+		};
+	}
+	static getWebSocketConstructor() {
+		const env = this.detectEnvironment();
+		if (env.constructor) return env.constructor;
+		let errorMessage = env.error || "WebSocket not supported in this environment.";
+		if (env.workaround) errorMessage += `\n\nSuggested solution: ${env.workaround}`;
+		throw new Error(errorMessage);
+	}
+	static createWebSocket(url, protocols) {
+		return new (this.getWebSocketConstructor())(url, protocols);
+	}
+	static isWebSocketSupported() {
+		try {
+			const env = this.detectEnvironment();
+			return env.type === "native" || env.type === "ws";
+		} catch (_a$1) {
+			return false;
+		}
+	}
+};
+var websocket_factory_default = WebSocketFactory;
+const DEFAULT_VERSION = `realtime-js/2.95.3`;
+const VSN_1_0_0 = "1.0.0";
+const VSN_2_0_0 = "2.0.0";
+const DEFAULT_VSN = VSN_2_0_0;
+const DEFAULT_TIMEOUT = 1e4;
+var SOCKET_STATES;
+(function(SOCKET_STATES$1) {
+	SOCKET_STATES$1[SOCKET_STATES$1["connecting"] = 0] = "connecting";
+	SOCKET_STATES$1[SOCKET_STATES$1["open"] = 1] = "open";
+	SOCKET_STATES$1[SOCKET_STATES$1["closing"] = 2] = "closing";
+	SOCKET_STATES$1[SOCKET_STATES$1["closed"] = 3] = "closed";
+})(SOCKET_STATES || (SOCKET_STATES = {}));
+var CHANNEL_STATES;
+(function(CHANNEL_STATES$1) {
+	CHANNEL_STATES$1["closed"] = "closed";
+	CHANNEL_STATES$1["errored"] = "errored";
+	CHANNEL_STATES$1["joined"] = "joined";
+	CHANNEL_STATES$1["joining"] = "joining";
+	CHANNEL_STATES$1["leaving"] = "leaving";
+})(CHANNEL_STATES || (CHANNEL_STATES = {}));
+var CHANNEL_EVENTS;
+(function(CHANNEL_EVENTS$1) {
+	CHANNEL_EVENTS$1["close"] = "phx_close";
+	CHANNEL_EVENTS$1["error"] = "phx_error";
+	CHANNEL_EVENTS$1["join"] = "phx_join";
+	CHANNEL_EVENTS$1["reply"] = "phx_reply";
+	CHANNEL_EVENTS$1["leave"] = "phx_leave";
+	CHANNEL_EVENTS$1["access_token"] = "access_token";
+})(CHANNEL_EVENTS || (CHANNEL_EVENTS = {}));
+var TRANSPORTS;
+(function(TRANSPORTS$1) {
+	TRANSPORTS$1["websocket"] = "websocket";
+})(TRANSPORTS || (TRANSPORTS = {}));
+var CONNECTION_STATE;
+(function(CONNECTION_STATE$1) {
+	CONNECTION_STATE$1["Connecting"] = "connecting";
+	CONNECTION_STATE$1["Open"] = "open";
+	CONNECTION_STATE$1["Closing"] = "closing";
+	CONNECTION_STATE$1["Closed"] = "closed";
+})(CONNECTION_STATE || (CONNECTION_STATE = {}));
+var Serializer = class {
+	constructor(allowedMetadataKeys) {
+		this.HEADER_LENGTH = 1;
+		this.USER_BROADCAST_PUSH_META_LENGTH = 6;
+		this.KINDS = {
+			userBroadcastPush: 3,
+			userBroadcast: 4
+		};
+		this.BINARY_ENCODING = 0;
+		this.JSON_ENCODING = 1;
+		this.BROADCAST_EVENT = "broadcast";
+		this.allowedMetadataKeys = [];
+		this.allowedMetadataKeys = allowedMetadataKeys !== null && allowedMetadataKeys !== void 0 ? allowedMetadataKeys : [];
+	}
+	encode(msg, callback) {
+		if (msg.event === this.BROADCAST_EVENT && !(msg.payload instanceof ArrayBuffer) && typeof msg.payload.event === "string") return callback(this._binaryEncodeUserBroadcastPush(msg));
+		let payload = [
+			msg.join_ref,
+			msg.ref,
+			msg.topic,
+			msg.event,
+			msg.payload
+		];
+		return callback(JSON.stringify(payload));
+	}
+	_binaryEncodeUserBroadcastPush(message) {
+		var _a$1;
+		if (this._isArrayBuffer((_a$1 = message.payload) === null || _a$1 === void 0 ? void 0 : _a$1.payload)) return this._encodeBinaryUserBroadcastPush(message);
+		else return this._encodeJsonUserBroadcastPush(message);
+	}
+	_encodeBinaryUserBroadcastPush(message) {
+		var _a$1, _b;
+		const userPayload = (_b = (_a$1 = message.payload) === null || _a$1 === void 0 ? void 0 : _a$1.payload) !== null && _b !== void 0 ? _b : /* @__PURE__ */ new ArrayBuffer(0);
+		return this._encodeUserBroadcastPush(message, this.BINARY_ENCODING, userPayload);
+	}
+	_encodeJsonUserBroadcastPush(message) {
+		var _a$1, _b;
+		const userPayload = (_b = (_a$1 = message.payload) === null || _a$1 === void 0 ? void 0 : _a$1.payload) !== null && _b !== void 0 ? _b : {};
+		const encodedUserPayload = new TextEncoder().encode(JSON.stringify(userPayload)).buffer;
+		return this._encodeUserBroadcastPush(message, this.JSON_ENCODING, encodedUserPayload);
+	}
+	_encodeUserBroadcastPush(message, encodingType, encodedPayload) {
+		var _a$1, _b;
+		const topic = message.topic;
+		const ref = (_a$1 = message.ref) !== null && _a$1 !== void 0 ? _a$1 : "";
+		const joinRef = (_b = message.join_ref) !== null && _b !== void 0 ? _b : "";
+		const userEvent = message.payload.event;
+		const rest = this.allowedMetadataKeys ? this._pick(message.payload, this.allowedMetadataKeys) : {};
+		const metadata = Object.keys(rest).length === 0 ? "" : JSON.stringify(rest);
+		if (joinRef.length > 255) throw new Error(`joinRef length ${joinRef.length} exceeds maximum of 255`);
+		if (ref.length > 255) throw new Error(`ref length ${ref.length} exceeds maximum of 255`);
+		if (topic.length > 255) throw new Error(`topic length ${topic.length} exceeds maximum of 255`);
+		if (userEvent.length > 255) throw new Error(`userEvent length ${userEvent.length} exceeds maximum of 255`);
+		if (metadata.length > 255) throw new Error(`metadata length ${metadata.length} exceeds maximum of 255`);
+		const metaLength = this.USER_BROADCAST_PUSH_META_LENGTH + joinRef.length + ref.length + topic.length + userEvent.length + metadata.length;
+		const header = new ArrayBuffer(this.HEADER_LENGTH + metaLength);
+		let view = new DataView(header);
+		let offset$3 = 0;
+		view.setUint8(offset$3++, this.KINDS.userBroadcastPush);
+		view.setUint8(offset$3++, joinRef.length);
+		view.setUint8(offset$3++, ref.length);
+		view.setUint8(offset$3++, topic.length);
+		view.setUint8(offset$3++, userEvent.length);
+		view.setUint8(offset$3++, metadata.length);
+		view.setUint8(offset$3++, encodingType);
+		Array.from(joinRef, (char) => view.setUint8(offset$3++, char.charCodeAt(0)));
+		Array.from(ref, (char) => view.setUint8(offset$3++, char.charCodeAt(0)));
+		Array.from(topic, (char) => view.setUint8(offset$3++, char.charCodeAt(0)));
+		Array.from(userEvent, (char) => view.setUint8(offset$3++, char.charCodeAt(0)));
+		Array.from(metadata, (char) => view.setUint8(offset$3++, char.charCodeAt(0)));
+		var combined = new Uint8Array(header.byteLength + encodedPayload.byteLength);
+		combined.set(new Uint8Array(header), 0);
+		combined.set(new Uint8Array(encodedPayload), header.byteLength);
+		return combined.buffer;
+	}
+	decode(rawPayload, callback) {
+		if (this._isArrayBuffer(rawPayload)) return callback(this._binaryDecode(rawPayload));
+		if (typeof rawPayload === "string") {
+			const [join_ref, ref, topic, event, payload] = JSON.parse(rawPayload);
+			return callback({
+				join_ref,
+				ref,
+				topic,
+				event,
+				payload
+			});
+		}
+		return callback({});
+	}
+	_binaryDecode(buffer) {
+		const view = new DataView(buffer);
+		const kind = view.getUint8(0);
+		const decoder = new TextDecoder();
+		switch (kind) {
+			case this.KINDS.userBroadcast: return this._decodeUserBroadcast(buffer, view, decoder);
+		}
+	}
+	_decodeUserBroadcast(buffer, view, decoder) {
+		const topicSize = view.getUint8(1);
+		const userEventSize = view.getUint8(2);
+		const metadataSize = view.getUint8(3);
+		const payloadEncoding = view.getUint8(4);
+		let offset$3 = this.HEADER_LENGTH + 4;
+		const topic = decoder.decode(buffer.slice(offset$3, offset$3 + topicSize));
+		offset$3 = offset$3 + topicSize;
+		const userEvent = decoder.decode(buffer.slice(offset$3, offset$3 + userEventSize));
+		offset$3 = offset$3 + userEventSize;
+		const metadata = decoder.decode(buffer.slice(offset$3, offset$3 + metadataSize));
+		offset$3 = offset$3 + metadataSize;
+		const payload = buffer.slice(offset$3, buffer.byteLength);
+		const parsedPayload = payloadEncoding === this.JSON_ENCODING ? JSON.parse(decoder.decode(payload)) : payload;
+		const data = {
+			type: this.BROADCAST_EVENT,
+			event: userEvent,
+			payload: parsedPayload
+		};
+		if (metadataSize > 0) data["meta"] = JSON.parse(metadata);
+		return {
+			join_ref: null,
+			ref: null,
+			topic,
+			event: this.BROADCAST_EVENT,
+			payload: data
+		};
+	}
+	_isArrayBuffer(buffer) {
+		var _a$1;
+		return buffer instanceof ArrayBuffer || ((_a$1 = buffer === null || buffer === void 0 ? void 0 : buffer.constructor) === null || _a$1 === void 0 ? void 0 : _a$1.name) === "ArrayBuffer";
+	}
+	_pick(obj, keys) {
+		if (!obj || typeof obj !== "object") return {};
+		return Object.fromEntries(Object.entries(obj).filter(([key]) => keys.includes(key)));
+	}
+};
+var Timer = class {
+	constructor(callback, timerCalc) {
+		this.callback = callback;
+		this.timerCalc = timerCalc;
+		this.timer = void 0;
+		this.tries = 0;
+		this.callback = callback;
+		this.timerCalc = timerCalc;
+	}
+	reset() {
+		this.tries = 0;
+		clearTimeout(this.timer);
+		this.timer = void 0;
+	}
+	scheduleTimeout() {
+		clearTimeout(this.timer);
+		this.timer = setTimeout(() => {
+			this.tries = this.tries + 1;
+			this.callback();
+		}, this.timerCalc(this.tries + 1));
+	}
+};
+var PostgresTypes;
+(function(PostgresTypes$1) {
+	PostgresTypes$1["abstime"] = "abstime";
+	PostgresTypes$1["bool"] = "bool";
+	PostgresTypes$1["date"] = "date";
+	PostgresTypes$1["daterange"] = "daterange";
+	PostgresTypes$1["float4"] = "float4";
+	PostgresTypes$1["float8"] = "float8";
+	PostgresTypes$1["int2"] = "int2";
+	PostgresTypes$1["int4"] = "int4";
+	PostgresTypes$1["int4range"] = "int4range";
+	PostgresTypes$1["int8"] = "int8";
+	PostgresTypes$1["int8range"] = "int8range";
+	PostgresTypes$1["json"] = "json";
+	PostgresTypes$1["jsonb"] = "jsonb";
+	PostgresTypes$1["money"] = "money";
+	PostgresTypes$1["numeric"] = "numeric";
+	PostgresTypes$1["oid"] = "oid";
+	PostgresTypes$1["reltime"] = "reltime";
+	PostgresTypes$1["text"] = "text";
+	PostgresTypes$1["time"] = "time";
+	PostgresTypes$1["timestamp"] = "timestamp";
+	PostgresTypes$1["timestamptz"] = "timestamptz";
+	PostgresTypes$1["timetz"] = "timetz";
+	PostgresTypes$1["tsrange"] = "tsrange";
+	PostgresTypes$1["tstzrange"] = "tstzrange";
+})(PostgresTypes || (PostgresTypes = {}));
+const convertChangeData = (columns, record, options$1 = {}) => {
+	var _a$1;
+	const skipTypes = (_a$1 = options$1.skipTypes) !== null && _a$1 !== void 0 ? _a$1 : [];
+	if (!record) return {};
+	return Object.keys(record).reduce((acc, rec_key) => {
+		acc[rec_key] = convertColumn(rec_key, columns, record, skipTypes);
+		return acc;
+	}, {});
+};
+const convertColumn = (columnName, columns, record, skipTypes) => {
+	const column = columns.find((x$1) => x$1.name === columnName);
+	const colType = column === null || column === void 0 ? void 0 : column.type;
+	const value = record[columnName];
+	if (colType && !skipTypes.includes(colType)) return convertCell(colType, value);
+	return noop$1(value);
+};
+const convertCell = (type, value) => {
+	if (type.charAt(0) === "_") return toArray(value, type.slice(1, type.length));
+	switch (type) {
+		case PostgresTypes.bool: return toBoolean(value);
+		case PostgresTypes.float4:
+		case PostgresTypes.float8:
+		case PostgresTypes.int2:
+		case PostgresTypes.int4:
+		case PostgresTypes.int8:
+		case PostgresTypes.numeric:
+		case PostgresTypes.oid: return toNumber(value);
+		case PostgresTypes.json:
+		case PostgresTypes.jsonb: return toJson(value);
+		case PostgresTypes.timestamp: return toTimestampString(value);
+		case PostgresTypes.abstime:
+		case PostgresTypes.date:
+		case PostgresTypes.daterange:
+		case PostgresTypes.int4range:
+		case PostgresTypes.int8range:
+		case PostgresTypes.money:
+		case PostgresTypes.reltime:
+		case PostgresTypes.text:
+		case PostgresTypes.time:
+		case PostgresTypes.timestamptz:
+		case PostgresTypes.timetz:
+		case PostgresTypes.tsrange:
+		case PostgresTypes.tstzrange: return noop$1(value);
+		default: return noop$1(value);
+	}
+};
+var noop$1 = (value) => {
+	return value;
+};
+const toBoolean = (value) => {
+	switch (value) {
+		case "t": return true;
+		case "f": return false;
+		default: return value;
+	}
+};
+const toNumber = (value) => {
+	if (typeof value === "string") {
+		const parsedValue = parseFloat(value);
+		if (!Number.isNaN(parsedValue)) return parsedValue;
+	}
+	return value;
+};
+const toJson = (value) => {
+	if (typeof value === "string") try {
+		return JSON.parse(value);
+	} catch (_a$1) {
+		return value;
+	}
+	return value;
+};
+const toArray = (value, type) => {
+	if (typeof value !== "string") return value;
+	const lastIdx = value.length - 1;
+	const closeBrace = value[lastIdx];
+	if (value[0] === "{" && closeBrace === "}") {
+		let arr;
+		const valTrim = value.slice(1, lastIdx);
+		try {
+			arr = JSON.parse("[" + valTrim + "]");
+		} catch (_$1) {
+			arr = valTrim ? valTrim.split(",") : [];
+		}
+		return arr.map((val) => convertCell(type, val));
+	}
+	return value;
+};
+const toTimestampString = (value) => {
+	if (typeof value === "string") return value.replace(" ", "T");
+	return value;
+};
+const httpEndpointURL = (socketUrl) => {
+	const wsUrl = new URL(socketUrl);
+	wsUrl.protocol = wsUrl.protocol.replace(/^ws/i, "http");
+	wsUrl.pathname = wsUrl.pathname.replace(/\/+$/, "").replace(/\/socket\/websocket$/i, "").replace(/\/socket$/i, "").replace(/\/websocket$/i, "");
+	if (wsUrl.pathname === "" || wsUrl.pathname === "/") wsUrl.pathname = "/api/broadcast";
+	else wsUrl.pathname = wsUrl.pathname + "/api/broadcast";
+	return wsUrl.href;
+};
+var Push = class {
+	constructor(channel, event, payload = {}, timeout = DEFAULT_TIMEOUT) {
+		this.channel = channel;
+		this.event = event;
+		this.payload = payload;
+		this.timeout = timeout;
+		this.sent = false;
+		this.timeoutTimer = void 0;
+		this.ref = "";
+		this.receivedResp = null;
+		this.recHooks = [];
+		this.refEvent = null;
+	}
+	resend(timeout) {
+		this.timeout = timeout;
+		this._cancelRefEvent();
+		this.ref = "";
+		this.refEvent = null;
+		this.receivedResp = null;
+		this.sent = false;
+		this.send();
+	}
+	send() {
+		if (this._hasReceived("timeout")) return;
+		this.startTimeout();
+		this.sent = true;
+		this.channel.socket.push({
+			topic: this.channel.topic,
+			event: this.event,
+			payload: this.payload,
+			ref: this.ref,
+			join_ref: this.channel._joinRef()
+		});
+	}
+	updatePayload(payload) {
+		this.payload = Object.assign(Object.assign({}, this.payload), payload);
+	}
+	receive(status, callback) {
+		var _a$1;
+		if (this._hasReceived(status)) callback((_a$1 = this.receivedResp) === null || _a$1 === void 0 ? void 0 : _a$1.response);
+		this.recHooks.push({
+			status,
+			callback
+		});
+		return this;
+	}
+	startTimeout() {
+		if (this.timeoutTimer) return;
+		this.ref = this.channel.socket._makeRef();
+		this.refEvent = this.channel._replyEventName(this.ref);
+		const callback = (payload) => {
+			this._cancelRefEvent();
+			this._cancelTimeout();
+			this.receivedResp = payload;
+			this._matchReceive(payload);
+		};
+		this.channel._on(this.refEvent, {}, callback);
+		this.timeoutTimer = setTimeout(() => {
+			this.trigger("timeout", {});
+		}, this.timeout);
+	}
+	trigger(status, response) {
+		if (this.refEvent) this.channel._trigger(this.refEvent, {
+			status,
+			response
+		});
+	}
+	destroy() {
+		this._cancelRefEvent();
+		this._cancelTimeout();
+	}
+	_cancelRefEvent() {
+		if (!this.refEvent) return;
+		this.channel._off(this.refEvent, {});
+	}
+	_cancelTimeout() {
+		clearTimeout(this.timeoutTimer);
+		this.timeoutTimer = void 0;
+	}
+	_matchReceive({ status, response }) {
+		this.recHooks.filter((h) => h.status === status).forEach((h) => h.callback(response));
+	}
+	_hasReceived(status) {
+		return this.receivedResp && this.receivedResp.status === status;
+	}
+};
+var REALTIME_PRESENCE_LISTEN_EVENTS;
+(function(REALTIME_PRESENCE_LISTEN_EVENTS$1) {
+	REALTIME_PRESENCE_LISTEN_EVENTS$1["SYNC"] = "sync";
+	REALTIME_PRESENCE_LISTEN_EVENTS$1["JOIN"] = "join";
+	REALTIME_PRESENCE_LISTEN_EVENTS$1["LEAVE"] = "leave";
+})(REALTIME_PRESENCE_LISTEN_EVENTS || (REALTIME_PRESENCE_LISTEN_EVENTS = {}));
+var RealtimePresence = class RealtimePresence {
+	constructor(channel, opts) {
+		this.channel = channel;
+		this.state = {};
+		this.pendingDiffs = [];
+		this.joinRef = null;
+		this.enabled = false;
+		this.caller = {
+			onJoin: () => {},
+			onLeave: () => {},
+			onSync: () => {}
+		};
+		const events = (opts === null || opts === void 0 ? void 0 : opts.events) || {
+			state: "presence_state",
+			diff: "presence_diff"
+		};
+		this.channel._on(events.state, {}, (newState) => {
+			const { onJoin, onLeave, onSync } = this.caller;
+			this.joinRef = this.channel._joinRef();
+			this.state = RealtimePresence.syncState(this.state, newState, onJoin, onLeave);
+			this.pendingDiffs.forEach((diff) => {
+				this.state = RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
+			});
+			this.pendingDiffs = [];
+			onSync();
+		});
+		this.channel._on(events.diff, {}, (diff) => {
+			const { onJoin, onLeave, onSync } = this.caller;
+			if (this.inPendingSyncState()) this.pendingDiffs.push(diff);
+			else {
+				this.state = RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
+				onSync();
+			}
+		});
+		this.onJoin((key, currentPresences, newPresences) => {
+			this.channel._trigger("presence", {
+				event: "join",
+				key,
+				currentPresences,
+				newPresences
+			});
+		});
+		this.onLeave((key, currentPresences, leftPresences) => {
+			this.channel._trigger("presence", {
+				event: "leave",
+				key,
+				currentPresences,
+				leftPresences
+			});
+		});
+		this.onSync(() => {
+			this.channel._trigger("presence", { event: "sync" });
+		});
+	}
+	static syncState(currentState, newState, onJoin, onLeave) {
+		const state = this.cloneDeep(currentState);
+		const transformedState = this.transformState(newState);
+		const joins = {};
+		const leaves = {};
+		this.map(state, (key, presences) => {
+			if (!transformedState[key]) leaves[key] = presences;
+		});
+		this.map(transformedState, (key, newPresences) => {
+			const currentPresences = state[key];
+			if (currentPresences) {
+				const newPresenceRefs = newPresences.map((m) => m.presence_ref);
+				const curPresenceRefs = currentPresences.map((m) => m.presence_ref);
+				const joinedPresences = newPresences.filter((m) => curPresenceRefs.indexOf(m.presence_ref) < 0);
+				const leftPresences = currentPresences.filter((m) => newPresenceRefs.indexOf(m.presence_ref) < 0);
+				if (joinedPresences.length > 0) joins[key] = joinedPresences;
+				if (leftPresences.length > 0) leaves[key] = leftPresences;
+			} else joins[key] = newPresences;
+		});
+		return this.syncDiff(state, {
+			joins,
+			leaves
+		}, onJoin, onLeave);
+	}
+	static syncDiff(state, diff, onJoin, onLeave) {
+		const { joins, leaves } = {
+			joins: this.transformState(diff.joins),
+			leaves: this.transformState(diff.leaves)
+		};
+		if (!onJoin) onJoin = () => {};
+		if (!onLeave) onLeave = () => {};
+		this.map(joins, (key, newPresences) => {
+			var _a$1;
+			const currentPresences = (_a$1 = state[key]) !== null && _a$1 !== void 0 ? _a$1 : [];
+			state[key] = this.cloneDeep(newPresences);
+			if (currentPresences.length > 0) {
+				const joinedPresenceRefs = state[key].map((m) => m.presence_ref);
+				const curPresences = currentPresences.filter((m) => joinedPresenceRefs.indexOf(m.presence_ref) < 0);
+				state[key].unshift(...curPresences);
+			}
+			onJoin(key, currentPresences, newPresences);
+		});
+		this.map(leaves, (key, leftPresences) => {
+			let currentPresences = state[key];
+			if (!currentPresences) return;
+			const presenceRefsToRemove = leftPresences.map((m) => m.presence_ref);
+			currentPresences = currentPresences.filter((m) => presenceRefsToRemove.indexOf(m.presence_ref) < 0);
+			state[key] = currentPresences;
+			onLeave(key, currentPresences, leftPresences);
+			if (currentPresences.length === 0) delete state[key];
+		});
+		return state;
+	}
+	static map(obj, func) {
+		return Object.getOwnPropertyNames(obj).map((key) => func(key, obj[key]));
+	}
+	static transformState(state) {
+		state = this.cloneDeep(state);
+		return Object.getOwnPropertyNames(state).reduce((newState, key) => {
+			const presences = state[key];
+			if ("metas" in presences) newState[key] = presences.metas.map((presence) => {
+				presence["presence_ref"] = presence["phx_ref"];
+				delete presence["phx_ref"];
+				delete presence["phx_ref_prev"];
+				return presence;
+			});
+			else newState[key] = presences;
+			return newState;
+		}, {});
+	}
+	static cloneDeep(obj) {
+		return JSON.parse(JSON.stringify(obj));
+	}
+	onJoin(callback) {
+		this.caller.onJoin = callback;
+	}
+	onLeave(callback) {
+		this.caller.onLeave = callback;
+	}
+	onSync(callback) {
+		this.caller.onSync = callback;
+	}
+	inPendingSyncState() {
+		return !this.joinRef || this.joinRef !== this.channel._joinRef();
+	}
+};
+var REALTIME_POSTGRES_CHANGES_LISTEN_EVENT;
+(function(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT$1) {
+	REALTIME_POSTGRES_CHANGES_LISTEN_EVENT$1["ALL"] = "*";
+	REALTIME_POSTGRES_CHANGES_LISTEN_EVENT$1["INSERT"] = "INSERT";
+	REALTIME_POSTGRES_CHANGES_LISTEN_EVENT$1["UPDATE"] = "UPDATE";
+	REALTIME_POSTGRES_CHANGES_LISTEN_EVENT$1["DELETE"] = "DELETE";
+})(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT || (REALTIME_POSTGRES_CHANGES_LISTEN_EVENT = {}));
+var REALTIME_LISTEN_TYPES;
+(function(REALTIME_LISTEN_TYPES$1) {
+	REALTIME_LISTEN_TYPES$1["BROADCAST"] = "broadcast";
+	REALTIME_LISTEN_TYPES$1["PRESENCE"] = "presence";
+	REALTIME_LISTEN_TYPES$1["POSTGRES_CHANGES"] = "postgres_changes";
+	REALTIME_LISTEN_TYPES$1["SYSTEM"] = "system";
+})(REALTIME_LISTEN_TYPES || (REALTIME_LISTEN_TYPES = {}));
+var REALTIME_SUBSCRIBE_STATES;
+(function(REALTIME_SUBSCRIBE_STATES$1) {
+	REALTIME_SUBSCRIBE_STATES$1["SUBSCRIBED"] = "SUBSCRIBED";
+	REALTIME_SUBSCRIBE_STATES$1["TIMED_OUT"] = "TIMED_OUT";
+	REALTIME_SUBSCRIBE_STATES$1["CLOSED"] = "CLOSED";
+	REALTIME_SUBSCRIBE_STATES$1["CHANNEL_ERROR"] = "CHANNEL_ERROR";
+})(REALTIME_SUBSCRIBE_STATES || (REALTIME_SUBSCRIBE_STATES = {}));
+var RealtimeChannel = class RealtimeChannel {
+	constructor(topic, params = { config: {} }, socket) {
+		var _a$1, _b;
+		this.topic = topic;
+		this.params = params;
+		this.socket = socket;
+		this.bindings = {};
+		this.state = CHANNEL_STATES.closed;
+		this.joinedOnce = false;
+		this.pushBuffer = [];
+		this.subTopic = topic.replace(/^realtime:/i, "");
+		this.params.config = Object.assign({
+			broadcast: {
+				ack: false,
+				self: false
+			},
+			presence: {
+				key: "",
+				enabled: false
+			},
+			private: false
+		}, params.config);
+		this.timeout = this.socket.timeout;
+		this.joinPush = new Push(this, CHANNEL_EVENTS.join, this.params, this.timeout);
+		this.rejoinTimer = new Timer(() => this._rejoinUntilConnected(), this.socket.reconnectAfterMs);
+		this.joinPush.receive("ok", () => {
+			this.state = CHANNEL_STATES.joined;
+			this.rejoinTimer.reset();
+			this.pushBuffer.forEach((pushEvent) => pushEvent.send());
+			this.pushBuffer = [];
+		});
+		this._onClose(() => {
+			this.rejoinTimer.reset();
+			this.socket.log("channel", `close ${this.topic} ${this._joinRef()}`);
+			this.state = CHANNEL_STATES.closed;
+			this.socket._remove(this);
+		});
+		this._onError((reason) => {
+			if (this._isLeaving() || this._isClosed()) return;
+			this.socket.log("channel", `error ${this.topic}`, reason);
+			this.state = CHANNEL_STATES.errored;
+			this.rejoinTimer.scheduleTimeout();
+		});
+		this.joinPush.receive("timeout", () => {
+			if (!this._isJoining()) return;
+			this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout);
+			this.state = CHANNEL_STATES.errored;
+			this.rejoinTimer.scheduleTimeout();
+		});
+		this.joinPush.receive("error", (reason) => {
+			if (this._isLeaving() || this._isClosed()) return;
+			this.socket.log("channel", `error ${this.topic}`, reason);
+			this.state = CHANNEL_STATES.errored;
+			this.rejoinTimer.scheduleTimeout();
+		});
+		this._on(CHANNEL_EVENTS.reply, {}, (payload, ref) => {
+			this._trigger(this._replyEventName(ref), payload);
+		});
+		this.presence = new RealtimePresence(this);
+		this.broadcastEndpointURL = httpEndpointURL(this.socket.endPoint);
+		this.private = this.params.config.private || false;
+		if (!this.private && ((_b = (_a$1 = this.params.config) === null || _a$1 === void 0 ? void 0 : _a$1.broadcast) === null || _b === void 0 ? void 0 : _b.replay)) throw `tried to use replay on public channel '${this.topic}'. It must be a private channel.`;
+	}
+	subscribe(callback, timeout = this.timeout) {
+		var _a$1, _b, _c;
+		if (!this.socket.isConnected()) this.socket.connect();
+		if (this.state == CHANNEL_STATES.closed) {
+			const { config: { broadcast, presence, private: isPrivate } } = this.params;
+			const postgres_changes = (_b = (_a$1 = this.bindings.postgres_changes) === null || _a$1 === void 0 ? void 0 : _a$1.map((r$2) => r$2.filter)) !== null && _b !== void 0 ? _b : [];
+			const presence_enabled = !!this.bindings[REALTIME_LISTEN_TYPES.PRESENCE] && this.bindings[REALTIME_LISTEN_TYPES.PRESENCE].length > 0 || ((_c = this.params.config.presence) === null || _c === void 0 ? void 0 : _c.enabled) === true;
+			const accessTokenPayload = {};
+			const config$1 = {
+				broadcast,
+				presence: Object.assign(Object.assign({}, presence), { enabled: presence_enabled }),
+				postgres_changes,
+				private: isPrivate
+			};
+			if (this.socket.accessTokenValue) accessTokenPayload.access_token = this.socket.accessTokenValue;
+			this._onError((e) => callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, e));
+			this._onClose(() => callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CLOSED));
+			this.updateJoinPayload(Object.assign({ config: config$1 }, accessTokenPayload));
+			this.joinedOnce = true;
+			this._rejoin(timeout);
+			this.joinPush.receive("ok", async ({ postgres_changes: postgres_changes$1 }) => {
+				var _a$2;
+				if (!this.socket._isManualToken()) this.socket.setAuth();
+				if (postgres_changes$1 === void 0) {
+					callback === null || callback === void 0 || callback(REALTIME_SUBSCRIBE_STATES.SUBSCRIBED);
+					return;
+				} else {
+					const clientPostgresBindings = this.bindings.postgres_changes;
+					const bindingsLen = (_a$2 = clientPostgresBindings === null || clientPostgresBindings === void 0 ? void 0 : clientPostgresBindings.length) !== null && _a$2 !== void 0 ? _a$2 : 0;
+					const newPostgresBindings = [];
+					for (let i$2 = 0; i$2 < bindingsLen; i$2++) {
+						const clientPostgresBinding = clientPostgresBindings[i$2];
+						const { filter: { event, schema, table, filter } } = clientPostgresBinding;
+						const serverPostgresFilter = postgres_changes$1 && postgres_changes$1[i$2];
+						if (serverPostgresFilter && serverPostgresFilter.event === event && RealtimeChannel.isFilterValueEqual(serverPostgresFilter.schema, schema) && RealtimeChannel.isFilterValueEqual(serverPostgresFilter.table, table) && RealtimeChannel.isFilterValueEqual(serverPostgresFilter.filter, filter)) newPostgresBindings.push(Object.assign(Object.assign({}, clientPostgresBinding), { id: serverPostgresFilter.id }));
+						else {
+							this.unsubscribe();
+							this.state = CHANNEL_STATES.errored;
+							callback === null || callback === void 0 || callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, /* @__PURE__ */ new Error("mismatch between server and client bindings for postgres changes"));
+							return;
+						}
+					}
+					this.bindings.postgres_changes = newPostgresBindings;
+					callback && callback(REALTIME_SUBSCRIBE_STATES.SUBSCRIBED);
+					return;
+				}
+			}).receive("error", (error) => {
+				this.state = CHANNEL_STATES.errored;
+				callback === null || callback === void 0 || callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, new Error(JSON.stringify(Object.values(error).join(", ") || "error")));
+			}).receive("timeout", () => {
+				callback === null || callback === void 0 || callback(REALTIME_SUBSCRIBE_STATES.TIMED_OUT);
+			});
+		}
+		return this;
+	}
+	presenceState() {
+		return this.presence.state;
+	}
+	async track(payload, opts = {}) {
+		return await this.send({
+			type: "presence",
+			event: "track",
+			payload
+		}, opts.timeout || this.timeout);
+	}
+	async untrack(opts = {}) {
+		return await this.send({
+			type: "presence",
+			event: "untrack"
+		}, opts);
+	}
+	on(type, filter, callback) {
+		if (this.state === CHANNEL_STATES.joined && type === REALTIME_LISTEN_TYPES.PRESENCE) {
+			this.socket.log("channel", `resubscribe to ${this.topic} due to change in presence callbacks on joined channel`);
+			this.unsubscribe().then(async () => await this.subscribe());
+		}
+		return this._on(type, filter, callback);
+	}
+	async httpSend(event, payload, opts = {}) {
+		var _a$1;
+		if (payload === void 0 || payload === null) return Promise.reject("Payload is required for httpSend()");
+		const headers = {
+			apikey: this.socket.apiKey ? this.socket.apiKey : "",
+			"Content-Type": "application/json"
+		};
+		if (this.socket.accessTokenValue) headers["Authorization"] = `Bearer ${this.socket.accessTokenValue}`;
+		const options$1 = {
+			method: "POST",
+			headers,
+			body: JSON.stringify({ messages: [{
+				topic: this.subTopic,
+				event,
+				payload,
+				private: this.private
+			}] })
+		};
+		const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options$1, (_a$1 = opts.timeout) !== null && _a$1 !== void 0 ? _a$1 : this.timeout);
+		if (response.status === 202) return { success: true };
+		let errorMessage = response.statusText;
+		try {
+			const errorBody = await response.json();
+			errorMessage = errorBody.error || errorBody.message || errorMessage;
+		} catch (_b) {}
+		return Promise.reject(new Error(errorMessage));
+	}
+	async send(args, opts = {}) {
+		var _a$1, _b;
+		if (!this._canPush() && args.type === "broadcast") {
+			console.warn("Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.");
+			const { event, payload: endpoint_payload } = args;
+			const headers = {
+				apikey: this.socket.apiKey ? this.socket.apiKey : "",
+				"Content-Type": "application/json"
+			};
+			if (this.socket.accessTokenValue) headers["Authorization"] = `Bearer ${this.socket.accessTokenValue}`;
+			const options$1 = {
+				method: "POST",
+				headers,
+				body: JSON.stringify({ messages: [{
+					topic: this.subTopic,
+					event,
+					payload: endpoint_payload,
+					private: this.private
+				}] })
+			};
+			try {
+				const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options$1, (_a$1 = opts.timeout) !== null && _a$1 !== void 0 ? _a$1 : this.timeout);
+				await ((_b = response.body) === null || _b === void 0 ? void 0 : _b.cancel());
+				return response.ok ? "ok" : "error";
+			} catch (error) {
+				if (error.name === "AbortError") return "timed out";
+				else return "error";
+			}
+		} else return new Promise((resolve) => {
+			var _a$2, _b$1, _c;
+			const push = this._push(args.type, args, opts.timeout || this.timeout);
+			if (args.type === "broadcast" && !((_c = (_b$1 = (_a$2 = this.params) === null || _a$2 === void 0 ? void 0 : _a$2.config) === null || _b$1 === void 0 ? void 0 : _b$1.broadcast) === null || _c === void 0 ? void 0 : _c.ack)) resolve("ok");
+			push.receive("ok", () => resolve("ok"));
+			push.receive("error", () => resolve("error"));
+			push.receive("timeout", () => resolve("timed out"));
+		});
+	}
+	updateJoinPayload(payload) {
+		this.joinPush.updatePayload(payload);
+	}
+	unsubscribe(timeout = this.timeout) {
+		this.state = CHANNEL_STATES.leaving;
+		const onClose = () => {
+			this.socket.log("channel", `leave ${this.topic}`);
+			this._trigger(CHANNEL_EVENTS.close, "leave", this._joinRef());
+		};
+		this.joinPush.destroy();
+		let leavePush = null;
+		return new Promise((resolve) => {
+			leavePush = new Push(this, CHANNEL_EVENTS.leave, {}, timeout);
+			leavePush.receive("ok", () => {
+				onClose();
+				resolve("ok");
+			}).receive("timeout", () => {
+				onClose();
+				resolve("timed out");
+			}).receive("error", () => {
+				resolve("error");
+			});
+			leavePush.send();
+			if (!this._canPush()) leavePush.trigger("ok", {});
+		}).finally(() => {
+			leavePush === null || leavePush === void 0 || leavePush.destroy();
+		});
+	}
+	teardown() {
+		this.pushBuffer.forEach((push) => push.destroy());
+		this.pushBuffer = [];
+		this.rejoinTimer.reset();
+		this.joinPush.destroy();
+		this.state = CHANNEL_STATES.closed;
+		this.bindings = {};
+	}
+	async _fetchWithTimeout(url, options$1, timeout) {
+		const controller = new AbortController();
+		const id = setTimeout(() => controller.abort(), timeout);
+		const response = await this.socket.fetch(url, Object.assign(Object.assign({}, options$1), { signal: controller.signal }));
+		clearTimeout(id);
+		return response;
+	}
+	_push(event, payload, timeout = this.timeout) {
+		if (!this.joinedOnce) throw `tried to push '${event}' to '${this.topic}' before joining. Use channel.subscribe() before pushing events`;
+		let pushEvent = new Push(this, event, payload, timeout);
+		if (this._canPush()) pushEvent.send();
+		else this._addToPushBuffer(pushEvent);
+		return pushEvent;
+	}
+	_addToPushBuffer(pushEvent) {
+		pushEvent.startTimeout();
+		this.pushBuffer.push(pushEvent);
+		if (this.pushBuffer.length > 100) {
+			const removedPush = this.pushBuffer.shift();
+			if (removedPush) {
+				removedPush.destroy();
+				this.socket.log("channel", `discarded push due to buffer overflow: ${removedPush.event}`, removedPush.payload);
+			}
+		}
+	}
+	_onMessage(_event, payload, _ref) {
+		return payload;
+	}
+	_isMember(topic) {
+		return this.topic === topic;
+	}
+	_joinRef() {
+		return this.joinPush.ref;
+	}
+	_trigger(type, payload, ref) {
+		var _a$1, _b;
+		const typeLower = type.toLocaleLowerCase();
+		const { close, error, leave, join } = CHANNEL_EVENTS;
+		if (ref && [
+			close,
+			error,
+			leave,
+			join
+		].indexOf(typeLower) >= 0 && ref !== this._joinRef()) return;
+		let handledPayload = this._onMessage(typeLower, payload, ref);
+		if (payload && !handledPayload) throw "channel onMessage callbacks must return the payload, modified or unmodified";
+		if ([
+			"insert",
+			"update",
+			"delete"
+		].includes(typeLower)) (_a$1 = this.bindings.postgres_changes) === null || _a$1 === void 0 || _a$1.filter((bind) => {
+			var _a$2, _b$1, _c;
+			return ((_a$2 = bind.filter) === null || _a$2 === void 0 ? void 0 : _a$2.event) === "*" || ((_c = (_b$1 = bind.filter) === null || _b$1 === void 0 ? void 0 : _b$1.event) === null || _c === void 0 ? void 0 : _c.toLocaleLowerCase()) === typeLower;
+		}).map((bind) => bind.callback(handledPayload, ref));
+		else (_b = this.bindings[typeLower]) === null || _b === void 0 || _b.filter((bind) => {
+			var _a$2, _b$1, _c, _d, _e, _f;
+			if ([
+				"broadcast",
+				"presence",
+				"postgres_changes"
+			].includes(typeLower)) if ("id" in bind) {
+				const bindId = bind.id;
+				const bindEvent = (_a$2 = bind.filter) === null || _a$2 === void 0 ? void 0 : _a$2.event;
+				return bindId && ((_b$1 = payload.ids) === null || _b$1 === void 0 ? void 0 : _b$1.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c = payload.data) === null || _c === void 0 ? void 0 : _c.type.toLocaleLowerCase()));
+			} else {
+				const bindEvent = (_e = (_d = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _d === void 0 ? void 0 : _d.event) === null || _e === void 0 ? void 0 : _e.toLocaleLowerCase();
+				return bindEvent === "*" || bindEvent === ((_f = payload === null || payload === void 0 ? void 0 : payload.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase());
+			}
+			else return bind.type.toLocaleLowerCase() === typeLower;
+		}).map((bind) => {
+			if (typeof handledPayload === "object" && "ids" in handledPayload) {
+				const postgresChanges = handledPayload.data;
+				const { schema, table, commit_timestamp, type: type$1, errors } = postgresChanges;
+				const enrichedPayload = {
+					schema,
+					table,
+					commit_timestamp,
+					eventType: type$1,
+					new: {},
+					old: {},
+					errors
+				};
+				handledPayload = Object.assign(Object.assign({}, enrichedPayload), this._getPayloadRecords(postgresChanges));
+			}
+			bind.callback(handledPayload, ref);
+		});
+	}
+	_isClosed() {
+		return this.state === CHANNEL_STATES.closed;
+	}
+	_isJoined() {
+		return this.state === CHANNEL_STATES.joined;
+	}
+	_isJoining() {
+		return this.state === CHANNEL_STATES.joining;
+	}
+	_isLeaving() {
+		return this.state === CHANNEL_STATES.leaving;
+	}
+	_replyEventName(ref) {
+		return `chan_reply_${ref}`;
+	}
+	_on(type, filter, callback) {
+		const typeLower = type.toLocaleLowerCase();
+		const binding = {
+			type: typeLower,
+			filter,
+			callback
+		};
+		if (this.bindings[typeLower]) this.bindings[typeLower].push(binding);
+		else this.bindings[typeLower] = [binding];
+		return this;
+	}
+	_off(type, filter) {
+		const typeLower = type.toLocaleLowerCase();
+		if (this.bindings[typeLower]) this.bindings[typeLower] = this.bindings[typeLower].filter((bind) => {
+			var _a$1;
+			return !(((_a$1 = bind.type) === null || _a$1 === void 0 ? void 0 : _a$1.toLocaleLowerCase()) === typeLower && RealtimeChannel.isEqual(bind.filter, filter));
+		});
+		return this;
+	}
+	static isEqual(obj1, obj2) {
+		if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
+		for (const k in obj1) if (obj1[k] !== obj2[k]) return false;
+		return true;
+	}
+	static isFilterValueEqual(serverValue, clientValue) {
+		return (serverValue !== null && serverValue !== void 0 ? serverValue : void 0) === (clientValue !== null && clientValue !== void 0 ? clientValue : void 0);
+	}
+	_rejoinUntilConnected() {
+		this.rejoinTimer.scheduleTimeout();
+		if (this.socket.isConnected()) this._rejoin();
+	}
+	_onClose(callback) {
+		this._on(CHANNEL_EVENTS.close, {}, callback);
+	}
+	_onError(callback) {
+		this._on(CHANNEL_EVENTS.error, {}, (reason) => callback(reason));
+	}
+	_canPush() {
+		return this.socket.isConnected() && this._isJoined();
+	}
+	_rejoin(timeout = this.timeout) {
+		if (this._isLeaving()) return;
+		this.socket._leaveOpenTopic(this.topic);
+		this.state = CHANNEL_STATES.joining;
+		this.joinPush.resend(timeout);
+	}
+	_getPayloadRecords(payload) {
+		const records = {
+			new: {},
+			old: {}
+		};
+		if (payload.type === "INSERT" || payload.type === "UPDATE") records.new = convertChangeData(payload.columns, payload.record);
+		if (payload.type === "UPDATE" || payload.type === "DELETE") records.old = convertChangeData(payload.columns, payload.old_record);
+		return records;
+	}
+};
+var noop = () => {};
+var CONNECTION_TIMEOUTS = {
+	HEARTBEAT_INTERVAL: 25e3,
+	RECONNECT_DELAY: 10,
+	HEARTBEAT_TIMEOUT_FALLBACK: 100
+};
+var RECONNECT_INTERVALS = [
+	1e3,
+	2e3,
+	5e3,
+	1e4
+];
+var DEFAULT_RECONNECT_FALLBACK = 1e4;
+var WORKER_SCRIPT = `
+  addEventListener("message", (e) => {
+    if (e.data.event === "start") {
+      setInterval(() => postMessage({ event: "keepAlive" }), e.data.interval);
+    }
+  });`;
+var RealtimeClient = class {
+	constructor(endPoint, options$1) {
+		var _a$1;
+		this.accessTokenValue = null;
+		this.apiKey = null;
+		this._manuallySetToken = false;
+		this.channels = new Array();
+		this.endPoint = "";
+		this.httpEndpoint = "";
+		this.headers = {};
+		this.params = {};
+		this.timeout = DEFAULT_TIMEOUT;
+		this.transport = null;
+		this.heartbeatIntervalMs = CONNECTION_TIMEOUTS.HEARTBEAT_INTERVAL;
+		this.heartbeatTimer = void 0;
+		this.pendingHeartbeatRef = null;
+		this.heartbeatCallback = noop;
+		this.ref = 0;
+		this.reconnectTimer = null;
+		this.vsn = DEFAULT_VSN;
+		this.logger = noop;
+		this.conn = null;
+		this.sendBuffer = [];
+		this.serializer = new Serializer();
+		this.stateChangeCallbacks = {
+			open: [],
+			close: [],
+			error: [],
+			message: []
+		};
+		this.accessToken = null;
+		this._connectionState = "disconnected";
+		this._wasManualDisconnect = false;
+		this._authPromise = null;
+		this._heartbeatSentAt = null;
+		this._resolveFetch = (customFetch) => {
+			if (customFetch) return (...args) => customFetch(...args);
+			return (...args) => fetch(...args);
+		};
+		if (!((_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.params) === null || _a$1 === void 0 ? void 0 : _a$1.apikey)) throw new Error("API key is required to connect to Realtime");
+		this.apiKey = options$1.params.apikey;
+		this.endPoint = `${endPoint}/${TRANSPORTS.websocket}`;
+		this.httpEndpoint = httpEndpointURL(endPoint);
+		this._initializeOptions(options$1);
+		this._setupReconnectionTimer();
+		this.fetch = this._resolveFetch(options$1 === null || options$1 === void 0 ? void 0 : options$1.fetch);
+	}
+	connect() {
+		if (this.isConnecting() || this.isDisconnecting() || this.conn !== null && this.isConnected()) return;
+		this._setConnectionState("connecting");
+		if (this.accessToken && !this._authPromise) this._setAuthSafely("connect");
+		if (this.transport) this.conn = new this.transport(this.endpointURL());
+		else try {
+			this.conn = websocket_factory_default.createWebSocket(this.endpointURL());
+		} catch (error) {
+			this._setConnectionState("disconnected");
+			const errorMessage = error.message;
+			if (errorMessage.includes("Node.js")) throw new Error(`${errorMessage}\n\nTo use Realtime in Node.js, you need to provide a WebSocket implementation:
+
+Option 1: Use Node.js 22+ which has native WebSocket support
+Option 2: Install and provide the "ws" package:
+
+  npm install ws
+
+  import ws from "ws"
+  const client = new RealtimeClient(url, {
+    ...options,
+    transport: ws
+  })`);
+			throw new Error(`WebSocket not available: ${errorMessage}`);
+		}
+		this._setupConnectionHandlers();
+	}
+	endpointURL() {
+		return this._appendParams(this.endPoint, Object.assign({}, this.params, { vsn: this.vsn }));
+	}
+	disconnect(code, reason) {
+		if (this.isDisconnecting()) return;
+		this._setConnectionState("disconnecting", true);
+		if (this.conn) {
+			const fallbackTimer = setTimeout(() => {
+				this._setConnectionState("disconnected");
+			}, 100);
+			this.conn.onclose = () => {
+				clearTimeout(fallbackTimer);
+				this._setConnectionState("disconnected");
+			};
+			if (typeof this.conn.close === "function") if (code) this.conn.close(code, reason !== null && reason !== void 0 ? reason : "");
+			else this.conn.close();
+			this._teardownConnection();
+		} else this._setConnectionState("disconnected");
+	}
+	getChannels() {
+		return this.channels;
+	}
+	async removeChannel(channel) {
+		const status = await channel.unsubscribe();
+		if (status === "ok") this._remove(channel);
+		if (this.channels.length === 0) this.disconnect();
+		return status;
+	}
+	async removeAllChannels() {
+		const values_1 = await Promise.all(this.channels.map((channel) => channel.unsubscribe()));
+		this.channels = [];
+		this.disconnect();
+		return values_1;
+	}
+	log(kind, msg, data) {
+		this.logger(kind, msg, data);
+	}
+	connectionState() {
+		switch (this.conn && this.conn.readyState) {
+			case SOCKET_STATES.connecting: return CONNECTION_STATE.Connecting;
+			case SOCKET_STATES.open: return CONNECTION_STATE.Open;
+			case SOCKET_STATES.closing: return CONNECTION_STATE.Closing;
+			default: return CONNECTION_STATE.Closed;
+		}
+	}
+	isConnected() {
+		return this.connectionState() === CONNECTION_STATE.Open;
+	}
+	isConnecting() {
+		return this._connectionState === "connecting";
+	}
+	isDisconnecting() {
+		return this._connectionState === "disconnecting";
+	}
+	channel(topic, params = { config: {} }) {
+		const realtimeTopic = `realtime:${topic}`;
+		const exists = this.getChannels().find((c) => c.topic === realtimeTopic);
+		if (!exists) {
+			const chan = new RealtimeChannel(`realtime:${topic}`, params, this);
+			this.channels.push(chan);
+			return chan;
+		} else return exists;
+	}
+	push(data) {
+		const { topic, event, payload, ref } = data;
+		const callback = () => {
+			this.encode(data, (result) => {
+				var _a$1;
+				(_a$1 = this.conn) === null || _a$1 === void 0 || _a$1.send(result);
+			});
+		};
+		this.log("push", `${topic} ${event} (${ref})`, payload);
+		if (this.isConnected()) callback();
+		else this.sendBuffer.push(callback);
+	}
+	async setAuth(token = null) {
+		this._authPromise = this._performAuth(token);
+		try {
+			await this._authPromise;
+		} finally {
+			this._authPromise = null;
+		}
+	}
+	_isManualToken() {
+		return this._manuallySetToken;
+	}
+	async sendHeartbeat() {
+		var _a$1;
+		if (!this.isConnected()) {
+			try {
+				this.heartbeatCallback("disconnected");
+			} catch (e) {
+				this.log("error", "error in heartbeat callback", e);
+			}
+			return;
+		}
+		if (this.pendingHeartbeatRef) {
+			this.pendingHeartbeatRef = null;
+			this._heartbeatSentAt = null;
+			this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+			try {
+				this.heartbeatCallback("timeout");
+			} catch (e) {
+				this.log("error", "error in heartbeat callback", e);
+			}
+			this._wasManualDisconnect = false;
+			(_a$1 = this.conn) === null || _a$1 === void 0 || _a$1.close(1e3, "heartbeat timeout");
+			setTimeout(() => {
+				var _a$2;
+				if (!this.isConnected()) (_a$2 = this.reconnectTimer) === null || _a$2 === void 0 || _a$2.scheduleTimeout();
+			}, CONNECTION_TIMEOUTS.HEARTBEAT_TIMEOUT_FALLBACK);
+			return;
+		}
+		this._heartbeatSentAt = Date.now();
+		this.pendingHeartbeatRef = this._makeRef();
+		this.push({
+			topic: "phoenix",
+			event: "heartbeat",
+			payload: {},
+			ref: this.pendingHeartbeatRef
+		});
+		try {
+			this.heartbeatCallback("sent");
+		} catch (e) {
+			this.log("error", "error in heartbeat callback", e);
+		}
+		this._setAuthSafely("heartbeat");
+	}
+	onHeartbeat(callback) {
+		this.heartbeatCallback = callback;
+	}
+	flushSendBuffer() {
+		if (this.isConnected() && this.sendBuffer.length > 0) {
+			this.sendBuffer.forEach((callback) => callback());
+			this.sendBuffer = [];
+		}
+	}
+	_makeRef() {
+		let newRef = this.ref + 1;
+		if (newRef === this.ref) this.ref = 0;
+		else this.ref = newRef;
+		return this.ref.toString();
+	}
+	_leaveOpenTopic(topic) {
+		let dupChannel = this.channels.find((c) => c.topic === topic && (c._isJoined() || c._isJoining()));
+		if (dupChannel) {
+			this.log("transport", `leaving duplicate topic "${topic}"`);
+			dupChannel.unsubscribe();
+		}
+	}
+	_remove(channel) {
+		this.channels = this.channels.filter((c) => c.topic !== channel.topic);
+	}
+	_onConnMessage(rawMessage) {
+		this.decode(rawMessage.data, (msg) => {
+			if (msg.topic === "phoenix" && msg.event === "phx_reply" && msg.ref && msg.ref === this.pendingHeartbeatRef) {
+				const latency = this._heartbeatSentAt ? Date.now() - this._heartbeatSentAt : void 0;
+				try {
+					this.heartbeatCallback(msg.payload.status === "ok" ? "ok" : "error", latency);
+				} catch (e) {
+					this.log("error", "error in heartbeat callback", e);
+				}
+				this._heartbeatSentAt = null;
+				this.pendingHeartbeatRef = null;
+			}
+			const { topic, event, payload, ref } = msg;
+			const refString = ref ? `(${ref})` : "";
+			const status = payload.status || "";
+			this.log("receive", `${status} ${topic} ${event} ${refString}`.trim(), payload);
+			this.channels.filter((channel) => channel._isMember(topic)).forEach((channel) => channel._trigger(event, payload, ref));
+			this._triggerStateCallbacks("message", msg);
+		});
+	}
+	_clearTimer(timer) {
+		var _a$1;
+		if (timer === "heartbeat" && this.heartbeatTimer) {
+			clearInterval(this.heartbeatTimer);
+			this.heartbeatTimer = void 0;
+		} else if (timer === "reconnect") (_a$1 = this.reconnectTimer) === null || _a$1 === void 0 || _a$1.reset();
+	}
+	_clearAllTimers() {
+		this._clearTimer("heartbeat");
+		this._clearTimer("reconnect");
+	}
+	_setupConnectionHandlers() {
+		if (!this.conn) return;
+		if ("binaryType" in this.conn) this.conn.binaryType = "arraybuffer";
+		this.conn.onopen = () => this._onConnOpen();
+		this.conn.onerror = (error) => this._onConnError(error);
+		this.conn.onmessage = (event) => this._onConnMessage(event);
+		this.conn.onclose = (event) => this._onConnClose(event);
+		if (this.conn.readyState === SOCKET_STATES.open) this._onConnOpen();
+	}
+	_teardownConnection() {
+		if (this.conn) {
+			if (this.conn.readyState === SOCKET_STATES.open || this.conn.readyState === SOCKET_STATES.connecting) try {
+				this.conn.close();
+			} catch (e) {
+				this.log("error", "Error closing connection", e);
+			}
+			this.conn.onopen = null;
+			this.conn.onerror = null;
+			this.conn.onmessage = null;
+			this.conn.onclose = null;
+			this.conn = null;
+		}
+		this._clearAllTimers();
+		this._terminateWorker();
+		this.channels.forEach((channel) => channel.teardown());
+	}
+	_onConnOpen() {
+		this._setConnectionState("connected");
+		this.log("transport", `connected to ${this.endpointURL()}`);
+		(this._authPromise || (this.accessToken && !this.accessTokenValue ? this.setAuth() : Promise.resolve())).then(() => {
+			this.flushSendBuffer();
+		}).catch((e) => {
+			this.log("error", "error waiting for auth on connect", e);
+			this.flushSendBuffer();
+		});
+		this._clearTimer("reconnect");
+		if (!this.worker) this._startHeartbeat();
+		else if (!this.workerRef) this._startWorkerHeartbeat();
+		this._triggerStateCallbacks("open");
+	}
+	_startHeartbeat() {
+		this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+		this.heartbeatTimer = setInterval(() => this.sendHeartbeat(), this.heartbeatIntervalMs);
+	}
+	_startWorkerHeartbeat() {
+		if (this.workerUrl) this.log("worker", `starting worker for from ${this.workerUrl}`);
+		else this.log("worker", `starting default worker`);
+		const objectUrl = this._workerObjectUrl(this.workerUrl);
+		this.workerRef = new Worker(objectUrl);
+		this.workerRef.onerror = (error) => {
+			this.log("worker", "worker error", error.message);
+			this._terminateWorker();
+		};
+		this.workerRef.onmessage = (event) => {
+			if (event.data.event === "keepAlive") this.sendHeartbeat();
+		};
+		this.workerRef.postMessage({
+			event: "start",
+			interval: this.heartbeatIntervalMs
+		});
+	}
+	_terminateWorker() {
+		if (this.workerRef) {
+			this.log("worker", "terminating worker");
+			this.workerRef.terminate();
+			this.workerRef = void 0;
+		}
+	}
+	_onConnClose(event) {
+		var _a$1;
+		this._setConnectionState("disconnected");
+		this.log("transport", "close", event);
+		this._triggerChanError();
+		this._clearTimer("heartbeat");
+		if (!this._wasManualDisconnect) (_a$1 = this.reconnectTimer) === null || _a$1 === void 0 || _a$1.scheduleTimeout();
+		this._triggerStateCallbacks("close", event);
+	}
+	_onConnError(error) {
+		this._setConnectionState("disconnected");
+		this.log("transport", `${error}`);
+		this._triggerChanError();
+		this._triggerStateCallbacks("error", error);
+		try {
+			this.heartbeatCallback("error");
+		} catch (e) {
+			this.log("error", "error in heartbeat callback", e);
+		}
+	}
+	_triggerChanError() {
+		this.channels.forEach((channel) => channel._trigger(CHANNEL_EVENTS.error));
+	}
+	_appendParams(url, params) {
+		if (Object.keys(params).length === 0) return url;
+		return `${url}${url.match(/\?/) ? "&" : "?"}${new URLSearchParams(params)}`;
+	}
+	_workerObjectUrl(url) {
+		let result_url;
+		if (url) result_url = url;
+		else {
+			const blob = new Blob([WORKER_SCRIPT], { type: "application/javascript" });
+			result_url = URL.createObjectURL(blob);
+		}
+		return result_url;
+	}
+	_setConnectionState(state, manual = false) {
+		this._connectionState = state;
+		if (state === "connecting") this._wasManualDisconnect = false;
+		else if (state === "disconnecting") this._wasManualDisconnect = manual;
+	}
+	async _performAuth(token = null) {
+		let tokenToSend;
+		let isManualToken = false;
+		if (token) {
+			tokenToSend = token;
+			isManualToken = true;
+		} else if (this.accessToken) try {
+			tokenToSend = await this.accessToken();
+		} catch (e) {
+			this.log("error", "Error fetching access token from callback", e);
+			tokenToSend = this.accessTokenValue;
+		}
+		else tokenToSend = this.accessTokenValue;
+		if (isManualToken) this._manuallySetToken = true;
+		else if (this.accessToken) this._manuallySetToken = false;
+		if (this.accessTokenValue != tokenToSend) {
+			this.accessTokenValue = tokenToSend;
+			this.channels.forEach((channel) => {
+				const payload = {
+					access_token: tokenToSend,
+					version: DEFAULT_VERSION
+				};
+				tokenToSend && channel.updateJoinPayload(payload);
+				if (channel.joinedOnce && channel._isJoined()) channel._push(CHANNEL_EVENTS.access_token, { access_token: tokenToSend });
+			});
+		}
+	}
+	async _waitForAuthIfNeeded() {
+		if (this._authPromise) await this._authPromise;
+	}
+	_setAuthSafely(context = "general") {
+		if (!this._isManualToken()) this.setAuth().catch((e) => {
+			this.log("error", `Error setting auth in ${context}`, e);
+		});
+	}
+	_triggerStateCallbacks(event, data) {
+		try {
+			this.stateChangeCallbacks[event].forEach((callback) => {
+				try {
+					callback(data);
+				} catch (e) {
+					this.log("error", `error in ${event} callback`, e);
+				}
+			});
+		} catch (e) {
+			this.log("error", `error triggering ${event} callbacks`, e);
+		}
+	}
+	_setupReconnectionTimer() {
+		this.reconnectTimer = new Timer(async () => {
+			setTimeout(async () => {
+				await this._waitForAuthIfNeeded();
+				if (!this.isConnected()) this.connect();
+			}, CONNECTION_TIMEOUTS.RECONNECT_DELAY);
+		}, this.reconnectAfterMs);
+	}
+	_initializeOptions(options$1) {
+		var _a$1, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+		this.transport = (_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.transport) !== null && _a$1 !== void 0 ? _a$1 : null;
+		this.timeout = (_b = options$1 === null || options$1 === void 0 ? void 0 : options$1.timeout) !== null && _b !== void 0 ? _b : DEFAULT_TIMEOUT;
+		this.heartbeatIntervalMs = (_c = options$1 === null || options$1 === void 0 ? void 0 : options$1.heartbeatIntervalMs) !== null && _c !== void 0 ? _c : CONNECTION_TIMEOUTS.HEARTBEAT_INTERVAL;
+		this.worker = (_d = options$1 === null || options$1 === void 0 ? void 0 : options$1.worker) !== null && _d !== void 0 ? _d : false;
+		this.accessToken = (_e = options$1 === null || options$1 === void 0 ? void 0 : options$1.accessToken) !== null && _e !== void 0 ? _e : null;
+		this.heartbeatCallback = (_f = options$1 === null || options$1 === void 0 ? void 0 : options$1.heartbeatCallback) !== null && _f !== void 0 ? _f : noop;
+		this.vsn = (_g = options$1 === null || options$1 === void 0 ? void 0 : options$1.vsn) !== null && _g !== void 0 ? _g : DEFAULT_VSN;
+		if (options$1 === null || options$1 === void 0 ? void 0 : options$1.params) this.params = options$1.params;
+		if (options$1 === null || options$1 === void 0 ? void 0 : options$1.logger) this.logger = options$1.logger;
+		if ((options$1 === null || options$1 === void 0 ? void 0 : options$1.logLevel) || (options$1 === null || options$1 === void 0 ? void 0 : options$1.log_level)) {
+			this.logLevel = options$1.logLevel || options$1.log_level;
+			this.params = Object.assign(Object.assign({}, this.params), { log_level: this.logLevel });
+		}
+		this.reconnectAfterMs = (_h = options$1 === null || options$1 === void 0 ? void 0 : options$1.reconnectAfterMs) !== null && _h !== void 0 ? _h : ((tries) => {
+			return RECONNECT_INTERVALS[tries - 1] || DEFAULT_RECONNECT_FALLBACK;
+		});
+		switch (this.vsn) {
+			case VSN_1_0_0:
+				this.encode = (_j = options$1 === null || options$1 === void 0 ? void 0 : options$1.encode) !== null && _j !== void 0 ? _j : ((payload, callback) => {
+					return callback(JSON.stringify(payload));
+				});
+				this.decode = (_k = options$1 === null || options$1 === void 0 ? void 0 : options$1.decode) !== null && _k !== void 0 ? _k : ((payload, callback) => {
+					return callback(JSON.parse(payload));
+				});
+				break;
+			case VSN_2_0_0:
+				this.encode = (_l = options$1 === null || options$1 === void 0 ? void 0 : options$1.encode) !== null && _l !== void 0 ? _l : this.serializer.encode.bind(this.serializer);
+				this.decode = (_m = options$1 === null || options$1 === void 0 ? void 0 : options$1.decode) !== null && _m !== void 0 ? _m : this.serializer.decode.bind(this.serializer);
+				break;
+			default: throw new Error(`Unsupported serializer version: ${this.vsn}`);
+		}
+		if (this.worker) {
+			if (typeof window !== "undefined" && !window.Worker) throw new Error("Web Worker is not supported");
+			this.workerUrl = options$1 === null || options$1 === void 0 ? void 0 : options$1.workerUrl;
+		}
+	}
+};
+var IcebergError = class extends Error {
+	constructor(message, opts) {
+		super(message);
+		this.name = "IcebergError";
+		this.status = opts.status;
+		this.icebergType = opts.icebergType;
+		this.icebergCode = opts.icebergCode;
+		this.details = opts.details;
+		this.isCommitStateUnknown = opts.icebergType === "CommitStateUnknownException" || [
+			500,
+			502,
+			504
+		].includes(opts.status) && opts.icebergType?.includes("CommitState") === true;
+	}
+	isNotFound() {
+		return this.status === 404;
+	}
+	isConflict() {
+		return this.status === 409;
+	}
+	isAuthenticationTimeout() {
+		return this.status === 419;
+	}
+};
+function buildUrl(baseUrl, path, query) {
+	const url = new URL(path, baseUrl);
+	if (query) {
+		for (const [key, value] of Object.entries(query)) if (value !== void 0) url.searchParams.set(key, value);
+	}
+	return url.toString();
+}
+async function buildAuthHeaders(auth) {
+	if (!auth || auth.type === "none") return {};
+	if (auth.type === "bearer") return { Authorization: `Bearer ${auth.token}` };
+	if (auth.type === "header") return { [auth.name]: auth.value };
+	if (auth.type === "custom") return await auth.getHeaders();
+	return {};
+}
+function createFetchClient(options$1) {
+	const fetchFn = options$1.fetchImpl ?? globalThis.fetch;
+	return { async request({ method, path, query, body, headers }) {
+		const url = buildUrl(options$1.baseUrl, path, query);
+		const authHeaders = await buildAuthHeaders(options$1.auth);
+		const res = await fetchFn(url, {
+			method,
+			headers: {
+				...body ? { "Content-Type": "application/json" } : {},
+				...authHeaders,
+				...headers
+			},
+			body: body ? JSON.stringify(body) : void 0
+		});
+		const text = await res.text();
+		const isJson = (res.headers.get("content-type") || "").includes("application/json");
+		const data = isJson && text ? JSON.parse(text) : text;
+		if (!res.ok) {
+			const errBody = isJson ? data : void 0;
+			const errorDetail = errBody?.error;
+			throw new IcebergError(errorDetail?.message ?? `Request failed with status ${res.status}`, {
+				status: res.status,
+				icebergType: errorDetail?.type,
+				icebergCode: errorDetail?.code,
+				details: errBody
+			});
+		}
+		return {
+			status: res.status,
+			headers: res.headers,
+			data
+		};
+	} };
+}
+function namespaceToPath(namespace) {
+	return namespace.join("");
+}
+var NamespaceOperations = class {
+	constructor(client, prefix = "") {
+		this.client = client;
+		this.prefix = prefix;
+	}
+	async listNamespaces(parent) {
+		const query = parent ? { parent: namespaceToPath(parent.namespace) } : void 0;
+		return (await this.client.request({
+			method: "GET",
+			path: `${this.prefix}/namespaces`,
+			query
+		})).data.namespaces.map((ns) => ({ namespace: ns }));
+	}
+	async createNamespace(id, metadata) {
+		const request = {
+			namespace: id.namespace,
+			properties: metadata?.properties
+		};
+		return (await this.client.request({
+			method: "POST",
+			path: `${this.prefix}/namespaces`,
+			body: request
+		})).data;
+	}
+	async dropNamespace(id) {
+		await this.client.request({
+			method: "DELETE",
+			path: `${this.prefix}/namespaces/${namespaceToPath(id.namespace)}`
+		});
+	}
+	async loadNamespaceMetadata(id) {
+		return { properties: (await this.client.request({
+			method: "GET",
+			path: `${this.prefix}/namespaces/${namespaceToPath(id.namespace)}`
+		})).data.properties };
+	}
+	async namespaceExists(id) {
+		try {
+			await this.client.request({
+				method: "HEAD",
+				path: `${this.prefix}/namespaces/${namespaceToPath(id.namespace)}`
+			});
+			return true;
+		} catch (error) {
+			if (error instanceof IcebergError && error.status === 404) return false;
+			throw error;
+		}
+	}
+	async createNamespaceIfNotExists(id, metadata) {
+		try {
+			return await this.createNamespace(id, metadata);
+		} catch (error) {
+			if (error instanceof IcebergError && error.status === 409) return;
+			throw error;
+		}
+	}
+};
+function namespaceToPath2(namespace) {
+	return namespace.join("");
+}
+var TableOperations = class {
+	constructor(client, prefix = "", accessDelegation) {
+		this.client = client;
+		this.prefix = prefix;
+		this.accessDelegation = accessDelegation;
+	}
+	async listTables(namespace) {
+		return (await this.client.request({
+			method: "GET",
+			path: `${this.prefix}/namespaces/${namespaceToPath2(namespace.namespace)}/tables`
+		})).data.identifiers;
+	}
+	async createTable(namespace, request) {
+		const headers = {};
+		if (this.accessDelegation) headers["X-Iceberg-Access-Delegation"] = this.accessDelegation;
+		return (await this.client.request({
+			method: "POST",
+			path: `${this.prefix}/namespaces/${namespaceToPath2(namespace.namespace)}/tables`,
+			body: request,
+			headers
+		})).data.metadata;
+	}
+	async updateTable(id, request) {
+		const response = await this.client.request({
+			method: "POST",
+			path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+			body: request
+		});
+		return {
+			"metadata-location": response.data["metadata-location"],
+			metadata: response.data.metadata
+		};
+	}
+	async dropTable(id, options$1) {
+		await this.client.request({
+			method: "DELETE",
+			path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+			query: { purgeRequested: String(options$1?.purge ?? false) }
+		});
+	}
+	async loadTable(id) {
+		const headers = {};
+		if (this.accessDelegation) headers["X-Iceberg-Access-Delegation"] = this.accessDelegation;
+		return (await this.client.request({
+			method: "GET",
+			path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+			headers
+		})).data.metadata;
+	}
+	async tableExists(id) {
+		const headers = {};
+		if (this.accessDelegation) headers["X-Iceberg-Access-Delegation"] = this.accessDelegation;
+		try {
+			await this.client.request({
+				method: "HEAD",
+				path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+				headers
+			});
+			return true;
+		} catch (error) {
+			if (error instanceof IcebergError && error.status === 404) return false;
+			throw error;
+		}
+	}
+	async createTableIfNotExists(namespace, request) {
+		try {
+			return await this.createTable(namespace, request);
+		} catch (error) {
+			if (error instanceof IcebergError && error.status === 409) return await this.loadTable({
+				namespace: namespace.namespace,
+				name: request.name
+			});
+			throw error;
+		}
+	}
+};
+var IcebergRestCatalog = class {
+	constructor(options$1) {
+		let prefix = "v1";
+		if (options$1.catalogName) prefix += `/${options$1.catalogName}`;
+		this.client = createFetchClient({
+			baseUrl: options$1.baseUrl.endsWith("/") ? options$1.baseUrl : `${options$1.baseUrl}/`,
+			auth: options$1.auth,
+			fetchImpl: options$1.fetch
+		});
+		this.accessDelegation = options$1.accessDelegation?.join(",");
+		this.namespaceOps = new NamespaceOperations(this.client, prefix);
+		this.tableOps = new TableOperations(this.client, prefix, this.accessDelegation);
+	}
+	async listNamespaces(parent) {
+		return this.namespaceOps.listNamespaces(parent);
+	}
+	async createNamespace(id, metadata) {
+		return this.namespaceOps.createNamespace(id, metadata);
+	}
+	async dropNamespace(id) {
+		await this.namespaceOps.dropNamespace(id);
+	}
+	async loadNamespaceMetadata(id) {
+		return this.namespaceOps.loadNamespaceMetadata(id);
+	}
+	async listTables(namespace) {
+		return this.tableOps.listTables(namespace);
+	}
+	async createTable(namespace, request) {
+		return this.tableOps.createTable(namespace, request);
+	}
+	async updateTable(id, request) {
+		return this.tableOps.updateTable(id, request);
+	}
+	async dropTable(id, options$1) {
+		await this.tableOps.dropTable(id, options$1);
+	}
+	async loadTable(id) {
+		return this.tableOps.loadTable(id);
+	}
+	async namespaceExists(id) {
+		return this.namespaceOps.namespaceExists(id);
+	}
+	async tableExists(id) {
+		return this.tableOps.tableExists(id);
+	}
+	async createNamespaceIfNotExists(id, metadata) {
+		return this.namespaceOps.createNamespaceIfNotExists(id, metadata);
+	}
+	async createTableIfNotExists(namespace, request) {
+		return this.tableOps.createTableIfNotExists(namespace, request);
+	}
+};
+var StorageError = class extends Error {
+	constructor(message, namespace = "storage", status, statusCode) {
+		super(message);
+		this.__isStorageError = true;
+		this.namespace = namespace;
+		this.name = namespace === "vectors" ? "StorageVectorsError" : "StorageError";
+		this.status = status;
+		this.statusCode = statusCode;
+	}
+};
+function isStorageError(error) {
+	return typeof error === "object" && error !== null && "__isStorageError" in error;
+}
+var StorageApiError = class extends StorageError {
+	constructor(message, status, statusCode, namespace = "storage") {
+		super(message, namespace, status, statusCode);
+		this.name = namespace === "vectors" ? "StorageVectorsApiError" : "StorageApiError";
+		this.status = status;
+		this.statusCode = statusCode;
+	}
+	toJSON() {
+		return {
+			name: this.name,
+			message: this.message,
+			status: this.status,
+			statusCode: this.statusCode
+		};
+	}
+};
+var StorageUnknownError = class extends StorageError {
+	constructor(message, originalError, namespace = "storage") {
+		super(message, namespace);
+		this.name = namespace === "vectors" ? "StorageVectorsUnknownError" : "StorageUnknownError";
+		this.originalError = originalError;
+	}
+};
+var resolveFetch$2 = (customFetch) => {
+	if (customFetch) return (...args) => customFetch(...args);
+	return (...args) => fetch(...args);
+};
+var isPlainObject$2 = (value) => {
+	if (typeof value !== "object" || value === null) return false;
+	const prototype = Object.getPrototypeOf(value);
+	return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in value) && !(Symbol.iterator in value);
+};
+var recursiveToCamel = (item) => {
+	if (Array.isArray(item)) return item.map((el) => recursiveToCamel(el));
+	else if (typeof item === "function" || item !== Object(item)) return item;
+	const result = {};
+	Object.entries(item).forEach(([key, value]) => {
+		const newKey = key.replace(/([-_][a-z])/gi, (c) => c.toUpperCase().replace(/[-_]/g, ""));
+		result[newKey] = recursiveToCamel(value);
+	});
+	return result;
+};
+var isValidBucketName = (bucketName) => {
+	if (!bucketName || typeof bucketName !== "string") return false;
+	if (bucketName.length === 0 || bucketName.length > 100) return false;
+	if (bucketName.trim() !== bucketName) return false;
+	if (bucketName.includes("/") || bucketName.includes("\\")) return false;
+	return /^[\w!.\*'() &$@=;:+,?-]+$/.test(bucketName);
+};
+function _typeof$1(o$1) {
+	"@babel/helpers - typeof";
+	return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1$1) {
+		return typeof o$1$1;
+	} : function(o$1$1) {
+		return o$1$1 && "function" == typeof Symbol && o$1$1.constructor === Symbol && o$1$1 !== Symbol.prototype ? "symbol" : typeof o$1$1;
+	}, _typeof$1(o$1);
+}
+function toPrimitive$1(t$1, r$2) {
+	if ("object" != _typeof$1(t$1) || !t$1) return t$1;
+	var e = t$1[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i$2 = e.call(t$1, r$2 || "default");
+		if ("object" != _typeof$1(i$2)) return i$2;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r$2 ? String : Number)(t$1);
+}
+function toPropertyKey$1(t$1) {
+	var i$2 = toPrimitive$1(t$1, "string");
+	return "symbol" == _typeof$1(i$2) ? i$2 : i$2 + "";
+}
+function _defineProperty$1(e, r$2, t$1) {
+	return (r$2 = toPropertyKey$1(r$2)) in e ? Object.defineProperty(e, r$2, {
+		value: t$1,
+		enumerable: !0,
+		configurable: !0,
+		writable: !0
+	}) : e[r$2] = t$1, e;
+}
+function ownKeys$1(e, r$2) {
+	var t$1 = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o$1 = Object.getOwnPropertySymbols(e);
+		r$2 && (o$1 = o$1.filter(function(r$1$1) {
+			return Object.getOwnPropertyDescriptor(e, r$1$1).enumerable;
+		})), t$1.push.apply(t$1, o$1);
+	}
+	return t$1;
+}
+function _objectSpread2$1(e) {
+	for (var r$2 = 1; r$2 < arguments.length; r$2++) {
+		var t$1 = null != arguments[r$2] ? arguments[r$2] : {};
+		r$2 % 2 ? ownKeys$1(Object(t$1), !0).forEach(function(r$1$1) {
+			_defineProperty$1(e, r$1$1, t$1[r$1$1]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t$1)) : ownKeys$1(Object(t$1)).forEach(function(r$1$1) {
+			Object.defineProperty(e, r$1$1, Object.getOwnPropertyDescriptor(t$1, r$1$1));
+		});
+	}
+	return e;
+}
+var _getErrorMessage$1 = (err) => {
+	var _err$error;
+	return err.msg || err.message || err.error_description || (typeof err.error === "string" ? err.error : (_err$error = err.error) === null || _err$error === void 0 ? void 0 : _err$error.message) || JSON.stringify(err);
+};
+var handleError$1 = async (error, reject, options$1, namespace) => {
+	if (error && typeof error === "object" && "status" in error && "ok" in error && typeof error.status === "number" && !(options$1 === null || options$1 === void 0 ? void 0 : options$1.noResolveJson)) {
+		const responseError = error;
+		const status = responseError.status || 500;
+		if (typeof responseError.json === "function") responseError.json().then((err) => {
+			const statusCode = (err === null || err === void 0 ? void 0 : err.statusCode) || (err === null || err === void 0 ? void 0 : err.code) || status + "";
+			reject(new StorageApiError(_getErrorMessage$1(err), status, statusCode, namespace));
+		}).catch(() => {
+			if (namespace === "vectors") {
+				const statusCode = status + "";
+				reject(new StorageApiError(responseError.statusText || `HTTP ${status} error`, status, statusCode, namespace));
+			} else {
+				const statusCode = status + "";
+				reject(new StorageApiError(responseError.statusText || `HTTP ${status} error`, status, statusCode, namespace));
+			}
+		});
+		else {
+			const statusCode = status + "";
+			reject(new StorageApiError(responseError.statusText || `HTTP ${status} error`, status, statusCode, namespace));
+		}
+	} else reject(new StorageUnknownError(_getErrorMessage$1(error), error, namespace));
+};
+var _getRequestParams$1 = (method, options$1, parameters, body) => {
+	const params = {
+		method,
+		headers: (options$1 === null || options$1 === void 0 ? void 0 : options$1.headers) || {}
+	};
+	if (method === "GET" || method === "HEAD" || !body) return _objectSpread2$1(_objectSpread2$1({}, params), parameters);
+	if (isPlainObject$2(body)) {
+		params.headers = _objectSpread2$1({ "Content-Type": "application/json" }, options$1 === null || options$1 === void 0 ? void 0 : options$1.headers);
+		params.body = JSON.stringify(body);
+	} else params.body = body;
+	if (options$1 === null || options$1 === void 0 ? void 0 : options$1.duplex) params.duplex = options$1.duplex;
+	return _objectSpread2$1(_objectSpread2$1({}, params), parameters);
+};
+async function _handleRequest$1(fetcher, method, url, options$1, parameters, body, namespace) {
+	return new Promise((resolve, reject) => {
+		fetcher(url, _getRequestParams$1(method, options$1, parameters, body)).then((result) => {
+			if (!result.ok) throw result;
+			if (options$1 === null || options$1 === void 0 ? void 0 : options$1.noResolveJson) return result;
+			if (namespace === "vectors") {
+				const contentType = result.headers.get("content-type");
+				if (result.headers.get("content-length") === "0" || result.status === 204) return {};
+				if (!contentType || !contentType.includes("application/json")) return {};
+			}
+			return result.json();
+		}).then((data) => resolve(data)).catch((error) => handleError$1(error, reject, options$1, namespace));
+	});
+}
+function createFetchApi(namespace = "storage") {
+	return {
+		get: async (fetcher, url, options$1, parameters) => {
+			return _handleRequest$1(fetcher, "GET", url, options$1, parameters, void 0, namespace);
+		},
+		post: async (fetcher, url, body, options$1, parameters) => {
+			return _handleRequest$1(fetcher, "POST", url, options$1, parameters, body, namespace);
+		},
+		put: async (fetcher, url, body, options$1, parameters) => {
+			return _handleRequest$1(fetcher, "PUT", url, options$1, parameters, body, namespace);
+		},
+		head: async (fetcher, url, options$1, parameters) => {
+			return _handleRequest$1(fetcher, "HEAD", url, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, { noResolveJson: true }), parameters, void 0, namespace);
+		},
+		remove: async (fetcher, url, body, options$1, parameters) => {
+			return _handleRequest$1(fetcher, "DELETE", url, options$1, parameters, body, namespace);
+		}
+	};
+}
+var { get: get$1, post, put, head, remove } = createFetchApi("storage");
+var vectorsApi = createFetchApi("vectors");
+var BaseApiClient = class {
+	constructor(url, headers = {}, fetch$1, namespace = "storage") {
+		this.shouldThrowOnError = false;
+		this.url = url;
+		this.headers = headers;
+		this.fetch = resolveFetch$2(fetch$1);
+		this.namespace = namespace;
+	}
+	throwOnError() {
+		this.shouldThrowOnError = true;
+		return this;
+	}
+	async handleOperation(operation) {
+		var _this = this;
+		try {
+			return {
+				data: await operation(),
+				error: null
+			};
+		} catch (error) {
+			if (_this.shouldThrowOnError) throw error;
+			if (isStorageError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+};
+var StreamDownloadBuilder = class {
+	constructor(downloadFn, shouldThrowOnError) {
+		this.downloadFn = downloadFn;
+		this.shouldThrowOnError = shouldThrowOnError;
+	}
+	then(onfulfilled, onrejected) {
+		return this.execute().then(onfulfilled, onrejected);
+	}
+	async execute() {
+		var _this = this;
+		try {
+			return {
+				data: (await _this.downloadFn()).body,
+				error: null
+			};
+		} catch (error) {
+			if (_this.shouldThrowOnError) throw error;
+			if (isStorageError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+};
+var _Symbol$toStringTag = Symbol.toStringTag;
+var BlobDownloadBuilder = class {
+	constructor(downloadFn, shouldThrowOnError) {
+		this.downloadFn = downloadFn;
+		this.shouldThrowOnError = shouldThrowOnError;
+		this[_Symbol$toStringTag] = "BlobDownloadBuilder";
+		this.promise = null;
+	}
+	asStream() {
+		return new StreamDownloadBuilder(this.downloadFn, this.shouldThrowOnError);
+	}
+	then(onfulfilled, onrejected) {
+		return this.getPromise().then(onfulfilled, onrejected);
+	}
+	catch(onrejected) {
+		return this.getPromise().catch(onrejected);
+	}
+	finally(onfinally) {
+		return this.getPromise().finally(onfinally);
+	}
+	getPromise() {
+		if (!this.promise) this.promise = this.execute();
+		return this.promise;
+	}
+	async execute() {
+		var _this = this;
+		try {
+			return {
+				data: await (await _this.downloadFn()).blob(),
+				error: null
+			};
+		} catch (error) {
+			if (_this.shouldThrowOnError) throw error;
+			if (isStorageError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+};
+var DEFAULT_SEARCH_OPTIONS = {
+	limit: 100,
+	offset: 0,
+	sortBy: {
+		column: "name",
+		order: "asc"
+	}
+};
+var DEFAULT_FILE_OPTIONS = {
+	cacheControl: "3600",
+	contentType: "text/plain;charset=UTF-8",
+	upsert: false
+};
+var StorageFileApi = class extends BaseApiClient {
+	constructor(url, headers = {}, bucketId, fetch$1) {
+		super(url, headers, fetch$1, "storage");
+		this.bucketId = bucketId;
+	}
+	async uploadOrUpdate(method, path, fileBody, fileOptions) {
+		var _this = this;
+		return _this.handleOperation(async () => {
+			let body;
+			const options$1 = _objectSpread2$1(_objectSpread2$1({}, DEFAULT_FILE_OPTIONS), fileOptions);
+			let headers = _objectSpread2$1(_objectSpread2$1({}, _this.headers), method === "POST" && { "x-upsert": String(options$1.upsert) });
+			const metadata = options$1.metadata;
+			if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+				body = new FormData();
+				body.append("cacheControl", options$1.cacheControl);
+				if (metadata) body.append("metadata", _this.encodeMetadata(metadata));
+				body.append("", fileBody);
+			} else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+				body = fileBody;
+				if (!body.has("cacheControl")) body.append("cacheControl", options$1.cacheControl);
+				if (metadata && !body.has("metadata")) body.append("metadata", _this.encodeMetadata(metadata));
+			} else {
+				body = fileBody;
+				headers["cache-control"] = `max-age=${options$1.cacheControl}`;
+				headers["content-type"] = options$1.contentType;
+				if (metadata) headers["x-metadata"] = _this.toBase64(_this.encodeMetadata(metadata));
+				if ((typeof ReadableStream !== "undefined" && body instanceof ReadableStream || body && typeof body === "object" && "pipe" in body && typeof body.pipe === "function") && !options$1.duplex) options$1.duplex = "half";
+			}
+			if (fileOptions === null || fileOptions === void 0 ? void 0 : fileOptions.headers) headers = _objectSpread2$1(_objectSpread2$1({}, headers), fileOptions.headers);
+			const cleanPath = _this._removeEmptyFolders(path);
+			const _path = _this._getFinalPath(cleanPath);
+			const data = await (method == "PUT" ? put : post)(_this.fetch, `${_this.url}/object/${_path}`, body, _objectSpread2$1({ headers }, (options$1 === null || options$1 === void 0 ? void 0 : options$1.duplex) ? { duplex: options$1.duplex } : {}));
+			return {
+				path: cleanPath,
+				id: data.Id,
+				fullPath: data.Key
+			};
+		});
+	}
+	async upload(path, fileBody, fileOptions) {
+		return this.uploadOrUpdate("POST", path, fileBody, fileOptions);
+	}
+	async uploadToSignedUrl(path, token, fileBody, fileOptions) {
+		var _this3 = this;
+		const cleanPath = _this3._removeEmptyFolders(path);
+		const _path = _this3._getFinalPath(cleanPath);
+		const url = new URL(_this3.url + `/object/upload/sign/${_path}`);
+		url.searchParams.set("token", token);
+		return _this3.handleOperation(async () => {
+			let body;
+			const options$1 = _objectSpread2$1({ upsert: DEFAULT_FILE_OPTIONS.upsert }, fileOptions);
+			const headers = _objectSpread2$1(_objectSpread2$1({}, _this3.headers), { "x-upsert": String(options$1.upsert) });
+			if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+				body = new FormData();
+				body.append("cacheControl", options$1.cacheControl);
+				body.append("", fileBody);
+			} else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+				body = fileBody;
+				body.append("cacheControl", options$1.cacheControl);
+			} else {
+				body = fileBody;
+				headers["cache-control"] = `max-age=${options$1.cacheControl}`;
+				headers["content-type"] = options$1.contentType;
+			}
+			return {
+				path: cleanPath,
+				fullPath: (await put(_this3.fetch, url.toString(), body, { headers })).Key
+			};
+		});
+	}
+	async createSignedUploadUrl(path, options$1) {
+		var _this4 = this;
+		return _this4.handleOperation(async () => {
+			let _path = _this4._getFinalPath(path);
+			const headers = _objectSpread2$1({}, _this4.headers);
+			if (options$1 === null || options$1 === void 0 ? void 0 : options$1.upsert) headers["x-upsert"] = "true";
+			const data = await post(_this4.fetch, `${_this4.url}/object/upload/sign/${_path}`, {}, { headers });
+			const url = new URL(_this4.url + data.url);
+			const token = url.searchParams.get("token");
+			if (!token) throw new StorageError("No token returned by API");
+			return {
+				signedUrl: url.toString(),
+				path,
+				token
+			};
+		});
+	}
+	async update(path, fileBody, fileOptions) {
+		return this.uploadOrUpdate("PUT", path, fileBody, fileOptions);
+	}
+	async move(fromPath, toPath, options$1) {
+		var _this6 = this;
+		return _this6.handleOperation(async () => {
+			return await post(_this6.fetch, `${_this6.url}/object/move`, {
+				bucketId: _this6.bucketId,
+				sourceKey: fromPath,
+				destinationKey: toPath,
+				destinationBucket: options$1 === null || options$1 === void 0 ? void 0 : options$1.destinationBucket
+			}, { headers: _this6.headers });
+		});
+	}
+	async copy(fromPath, toPath, options$1) {
+		var _this7 = this;
+		return _this7.handleOperation(async () => {
+			return { path: (await post(_this7.fetch, `${_this7.url}/object/copy`, {
+				bucketId: _this7.bucketId,
+				sourceKey: fromPath,
+				destinationKey: toPath,
+				destinationBucket: options$1 === null || options$1 === void 0 ? void 0 : options$1.destinationBucket
+			}, { headers: _this7.headers })).Key };
+		});
+	}
+	async createSignedUrl(path, expiresIn, options$1) {
+		var _this8 = this;
+		return _this8.handleOperation(async () => {
+			let _path = _this8._getFinalPath(path);
+			let data = await post(_this8.fetch, `${_this8.url}/object/sign/${_path}`, _objectSpread2$1({ expiresIn }, (options$1 === null || options$1 === void 0 ? void 0 : options$1.transform) ? { transform: options$1.transform } : {}), { headers: _this8.headers });
+			const downloadQueryParam = (options$1 === null || options$1 === void 0 ? void 0 : options$1.download) ? `&download=${options$1.download === true ? "" : options$1.download}` : "";
+			return { signedUrl: encodeURI(`${_this8.url}${data.signedURL}${downloadQueryParam}`) };
+		});
+	}
+	async createSignedUrls(paths, expiresIn, options$1) {
+		var _this9 = this;
+		return _this9.handleOperation(async () => {
+			const data = await post(_this9.fetch, `${_this9.url}/object/sign/${_this9.bucketId}`, {
+				expiresIn,
+				paths
+			}, { headers: _this9.headers });
+			const downloadQueryParam = (options$1 === null || options$1 === void 0 ? void 0 : options$1.download) ? `&download=${options$1.download === true ? "" : options$1.download}` : "";
+			return data.map((datum) => _objectSpread2$1(_objectSpread2$1({}, datum), {}, { signedUrl: datum.signedURL ? encodeURI(`${_this9.url}${datum.signedURL}${downloadQueryParam}`) : null }));
+		});
+	}
+	download(path, options$1, parameters) {
+		const renderPath = typeof (options$1 === null || options$1 === void 0 ? void 0 : options$1.transform) !== "undefined" ? "render/image/authenticated" : "object";
+		const transformationQuery = this.transformOptsToQueryString((options$1 === null || options$1 === void 0 ? void 0 : options$1.transform) || {});
+		const queryString = transformationQuery ? `?${transformationQuery}` : "";
+		const _path = this._getFinalPath(path);
+		const downloadFn = () => get$1(this.fetch, `${this.url}/${renderPath}/${_path}${queryString}`, {
+			headers: this.headers,
+			noResolveJson: true
+		}, parameters);
+		return new BlobDownloadBuilder(downloadFn, this.shouldThrowOnError);
+	}
+	async info(path) {
+		var _this10 = this;
+		const _path = _this10._getFinalPath(path);
+		return _this10.handleOperation(async () => {
+			return recursiveToCamel(await get$1(_this10.fetch, `${_this10.url}/object/info/${_path}`, { headers: _this10.headers }));
+		});
+	}
+	async exists(path) {
+		var _this11 = this;
+		const _path = _this11._getFinalPath(path);
+		try {
+			await head(_this11.fetch, `${_this11.url}/object/${_path}`, { headers: _this11.headers });
+			return {
+				data: true,
+				error: null
+			};
+		} catch (error) {
+			if (_this11.shouldThrowOnError) throw error;
+			if (isStorageError(error) && error instanceof StorageUnknownError) {
+				const originalError = error.originalError;
+				if ([400, 404].includes(originalError === null || originalError === void 0 ? void 0 : originalError.status)) return {
+					data: false,
+					error
+				};
+			}
+			throw error;
+		}
+	}
+	getPublicUrl(path, options$1) {
+		const _path = this._getFinalPath(path);
+		const _queryString = [];
+		const downloadQueryParam = (options$1 === null || options$1 === void 0 ? void 0 : options$1.download) ? `download=${options$1.download === true ? "" : options$1.download}` : "";
+		if (downloadQueryParam !== "") _queryString.push(downloadQueryParam);
+		const renderPath = typeof (options$1 === null || options$1 === void 0 ? void 0 : options$1.transform) !== "undefined" ? "render/image" : "object";
+		const transformationQuery = this.transformOptsToQueryString((options$1 === null || options$1 === void 0 ? void 0 : options$1.transform) || {});
+		if (transformationQuery !== "") _queryString.push(transformationQuery);
+		let queryString = _queryString.join("&");
+		if (queryString !== "") queryString = `?${queryString}`;
+		return { data: { publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}${queryString}`) } };
+	}
+	async remove(paths) {
+		var _this12 = this;
+		return _this12.handleOperation(async () => {
+			return await remove(_this12.fetch, `${_this12.url}/object/${_this12.bucketId}`, { prefixes: paths }, { headers: _this12.headers });
+		});
+	}
+	async list(path, options$1, parameters) {
+		var _this13 = this;
+		return _this13.handleOperation(async () => {
+			const body = _objectSpread2$1(_objectSpread2$1(_objectSpread2$1({}, DEFAULT_SEARCH_OPTIONS), options$1), {}, { prefix: path || "" });
+			return await post(_this13.fetch, `${_this13.url}/object/list/${_this13.bucketId}`, body, { headers: _this13.headers }, parameters);
+		});
+	}
+	async listV2(options$1, parameters) {
+		var _this14 = this;
+		return _this14.handleOperation(async () => {
+			const body = _objectSpread2$1({}, options$1);
+			return await post(_this14.fetch, `${_this14.url}/object/list-v2/${_this14.bucketId}`, body, { headers: _this14.headers }, parameters);
+		});
+	}
+	encodeMetadata(metadata) {
+		return JSON.stringify(metadata);
+	}
+	toBase64(data) {
+		if (typeof Buffer !== "undefined") return Buffer.from(data).toString("base64");
+		return btoa(data);
+	}
+	_getFinalPath(path) {
+		return `${this.bucketId}/${path.replace(/^\/+/, "")}`;
+	}
+	_removeEmptyFolders(path) {
+		return path.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
+	}
+	transformOptsToQueryString(transform$1) {
+		const params = [];
+		if (transform$1.width) params.push(`width=${transform$1.width}`);
+		if (transform$1.height) params.push(`height=${transform$1.height}`);
+		if (transform$1.resize) params.push(`resize=${transform$1.resize}`);
+		if (transform$1.format) params.push(`format=${transform$1.format}`);
+		if (transform$1.quality) params.push(`quality=${transform$1.quality}`);
+		return params.join("&");
+	}
+};
+var version$3 = "2.95.3";
+var DEFAULT_HEADERS$1 = { "X-Client-Info": `storage-js/${version$3}` };
+var StorageBucketApi = class extends BaseApiClient {
+	constructor(url, headers = {}, fetch$1, opts) {
+		const baseUrl = new URL(url);
+		if (opts === null || opts === void 0 ? void 0 : opts.useNewHostname) {
+			if (/supabase\.(co|in|red)$/.test(baseUrl.hostname) && !baseUrl.hostname.includes("storage.supabase.")) baseUrl.hostname = baseUrl.hostname.replace("supabase.", "storage.supabase.");
+		}
+		const finalUrl = baseUrl.href.replace(/\/$/, "");
+		const finalHeaders = _objectSpread2$1(_objectSpread2$1({}, DEFAULT_HEADERS$1), headers);
+		super(finalUrl, finalHeaders, fetch$1, "storage");
+	}
+	async listBuckets(options$1) {
+		var _this = this;
+		return _this.handleOperation(async () => {
+			const queryString = _this.listBucketOptionsToQueryString(options$1);
+			return await get$1(_this.fetch, `${_this.url}/bucket${queryString}`, { headers: _this.headers });
+		});
+	}
+	async getBucket(id) {
+		var _this2 = this;
+		return _this2.handleOperation(async () => {
+			return await get$1(_this2.fetch, `${_this2.url}/bucket/${id}`, { headers: _this2.headers });
+		});
+	}
+	async createBucket(id, options$1 = { public: false }) {
+		var _this3 = this;
+		return _this3.handleOperation(async () => {
+			return await post(_this3.fetch, `${_this3.url}/bucket`, {
+				id,
+				name: id,
+				type: options$1.type,
+				public: options$1.public,
+				file_size_limit: options$1.fileSizeLimit,
+				allowed_mime_types: options$1.allowedMimeTypes
+			}, { headers: _this3.headers });
+		});
+	}
+	async updateBucket(id, options$1) {
+		var _this4 = this;
+		return _this4.handleOperation(async () => {
+			return await put(_this4.fetch, `${_this4.url}/bucket/${id}`, {
+				id,
+				name: id,
+				public: options$1.public,
+				file_size_limit: options$1.fileSizeLimit,
+				allowed_mime_types: options$1.allowedMimeTypes
+			}, { headers: _this4.headers });
+		});
+	}
+	async emptyBucket(id) {
+		var _this5 = this;
+		return _this5.handleOperation(async () => {
+			return await post(_this5.fetch, `${_this5.url}/bucket/${id}/empty`, {}, { headers: _this5.headers });
+		});
+	}
+	async deleteBucket(id) {
+		var _this6 = this;
+		return _this6.handleOperation(async () => {
+			return await remove(_this6.fetch, `${_this6.url}/bucket/${id}`, {}, { headers: _this6.headers });
+		});
+	}
+	listBucketOptionsToQueryString(options$1) {
+		const params = {};
+		if (options$1) {
+			if ("limit" in options$1) params.limit = String(options$1.limit);
+			if ("offset" in options$1) params.offset = String(options$1.offset);
+			if (options$1.search) params.search = options$1.search;
+			if (options$1.sortColumn) params.sortColumn = options$1.sortColumn;
+			if (options$1.sortOrder) params.sortOrder = options$1.sortOrder;
+		}
+		return Object.keys(params).length > 0 ? "?" + new URLSearchParams(params).toString() : "";
+	}
+};
+var StorageAnalyticsClient = class extends BaseApiClient {
+	constructor(url, headers = {}, fetch$1) {
+		const finalUrl = url.replace(/\/$/, "");
+		const finalHeaders = _objectSpread2$1(_objectSpread2$1({}, DEFAULT_HEADERS$1), headers);
+		super(finalUrl, finalHeaders, fetch$1, "storage");
+	}
+	async createBucket(name) {
+		var _this = this;
+		return _this.handleOperation(async () => {
+			return await post(_this.fetch, `${_this.url}/bucket`, { name }, { headers: _this.headers });
+		});
+	}
+	async listBuckets(options$1) {
+		var _this2 = this;
+		return _this2.handleOperation(async () => {
+			const queryParams = new URLSearchParams();
+			if ((options$1 === null || options$1 === void 0 ? void 0 : options$1.limit) !== void 0) queryParams.set("limit", options$1.limit.toString());
+			if ((options$1 === null || options$1 === void 0 ? void 0 : options$1.offset) !== void 0) queryParams.set("offset", options$1.offset.toString());
+			if (options$1 === null || options$1 === void 0 ? void 0 : options$1.sortColumn) queryParams.set("sortColumn", options$1.sortColumn);
+			if (options$1 === null || options$1 === void 0 ? void 0 : options$1.sortOrder) queryParams.set("sortOrder", options$1.sortOrder);
+			if (options$1 === null || options$1 === void 0 ? void 0 : options$1.search) queryParams.set("search", options$1.search);
+			const queryString = queryParams.toString();
+			const url = queryString ? `${_this2.url}/bucket?${queryString}` : `${_this2.url}/bucket`;
+			return await get$1(_this2.fetch, url, { headers: _this2.headers });
+		});
+	}
+	async deleteBucket(bucketName) {
+		var _this3 = this;
+		return _this3.handleOperation(async () => {
+			return await remove(_this3.fetch, `${_this3.url}/bucket/${bucketName}`, {}, { headers: _this3.headers });
+		});
+	}
+	from(bucketName) {
+		var _this4 = this;
+		if (!isValidBucketName(bucketName)) throw new StorageError("Invalid bucket name: File, folder, and bucket names must follow AWS object key naming guidelines and should avoid the use of any other characters.");
+		const catalog = new IcebergRestCatalog({
+			baseUrl: this.url,
+			catalogName: bucketName,
+			auth: {
+				type: "custom",
+				getHeaders: async () => _this4.headers
+			},
+			fetch: this.fetch
+		});
+		const shouldThrowOnError = this.shouldThrowOnError;
+		return new Proxy(catalog, { get(target, prop) {
+			const value = target[prop];
+			if (typeof value !== "function") return value;
+			return async (...args) => {
+				try {
+					return {
+						data: await value.apply(target, args),
+						error: null
+					};
+				} catch (error) {
+					if (shouldThrowOnError) throw error;
+					return {
+						data: null,
+						error
+					};
+				}
+			};
+		} });
+	}
+};
+var VectorIndexApi = class extends BaseApiClient {
+	constructor(url, headers = {}, fetch$1) {
+		const finalUrl = url.replace(/\/$/, "");
+		const finalHeaders = _objectSpread2$1(_objectSpread2$1({}, DEFAULT_HEADERS$1), {}, { "Content-Type": "application/json" }, headers);
+		super(finalUrl, finalHeaders, fetch$1, "vectors");
+	}
+	async createIndex(options$1) {
+		var _this = this;
+		return _this.handleOperation(async () => {
+			return await vectorsApi.post(_this.fetch, `${_this.url}/CreateIndex`, options$1, { headers: _this.headers }) || {};
+		});
+	}
+	async getIndex(vectorBucketName, indexName) {
+		var _this2 = this;
+		return _this2.handleOperation(async () => {
+			return await vectorsApi.post(_this2.fetch, `${_this2.url}/GetIndex`, {
+				vectorBucketName,
+				indexName
+			}, { headers: _this2.headers });
+		});
+	}
+	async listIndexes(options$1) {
+		var _this3 = this;
+		return _this3.handleOperation(async () => {
+			return await vectorsApi.post(_this3.fetch, `${_this3.url}/ListIndexes`, options$1, { headers: _this3.headers });
+		});
+	}
+	async deleteIndex(vectorBucketName, indexName) {
+		var _this4 = this;
+		return _this4.handleOperation(async () => {
+			return await vectorsApi.post(_this4.fetch, `${_this4.url}/DeleteIndex`, {
+				vectorBucketName,
+				indexName
+			}, { headers: _this4.headers }) || {};
+		});
+	}
+};
+var VectorDataApi = class extends BaseApiClient {
+	constructor(url, headers = {}, fetch$1) {
+		const finalUrl = url.replace(/\/$/, "");
+		const finalHeaders = _objectSpread2$1(_objectSpread2$1({}, DEFAULT_HEADERS$1), {}, { "Content-Type": "application/json" }, headers);
+		super(finalUrl, finalHeaders, fetch$1, "vectors");
+	}
+	async putVectors(options$1) {
+		var _this = this;
+		if (options$1.vectors.length < 1 || options$1.vectors.length > 500) throw new Error("Vector batch size must be between 1 and 500 items");
+		return _this.handleOperation(async () => {
+			return await vectorsApi.post(_this.fetch, `${_this.url}/PutVectors`, options$1, { headers: _this.headers }) || {};
+		});
+	}
+	async getVectors(options$1) {
+		var _this2 = this;
+		return _this2.handleOperation(async () => {
+			return await vectorsApi.post(_this2.fetch, `${_this2.url}/GetVectors`, options$1, { headers: _this2.headers });
+		});
+	}
+	async listVectors(options$1) {
+		var _this3 = this;
+		if (options$1.segmentCount !== void 0) {
+			if (options$1.segmentCount < 1 || options$1.segmentCount > 16) throw new Error("segmentCount must be between 1 and 16");
+			if (options$1.segmentIndex !== void 0) {
+				if (options$1.segmentIndex < 0 || options$1.segmentIndex >= options$1.segmentCount) throw new Error(`segmentIndex must be between 0 and ${options$1.segmentCount - 1}`);
+			}
+		}
+		return _this3.handleOperation(async () => {
+			return await vectorsApi.post(_this3.fetch, `${_this3.url}/ListVectors`, options$1, { headers: _this3.headers });
+		});
+	}
+	async queryVectors(options$1) {
+		var _this4 = this;
+		return _this4.handleOperation(async () => {
+			return await vectorsApi.post(_this4.fetch, `${_this4.url}/QueryVectors`, options$1, { headers: _this4.headers });
+		});
+	}
+	async deleteVectors(options$1) {
+		var _this5 = this;
+		if (options$1.keys.length < 1 || options$1.keys.length > 500) throw new Error("Keys batch size must be between 1 and 500 items");
+		return _this5.handleOperation(async () => {
+			return await vectorsApi.post(_this5.fetch, `${_this5.url}/DeleteVectors`, options$1, { headers: _this5.headers }) || {};
+		});
+	}
+};
+var VectorBucketApi = class extends BaseApiClient {
+	constructor(url, headers = {}, fetch$1) {
+		const finalUrl = url.replace(/\/$/, "");
+		const finalHeaders = _objectSpread2$1(_objectSpread2$1({}, DEFAULT_HEADERS$1), {}, { "Content-Type": "application/json" }, headers);
+		super(finalUrl, finalHeaders, fetch$1, "vectors");
+	}
+	async createBucket(vectorBucketName) {
+		var _this = this;
+		return _this.handleOperation(async () => {
+			return await vectorsApi.post(_this.fetch, `${_this.url}/CreateVectorBucket`, { vectorBucketName }, { headers: _this.headers }) || {};
+		});
+	}
+	async getBucket(vectorBucketName) {
+		var _this2 = this;
+		return _this2.handleOperation(async () => {
+			return await vectorsApi.post(_this2.fetch, `${_this2.url}/GetVectorBucket`, { vectorBucketName }, { headers: _this2.headers });
+		});
+	}
+	async listBuckets(options$1 = {}) {
+		var _this3 = this;
+		return _this3.handleOperation(async () => {
+			return await vectorsApi.post(_this3.fetch, `${_this3.url}/ListVectorBuckets`, options$1, { headers: _this3.headers });
+		});
+	}
+	async deleteBucket(vectorBucketName) {
+		var _this4 = this;
+		return _this4.handleOperation(async () => {
+			return await vectorsApi.post(_this4.fetch, `${_this4.url}/DeleteVectorBucket`, { vectorBucketName }, { headers: _this4.headers }) || {};
+		});
+	}
+};
+var StorageVectorsClient = class extends VectorBucketApi {
+	constructor(url, options$1 = {}) {
+		super(url, options$1.headers || {}, options$1.fetch);
+	}
+	from(vectorBucketName) {
+		return new VectorBucketScope(this.url, this.headers, vectorBucketName, this.fetch);
+	}
+	async createBucket(vectorBucketName) {
+		var _superprop_getCreateBucket = () => super.createBucket, _this = this;
+		return _superprop_getCreateBucket().call(_this, vectorBucketName);
+	}
+	async getBucket(vectorBucketName) {
+		var _superprop_getGetBucket = () => super.getBucket, _this2 = this;
+		return _superprop_getGetBucket().call(_this2, vectorBucketName);
+	}
+	async listBuckets(options$1 = {}) {
+		var _superprop_getListBuckets = () => super.listBuckets, _this3 = this;
+		return _superprop_getListBuckets().call(_this3, options$1);
+	}
+	async deleteBucket(vectorBucketName) {
+		var _superprop_getDeleteBucket = () => super.deleteBucket, _this4 = this;
+		return _superprop_getDeleteBucket().call(_this4, vectorBucketName);
+	}
+};
+var VectorBucketScope = class extends VectorIndexApi {
+	constructor(url, headers, vectorBucketName, fetch$1) {
+		super(url, headers, fetch$1);
+		this.vectorBucketName = vectorBucketName;
+	}
+	async createIndex(options$1) {
+		var _superprop_getCreateIndex = () => super.createIndex, _this5 = this;
+		return _superprop_getCreateIndex().call(_this5, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, { vectorBucketName: _this5.vectorBucketName }));
+	}
+	async listIndexes(options$1 = {}) {
+		var _superprop_getListIndexes = () => super.listIndexes, _this6 = this;
+		return _superprop_getListIndexes().call(_this6, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, { vectorBucketName: _this6.vectorBucketName }));
+	}
+	async getIndex(indexName) {
+		var _superprop_getGetIndex = () => super.getIndex, _this7 = this;
+		return _superprop_getGetIndex().call(_this7, _this7.vectorBucketName, indexName);
+	}
+	async deleteIndex(indexName) {
+		var _superprop_getDeleteIndex = () => super.deleteIndex, _this8 = this;
+		return _superprop_getDeleteIndex().call(_this8, _this8.vectorBucketName, indexName);
+	}
+	index(indexName) {
+		return new VectorIndexScope(this.url, this.headers, this.vectorBucketName, indexName, this.fetch);
+	}
+};
+var VectorIndexScope = class extends VectorDataApi {
+	constructor(url, headers, vectorBucketName, indexName, fetch$1) {
+		super(url, headers, fetch$1);
+		this.vectorBucketName = vectorBucketName;
+		this.indexName = indexName;
+	}
+	async putVectors(options$1) {
+		var _superprop_getPutVectors = () => super.putVectors, _this9 = this;
+		return _superprop_getPutVectors().call(_this9, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, {
+			vectorBucketName: _this9.vectorBucketName,
+			indexName: _this9.indexName
+		}));
+	}
+	async getVectors(options$1) {
+		var _superprop_getGetVectors = () => super.getVectors, _this10 = this;
+		return _superprop_getGetVectors().call(_this10, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, {
+			vectorBucketName: _this10.vectorBucketName,
+			indexName: _this10.indexName
+		}));
+	}
+	async listVectors(options$1 = {}) {
+		var _superprop_getListVectors = () => super.listVectors, _this11 = this;
+		return _superprop_getListVectors().call(_this11, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, {
+			vectorBucketName: _this11.vectorBucketName,
+			indexName: _this11.indexName
+		}));
+	}
+	async queryVectors(options$1) {
+		var _superprop_getQueryVectors = () => super.queryVectors, _this12 = this;
+		return _superprop_getQueryVectors().call(_this12, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, {
+			vectorBucketName: _this12.vectorBucketName,
+			indexName: _this12.indexName
+		}));
+	}
+	async deleteVectors(options$1) {
+		var _superprop_getDeleteVectors = () => super.deleteVectors, _this13 = this;
+		return _superprop_getDeleteVectors().call(_this13, _objectSpread2$1(_objectSpread2$1({}, options$1), {}, {
+			vectorBucketName: _this13.vectorBucketName,
+			indexName: _this13.indexName
+		}));
+	}
+};
+var StorageClient = class extends StorageBucketApi {
+	constructor(url, headers = {}, fetch$1, opts) {
+		super(url, headers, fetch$1, opts);
+	}
+	from(id) {
+		return new StorageFileApi(this.url, this.headers, id, this.fetch);
+	}
+	get vectors() {
+		return new StorageVectorsClient(this.url + "/vector", {
+			headers: this.headers,
+			fetch: this.fetch
+		});
+	}
+	get analytics() {
+		return new StorageAnalyticsClient(this.url + "/iceberg", this.headers, this.fetch);
+	}
+};
+const version$2 = "2.95.3";
+const AUTO_REFRESH_TICK_DURATION_MS = 30 * 1e3;
+const EXPIRY_MARGIN_MS = 3 * AUTO_REFRESH_TICK_DURATION_MS;
+const GOTRUE_URL = "http://localhost:9999";
+const STORAGE_KEY = "supabase.auth.token";
+const DEFAULT_HEADERS = { "X-Client-Info": `gotrue-js/${version$2}` };
+const API_VERSION_HEADER_NAME = "X-Supabase-Api-Version";
+const API_VERSIONS = { "2024-01-01": {
+	timestamp: Date.parse("2024-01-01T00:00:00.0Z"),
+	name: "2024-01-01"
+} };
+const BASE64URL_REGEX = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}$|[a-z0-9_-]{2}$)$/i;
+var AuthError = class extends Error {
+	constructor(message, status, code) {
+		super(message);
+		this.__isAuthError = true;
+		this.name = "AuthError";
+		this.status = status;
+		this.code = code;
+	}
+};
+function isAuthError(error) {
+	return typeof error === "object" && error !== null && "__isAuthError" in error;
+}
+var AuthApiError = class extends AuthError {
+	constructor(message, status, code) {
+		super(message, status, code);
+		this.name = "AuthApiError";
+		this.status = status;
+		this.code = code;
+	}
+};
+function isAuthApiError(error) {
+	return isAuthError(error) && error.name === "AuthApiError";
+}
+var AuthUnknownError = class extends AuthError {
+	constructor(message, originalError) {
+		super(message);
+		this.name = "AuthUnknownError";
+		this.originalError = originalError;
+	}
+};
+var CustomAuthError = class extends AuthError {
+	constructor(message, name, status, code) {
+		super(message, status, code);
+		this.name = name;
+		this.status = status;
+	}
+};
+var AuthSessionMissingError = class extends CustomAuthError {
+	constructor() {
+		super("Auth session missing!", "AuthSessionMissingError", 400, void 0);
+	}
+};
+function isAuthSessionMissingError(error) {
+	return isAuthError(error) && error.name === "AuthSessionMissingError";
+}
+var AuthInvalidTokenResponseError = class extends CustomAuthError {
+	constructor() {
+		super("Auth session or user missing", "AuthInvalidTokenResponseError", 500, void 0);
+	}
+};
+var AuthInvalidCredentialsError = class extends CustomAuthError {
+	constructor(message) {
+		super(message, "AuthInvalidCredentialsError", 400, void 0);
+	}
+};
+var AuthImplicitGrantRedirectError = class extends CustomAuthError {
+	constructor(message, details = null) {
+		super(message, "AuthImplicitGrantRedirectError", 500, void 0);
+		this.details = null;
+		this.details = details;
+	}
+	toJSON() {
+		return {
+			name: this.name,
+			message: this.message,
+			status: this.status,
+			details: this.details
+		};
+	}
+};
+function isAuthImplicitGrantRedirectError(error) {
+	return isAuthError(error) && error.name === "AuthImplicitGrantRedirectError";
+}
+var AuthPKCEGrantCodeExchangeError = class extends CustomAuthError {
+	constructor(message, details = null) {
+		super(message, "AuthPKCEGrantCodeExchangeError", 500, void 0);
+		this.details = null;
+		this.details = details;
+	}
+	toJSON() {
+		return {
+			name: this.name,
+			message: this.message,
+			status: this.status,
+			details: this.details
+		};
+	}
+};
+var AuthPKCECodeVerifierMissingError = class extends CustomAuthError {
+	constructor() {
+		super("PKCE code verifier not found in storage. This can happen if the auth flow was initiated in a different browser or device, or if the storage was cleared. For SSR frameworks (Next.js, SvelteKit, etc.), use @supabase/ssr on both the server and client to store the code verifier in cookies.", "AuthPKCECodeVerifierMissingError", 400, "pkce_code_verifier_not_found");
+	}
+};
+var AuthRetryableFetchError = class extends CustomAuthError {
+	constructor(message, status) {
+		super(message, "AuthRetryableFetchError", status, void 0);
+	}
+};
+function isAuthRetryableFetchError(error) {
+	return isAuthError(error) && error.name === "AuthRetryableFetchError";
+}
+var AuthWeakPasswordError = class extends CustomAuthError {
+	constructor(message, status, reasons) {
+		super(message, "AuthWeakPasswordError", status, "weak_password");
+		this.reasons = reasons;
+	}
+};
+var AuthInvalidJwtError = class extends CustomAuthError {
+	constructor(message) {
+		super(message, "AuthInvalidJwtError", 400, "invalid_jwt");
+	}
+};
+var TO_BASE64URL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split("");
+var IGNORE_BASE64URL = " 	\n\r=".split("");
+var FROM_BASE64URL = (() => {
+	const charMap = new Array(128);
+	for (let i$2 = 0; i$2 < charMap.length; i$2 += 1) charMap[i$2] = -1;
+	for (let i$2 = 0; i$2 < IGNORE_BASE64URL.length; i$2 += 1) charMap[IGNORE_BASE64URL[i$2].charCodeAt(0)] = -2;
+	for (let i$2 = 0; i$2 < TO_BASE64URL.length; i$2 += 1) charMap[TO_BASE64URL[i$2].charCodeAt(0)] = i$2;
+	return charMap;
+})();
+function byteToBase64URL(byte, state, emit) {
+	if (byte !== null) {
+		state.queue = state.queue << 8 | byte;
+		state.queuedBits += 8;
+		while (state.queuedBits >= 6) {
+			emit(TO_BASE64URL[state.queue >> state.queuedBits - 6 & 63]);
+			state.queuedBits -= 6;
+		}
+	} else if (state.queuedBits > 0) {
+		state.queue = state.queue << 6 - state.queuedBits;
+		state.queuedBits = 6;
+		while (state.queuedBits >= 6) {
+			emit(TO_BASE64URL[state.queue >> state.queuedBits - 6 & 63]);
+			state.queuedBits -= 6;
+		}
+	}
+}
+function byteFromBase64URL(charCode, state, emit) {
+	const bits = FROM_BASE64URL[charCode];
+	if (bits > -1) {
+		state.queue = state.queue << 6 | bits;
+		state.queuedBits += 6;
+		while (state.queuedBits >= 8) {
+			emit(state.queue >> state.queuedBits - 8 & 255);
+			state.queuedBits -= 8;
+		}
+	} else if (bits === -2) return;
+	else throw new Error(`Invalid Base64-URL character "${String.fromCharCode(charCode)}"`);
+}
+function stringFromBase64URL(str) {
+	const conv = [];
+	const utf8Emit = (codepoint) => {
+		conv.push(String.fromCodePoint(codepoint));
+	};
+	const utf8State = {
+		utf8seq: 0,
+		codepoint: 0
+	};
+	const b64State = {
+		queue: 0,
+		queuedBits: 0
+	};
+	const byteEmit = (byte) => {
+		stringFromUTF8(byte, utf8State, utf8Emit);
+	};
+	for (let i$2 = 0; i$2 < str.length; i$2 += 1) byteFromBase64URL(str.charCodeAt(i$2), b64State, byteEmit);
+	return conv.join("");
+}
+function codepointToUTF8(codepoint, emit) {
+	if (codepoint <= 127) {
+		emit(codepoint);
+		return;
+	} else if (codepoint <= 2047) {
+		emit(192 | codepoint >> 6);
+		emit(128 | codepoint & 63);
+		return;
+	} else if (codepoint <= 65535) {
+		emit(224 | codepoint >> 12);
+		emit(128 | codepoint >> 6 & 63);
+		emit(128 | codepoint & 63);
+		return;
+	} else if (codepoint <= 1114111) {
+		emit(240 | codepoint >> 18);
+		emit(128 | codepoint >> 12 & 63);
+		emit(128 | codepoint >> 6 & 63);
+		emit(128 | codepoint & 63);
+		return;
+	}
+	throw new Error(`Unrecognized Unicode codepoint: ${codepoint.toString(16)}`);
+}
+function stringToUTF8(str, emit) {
+	for (let i$2 = 0; i$2 < str.length; i$2 += 1) {
+		let codepoint = str.charCodeAt(i$2);
+		if (codepoint > 55295 && codepoint <= 56319) {
+			const highSurrogate = (codepoint - 55296) * 1024 & 65535;
+			codepoint = (str.charCodeAt(i$2 + 1) - 56320 & 65535 | highSurrogate) + 65536;
+			i$2 += 1;
+		}
+		codepointToUTF8(codepoint, emit);
+	}
+}
+function stringFromUTF8(byte, state, emit) {
+	if (state.utf8seq === 0) {
+		if (byte <= 127) {
+			emit(byte);
+			return;
+		}
+		for (let leadingBit = 1; leadingBit < 6; leadingBit += 1) if ((byte >> 7 - leadingBit & 1) === 0) {
+			state.utf8seq = leadingBit;
+			break;
+		}
+		if (state.utf8seq === 2) state.codepoint = byte & 31;
+		else if (state.utf8seq === 3) state.codepoint = byte & 15;
+		else if (state.utf8seq === 4) state.codepoint = byte & 7;
+		else throw new Error("Invalid UTF-8 sequence");
+		state.utf8seq -= 1;
+	} else if (state.utf8seq > 0) {
+		if (byte <= 127) throw new Error("Invalid UTF-8 sequence");
+		state.codepoint = state.codepoint << 6 | byte & 63;
+		state.utf8seq -= 1;
+		if (state.utf8seq === 0) emit(state.codepoint);
+	}
+}
+function base64UrlToUint8Array(str) {
+	const result = [];
+	const state = {
+		queue: 0,
+		queuedBits: 0
+	};
+	const onByte = (byte) => {
+		result.push(byte);
+	};
+	for (let i$2 = 0; i$2 < str.length; i$2 += 1) byteFromBase64URL(str.charCodeAt(i$2), state, onByte);
+	return new Uint8Array(result);
+}
+function stringToUint8Array(str) {
+	const result = [];
+	stringToUTF8(str, (byte) => result.push(byte));
+	return new Uint8Array(result);
+}
+function bytesToBase64URL(bytes) {
+	const result = [];
+	const state = {
+		queue: 0,
+		queuedBits: 0
+	};
+	const onChar = (char) => {
+		result.push(char);
+	};
+	bytes.forEach((byte) => byteToBase64URL(byte, state, onChar));
+	byteToBase64URL(null, state, onChar);
+	return result.join("");
+}
+function expiresAt(expiresIn) {
+	return Math.round(Date.now() / 1e3) + expiresIn;
+}
+function generateCallbackId() {
+	return Symbol("auth-callback");
+}
+const isBrowser = () => typeof window !== "undefined" && typeof document !== "undefined";
+var localStorageWriteTests = {
+	tested: false,
+	writable: false
+};
+const supportsLocalStorage = () => {
+	if (!isBrowser()) return false;
+	try {
+		if (typeof globalThis.localStorage !== "object") return false;
+	} catch (e) {
+		return false;
+	}
+	if (localStorageWriteTests.tested) return localStorageWriteTests.writable;
+	const randomKey = `lswt-${Math.random()}${Math.random()}`;
+	try {
+		globalThis.localStorage.setItem(randomKey, randomKey);
+		globalThis.localStorage.removeItem(randomKey);
+		localStorageWriteTests.tested = true;
+		localStorageWriteTests.writable = true;
+	} catch (e) {
+		localStorageWriteTests.tested = true;
+		localStorageWriteTests.writable = false;
+	}
+	return localStorageWriteTests.writable;
+};
+function parseParametersFromURL(href) {
+	const result = {};
+	const url = new URL(href);
+	if (url.hash && url.hash[0] === "#") try {
+		new URLSearchParams(url.hash.substring(1)).forEach((value, key) => {
+			result[key] = value;
+		});
+	} catch (e) {}
+	url.searchParams.forEach((value, key) => {
+		result[key] = value;
+	});
+	return result;
+}
+const resolveFetch$1 = (customFetch) => {
+	if (customFetch) return (...args) => customFetch(...args);
+	return (...args) => fetch(...args);
+};
+const looksLikeFetchResponse = (maybeResponse) => {
+	return typeof maybeResponse === "object" && maybeResponse !== null && "status" in maybeResponse && "ok" in maybeResponse && "json" in maybeResponse && typeof maybeResponse.json === "function";
+};
+const setItemAsync = async (storage, key, data) => {
+	await storage.setItem(key, JSON.stringify(data));
+};
+const getItemAsync = async (storage, key) => {
+	const value = await storage.getItem(key);
+	if (!value) return null;
+	try {
+		return JSON.parse(value);
+	} catch (_a$1) {
+		return value;
+	}
+};
+const removeItemAsync = async (storage, key) => {
+	await storage.removeItem(key);
+};
+var Deferred = class Deferred {
+	constructor() {
+		this.promise = new Deferred.promiseConstructor((res, rej) => {
+			this.resolve = res;
+			this.reject = rej;
+		});
+	}
+};
+Deferred.promiseConstructor = Promise;
+function decodeJWT(token) {
+	const parts = token.split(".");
+	if (parts.length !== 3) throw new AuthInvalidJwtError("Invalid JWT structure");
+	for (let i$2 = 0; i$2 < parts.length; i$2++) if (!BASE64URL_REGEX.test(parts[i$2])) throw new AuthInvalidJwtError("JWT not in base64url format");
+	return {
+		header: JSON.parse(stringFromBase64URL(parts[0])),
+		payload: JSON.parse(stringFromBase64URL(parts[1])),
+		signature: base64UrlToUint8Array(parts[2]),
+		raw: {
+			header: parts[0],
+			payload: parts[1]
+		}
+	};
+}
+async function sleep(time$2) {
+	return await new Promise((accept) => {
+		setTimeout(() => accept(null), time$2);
+	});
+}
+function retryable(fn, isRetryable) {
+	return new Promise((accept, reject) => {
+		(async () => {
+			for (let attempt = 0; attempt < Infinity; attempt++) try {
+				const result = await fn(attempt);
+				if (!isRetryable(attempt, null, result)) {
+					accept(result);
+					return;
+				}
+			} catch (e) {
+				if (!isRetryable(attempt, e)) {
+					reject(e);
+					return;
+				}
+			}
+		})();
+	});
+}
+function dec2hex(dec) {
+	return ("0" + dec.toString(16)).substr(-2);
+}
+function generatePKCEVerifier() {
+	const verifierLength = 56;
+	const array$1 = new Uint32Array(verifierLength);
+	if (typeof crypto === "undefined") {
+		const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+		const charSetLen = 66;
+		let verifier = "";
+		for (let i$2 = 0; i$2 < verifierLength; i$2++) verifier += charSet.charAt(Math.floor(Math.random() * charSetLen));
+		return verifier;
+	}
+	crypto.getRandomValues(array$1);
+	return Array.from(array$1, dec2hex).join("");
+}
+async function sha256(randomString) {
+	const encodedData = new TextEncoder().encode(randomString);
+	const hash = await crypto.subtle.digest("SHA-256", encodedData);
+	const bytes = new Uint8Array(hash);
+	return Array.from(bytes).map((c) => String.fromCharCode(c)).join("");
+}
+async function generatePKCEChallenge(verifier) {
+	if (!(typeof crypto !== "undefined" && typeof crypto.subtle !== "undefined" && typeof TextEncoder !== "undefined")) {
+		console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256.");
+		return verifier;
+	}
+	const hashed = await sha256(verifier);
+	return btoa(hashed).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+async function getCodeChallengeAndMethod(storage, storageKey, isPasswordRecovery = false) {
+	const codeVerifier = generatePKCEVerifier();
+	let storedCodeVerifier = codeVerifier;
+	if (isPasswordRecovery) storedCodeVerifier += "/PASSWORD_RECOVERY";
+	await setItemAsync(storage, `${storageKey}-code-verifier`, storedCodeVerifier);
+	const codeChallenge = await generatePKCEChallenge(codeVerifier);
+	return [codeChallenge, codeVerifier === codeChallenge ? "plain" : "s256"];
+}
+var API_VERSION_REGEX = /^2[0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/i;
+function parseResponseAPIVersion(response) {
+	const apiVersion = response.headers.get(API_VERSION_HEADER_NAME);
+	if (!apiVersion) return null;
+	if (!apiVersion.match(API_VERSION_REGEX)) return null;
+	try {
+		return /* @__PURE__ */ new Date(`${apiVersion}T00:00:00.0Z`);
+	} catch (e) {
+		return null;
+	}
+}
+function validateExp(exp) {
+	if (!exp) throw new Error("Missing exp claim");
+	if (exp <= Math.floor(Date.now() / 1e3)) throw new Error("JWT has expired");
+}
+function getAlgorithm(alg) {
+	switch (alg) {
+		case "RS256": return {
+			name: "RSASSA-PKCS1-v1_5",
+			hash: { name: "SHA-256" }
+		};
+		case "ES256": return {
+			name: "ECDSA",
+			namedCurve: "P-256",
+			hash: { name: "SHA-256" }
+		};
+		default: throw new Error("Invalid alg claim");
+	}
+}
+var UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+function validateUUID(str) {
+	if (!UUID_REGEX.test(str)) throw new Error("@supabase/auth-js: Expected parameter to be UUID but is not");
+}
+function userNotAvailableProxy() {
+	return new Proxy({}, {
+		get: (target, prop) => {
+			if (prop === "__isUserNotAvailableProxy") return true;
+			if (typeof prop === "symbol") {
+				const sProp = prop.toString();
+				if (sProp === "Symbol(Symbol.toPrimitive)" || sProp === "Symbol(Symbol.toStringTag)" || sProp === "Symbol(util.inspect.custom)") return;
+			}
+			throw new Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Accessing the "${prop}" property of the session object is not supported. Please use getUser() instead.`);
+		},
+		set: (_target, prop) => {
+			throw new Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Setting the "${prop}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
+		},
+		deleteProperty: (_target, prop) => {
+			throw new Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Deleting the "${prop}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
+		}
+	});
+}
+function insecureUserWarningProxy(user, suppressWarningRef) {
+	return new Proxy(user, { get: (target, prop, receiver) => {
+		if (prop === "__isInsecureUserWarningProxy") return true;
+		if (typeof prop === "symbol") {
+			const sProp = prop.toString();
+			if (sProp === "Symbol(Symbol.toPrimitive)" || sProp === "Symbol(Symbol.toStringTag)" || sProp === "Symbol(util.inspect.custom)" || sProp === "Symbol(nodejs.util.inspect.custom)") return Reflect.get(target, prop, receiver);
+		}
+		if (!suppressWarningRef.value && typeof prop === "string") {
+			console.warn("Using the user object as returned from supabase.auth.getSession() or from some supabase.auth.onAuthStateChange() events could be insecure! This value comes directly from the storage medium (usually cookies on the server) and may not be authentic. Use supabase.auth.getUser() instead which authenticates the data by contacting the Supabase Auth server.");
+			suppressWarningRef.value = true;
+		}
+		return Reflect.get(target, prop, receiver);
+	} });
+}
+function deepClone(obj) {
+	return JSON.parse(JSON.stringify(obj));
+}
+var _getErrorMessage = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
+var NETWORK_ERROR_CODES = [
+	502,
+	503,
+	504
+];
+async function handleError(error) {
+	var _a$1;
+	if (!looksLikeFetchResponse(error)) throw new AuthRetryableFetchError(_getErrorMessage(error), 0);
+	if (NETWORK_ERROR_CODES.includes(error.status)) throw new AuthRetryableFetchError(_getErrorMessage(error), error.status);
+	let data;
+	try {
+		data = await error.json();
+	} catch (e) {
+		throw new AuthUnknownError(_getErrorMessage(e), e);
+	}
+	let errorCode = void 0;
+	const responseAPIVersion = parseResponseAPIVersion(error);
+	if (responseAPIVersion && responseAPIVersion.getTime() >= API_VERSIONS["2024-01-01"].timestamp && typeof data === "object" && data && typeof data.code === "string") errorCode = data.code;
+	else if (typeof data === "object" && data && typeof data.error_code === "string") errorCode = data.error_code;
+	if (!errorCode) {
+		if (typeof data === "object" && data && typeof data.weak_password === "object" && data.weak_password && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.reasons.reduce((a$1, i$2) => a$1 && typeof i$2 === "string", true)) throw new AuthWeakPasswordError(_getErrorMessage(data), error.status, data.weak_password.reasons);
+	} else if (errorCode === "weak_password") throw new AuthWeakPasswordError(_getErrorMessage(data), error.status, ((_a$1 = data.weak_password) === null || _a$1 === void 0 ? void 0 : _a$1.reasons) || []);
+	else if (errorCode === "session_not_found") throw new AuthSessionMissingError();
+	throw new AuthApiError(_getErrorMessage(data), error.status || 500, errorCode);
+}
+var _getRequestParams = (method, options$1, parameters, body) => {
+	const params = {
+		method,
+		headers: (options$1 === null || options$1 === void 0 ? void 0 : options$1.headers) || {}
+	};
+	if (method === "GET") return params;
+	params.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, options$1 === null || options$1 === void 0 ? void 0 : options$1.headers);
+	params.body = JSON.stringify(body);
+	return Object.assign(Object.assign({}, params), parameters);
+};
+async function _request(fetcher, method, url, options$1) {
+	var _a$1;
+	const headers = Object.assign({}, options$1 === null || options$1 === void 0 ? void 0 : options$1.headers);
+	if (!headers["X-Supabase-Api-Version"]) headers[API_VERSION_HEADER_NAME] = API_VERSIONS["2024-01-01"].name;
+	if (options$1 === null || options$1 === void 0 ? void 0 : options$1.jwt) headers["Authorization"] = `Bearer ${options$1.jwt}`;
+	const qs = (_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.query) !== null && _a$1 !== void 0 ? _a$1 : {};
+	if (options$1 === null || options$1 === void 0 ? void 0 : options$1.redirectTo) qs["redirect_to"] = options$1.redirectTo;
+	const data = await _handleRequest(fetcher, method, url + (Object.keys(qs).length ? "?" + new URLSearchParams(qs).toString() : ""), {
+		headers,
+		noResolveJson: options$1 === null || options$1 === void 0 ? void 0 : options$1.noResolveJson
+	}, {}, options$1 === null || options$1 === void 0 ? void 0 : options$1.body);
+	return (options$1 === null || options$1 === void 0 ? void 0 : options$1.xform) ? options$1 === null || options$1 === void 0 ? void 0 : options$1.xform(data) : {
+		data: Object.assign({}, data),
+		error: null
+	};
+}
+async function _handleRequest(fetcher, method, url, options$1, parameters, body) {
+	const requestParams = _getRequestParams(method, options$1, parameters, body);
+	let result;
+	try {
+		result = await fetcher(url, Object.assign({}, requestParams));
+	} catch (e) {
+		console.error(e);
+		throw new AuthRetryableFetchError(_getErrorMessage(e), 0);
+	}
+	if (!result.ok) await handleError(result);
+	if (options$1 === null || options$1 === void 0 ? void 0 : options$1.noResolveJson) return result;
+	try {
+		return await result.json();
+	} catch (e) {
+		await handleError(e);
+	}
+}
+function _sessionResponse(data) {
+	var _a$1;
+	let session = null;
+	if (hasSession(data)) {
+		session = Object.assign({}, data);
+		if (!data.expires_at) session.expires_at = expiresAt(data.expires_in);
+	}
+	const user = (_a$1 = data.user) !== null && _a$1 !== void 0 ? _a$1 : data;
+	return {
+		data: {
+			session,
+			user
+		},
+		error: null
+	};
+}
+function _sessionResponsePassword(data) {
+	const response = _sessionResponse(data);
+	if (!response.error && data.weak_password && typeof data.weak_password === "object" && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.message && typeof data.weak_password.message === "string" && data.weak_password.reasons.reduce((a$1, i$2) => a$1 && typeof i$2 === "string", true)) response.data.weak_password = data.weak_password;
+	return response;
+}
+function _userResponse(data) {
+	var _a$1;
+	return {
+		data: { user: (_a$1 = data.user) !== null && _a$1 !== void 0 ? _a$1 : data },
+		error: null
+	};
+}
+function _ssoResponse(data) {
+	return {
+		data,
+		error: null
+	};
+}
+function _generateLinkResponse(data) {
+	const { action_link, email_otp, hashed_token, redirect_to, verification_type } = data, rest = __rest(data, [
+		"action_link",
+		"email_otp",
+		"hashed_token",
+		"redirect_to",
+		"verification_type"
+	]);
+	return {
+		data: {
+			properties: {
+				action_link,
+				email_otp,
+				hashed_token,
+				redirect_to,
+				verification_type
+			},
+			user: Object.assign({}, rest)
+		},
+		error: null
+	};
+}
+function _noResolveJsonResponse(data) {
+	return data;
+}
+function hasSession(data) {
+	return data.access_token && data.refresh_token && data.expires_in;
+}
+const SIGN_OUT_SCOPES = [
+	"global",
+	"local",
+	"others"
+];
+var GoTrueAdminApi = class {
+	constructor({ url = "", headers = {}, fetch: fetch$1 }) {
+		this.url = url;
+		this.headers = headers;
+		this.fetch = resolveFetch$1(fetch$1);
+		this.mfa = {
+			listFactors: this._listFactors.bind(this),
+			deleteFactor: this._deleteFactor.bind(this)
+		};
+		this.oauth = {
+			listClients: this._listOAuthClients.bind(this),
+			createClient: this._createOAuthClient.bind(this),
+			getClient: this._getOAuthClient.bind(this),
+			updateClient: this._updateOAuthClient.bind(this),
+			deleteClient: this._deleteOAuthClient.bind(this),
+			regenerateClientSecret: this._regenerateOAuthClientSecret.bind(this)
+		};
+	}
+	async signOut(jwt, scope = SIGN_OUT_SCOPES[0]) {
+		if (SIGN_OUT_SCOPES.indexOf(scope) < 0) throw new Error(`@supabase/auth-js: Parameter scope must be one of ${SIGN_OUT_SCOPES.join(", ")}`);
+		try {
+			await _request(this.fetch, "POST", `${this.url}/logout?scope=${scope}`, {
+				headers: this.headers,
+				jwt,
+				noResolveJson: true
+			});
+			return {
+				data: null,
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async inviteUserByEmail(email$1, options$1 = {}) {
+		try {
+			return await _request(this.fetch, "POST", `${this.url}/invite`, {
+				body: {
+					email: email$1,
+					data: options$1.data
+				},
+				headers: this.headers,
+				redirectTo: options$1.redirectTo,
+				xform: _userResponse
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { user: null },
+				error
+			};
+			throw error;
+		}
+	}
+	async generateLink(params) {
+		try {
+			const { options: options$1 } = params, rest = __rest(params, ["options"]);
+			const body = Object.assign(Object.assign({}, rest), options$1);
+			if ("newEmail" in rest) {
+				body.new_email = rest === null || rest === void 0 ? void 0 : rest.newEmail;
+				delete body["newEmail"];
+			}
+			return await _request(this.fetch, "POST", `${this.url}/admin/generate_link`, {
+				body,
+				headers: this.headers,
+				xform: _generateLinkResponse,
+				redirectTo: options$1 === null || options$1 === void 0 ? void 0 : options$1.redirectTo
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: {
+					properties: null,
+					user: null
+				},
+				error
+			};
+			throw error;
+		}
+	}
+	async createUser(attributes) {
+		try {
+			return await _request(this.fetch, "POST", `${this.url}/admin/users`, {
+				body: attributes,
+				headers: this.headers,
+				xform: _userResponse
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { user: null },
+				error
+			};
+			throw error;
+		}
+	}
+	async listUsers(params) {
+		var _a$1, _b, _c, _d, _e, _f, _g;
+		try {
+			const pagination = {
+				nextPage: null,
+				lastPage: 0,
+				total: 0
+			};
+			const response = await _request(this.fetch, "GET", `${this.url}/admin/users`, {
+				headers: this.headers,
+				noResolveJson: true,
+				query: {
+					page: (_b = (_a$1 = params === null || params === void 0 ? void 0 : params.page) === null || _a$1 === void 0 ? void 0 : _a$1.toString()) !== null && _b !== void 0 ? _b : "",
+					per_page: (_d = (_c = params === null || params === void 0 ? void 0 : params.perPage) === null || _c === void 0 ? void 0 : _c.toString()) !== null && _d !== void 0 ? _d : ""
+				},
+				xform: _noResolveJsonResponse
+			});
+			if (response.error) throw response.error;
+			const users = await response.json();
+			const total = (_e = response.headers.get("x-total-count")) !== null && _e !== void 0 ? _e : 0;
+			const links = (_g = (_f = response.headers.get("link")) === null || _f === void 0 ? void 0 : _f.split(",")) !== null && _g !== void 0 ? _g : [];
+			if (links.length > 0) {
+				links.forEach((link) => {
+					const page = parseInt(link.split(";")[0].split("=")[1].substring(0, 1));
+					const rel = JSON.parse(link.split(";")[1].split("=")[1]);
+					pagination[`${rel}Page`] = page;
+				});
+				pagination.total = parseInt(total);
+			}
+			return {
+				data: Object.assign(Object.assign({}, users), pagination),
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { users: [] },
+				error
+			};
+			throw error;
+		}
+	}
+	async getUserById(uid) {
+		validateUUID(uid);
+		try {
+			return await _request(this.fetch, "GET", `${this.url}/admin/users/${uid}`, {
+				headers: this.headers,
+				xform: _userResponse
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { user: null },
+				error
+			};
+			throw error;
+		}
+	}
+	async updateUserById(uid, attributes) {
+		validateUUID(uid);
+		try {
+			return await _request(this.fetch, "PUT", `${this.url}/admin/users/${uid}`, {
+				body: attributes,
+				headers: this.headers,
+				xform: _userResponse
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { user: null },
+				error
+			};
+			throw error;
+		}
+	}
+	async deleteUser(id, shouldSoftDelete = false) {
+		validateUUID(id);
+		try {
+			return await _request(this.fetch, "DELETE", `${this.url}/admin/users/${id}`, {
+				headers: this.headers,
+				body: { should_soft_delete: shouldSoftDelete },
+				xform: _userResponse
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { user: null },
+				error
+			};
+			throw error;
+		}
+	}
+	async _listFactors(params) {
+		validateUUID(params.userId);
+		try {
+			const { data, error } = await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/factors`, {
+				headers: this.headers,
+				xform: (factors) => {
+					return {
+						data: { factors },
+						error: null
+					};
+				}
+			});
+			return {
+				data,
+				error
+			};
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async _deleteFactor(params) {
+		validateUUID(params.userId);
+		validateUUID(params.id);
+		try {
+			return {
+				data: await _request(this.fetch, "DELETE", `${this.url}/admin/users/${params.userId}/factors/${params.id}`, { headers: this.headers }),
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async _listOAuthClients(params) {
+		var _a$1, _b, _c, _d, _e, _f, _g;
+		try {
+			const pagination = {
+				nextPage: null,
+				lastPage: 0,
+				total: 0
+			};
+			const response = await _request(this.fetch, "GET", `${this.url}/admin/oauth/clients`, {
+				headers: this.headers,
+				noResolveJson: true,
+				query: {
+					page: (_b = (_a$1 = params === null || params === void 0 ? void 0 : params.page) === null || _a$1 === void 0 ? void 0 : _a$1.toString()) !== null && _b !== void 0 ? _b : "",
+					per_page: (_d = (_c = params === null || params === void 0 ? void 0 : params.perPage) === null || _c === void 0 ? void 0 : _c.toString()) !== null && _d !== void 0 ? _d : ""
+				},
+				xform: _noResolveJsonResponse
+			});
+			if (response.error) throw response.error;
+			const clients = await response.json();
+			const total = (_e = response.headers.get("x-total-count")) !== null && _e !== void 0 ? _e : 0;
+			const links = (_g = (_f = response.headers.get("link")) === null || _f === void 0 ? void 0 : _f.split(",")) !== null && _g !== void 0 ? _g : [];
+			if (links.length > 0) {
+				links.forEach((link) => {
+					const page = parseInt(link.split(";")[0].split("=")[1].substring(0, 1));
+					const rel = JSON.parse(link.split(";")[1].split("=")[1]);
+					pagination[`${rel}Page`] = page;
+				});
+				pagination.total = parseInt(total);
+			}
+			return {
+				data: Object.assign(Object.assign({}, clients), pagination),
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: { clients: [] },
+				error
+			};
+			throw error;
+		}
+	}
+	async _createOAuthClient(params) {
+		try {
+			return await _request(this.fetch, "POST", `${this.url}/admin/oauth/clients`, {
+				body: params,
+				headers: this.headers,
+				xform: (client) => {
+					return {
+						data: client,
+						error: null
+					};
+				}
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async _getOAuthClient(clientId) {
+		try {
+			return await _request(this.fetch, "GET", `${this.url}/admin/oauth/clients/${clientId}`, {
+				headers: this.headers,
+				xform: (client) => {
+					return {
+						data: client,
+						error: null
+					};
+				}
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async _updateOAuthClient(clientId, params) {
+		try {
+			return await _request(this.fetch, "PUT", `${this.url}/admin/oauth/clients/${clientId}`, {
+				body: params,
+				headers: this.headers,
+				xform: (client) => {
+					return {
+						data: client,
+						error: null
+					};
+				}
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async _deleteOAuthClient(clientId) {
+		try {
+			await _request(this.fetch, "DELETE", `${this.url}/admin/oauth/clients/${clientId}`, {
+				headers: this.headers,
+				noResolveJson: true
+			});
+			return {
+				data: null,
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+	async _regenerateOAuthClientSecret(clientId) {
+		try {
+			return await _request(this.fetch, "POST", `${this.url}/admin/oauth/clients/${clientId}/regenerate_secret`, {
+				headers: this.headers,
+				xform: (client) => {
+					return {
+						data: client,
+						error: null
+					};
+				}
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			throw error;
+		}
+	}
+};
+function memoryLocalStorageAdapter(store = {}) {
+	return {
+		getItem: (key) => {
+			return store[key] || null;
+		},
+		setItem: (key, value) => {
+			store[key] = value;
+		},
+		removeItem: (key) => {
+			delete store[key];
+		}
+	};
+}
+const internals = { debug: !!(globalThis && supportsLocalStorage() && globalThis.localStorage && globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug") === "true") };
+var LockAcquireTimeoutError = class extends Error {
+	constructor(message) {
+		super(message);
+		this.isAcquireTimeout = true;
+	}
+};
+var NavigatorLockAcquireTimeoutError = class extends LockAcquireTimeoutError {};
+async function navigatorLock(name, acquireTimeout, fn) {
+	if (internals.debug) console.log("@supabase/gotrue-js: navigatorLock: acquire lock", name, acquireTimeout);
+	const abortController = new globalThis.AbortController();
+	if (acquireTimeout > 0) setTimeout(() => {
+		abortController.abort();
+		if (internals.debug) console.log("@supabase/gotrue-js: navigatorLock acquire timed out", name);
+	}, acquireTimeout);
+	return await Promise.resolve().then(() => globalThis.navigator.locks.request(name, acquireTimeout === 0 ? {
+		mode: "exclusive",
+		ifAvailable: true
+	} : {
+		mode: "exclusive",
+		signal: abortController.signal
+	}, async (lock) => {
+		if (lock) {
+			if (internals.debug) console.log("@supabase/gotrue-js: navigatorLock: acquired", name, lock.name);
+			try {
+				return await fn();
+			} finally {
+				if (internals.debug) console.log("@supabase/gotrue-js: navigatorLock: released", name, lock.name);
+			}
+		} else if (acquireTimeout === 0) {
+			if (internals.debug) console.log("@supabase/gotrue-js: navigatorLock: not immediately available", name);
+			throw new NavigatorLockAcquireTimeoutError(`Acquiring an exclusive Navigator LockManager lock "${name}" immediately failed`);
+		} else {
+			if (internals.debug) try {
+				const result = await globalThis.navigator.locks.query();
+				console.log("@supabase/gotrue-js: Navigator LockManager state", JSON.stringify(result, null, "  "));
+			} catch (e) {
+				console.warn("@supabase/gotrue-js: Error when querying Navigator LockManager state", e);
+			}
+			console.warn("@supabase/gotrue-js: Navigator LockManager returned a null lock when using #request without ifAvailable set to true, it appears this browser is not following the LockManager spec https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request");
+			return await fn();
+		}
+	}));
+}
+function polyfillGlobalThis() {
+	if (typeof globalThis === "object") return;
+	try {
+		Object.defineProperty(Object.prototype, "__magic__", {
+			get: function() {
+				return this;
+			},
+			configurable: true
+		});
+		__magic__.globalThis = __magic__;
+		delete Object.prototype.__magic__;
+	} catch (e) {
+		if (typeof self !== "undefined") self.globalThis = self;
+	}
+}
+function getAddress(address) {
+	if (!/^0x[a-fA-F0-9]{40}$/.test(address)) throw new Error(`@supabase/auth-js: Address "${address}" is invalid.`);
+	return address.toLowerCase();
+}
+function fromHex(hex) {
+	return parseInt(hex, 16);
+}
+function toHex(value) {
+	const bytes = new TextEncoder().encode(value);
+	return "0x" + Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+function createSiweMessage(parameters) {
+	var _a$1;
+	const { chainId, domain, expirationTime, issuedAt = /* @__PURE__ */ new Date(), nonce, notBefore, requestId, resources, scheme, uri, version: version$5 } = parameters;
+	if (!Number.isInteger(chainId)) throw new Error(`@supabase/auth-js: Invalid SIWE message field "chainId". Chain ID must be a EIP-155 chain ID. Provided value: ${chainId}`);
+	if (!domain) throw new Error(`@supabase/auth-js: Invalid SIWE message field "domain". Domain must be provided.`);
+	if (nonce && nonce.length < 8) throw new Error(`@supabase/auth-js: Invalid SIWE message field "nonce". Nonce must be at least 8 characters. Provided value: ${nonce}`);
+	if (!uri) throw new Error(`@supabase/auth-js: Invalid SIWE message field "uri". URI must be provided.`);
+	if (version$5 !== "1") throw new Error(`@supabase/auth-js: Invalid SIWE message field "version". Version must be '1'. Provided value: ${version$5}`);
+	if ((_a$1 = parameters.statement) === null || _a$1 === void 0 ? void 0 : _a$1.includes("\n")) throw new Error(`@supabase/auth-js: Invalid SIWE message field "statement". Statement must not include '\\n'. Provided value: ${parameters.statement}`);
+	const address = getAddress(parameters.address);
+	const prefix = `${scheme ? `${scheme}://${domain}` : domain} wants you to sign in with your Ethereum account:\n${address}\n\n${parameters.statement ? `${parameters.statement}\n` : ""}`;
+	let suffix = `URI: ${uri}\nVersion: ${version$5}\nChain ID: ${chainId}${nonce ? `\nNonce: ${nonce}` : ""}\nIssued At: ${issuedAt.toISOString()}`;
+	if (expirationTime) suffix += `\nExpiration Time: ${expirationTime.toISOString()}`;
+	if (notBefore) suffix += `\nNot Before: ${notBefore.toISOString()}`;
+	if (requestId) suffix += `\nRequest ID: ${requestId}`;
+	if (resources) {
+		let content = "\nResources:";
+		for (const resource of resources) {
+			if (!resource || typeof resource !== "string") throw new Error(`@supabase/auth-js: Invalid SIWE message field "resources". Every resource must be a valid string. Provided value: ${resource}`);
+			content += `\n- ${resource}`;
+		}
+		suffix += content;
+	}
+	return `${prefix}\n${suffix}`;
+}
+var WebAuthnError = class extends Error {
+	constructor({ message, code, cause, name }) {
+		var _a$1;
+		super(message, { cause });
+		this.__isWebAuthnError = true;
+		this.name = (_a$1 = name !== null && name !== void 0 ? name : cause instanceof Error ? cause.name : void 0) !== null && _a$1 !== void 0 ? _a$1 : "Unknown Error";
+		this.code = code;
+	}
+};
+var WebAuthnUnknownError = class extends WebAuthnError {
+	constructor(message, originalError) {
+		super({
+			code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+			cause: originalError,
+			message
+		});
+		this.name = "WebAuthnUnknownError";
+		this.originalError = originalError;
+	}
+};
+function identifyRegistrationError({ error, options: options$1 }) {
+	var _a$1, _b, _c;
+	const { publicKey } = options$1;
+	if (!publicKey) throw Error("options was missing required publicKey property");
+	if (error.name === "AbortError") {
+		if (options$1.signal instanceof AbortSignal) return new WebAuthnError({
+			message: "Registration ceremony was sent an abort signal",
+			code: "ERROR_CEREMONY_ABORTED",
+			cause: error
+		});
+	} else if (error.name === "ConstraintError") {
+		if (((_a$1 = publicKey.authenticatorSelection) === null || _a$1 === void 0 ? void 0 : _a$1.requireResidentKey) === true) return new WebAuthnError({
+			message: "Discoverable credentials were required but no available authenticator supported it",
+			code: "ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT",
+			cause: error
+		});
+		else if (options$1.mediation === "conditional" && ((_b = publicKey.authenticatorSelection) === null || _b === void 0 ? void 0 : _b.userVerification) === "required") return new WebAuthnError({
+			message: "User verification was required during automatic registration but it could not be performed",
+			code: "ERROR_AUTO_REGISTER_USER_VERIFICATION_FAILURE",
+			cause: error
+		});
+		else if (((_c = publicKey.authenticatorSelection) === null || _c === void 0 ? void 0 : _c.userVerification) === "required") return new WebAuthnError({
+			message: "User verification was required but no available authenticator supported it",
+			code: "ERROR_AUTHENTICATOR_MISSING_USER_VERIFICATION_SUPPORT",
+			cause: error
+		});
+	} else if (error.name === "InvalidStateError") return new WebAuthnError({
+		message: "The authenticator was previously registered",
+		code: "ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED",
+		cause: error
+	});
+	else if (error.name === "NotAllowedError") return new WebAuthnError({
+		message: error.message,
+		code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+		cause: error
+	});
+	else if (error.name === "NotSupportedError") {
+		if (publicKey.pubKeyCredParams.filter((param) => param.type === "public-key").length === 0) return new WebAuthnError({
+			message: "No entry in pubKeyCredParams was of type \"public-key\"",
+			code: "ERROR_MALFORMED_PUBKEYCREDPARAMS",
+			cause: error
+		});
+		return new WebAuthnError({
+			message: "No available authenticator supported any of the specified pubKeyCredParams algorithms",
+			code: "ERROR_AUTHENTICATOR_NO_SUPPORTED_PUBKEYCREDPARAMS_ALG",
+			cause: error
+		});
+	} else if (error.name === "SecurityError") {
+		const effectiveDomain = window.location.hostname;
+		if (!isValidDomain(effectiveDomain)) return new WebAuthnError({
+			message: `${window.location.hostname} is an invalid domain`,
+			code: "ERROR_INVALID_DOMAIN",
+			cause: error
+		});
+		else if (publicKey.rp.id !== effectiveDomain) return new WebAuthnError({
+			message: `The RP ID "${publicKey.rp.id}" is invalid for this domain`,
+			code: "ERROR_INVALID_RP_ID",
+			cause: error
+		});
+	} else if (error.name === "TypeError") {
+		if (publicKey.user.id.byteLength < 1 || publicKey.user.id.byteLength > 64) return new WebAuthnError({
+			message: "User ID was not between 1 and 64 characters",
+			code: "ERROR_INVALID_USER_ID_LENGTH",
+			cause: error
+		});
+	} else if (error.name === "UnknownError") return new WebAuthnError({
+		message: "The authenticator was unable to process the specified options, or could not create a new credential",
+		code: "ERROR_AUTHENTICATOR_GENERAL_ERROR",
+		cause: error
+	});
+	return new WebAuthnError({
+		message: "a Non-Webauthn related error has occurred",
+		code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+		cause: error
+	});
+}
+function identifyAuthenticationError({ error, options: options$1 }) {
+	const { publicKey } = options$1;
+	if (!publicKey) throw Error("options was missing required publicKey property");
+	if (error.name === "AbortError") {
+		if (options$1.signal instanceof AbortSignal) return new WebAuthnError({
+			message: "Authentication ceremony was sent an abort signal",
+			code: "ERROR_CEREMONY_ABORTED",
+			cause: error
+		});
+	} else if (error.name === "NotAllowedError") return new WebAuthnError({
+		message: error.message,
+		code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+		cause: error
+	});
+	else if (error.name === "SecurityError") {
+		const effectiveDomain = window.location.hostname;
+		if (!isValidDomain(effectiveDomain)) return new WebAuthnError({
+			message: `${window.location.hostname} is an invalid domain`,
+			code: "ERROR_INVALID_DOMAIN",
+			cause: error
+		});
+		else if (publicKey.rpId !== effectiveDomain) return new WebAuthnError({
+			message: `The RP ID "${publicKey.rpId}" is invalid for this domain`,
+			code: "ERROR_INVALID_RP_ID",
+			cause: error
+		});
+	} else if (error.name === "UnknownError") return new WebAuthnError({
+		message: "The authenticator was unable to process the specified options, or could not create a new assertion signature",
+		code: "ERROR_AUTHENTICATOR_GENERAL_ERROR",
+		cause: error
+	});
+	return new WebAuthnError({
+		message: "a Non-Webauthn related error has occurred",
+		code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY",
+		cause: error
+	});
+}
+var WebAuthnAbortService = class {
+	createNewAbortSignal() {
+		if (this.controller) {
+			const abortError = /* @__PURE__ */ new Error("Cancelling existing WebAuthn API call for new one");
+			abortError.name = "AbortError";
+			this.controller.abort(abortError);
+		}
+		const newController = new AbortController();
+		this.controller = newController;
+		return newController.signal;
+	}
+	cancelCeremony() {
+		if (this.controller) {
+			const abortError = /* @__PURE__ */ new Error("Manually cancelling existing WebAuthn API call");
+			abortError.name = "AbortError";
+			this.controller.abort(abortError);
+			this.controller = void 0;
+		}
+	}
+};
+const webAuthnAbortService = new WebAuthnAbortService();
+function deserializeCredentialCreationOptions(options$1) {
+	if (!options$1) throw new Error("Credential creation options are required");
+	if (typeof PublicKeyCredential !== "undefined" && "parseCreationOptionsFromJSON" in PublicKeyCredential && typeof PublicKeyCredential.parseCreationOptionsFromJSON === "function") return PublicKeyCredential.parseCreationOptionsFromJSON(options$1);
+	const { challenge: challengeStr, user: userOpts, excludeCredentials } = options$1, restOptions = __rest(options$1, [
+		"challenge",
+		"user",
+		"excludeCredentials"
+	]);
+	const challenge = base64UrlToUint8Array(challengeStr).buffer;
+	const user = Object.assign(Object.assign({}, userOpts), { id: base64UrlToUint8Array(userOpts.id).buffer });
+	const result = Object.assign(Object.assign({}, restOptions), {
+		challenge,
+		user
+	});
+	if (excludeCredentials && excludeCredentials.length > 0) {
+		result.excludeCredentials = new Array(excludeCredentials.length);
+		for (let i$2 = 0; i$2 < excludeCredentials.length; i$2++) {
+			const cred = excludeCredentials[i$2];
+			result.excludeCredentials[i$2] = Object.assign(Object.assign({}, cred), {
+				id: base64UrlToUint8Array(cred.id).buffer,
+				type: cred.type || "public-key",
+				transports: cred.transports
+			});
+		}
+	}
+	return result;
+}
+function deserializeCredentialRequestOptions(options$1) {
+	if (!options$1) throw new Error("Credential request options are required");
+	if (typeof PublicKeyCredential !== "undefined" && "parseRequestOptionsFromJSON" in PublicKeyCredential && typeof PublicKeyCredential.parseRequestOptionsFromJSON === "function") return PublicKeyCredential.parseRequestOptionsFromJSON(options$1);
+	const { challenge: challengeStr, allowCredentials } = options$1, restOptions = __rest(options$1, ["challenge", "allowCredentials"]);
+	const challenge = base64UrlToUint8Array(challengeStr).buffer;
+	const result = Object.assign(Object.assign({}, restOptions), { challenge });
+	if (allowCredentials && allowCredentials.length > 0) {
+		result.allowCredentials = new Array(allowCredentials.length);
+		for (let i$2 = 0; i$2 < allowCredentials.length; i$2++) {
+			const cred = allowCredentials[i$2];
+			result.allowCredentials[i$2] = Object.assign(Object.assign({}, cred), {
+				id: base64UrlToUint8Array(cred.id).buffer,
+				type: cred.type || "public-key",
+				transports: cred.transports
+			});
+		}
+	}
+	return result;
+}
+function serializeCredentialCreationResponse(credential) {
+	var _a$1;
+	if ("toJSON" in credential && typeof credential.toJSON === "function") return credential.toJSON();
+	const credentialWithAttachment = credential;
+	return {
+		id: credential.id,
+		rawId: credential.id,
+		response: {
+			attestationObject: bytesToBase64URL(new Uint8Array(credential.response.attestationObject)),
+			clientDataJSON: bytesToBase64URL(new Uint8Array(credential.response.clientDataJSON))
+		},
+		type: "public-key",
+		clientExtensionResults: credential.getClientExtensionResults(),
+		authenticatorAttachment: (_a$1 = credentialWithAttachment.authenticatorAttachment) !== null && _a$1 !== void 0 ? _a$1 : void 0
+	};
+}
+function serializeCredentialRequestResponse(credential) {
+	var _a$1;
+	if ("toJSON" in credential && typeof credential.toJSON === "function") return credential.toJSON();
+	const credentialWithAttachment = credential;
+	const clientExtensionResults = credential.getClientExtensionResults();
+	const assertionResponse = credential.response;
+	return {
+		id: credential.id,
+		rawId: credential.id,
+		response: {
+			authenticatorData: bytesToBase64URL(new Uint8Array(assertionResponse.authenticatorData)),
+			clientDataJSON: bytesToBase64URL(new Uint8Array(assertionResponse.clientDataJSON)),
+			signature: bytesToBase64URL(new Uint8Array(assertionResponse.signature)),
+			userHandle: assertionResponse.userHandle ? bytesToBase64URL(new Uint8Array(assertionResponse.userHandle)) : void 0
+		},
+		type: "public-key",
+		clientExtensionResults,
+		authenticatorAttachment: (_a$1 = credentialWithAttachment.authenticatorAttachment) !== null && _a$1 !== void 0 ? _a$1 : void 0
+	};
+}
+function isValidDomain(hostname) {
+	return hostname === "localhost" || /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(hostname);
+}
+function browserSupportsWebAuthn() {
+	var _a$1, _b;
+	return !!(isBrowser() && "PublicKeyCredential" in window && window.PublicKeyCredential && "credentials" in navigator && typeof ((_a$1 = navigator === null || navigator === void 0 ? void 0 : navigator.credentials) === null || _a$1 === void 0 ? void 0 : _a$1.create) === "function" && typeof ((_b = navigator === null || navigator === void 0 ? void 0 : navigator.credentials) === null || _b === void 0 ? void 0 : _b.get) === "function");
+}
+async function createCredential(options$1) {
+	try {
+		const response = await navigator.credentials.create(options$1);
+		if (!response) return {
+			data: null,
+			error: new WebAuthnUnknownError("Empty credential response", response)
+		};
+		if (!(response instanceof PublicKeyCredential)) return {
+			data: null,
+			error: new WebAuthnUnknownError("Browser returned unexpected credential type", response)
+		};
+		return {
+			data: response,
+			error: null
+		};
+	} catch (err) {
+		return {
+			data: null,
+			error: identifyRegistrationError({
+				error: err,
+				options: options$1
+			})
+		};
+	}
+}
+async function getCredential(options$1) {
+	try {
+		const response = await navigator.credentials.get(options$1);
+		if (!response) return {
+			data: null,
+			error: new WebAuthnUnknownError("Empty credential response", response)
+		};
+		if (!(response instanceof PublicKeyCredential)) return {
+			data: null,
+			error: new WebAuthnUnknownError("Browser returned unexpected credential type", response)
+		};
+		return {
+			data: response,
+			error: null
+		};
+	} catch (err) {
+		return {
+			data: null,
+			error: identifyAuthenticationError({
+				error: err,
+				options: options$1
+			})
+		};
+	}
+}
+const DEFAULT_CREATION_OPTIONS = {
+	hints: ["security-key"],
+	authenticatorSelection: {
+		authenticatorAttachment: "cross-platform",
+		requireResidentKey: false,
+		userVerification: "preferred",
+		residentKey: "discouraged"
+	},
+	attestation: "direct"
+};
+const DEFAULT_REQUEST_OPTIONS = {
+	userVerification: "preferred",
+	hints: ["security-key"],
+	attestation: "direct"
+};
+function deepMerge(...sources) {
+	const isObject$2 = (val) => val !== null && typeof val === "object" && !Array.isArray(val);
+	const isArrayBufferLike = (val) => val instanceof ArrayBuffer || ArrayBuffer.isView(val);
+	const result = {};
+	for (const source of sources) {
+		if (!source) continue;
+		for (const key in source) {
+			const value = source[key];
+			if (value === void 0) continue;
+			if (Array.isArray(value)) result[key] = value;
+			else if (isArrayBufferLike(value)) result[key] = value;
+			else if (isObject$2(value)) {
+				const existing = result[key];
+				if (isObject$2(existing)) result[key] = deepMerge(existing, value);
+				else result[key] = deepMerge(value);
+			} else result[key] = value;
+		}
+	}
+	return result;
+}
+function mergeCredentialCreationOptions(baseOptions, overrides) {
+	return deepMerge(DEFAULT_CREATION_OPTIONS, baseOptions, overrides || {});
+}
+function mergeCredentialRequestOptions(baseOptions, overrides) {
+	return deepMerge(DEFAULT_REQUEST_OPTIONS, baseOptions, overrides || {});
+}
+var WebAuthnApi = class {
+	constructor(client) {
+		this.client = client;
+		this.enroll = this._enroll.bind(this);
+		this.challenge = this._challenge.bind(this);
+		this.verify = this._verify.bind(this);
+		this.authenticate = this._authenticate.bind(this);
+		this.register = this._register.bind(this);
+	}
+	async _enroll(params) {
+		return this.client.mfa.enroll(Object.assign(Object.assign({}, params), { factorType: "webauthn" }));
+	}
+	async _challenge({ factorId, webauthn, friendlyName, signal }, overrides) {
+		var _a$1;
+		try {
+			const { data: challengeResponse, error: challengeError } = await this.client.mfa.challenge({
+				factorId,
+				webauthn
+			});
+			if (!challengeResponse) return {
+				data: null,
+				error: challengeError
+			};
+			const abortSignal = signal !== null && signal !== void 0 ? signal : webAuthnAbortService.createNewAbortSignal();
+			if (challengeResponse.webauthn.type === "create") {
+				const { user } = challengeResponse.webauthn.credential_options.publicKey;
+				if (!user.name) {
+					const nameToUse = friendlyName;
+					if (!nameToUse) {
+						const userData = (await this.client.getUser()).data.user;
+						const fallbackName = ((_a$1 = userData === null || userData === void 0 ? void 0 : userData.user_metadata) === null || _a$1 === void 0 ? void 0 : _a$1.name) || (userData === null || userData === void 0 ? void 0 : userData.email) || (userData === null || userData === void 0 ? void 0 : userData.id) || "User";
+						user.name = `${user.id}:${fallbackName}`;
+					} else user.name = `${user.id}:${nameToUse}`;
+				}
+				if (!user.displayName) user.displayName = user.name;
+			}
+			switch (challengeResponse.webauthn.type) {
+				case "create": {
+					const { data, error } = await createCredential({
+						publicKey: mergeCredentialCreationOptions(challengeResponse.webauthn.credential_options.publicKey, overrides === null || overrides === void 0 ? void 0 : overrides.create),
+						signal: abortSignal
+					});
+					if (data) return {
+						data: {
+							factorId,
+							challengeId: challengeResponse.id,
+							webauthn: {
+								type: challengeResponse.webauthn.type,
+								credential_response: data
+							}
+						},
+						error: null
+					};
+					return {
+						data: null,
+						error
+					};
+				}
+				case "request": {
+					const options$1 = mergeCredentialRequestOptions(challengeResponse.webauthn.credential_options.publicKey, overrides === null || overrides === void 0 ? void 0 : overrides.request);
+					const { data, error } = await getCredential(Object.assign(Object.assign({}, challengeResponse.webauthn.credential_options), {
+						publicKey: options$1,
+						signal: abortSignal
+					}));
+					if (data) return {
+						data: {
+							factorId,
+							challengeId: challengeResponse.id,
+							webauthn: {
+								type: challengeResponse.webauthn.type,
+								credential_response: data
+							}
+						},
+						error: null
+					};
+					return {
+						data: null,
+						error
+					};
+				}
+			}
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			return {
+				data: null,
+				error: new AuthUnknownError("Unexpected error in challenge", error)
+			};
+		}
+	}
+	async _verify({ challengeId, factorId, webauthn }) {
+		return this.client.mfa.verify({
+			factorId,
+			challengeId,
+			webauthn
+		});
+	}
+	async _authenticate({ factorId, webauthn: { rpId = typeof window !== "undefined" ? window.location.hostname : void 0, rpOrigins = typeof window !== "undefined" ? [window.location.origin] : void 0, signal } = {} }, overrides) {
+		if (!rpId) return {
+			data: null,
+			error: new AuthError("rpId is required for WebAuthn authentication")
+		};
+		try {
+			if (!browserSupportsWebAuthn()) return {
+				data: null,
+				error: new AuthUnknownError("Browser does not support WebAuthn", null)
+			};
+			const { data: challengeResponse, error: challengeError } = await this.challenge({
+				factorId,
+				webauthn: {
+					rpId,
+					rpOrigins
+				},
+				signal
+			}, { request: overrides });
+			if (!challengeResponse) return {
+				data: null,
+				error: challengeError
+			};
+			const { webauthn } = challengeResponse;
+			return this._verify({
+				factorId,
+				challengeId: challengeResponse.challengeId,
+				webauthn: {
+					type: webauthn.type,
+					rpId,
+					rpOrigins,
+					credential_response: webauthn.credential_response
+				}
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			return {
+				data: null,
+				error: new AuthUnknownError("Unexpected error in authenticate", error)
+			};
+		}
+	}
+	async _register({ friendlyName, webauthn: { rpId = typeof window !== "undefined" ? window.location.hostname : void 0, rpOrigins = typeof window !== "undefined" ? [window.location.origin] : void 0, signal } = {} }, overrides) {
+		if (!rpId) return {
+			data: null,
+			error: new AuthError("rpId is required for WebAuthn registration")
+		};
+		try {
+			if (!browserSupportsWebAuthn()) return {
+				data: null,
+				error: new AuthUnknownError("Browser does not support WebAuthn", null)
+			};
+			const { data: factor, error: enrollError } = await this._enroll({ friendlyName });
+			if (!factor) {
+				await this.client.mfa.listFactors().then((factors) => {
+					var _a$1;
+					return (_a$1 = factors.data) === null || _a$1 === void 0 ? void 0 : _a$1.all.find((v) => v.factor_type === "webauthn" && v.friendly_name === friendlyName && v.status !== "unverified");
+				}).then((factor$1) => factor$1 ? this.client.mfa.unenroll({ factorId: factor$1 === null || factor$1 === void 0 ? void 0 : factor$1.id }) : void 0);
+				return {
+					data: null,
+					error: enrollError
+				};
+			}
+			const { data: challengeResponse, error: challengeError } = await this._challenge({
+				factorId: factor.id,
+				friendlyName: factor.friendly_name,
+				webauthn: {
+					rpId,
+					rpOrigins
+				},
+				signal
+			}, { create: overrides });
+			if (!challengeResponse) return {
+				data: null,
+				error: challengeError
+			};
+			return this._verify({
+				factorId: factor.id,
+				challengeId: challengeResponse.challengeId,
+				webauthn: {
+					rpId,
+					rpOrigins,
+					type: challengeResponse.webauthn.type,
+					credential_response: challengeResponse.webauthn.credential_response
+				}
+			});
+		} catch (error) {
+			if (isAuthError(error)) return {
+				data: null,
+				error
+			};
+			return {
+				data: null,
+				error: new AuthUnknownError("Unexpected error in register", error)
+			};
+		}
+	}
+};
+polyfillGlobalThis();
+var DEFAULT_OPTIONS = {
+	url: GOTRUE_URL,
+	storageKey: STORAGE_KEY,
+	autoRefreshToken: true,
+	persistSession: true,
+	detectSessionInUrl: true,
+	headers: DEFAULT_HEADERS,
+	flowType: "implicit",
+	debug: false,
+	hasCustomAuthorizationHeader: false,
+	throwOnError: false,
+	lockAcquireTimeout: 1e4
+};
+async function lockNoOp(name, acquireTimeout, fn) {
+	return await fn();
+}
+var GLOBAL_JWKS = {};
+var GoTrueClient = class GoTrueClient {
+	get jwks() {
+		var _a$1, _b;
+		return (_b = (_a$1 = GLOBAL_JWKS[this.storageKey]) === null || _a$1 === void 0 ? void 0 : _a$1.jwks) !== null && _b !== void 0 ? _b : { keys: [] };
+	}
+	set jwks(value) {
+		GLOBAL_JWKS[this.storageKey] = Object.assign(Object.assign({}, GLOBAL_JWKS[this.storageKey]), { jwks: value });
+	}
+	get jwks_cached_at() {
+		var _a$1, _b;
+		return (_b = (_a$1 = GLOBAL_JWKS[this.storageKey]) === null || _a$1 === void 0 ? void 0 : _a$1.cachedAt) !== null && _b !== void 0 ? _b : Number.MIN_SAFE_INTEGER;
+	}
+	set jwks_cached_at(value) {
+		GLOBAL_JWKS[this.storageKey] = Object.assign(Object.assign({}, GLOBAL_JWKS[this.storageKey]), { cachedAt: value });
+	}
+	constructor(options$1) {
+		var _a$1, _b, _c;
+		this.userStorage = null;
+		this.memoryStorage = null;
+		this.stateChangeEmitters = /* @__PURE__ */ new Map();
+		this.autoRefreshTicker = null;
+		this.autoRefreshTickTimeout = null;
+		this.visibilityChangedCallback = null;
+		this.refreshingDeferred = null;
+		this.initializePromise = null;
+		this.detectSessionInUrl = true;
+		this.hasCustomAuthorizationHeader = false;
+		this.suppressGetSessionWarning = false;
+		this.lockAcquired = false;
+		this.pendingInLock = [];
+		this.broadcastChannel = null;
+		this.logger = console.log;
+		const settings = Object.assign(Object.assign({}, DEFAULT_OPTIONS), options$1);
+		this.storageKey = settings.storageKey;
+		this.instanceID = (_a$1 = GoTrueClient.nextInstanceID[this.storageKey]) !== null && _a$1 !== void 0 ? _a$1 : 0;
+		GoTrueClient.nextInstanceID[this.storageKey] = this.instanceID + 1;
+		this.logDebugMessages = !!settings.debug;
+		if (typeof settings.debug === "function") this.logger = settings.debug;
+		if (this.instanceID > 0 && isBrowser()) {
+			const message = `${this._logPrefix()} Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.`;
+			console.warn(message);
+			if (this.logDebugMessages) console.trace(message);
+		}
+		this.persistSession = settings.persistSession;
+		this.autoRefreshToken = settings.autoRefreshToken;
+		this.admin = new GoTrueAdminApi({
+			url: settings.url,
+			headers: settings.headers,
+			fetch: settings.fetch
+		});
+		this.url = settings.url;
+		this.headers = settings.headers;
+		this.fetch = resolveFetch$1(settings.fetch);
+		this.lock = settings.lock || lockNoOp;
+		this.detectSessionInUrl = settings.detectSessionInUrl;
+		this.flowType = settings.flowType;
+		this.hasCustomAuthorizationHeader = settings.hasCustomAuthorizationHeader;
+		this.throwOnError = settings.throwOnError;
+		this.lockAcquireTimeout = settings.lockAcquireTimeout;
+		if (settings.lock) this.lock = settings.lock;
+		else if (this.persistSession && isBrowser() && ((_b = globalThis === null || globalThis === void 0 ? void 0 : globalThis.navigator) === null || _b === void 0 ? void 0 : _b.locks)) this.lock = navigatorLock;
+		else this.lock = lockNoOp;
+		if (!this.jwks) {
+			this.jwks = { keys: [] };
+			this.jwks_cached_at = Number.MIN_SAFE_INTEGER;
+		}
+		this.mfa = {
+			verify: this._verify.bind(this),
+			enroll: this._enroll.bind(this),
+			unenroll: this._unenroll.bind(this),
+			challenge: this._challenge.bind(this),
+			listFactors: this._listFactors.bind(this),
+			challengeAndVerify: this._challengeAndVerify.bind(this),
+			getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this),
+			webauthn: new WebAuthnApi(this)
+		};
+		this.oauth = {
+			getAuthorizationDetails: this._getAuthorizationDetails.bind(this),
+			approveAuthorization: this._approveAuthorization.bind(this),
+			denyAuthorization: this._denyAuthorization.bind(this),
+			listGrants: this._listOAuthGrants.bind(this),
+			revokeGrant: this._revokeOAuthGrant.bind(this)
+		};
+		if (this.persistSession) {
+			if (settings.storage) this.storage = settings.storage;
+			else if (supportsLocalStorage()) this.storage = globalThis.localStorage;
+			else {
+				this.memoryStorage = {};
+				this.storage = memoryLocalStorageAdapter(this.memoryStorage);
+			}
+			if (settings.userStorage) this.userStorage = settings.userStorage;
+		} else {
+			this.memoryStorage = {};
+			this.storage = memoryLocalStorageAdapter(this.memoryStorage);
+		}
+		if (isBrowser() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
+			try {
+				this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
+			} catch (e) {
+				console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", e);
+			}
+			(_c = this.broadcastChannel) === null || _c === void 0 || _c.addEventListener("message", async (event) => {
+				this._debug("received broadcast notification from other tab or client", event);
+				try {
+					await this._notifyAllSubscribers(event.data.event, event.data.session, false);
+				} catch (error) {
+					this._debug("#broadcastChannel", "error", error);
+				}
+			});
+		}
+		this.initialize().catch((error) => {
+			this._debug("#initialize()", "error", error);
+		});
+	}
+	isThrowOnErrorEnabled() {
+		return this.throwOnError;
+	}
+	_returnResult(result) {
+		if (this.throwOnError && result && result.error) throw result.error;
+		return result;
+	}
+	_logPrefix() {
+		return `GoTrueClient@${this.storageKey}:${this.instanceID} (${version$2}) ${(/* @__PURE__ */ new Date()).toISOString()}`;
+	}
+	_debug(...args) {
+		if (this.logDebugMessages) this.logger(this._logPrefix(), ...args);
+		return this;
+	}
+	async initialize() {
+		if (this.initializePromise) return await this.initializePromise;
+		this.initializePromise = (async () => {
+			return await this._acquireLock(this.lockAcquireTimeout, async () => {
+				return await this._initialize();
+			});
+		})();
+		return await this.initializePromise;
+	}
+	async _initialize() {
+		var _a$1;
+		try {
+			let params = {};
+			let callbackUrlType = "none";
+			if (isBrowser()) {
+				params = parseParametersFromURL(window.location.href);
+				if (this._isImplicitGrantCallback(params)) callbackUrlType = "implicit";
+				else if (await this._isPKCECallback(params)) callbackUrlType = "pkce";
+			}
+			if (isBrowser() && this.detectSessionInUrl && callbackUrlType !== "none") {
+				const { data, error } = await this._getSessionFromURL(params, callbackUrlType);
+				if (error) {
+					this._debug("#_initialize()", "error detecting session from URL", error);
+					if (isAuthImplicitGrantRedirectError(error)) {
+						const errorCode = (_a$1 = error.details) === null || _a$1 === void 0 ? void 0 : _a$1.code;
+						if (errorCode === "identity_already_exists" || errorCode === "identity_not_found" || errorCode === "single_identity_not_deletable") return { error };
+					}
+					return { error };
+				}
+				const { session, redirectType } = data;
+				this._debug("#_initialize()", "detected session in URL", session, "redirect type", redirectType);
+				await this._saveSession(session);
+				setTimeout(async () => {
+					if (redirectType === "recovery") await this._notifyAllSubscribers("PASSWORD_RECOVERY", session);
+					else await this._notifyAllSubscribers("SIGNED_IN", session);
+				}, 0);
+				return { error: null };
+			}
+			await this._recoverAndRefresh();
+			return { error: null };
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({ error });
+			return this._returnResult({ error: new AuthUnknownError("Unexpected error during initialization", error) });
+		} finally {
+			await this._handleVisibilityChange();
+			this._debug("#_initialize()", "end");
+		}
+	}
+	async signInAnonymously(credentials) {
+		var _a$1, _b, _c;
+		try {
+			const { data, error } = await _request(this.fetch, "POST", `${this.url}/signup`, {
+				headers: this.headers,
+				body: {
+					data: (_b = (_a$1 = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _a$1 === void 0 ? void 0 : _a$1.data) !== null && _b !== void 0 ? _b : {},
+					gotrue_meta_security: { captcha_token: (_c = credentials === null || credentials === void 0 ? void 0 : credentials.options) === null || _c === void 0 ? void 0 : _c.captchaToken }
+				},
+				xform: _sessionResponse
+			});
+			if (error || !data) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			const session = data.session;
+			const user = data.user;
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", session);
+			}
+			return this._returnResult({
+				data: {
+					user,
+					session
+				},
+				error: null
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signUp(credentials) {
+		var _a$1, _b, _c;
+		try {
+			let res;
+			if ("email" in credentials) {
+				const { email: email$1, password, options: options$1 } = credentials;
+				let codeChallenge = null;
+				let codeChallengeMethod = null;
+				if (this.flowType === "pkce") [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
+				res = await _request(this.fetch, "POST", `${this.url}/signup`, {
+					headers: this.headers,
+					redirectTo: options$1 === null || options$1 === void 0 ? void 0 : options$1.emailRedirectTo,
+					body: {
+						email: email$1,
+						password,
+						data: (_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.data) !== null && _a$1 !== void 0 ? _a$1 : {},
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken },
+						code_challenge: codeChallenge,
+						code_challenge_method: codeChallengeMethod
+					},
+					xform: _sessionResponse
+				});
+			} else if ("phone" in credentials) {
+				const { phone, password, options: options$1 } = credentials;
+				res = await _request(this.fetch, "POST", `${this.url}/signup`, {
+					headers: this.headers,
+					body: {
+						phone,
+						password,
+						data: (_b = options$1 === null || options$1 === void 0 ? void 0 : options$1.data) !== null && _b !== void 0 ? _b : {},
+						channel: (_c = options$1 === null || options$1 === void 0 ? void 0 : options$1.channel) !== null && _c !== void 0 ? _c : "sms",
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+					},
+					xform: _sessionResponse
+				});
+			} else throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
+			const { data, error } = res;
+			if (error || !data) {
+				await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+			}
+			const session = data.session;
+			const user = data.user;
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", session);
+			}
+			return this._returnResult({
+				data: {
+					user,
+					session
+				},
+				error: null
+			});
+		} catch (error) {
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signInWithPassword(credentials) {
+		try {
+			let res;
+			if ("email" in credentials) {
+				const { email: email$1, password, options: options$1 } = credentials;
+				res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+					headers: this.headers,
+					body: {
+						email: email$1,
+						password,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+					},
+					xform: _sessionResponsePassword
+				});
+			} else if ("phone" in credentials) {
+				const { phone, password, options: options$1 } = credentials;
+				res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+					headers: this.headers,
+					body: {
+						phone,
+						password,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+					},
+					xform: _sessionResponsePassword
+				});
+			} else throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
+			const { data, error } = res;
+			if (error) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			else if (!data || !data.session || !data.user) {
+				const invalidTokenError = new AuthInvalidTokenResponseError();
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error: invalidTokenError
+				});
+			}
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", data.session);
+			}
+			return this._returnResult({
+				data: Object.assign({
+					user: data.user,
+					session: data.session
+				}, data.weak_password ? { weakPassword: data.weak_password } : null),
+				error
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signInWithOAuth(credentials) {
+		var _a$1, _b, _c, _d;
+		return await this._handleProviderSignIn(credentials.provider, {
+			redirectTo: (_a$1 = credentials.options) === null || _a$1 === void 0 ? void 0 : _a$1.redirectTo,
+			scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
+			queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
+			skipBrowserRedirect: (_d = credentials.options) === null || _d === void 0 ? void 0 : _d.skipBrowserRedirect
+		});
+	}
+	async exchangeCodeForSession(authCode) {
+		await this.initializePromise;
+		return this._acquireLock(this.lockAcquireTimeout, async () => {
+			return this._exchangeCodeForSession(authCode);
+		});
+	}
+	async signInWithWeb3(credentials) {
+		const { chain } = credentials;
+		switch (chain) {
+			case "ethereum": return await this.signInWithEthereum(credentials);
+			case "solana": return await this.signInWithSolana(credentials);
+			default: throw new Error(`@supabase/auth-js: Unsupported chain "${chain}"`);
+		}
+	}
+	async signInWithEthereum(credentials) {
+		var _a$1, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+		let message;
+		let signature;
+		if ("message" in credentials) {
+			message = credentials.message;
+			signature = credentials.signature;
+		} else {
+			const { chain, wallet, statement, options: options$1 } = credentials;
+			let resolvedWallet;
+			if (!isBrowser()) {
+				if (typeof wallet !== "object" || !(options$1 === null || options$1 === void 0 ? void 0 : options$1.url)) throw new Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
+				resolvedWallet = wallet;
+			} else if (typeof wallet === "object") resolvedWallet = wallet;
+			else {
+				const windowAny = window;
+				if ("ethereum" in windowAny && typeof windowAny.ethereum === "object" && "request" in windowAny.ethereum && typeof windowAny.ethereum.request === "function") resolvedWallet = windowAny.ethereum;
+				else throw new Error(`@supabase/auth-js: No compatible Ethereum wallet interface on the window object (window.ethereum) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'ethereum', wallet: resolvedUserWallet }) instead.`);
+			}
+			const url = new URL((_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.url) !== null && _a$1 !== void 0 ? _a$1 : window.location.href);
+			const accounts = await resolvedWallet.request({ method: "eth_requestAccounts" }).then((accs) => accs).catch(() => {
+				throw new Error(`@supabase/auth-js: Wallet method eth_requestAccounts is missing or invalid`);
+			});
+			if (!accounts || accounts.length === 0) throw new Error(`@supabase/auth-js: No accounts available. Please ensure the wallet is connected.`);
+			const address = getAddress(accounts[0]);
+			let chainId = (_b = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _b === void 0 ? void 0 : _b.chainId;
+			if (!chainId) chainId = fromHex(await resolvedWallet.request({ method: "eth_chainId" }));
+			message = createSiweMessage({
+				domain: url.host,
+				address,
+				statement,
+				uri: url.href,
+				version: "1",
+				chainId,
+				nonce: (_c = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _c === void 0 ? void 0 : _c.nonce,
+				issuedAt: (_e = (_d = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _d === void 0 ? void 0 : _d.issuedAt) !== null && _e !== void 0 ? _e : /* @__PURE__ */ new Date(),
+				expirationTime: (_f = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _f === void 0 ? void 0 : _f.expirationTime,
+				notBefore: (_g = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _g === void 0 ? void 0 : _g.notBefore,
+				requestId: (_h = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _h === void 0 ? void 0 : _h.requestId,
+				resources: (_j = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithEthereum) === null || _j === void 0 ? void 0 : _j.resources
+			});
+			signature = await resolvedWallet.request({
+				method: "personal_sign",
+				params: [toHex(message), address]
+			});
+		}
+		try {
+			const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=web3`, {
+				headers: this.headers,
+				body: Object.assign({
+					chain: "ethereum",
+					message,
+					signature
+				}, ((_k = credentials.options) === null || _k === void 0 ? void 0 : _k.captchaToken) ? { gotrue_meta_security: { captcha_token: (_l = credentials.options) === null || _l === void 0 ? void 0 : _l.captchaToken } } : null),
+				xform: _sessionResponse
+			});
+			if (error) throw error;
+			if (!data || !data.session || !data.user) {
+				const invalidTokenError = new AuthInvalidTokenResponseError();
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error: invalidTokenError
+				});
+			}
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", data.session);
+			}
+			return this._returnResult({
+				data: Object.assign({}, data),
+				error
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signInWithSolana(credentials) {
+		var _a$1, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+		let message;
+		let signature;
+		if ("message" in credentials) {
+			message = credentials.message;
+			signature = credentials.signature;
+		} else {
+			const { chain, wallet, statement, options: options$1 } = credentials;
+			let resolvedWallet;
+			if (!isBrowser()) {
+				if (typeof wallet !== "object" || !(options$1 === null || options$1 === void 0 ? void 0 : options$1.url)) throw new Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
+				resolvedWallet = wallet;
+			} else if (typeof wallet === "object") resolvedWallet = wallet;
+			else {
+				const windowAny = window;
+				if ("solana" in windowAny && typeof windowAny.solana === "object" && ("signIn" in windowAny.solana && typeof windowAny.solana.signIn === "function" || "signMessage" in windowAny.solana && typeof windowAny.solana.signMessage === "function")) resolvedWallet = windowAny.solana;
+				else throw new Error(`@supabase/auth-js: No compatible Solana wallet interface on the window object (window.solana) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'solana', wallet: resolvedUserWallet }) instead.`);
+			}
+			const url = new URL((_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.url) !== null && _a$1 !== void 0 ? _a$1 : window.location.href);
+			if ("signIn" in resolvedWallet && resolvedWallet.signIn) {
+				const output = await resolvedWallet.signIn(Object.assign(Object.assign(Object.assign({ issuedAt: (/* @__PURE__ */ new Date()).toISOString() }, options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana), {
+					version: "1",
+					domain: url.host,
+					uri: url.href
+				}), statement ? { statement } : null));
+				let outputToProcess;
+				if (Array.isArray(output) && output[0] && typeof output[0] === "object") outputToProcess = output[0];
+				else if (output && typeof output === "object" && "signedMessage" in output && "signature" in output) outputToProcess = output;
+				else throw new Error("@supabase/auth-js: Wallet method signIn() returned unrecognized value");
+				if ("signedMessage" in outputToProcess && "signature" in outputToProcess && (typeof outputToProcess.signedMessage === "string" || outputToProcess.signedMessage instanceof Uint8Array) && outputToProcess.signature instanceof Uint8Array) {
+					message = typeof outputToProcess.signedMessage === "string" ? outputToProcess.signedMessage : new TextDecoder().decode(outputToProcess.signedMessage);
+					signature = outputToProcess.signature;
+				} else throw new Error("@supabase/auth-js: Wallet method signIn() API returned object without signedMessage and signature fields");
+			} else {
+				if (!("signMessage" in resolvedWallet) || typeof resolvedWallet.signMessage !== "function" || !("publicKey" in resolvedWallet) || typeof resolvedWallet !== "object" || !resolvedWallet.publicKey || !("toBase58" in resolvedWallet.publicKey) || typeof resolvedWallet.publicKey.toBase58 !== "function") throw new Error("@supabase/auth-js: Wallet does not have a compatible signMessage() and publicKey.toBase58() API");
+				message = [
+					`${url.host} wants you to sign in with your Solana account:`,
+					resolvedWallet.publicKey.toBase58(),
+					...statement ? [
+						"",
+						statement,
+						""
+					] : [""],
+					"Version: 1",
+					`URI: ${url.href}`,
+					`Issued At: ${(_c = (_b = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _b === void 0 ? void 0 : _b.issuedAt) !== null && _c !== void 0 ? _c : (/* @__PURE__ */ new Date()).toISOString()}`,
+					...((_d = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _d === void 0 ? void 0 : _d.notBefore) ? [`Not Before: ${options$1.signInWithSolana.notBefore}`] : [],
+					...((_e = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _e === void 0 ? void 0 : _e.expirationTime) ? [`Expiration Time: ${options$1.signInWithSolana.expirationTime}`] : [],
+					...((_f = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _f === void 0 ? void 0 : _f.chainId) ? [`Chain ID: ${options$1.signInWithSolana.chainId}`] : [],
+					...((_g = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _g === void 0 ? void 0 : _g.nonce) ? [`Nonce: ${options$1.signInWithSolana.nonce}`] : [],
+					...((_h = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _h === void 0 ? void 0 : _h.requestId) ? [`Request ID: ${options$1.signInWithSolana.requestId}`] : [],
+					...((_k = (_j = options$1 === null || options$1 === void 0 ? void 0 : options$1.signInWithSolana) === null || _j === void 0 ? void 0 : _j.resources) === null || _k === void 0 ? void 0 : _k.length) ? ["Resources", ...options$1.signInWithSolana.resources.map((resource) => `- ${resource}`)] : []
+				].join("\n");
+				const maybeSignature = await resolvedWallet.signMessage(new TextEncoder().encode(message), "utf8");
+				if (!maybeSignature || !(maybeSignature instanceof Uint8Array)) throw new Error("@supabase/auth-js: Wallet signMessage() API returned an recognized value");
+				signature = maybeSignature;
+			}
+		}
+		try {
+			const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=web3`, {
+				headers: this.headers,
+				body: Object.assign({
+					chain: "solana",
+					message,
+					signature: bytesToBase64URL(signature)
+				}, ((_l = credentials.options) === null || _l === void 0 ? void 0 : _l.captchaToken) ? { gotrue_meta_security: { captcha_token: (_m = credentials.options) === null || _m === void 0 ? void 0 : _m.captchaToken } } : null),
+				xform: _sessionResponse
+			});
+			if (error) throw error;
+			if (!data || !data.session || !data.user) {
+				const invalidTokenError = new AuthInvalidTokenResponseError();
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error: invalidTokenError
+				});
+			}
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", data.session);
+			}
+			return this._returnResult({
+				data: Object.assign({}, data),
+				error
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async _exchangeCodeForSession(authCode) {
+		const storageItem = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+		const [codeVerifier, redirectType] = (storageItem !== null && storageItem !== void 0 ? storageItem : "").split("/");
+		try {
+			if (!codeVerifier && this.flowType === "pkce") throw new AuthPKCECodeVerifierMissingError();
+			const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
+				headers: this.headers,
+				body: {
+					auth_code: authCode,
+					code_verifier: codeVerifier
+				},
+				xform: _sessionResponse
+			});
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (error) throw error;
+			if (!data || !data.session || !data.user) {
+				const invalidTokenError = new AuthInvalidTokenResponseError();
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null,
+						redirectType: null
+					},
+					error: invalidTokenError
+				});
+			}
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", data.session);
+			}
+			return this._returnResult({
+				data: Object.assign(Object.assign({}, data), { redirectType: redirectType !== null && redirectType !== void 0 ? redirectType : null }),
+				error
+			});
+		} catch (error) {
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null,
+					redirectType: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signInWithIdToken(credentials) {
+		try {
+			const { options: options$1, provider, token, access_token, nonce } = credentials;
+			const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+				headers: this.headers,
+				body: {
+					provider,
+					id_token: token,
+					access_token,
+					nonce,
+					gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+				},
+				xform: _sessionResponse
+			});
+			if (error) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			else if (!data || !data.session || !data.user) {
+				const invalidTokenError = new AuthInvalidTokenResponseError();
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error: invalidTokenError
+				});
+			}
+			if (data.session) {
+				await this._saveSession(data.session);
+				await this._notifyAllSubscribers("SIGNED_IN", data.session);
+			}
+			return this._returnResult({
+				data,
+				error
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signInWithOtp(credentials) {
+		var _a$1, _b, _c, _d, _e;
+		try {
+			if ("email" in credentials) {
+				const { email: email$1, options: options$1 } = credentials;
+				let codeChallenge = null;
+				let codeChallengeMethod = null;
+				if (this.flowType === "pkce") [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
+				const { error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+					headers: this.headers,
+					body: {
+						email: email$1,
+						data: (_a$1 = options$1 === null || options$1 === void 0 ? void 0 : options$1.data) !== null && _a$1 !== void 0 ? _a$1 : {},
+						create_user: (_b = options$1 === null || options$1 === void 0 ? void 0 : options$1.shouldCreateUser) !== null && _b !== void 0 ? _b : true,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken },
+						code_challenge: codeChallenge,
+						code_challenge_method: codeChallengeMethod
+					},
+					redirectTo: options$1 === null || options$1 === void 0 ? void 0 : options$1.emailRedirectTo
+				});
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+			}
+			if ("phone" in credentials) {
+				const { phone, options: options$1 } = credentials;
+				const { data, error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+					headers: this.headers,
+					body: {
+						phone,
+						data: (_c = options$1 === null || options$1 === void 0 ? void 0 : options$1.data) !== null && _c !== void 0 ? _c : {},
+						create_user: (_d = options$1 === null || options$1 === void 0 ? void 0 : options$1.shouldCreateUser) !== null && _d !== void 0 ? _d : true,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken },
+						channel: (_e = options$1 === null || options$1 === void 0 ? void 0 : options$1.channel) !== null && _e !== void 0 ? _e : "sms"
+					}
+				});
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null,
+						messageId: data === null || data === void 0 ? void 0 : data.message_id
+					},
+					error
+				});
+			}
+			throw new AuthInvalidCredentialsError("You must provide either an email or phone number.");
+		} catch (error) {
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async verifyOtp(params) {
+		var _a$1, _b;
+		try {
+			let redirectTo = void 0;
+			let captchaToken = void 0;
+			if ("options" in params) {
+				redirectTo = (_a$1 = params.options) === null || _a$1 === void 0 ? void 0 : _a$1.redirectTo;
+				captchaToken = (_b = params.options) === null || _b === void 0 ? void 0 : _b.captchaToken;
+			}
+			const { data, error } = await _request(this.fetch, "POST", `${this.url}/verify`, {
+				headers: this.headers,
+				body: Object.assign(Object.assign({}, params), { gotrue_meta_security: { captcha_token: captchaToken } }),
+				redirectTo,
+				xform: _sessionResponse
+			});
+			if (error) throw error;
+			if (!data) throw /* @__PURE__ */ new Error("An error occurred on token verification.");
+			const session = data.session;
+			const user = data.user;
+			if (session === null || session === void 0 ? void 0 : session.access_token) {
+				await this._saveSession(session);
+				await this._notifyAllSubscribers(params.type == "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", session);
+			}
+			return this._returnResult({
+				data: {
+					user,
+					session
+				},
+				error: null
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async signInWithSSO(params) {
+		var _a$1, _b, _c, _d, _e;
+		try {
+			let codeChallenge = null;
+			let codeChallengeMethod = null;
+			if (this.flowType === "pkce") [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
+			const result = await _request(this.fetch, "POST", `${this.url}/sso`, {
+				body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a$1 = params.options) === null || _a$1 === void 0 ? void 0 : _a$1.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c = params === null || params === void 0 ? void 0 : params.options) === null || _c === void 0 ? void 0 : _c.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), {
+					skip_http_redirect: true,
+					code_challenge: codeChallenge,
+					code_challenge_method: codeChallengeMethod
+				}),
+				headers: this.headers,
+				xform: _ssoResponse
+			});
+			if (((_d = result.data) === null || _d === void 0 ? void 0 : _d.url) && isBrowser() && !((_e = params.options) === null || _e === void 0 ? void 0 : _e.skipBrowserRedirect)) window.location.assign(result.data.url);
+			return this._returnResult(result);
+		} catch (error) {
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async reauthenticate() {
+		await this.initializePromise;
+		return await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return await this._reauthenticate();
+		});
+	}
+	async _reauthenticate() {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: { session }, error: sessionError } = result;
+				if (sessionError) throw sessionError;
+				if (!session) throw new AuthSessionMissingError();
+				const { error } = await _request(this.fetch, "GET", `${this.url}/reauthenticate`, {
+					headers: this.headers,
+					jwt: session.access_token
+				});
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async resend(credentials) {
+		try {
+			const endpoint = `${this.url}/resend`;
+			if ("email" in credentials) {
+				const { email: email$1, type, options: options$1 } = credentials;
+				const { error } = await _request(this.fetch, "POST", endpoint, {
+					headers: this.headers,
+					body: {
+						email: email$1,
+						type,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+					},
+					redirectTo: options$1 === null || options$1 === void 0 ? void 0 : options$1.emailRedirectTo
+				});
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+			} else if ("phone" in credentials) {
+				const { phone, type, options: options$1 } = credentials;
+				const { data, error } = await _request(this.fetch, "POST", endpoint, {
+					headers: this.headers,
+					body: {
+						phone,
+						type,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+					}
+				});
+				return this._returnResult({
+					data: {
+						user: null,
+						session: null,
+						messageId: data === null || data === void 0 ? void 0 : data.message_id
+					},
+					error
+				});
+			}
+			throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a type");
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async getSession() {
+		await this.initializePromise;
+		return await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return this._useSession(async (result) => {
+				return result;
+			});
+		});
+	}
+	async _acquireLock(acquireTimeout, fn) {
+		this._debug("#_acquireLock", "begin", acquireTimeout);
+		try {
+			if (this.lockAcquired) {
+				const last = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve();
+				const result = (async () => {
+					await last;
+					return await fn();
+				})();
+				this.pendingInLock.push((async () => {
+					try {
+						await result;
+					} catch (e) {}
+				})());
+				return result;
+			}
+			return await this.lock(`lock:${this.storageKey}`, acquireTimeout, async () => {
+				this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
+				try {
+					this.lockAcquired = true;
+					const result = fn();
+					this.pendingInLock.push((async () => {
+						try {
+							await result;
+						} catch (e) {}
+					})());
+					await result;
+					while (this.pendingInLock.length) {
+						const waitOn = [...this.pendingInLock];
+						await Promise.all(waitOn);
+						this.pendingInLock.splice(0, waitOn.length);
+					}
+					return await result;
+				} finally {
+					this._debug("#_acquireLock", "lock released for storage key", this.storageKey);
+					this.lockAcquired = false;
+				}
+			});
+		} finally {
+			this._debug("#_acquireLock", "end");
+		}
+	}
+	async _useSession(fn) {
+		this._debug("#_useSession", "begin");
+		try {
+			return await fn(await this.__loadSession());
+		} finally {
+			this._debug("#_useSession", "end");
+		}
+	}
+	async __loadSession() {
+		this._debug("#__loadSession()", "begin");
+		if (!this.lockAcquired) this._debug("#__loadSession()", "used outside of an acquired lock!", (/* @__PURE__ */ new Error()).stack);
+		try {
+			let currentSession = null;
+			const maybeSession = await getItemAsync(this.storage, this.storageKey);
+			this._debug("#getSession()", "session from storage", maybeSession);
+			if (maybeSession !== null) if (this._isValidSession(maybeSession)) currentSession = maybeSession;
+			else {
+				this._debug("#getSession()", "session from storage is not valid");
+				await this._removeSession();
+			}
+			if (!currentSession) return {
+				data: { session: null },
+				error: null
+			};
+			const hasExpired = currentSession.expires_at ? currentSession.expires_at * 1e3 - Date.now() < EXPIRY_MARGIN_MS : false;
+			this._debug("#__loadSession()", `session has${hasExpired ? "" : " not"} expired`, "expires_at", currentSession.expires_at);
+			if (!hasExpired) {
+				if (this.userStorage) {
+					const maybeUser = await getItemAsync(this.userStorage, this.storageKey + "-user");
+					if (maybeUser === null || maybeUser === void 0 ? void 0 : maybeUser.user) currentSession.user = maybeUser.user;
+					else currentSession.user = userNotAvailableProxy();
+				}
+				if (this.storage.isServer && currentSession.user && !currentSession.user.__isUserNotAvailableProxy) {
+					const suppressWarningRef = { value: this.suppressGetSessionWarning };
+					currentSession.user = insecureUserWarningProxy(currentSession.user, suppressWarningRef);
+					if (suppressWarningRef.value) this.suppressGetSessionWarning = true;
+				}
+				return {
+					data: { session: currentSession },
+					error: null
+				};
+			}
+			const { data: session, error } = await this._callRefreshToken(currentSession.refresh_token);
+			if (error) return this._returnResult({
+				data: { session: null },
+				error
+			});
+			return this._returnResult({
+				data: { session },
+				error: null
+			});
+		} finally {
+			this._debug("#__loadSession()", "end");
+		}
+	}
+	async getUser(jwt) {
+		if (jwt) return await this._getUser(jwt);
+		await this.initializePromise;
+		const result = await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return await this._getUser();
+		});
+		if (result.data.user) this.suppressGetSessionWarning = true;
+		return result;
+	}
+	async _getUser(jwt) {
+		try {
+			if (jwt) return await _request(this.fetch, "GET", `${this.url}/user`, {
+				headers: this.headers,
+				jwt,
+				xform: _userResponse
+			});
+			return await this._useSession(async (result) => {
+				var _a$1, _b, _c;
+				const { data, error } = result;
+				if (error) throw error;
+				if (!((_a$1 = data.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token) && !this.hasCustomAuthorizationHeader) return {
+					data: { user: null },
+					error: new AuthSessionMissingError()
+				};
+				return await _request(this.fetch, "GET", `${this.url}/user`, {
+					headers: this.headers,
+					jwt: (_c = (_b = data.session) === null || _b === void 0 ? void 0 : _b.access_token) !== null && _c !== void 0 ? _c : void 0,
+					xform: _userResponse
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) {
+				if (isAuthSessionMissingError(error)) {
+					await this._removeSession();
+					await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+				}
+				return this._returnResult({
+					data: { user: null },
+					error
+				});
+			}
+			throw error;
+		}
+	}
+	async updateUser(attributes, options$1 = {}) {
+		await this.initializePromise;
+		return await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return await this._updateUser(attributes, options$1);
+		});
+	}
+	async _updateUser(attributes, options$1 = {}) {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: sessionData, error: sessionError } = result;
+				if (sessionError) throw sessionError;
+				if (!sessionData.session) throw new AuthSessionMissingError();
+				const session = sessionData.session;
+				let codeChallenge = null;
+				let codeChallengeMethod = null;
+				if (this.flowType === "pkce" && attributes.email != null) [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
+				const { data, error: userError } = await _request(this.fetch, "PUT", `${this.url}/user`, {
+					headers: this.headers,
+					redirectTo: options$1 === null || options$1 === void 0 ? void 0 : options$1.emailRedirectTo,
+					body: Object.assign(Object.assign({}, attributes), {
+						code_challenge: codeChallenge,
+						code_challenge_method: codeChallengeMethod
+					}),
+					jwt: session.access_token,
+					xform: _userResponse
+				});
+				if (userError) throw userError;
+				session.user = data.user;
+				await this._saveSession(session);
+				await this._notifyAllSubscribers("USER_UPDATED", session);
+				return this._returnResult({
+					data: { user: session.user },
+					error: null
+				});
+			});
+		} catch (error) {
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (isAuthError(error)) return this._returnResult({
+				data: { user: null },
+				error
+			});
+			throw error;
+		}
+	}
+	async setSession(currentSession) {
+		await this.initializePromise;
+		return await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return await this._setSession(currentSession);
+		});
+	}
+	async _setSession(currentSession) {
+		try {
+			if (!currentSession.access_token || !currentSession.refresh_token) throw new AuthSessionMissingError();
+			const timeNow = Date.now() / 1e3;
+			let expiresAt$1 = timeNow;
+			let hasExpired = true;
+			let session = null;
+			const { payload } = decodeJWT(currentSession.access_token);
+			if (payload.exp) {
+				expiresAt$1 = payload.exp;
+				hasExpired = expiresAt$1 <= timeNow;
+			}
+			if (hasExpired) {
+				const { data: refreshedSession, error } = await this._callRefreshToken(currentSession.refresh_token);
+				if (error) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+				if (!refreshedSession) return {
+					data: {
+						user: null,
+						session: null
+					},
+					error: null
+				};
+				session = refreshedSession;
+			} else {
+				const { data, error } = await this._getUser(currentSession.access_token);
+				if (error) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+				session = {
+					access_token: currentSession.access_token,
+					refresh_token: currentSession.refresh_token,
+					user: data.user,
+					token_type: "bearer",
+					expires_in: expiresAt$1 - timeNow,
+					expires_at: expiresAt$1
+				};
+				await this._saveSession(session);
+				await this._notifyAllSubscribers("SIGNED_IN", session);
+			}
+			return this._returnResult({
+				data: {
+					user: session.user,
+					session
+				},
+				error: null
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					session: null,
+					user: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async refreshSession(currentSession) {
+		await this.initializePromise;
+		return await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return await this._refreshSession(currentSession);
+		});
+	}
+	async _refreshSession(currentSession) {
+		try {
+			return await this._useSession(async (result) => {
+				var _a$1;
+				if (!currentSession) {
+					const { data, error: error$1 } = result;
+					if (error$1) throw error$1;
+					currentSession = (_a$1 = data.session) !== null && _a$1 !== void 0 ? _a$1 : void 0;
+				}
+				if (!(currentSession === null || currentSession === void 0 ? void 0 : currentSession.refresh_token)) throw new AuthSessionMissingError();
+				const { data: session, error } = await this._callRefreshToken(currentSession.refresh_token);
+				if (error) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+				if (!session) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error: null
+				});
+				return this._returnResult({
+					data: {
+						user: session.user,
+						session
+					},
+					error: null
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					user: null,
+					session: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async _getSessionFromURL(params, callbackUrlType) {
+		try {
+			if (!isBrowser()) throw new AuthImplicitGrantRedirectError("No browser detected.");
+			if (params.error || params.error_description || params.error_code) throw new AuthImplicitGrantRedirectError(params.error_description || "Error in URL with unspecified error_description", {
+				error: params.error || "unspecified_error",
+				code: params.error_code || "unspecified_code"
+			});
+			switch (callbackUrlType) {
+				case "implicit":
+					if (this.flowType === "pkce") throw new AuthPKCEGrantCodeExchangeError("Not a valid PKCE flow url.");
+					break;
+				case "pkce":
+					if (this.flowType === "implicit") throw new AuthImplicitGrantRedirectError("Not a valid implicit grant flow url.");
+					break;
+				default:
+			}
+			if (callbackUrlType === "pkce") {
+				this._debug("#_initialize()", "begin", "is PKCE flow", true);
+				if (!params.code) throw new AuthPKCEGrantCodeExchangeError("No code detected.");
+				const { data: data$1, error: error$1 } = await this._exchangeCodeForSession(params.code);
+				if (error$1) throw error$1;
+				const url = new URL(window.location.href);
+				url.searchParams.delete("code");
+				window.history.replaceState(window.history.state, "", url.toString());
+				return {
+					data: {
+						session: data$1.session,
+						redirectType: null
+					},
+					error: null
+				};
+			}
+			const { provider_token, provider_refresh_token, access_token, refresh_token, expires_in, expires_at, token_type } = params;
+			if (!access_token || !expires_in || !refresh_token || !token_type) throw new AuthImplicitGrantRedirectError("No session defined in URL");
+			const timeNow = Math.round(Date.now() / 1e3);
+			const expiresIn = parseInt(expires_in);
+			let expiresAt$1 = timeNow + expiresIn;
+			if (expires_at) expiresAt$1 = parseInt(expires_at);
+			const actuallyExpiresIn = expiresAt$1 - timeNow;
+			if (actuallyExpiresIn * 1e3 <= 3e4) console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${actuallyExpiresIn}s, should have been closer to ${expiresIn}s`);
+			const issuedAt = expiresAt$1 - expiresIn;
+			if (timeNow - issuedAt >= 120) console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", issuedAt, expiresAt$1, timeNow);
+			else if (timeNow - issuedAt < 0) console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clock for skew", issuedAt, expiresAt$1, timeNow);
+			const { data, error } = await this._getUser(access_token);
+			if (error) throw error;
+			const session = {
+				provider_token,
+				provider_refresh_token,
+				access_token,
+				expires_in: expiresIn,
+				expires_at: expiresAt$1,
+				refresh_token,
+				token_type,
+				user: data.user
+			};
+			window.location.hash = "";
+			this._debug("#_getSessionFromURL()", "clearing window.location.hash");
+			return this._returnResult({
+				data: {
+					session,
+					redirectType: params.type
+				},
+				error: null
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					session: null,
+					redirectType: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	_isImplicitGrantCallback(params) {
+		if (typeof this.detectSessionInUrl === "function") return this.detectSessionInUrl(new URL(window.location.href), params);
+		return Boolean(params.access_token || params.error_description);
+	}
+	async _isPKCECallback(params) {
+		const currentStorageContent = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+		return !!(params.code && currentStorageContent);
+	}
+	async signOut(options$1 = { scope: "global" }) {
+		await this.initializePromise;
+		return await this._acquireLock(this.lockAcquireTimeout, async () => {
+			return await this._signOut(options$1);
+		});
+	}
+	async _signOut({ scope } = { scope: "global" }) {
+		return await this._useSession(async (result) => {
+			var _a$1;
+			const { data, error: sessionError } = result;
+			if (sessionError && !isAuthSessionMissingError(sessionError)) return this._returnResult({ error: sessionError });
+			const accessToken = (_a$1 = data.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token;
+			if (accessToken) {
+				const { error } = await this.admin.signOut(accessToken, scope);
+				if (error) {
+					if (!(isAuthApiError(error) && (error.status === 404 || error.status === 401 || error.status === 403) || isAuthSessionMissingError(error))) return this._returnResult({ error });
+				}
+			}
+			if (scope !== "others") {
+				await this._removeSession();
+				await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			}
+			return this._returnResult({ error: null });
+		});
+	}
+	onAuthStateChange(callback) {
+		const id = generateCallbackId();
+		const subscription = {
+			id,
+			callback,
+			unsubscribe: () => {
+				this._debug("#unsubscribe()", "state change callback with id removed", id);
+				this.stateChangeEmitters.delete(id);
+			}
+		};
+		this._debug("#onAuthStateChange()", "registered callback with id", id);
+		this.stateChangeEmitters.set(id, subscription);
+		(async () => {
+			await this.initializePromise;
+			await this._acquireLock(this.lockAcquireTimeout, async () => {
+				this._emitInitialSession(id);
+			});
+		})();
+		return { data: { subscription } };
+	}
+	async _emitInitialSession(id) {
+		return await this._useSession(async (result) => {
+			var _a$1, _b;
+			try {
+				const { data: { session }, error } = result;
+				if (error) throw error;
+				await ((_a$1 = this.stateChangeEmitters.get(id)) === null || _a$1 === void 0 ? void 0 : _a$1.callback("INITIAL_SESSION", session));
+				this._debug("INITIAL_SESSION", "callback id", id, "session", session);
+			} catch (err) {
+				await ((_b = this.stateChangeEmitters.get(id)) === null || _b === void 0 ? void 0 : _b.callback("INITIAL_SESSION", null));
+				this._debug("INITIAL_SESSION", "callback id", id, "error", err);
+				console.error(err);
+			}
+		});
+	}
+	async resetPasswordForEmail(email$1, options$1 = {}) {
+		let codeChallenge = null;
+		let codeChallengeMethod = null;
+		if (this.flowType === "pkce") [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey, true);
+		try {
+			return await _request(this.fetch, "POST", `${this.url}/recover`, {
+				body: {
+					email: email$1,
+					code_challenge: codeChallenge,
+					code_challenge_method: codeChallengeMethod,
+					gotrue_meta_security: { captcha_token: options$1.captchaToken }
+				},
+				headers: this.headers,
+				redirectTo: options$1.redirectTo
+			});
+		} catch (error) {
+			await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async getUserIdentities() {
+		var _a$1;
+		try {
+			const { data, error } = await this.getUser();
+			if (error) throw error;
+			return this._returnResult({
+				data: { identities: (_a$1 = data.user.identities) !== null && _a$1 !== void 0 ? _a$1 : [] },
+				error: null
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async linkIdentity(credentials) {
+		if ("token" in credentials) return this.linkIdentityIdToken(credentials);
+		return this.linkIdentityOAuth(credentials);
+	}
+	async linkIdentityOAuth(credentials) {
+		var _a$1;
+		try {
+			const { data, error } = await this._useSession(async (result) => {
+				var _a$2, _b, _c, _d, _e;
+				const { data: data$1, error: error$1 } = result;
+				if (error$1) throw error$1;
+				const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
+					redirectTo: (_a$2 = credentials.options) === null || _a$2 === void 0 ? void 0 : _a$2.redirectTo,
+					scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
+					queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
+					skipBrowserRedirect: true
+				});
+				return await _request(this.fetch, "GET", url, {
+					headers: this.headers,
+					jwt: (_e = (_d = data$1.session) === null || _d === void 0 ? void 0 : _d.access_token) !== null && _e !== void 0 ? _e : void 0
+				});
+			});
+			if (error) throw error;
+			if (isBrowser() && !((_a$1 = credentials.options) === null || _a$1 === void 0 ? void 0 : _a$1.skipBrowserRedirect)) window.location.assign(data === null || data === void 0 ? void 0 : data.url);
+			return this._returnResult({
+				data: {
+					provider: credentials.provider,
+					url: data === null || data === void 0 ? void 0 : data.url
+				},
+				error: null
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					provider: credentials.provider,
+					url: null
+				},
+				error
+			});
+			throw error;
+		}
+	}
+	async linkIdentityIdToken(credentials) {
+		return await this._useSession(async (result) => {
+			var _a$1;
+			try {
+				const { error: sessionError, data: { session } } = result;
+				if (sessionError) throw sessionError;
+				const { options: options$1, provider, token, access_token, nonce } = credentials;
+				const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+					headers: this.headers,
+					jwt: (_a$1 = session === null || session === void 0 ? void 0 : session.access_token) !== null && _a$1 !== void 0 ? _a$1 : void 0,
+					body: {
+						provider,
+						id_token: token,
+						access_token,
+						nonce,
+						link_identity: true,
+						gotrue_meta_security: { captcha_token: options$1 === null || options$1 === void 0 ? void 0 : options$1.captchaToken }
+					},
+					xform: _sessionResponse
+				});
+				if (error) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+				else if (!data || !data.session || !data.user) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error: new AuthInvalidTokenResponseError()
+				});
+				if (data.session) {
+					await this._saveSession(data.session);
+					await this._notifyAllSubscribers("USER_UPDATED", data.session);
+				}
+				return this._returnResult({
+					data,
+					error
+				});
+			} catch (error) {
+				await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+				if (isAuthError(error)) return this._returnResult({
+					data: {
+						user: null,
+						session: null
+					},
+					error
+				});
+				throw error;
+			}
+		});
+	}
+	async unlinkIdentity(identity) {
+		try {
+			return await this._useSession(async (result) => {
+				var _a$1, _b;
+				const { data, error } = result;
+				if (error) throw error;
+				return await _request(this.fetch, "DELETE", `${this.url}/user/identities/${identity.identity_id}`, {
+					headers: this.headers,
+					jwt: (_b = (_a$1 = data.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token) !== null && _b !== void 0 ? _b : void 0
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _refreshAccessToken(refreshToken) {
+		const debugName = `#_refreshAccessToken(${refreshToken.substring(0, 5)}...)`;
+		this._debug(debugName, "begin");
+		try {
+			const startedAt = Date.now();
+			return await retryable(async (attempt) => {
+				if (attempt > 0) await sleep(200 * Math.pow(2, attempt - 1));
+				this._debug(debugName, "refreshing attempt", attempt);
+				return await _request(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, {
+					body: { refresh_token: refreshToken },
+					headers: this.headers,
+					xform: _sessionResponse
+				});
+			}, (attempt, error) => {
+				const nextBackOffInterval = 200 * Math.pow(2, attempt);
+				return error && isAuthRetryableFetchError(error) && Date.now() + nextBackOffInterval - startedAt < 3e4;
+			});
+		} catch (error) {
+			this._debug(debugName, "error", error);
+			if (isAuthError(error)) return this._returnResult({
+				data: {
+					session: null,
+					user: null
+				},
+				error
+			});
+			throw error;
+		} finally {
+			this._debug(debugName, "end");
+		}
+	}
+	_isValidSession(maybeSession) {
+		return typeof maybeSession === "object" && maybeSession !== null && "access_token" in maybeSession && "refresh_token" in maybeSession && "expires_at" in maybeSession;
+	}
+	async _handleProviderSignIn(provider, options$1) {
+		const url = await this._getUrlForProvider(`${this.url}/authorize`, provider, {
+			redirectTo: options$1.redirectTo,
+			scopes: options$1.scopes,
+			queryParams: options$1.queryParams
+		});
+		this._debug("#_handleProviderSignIn()", "provider", provider, "options", options$1, "url", url);
+		if (isBrowser() && !options$1.skipBrowserRedirect) window.location.assign(url);
+		return {
+			data: {
+				provider,
+				url
+			},
+			error: null
+		};
+	}
+	async _recoverAndRefresh() {
+		var _a$1, _b;
+		const debugName = "#_recoverAndRefresh()";
+		this._debug(debugName, "begin");
+		try {
+			const currentSession = await getItemAsync(this.storage, this.storageKey);
+			if (currentSession && this.userStorage) {
+				let maybeUser = await getItemAsync(this.userStorage, this.storageKey + "-user");
+				if (!this.storage.isServer && Object.is(this.storage, this.userStorage) && !maybeUser) {
+					maybeUser = { user: currentSession.user };
+					await setItemAsync(this.userStorage, this.storageKey + "-user", maybeUser);
+				}
+				currentSession.user = (_a$1 = maybeUser === null || maybeUser === void 0 ? void 0 : maybeUser.user) !== null && _a$1 !== void 0 ? _a$1 : userNotAvailableProxy();
+			} else if (currentSession && !currentSession.user) {
+				if (!currentSession.user) {
+					const separateUser = await getItemAsync(this.storage, this.storageKey + "-user");
+					if (separateUser && (separateUser === null || separateUser === void 0 ? void 0 : separateUser.user)) {
+						currentSession.user = separateUser.user;
+						await removeItemAsync(this.storage, this.storageKey + "-user");
+						await setItemAsync(this.storage, this.storageKey, currentSession);
+					} else currentSession.user = userNotAvailableProxy();
+				}
+			}
+			this._debug(debugName, "session from storage", currentSession);
+			if (!this._isValidSession(currentSession)) {
+				this._debug(debugName, "session is not valid");
+				if (currentSession !== null) await this._removeSession();
+				return;
+			}
+			const expiresWithMargin = ((_b = currentSession.expires_at) !== null && _b !== void 0 ? _b : Infinity) * 1e3 - Date.now() < EXPIRY_MARGIN_MS;
+			this._debug(debugName, `session has${expiresWithMargin ? "" : " not"} expired with margin of ${EXPIRY_MARGIN_MS}s`);
+			if (expiresWithMargin) {
+				if (this.autoRefreshToken && currentSession.refresh_token) {
+					const { error } = await this._callRefreshToken(currentSession.refresh_token);
+					if (error) {
+						console.error(error);
+						if (!isAuthRetryableFetchError(error)) {
+							this._debug(debugName, "refresh failed with a non-retryable error, removing the session", error);
+							await this._removeSession();
+						}
+					}
+				}
+			} else if (currentSession.user && currentSession.user.__isUserNotAvailableProxy === true) try {
+				const { data, error: userError } = await this._getUser(currentSession.access_token);
+				if (!userError && (data === null || data === void 0 ? void 0 : data.user)) {
+					currentSession.user = data.user;
+					await this._saveSession(currentSession);
+					await this._notifyAllSubscribers("SIGNED_IN", currentSession);
+				} else this._debug(debugName, "could not get user data, skipping SIGNED_IN notification");
+			} catch (getUserError) {
+				console.error("Error getting user data:", getUserError);
+				this._debug(debugName, "error getting user data, skipping SIGNED_IN notification", getUserError);
+			}
+			else await this._notifyAllSubscribers("SIGNED_IN", currentSession);
+		} catch (err) {
+			this._debug(debugName, "error", err);
+			console.error(err);
+			return;
+		} finally {
+			this._debug(debugName, "end");
+		}
+	}
+	async _callRefreshToken(refreshToken) {
+		var _a$1, _b;
+		if (!refreshToken) throw new AuthSessionMissingError();
+		if (this.refreshingDeferred) return this.refreshingDeferred.promise;
+		const debugName = `#_callRefreshToken(${refreshToken.substring(0, 5)}...)`;
+		this._debug(debugName, "begin");
+		try {
+			this.refreshingDeferred = new Deferred();
+			const { data, error } = await this._refreshAccessToken(refreshToken);
+			if (error) throw error;
+			if (!data.session) throw new AuthSessionMissingError();
+			await this._saveSession(data.session);
+			await this._notifyAllSubscribers("TOKEN_REFRESHED", data.session);
+			const result = {
+				data: data.session,
+				error: null
+			};
+			this.refreshingDeferred.resolve(result);
+			return result;
+		} catch (error) {
+			this._debug(debugName, "error", error);
+			if (isAuthError(error)) {
+				const result = {
+					data: null,
+					error
+				};
+				if (!isAuthRetryableFetchError(error)) await this._removeSession();
+				(_a$1 = this.refreshingDeferred) === null || _a$1 === void 0 || _a$1.resolve(result);
+				return result;
+			}
+			(_b = this.refreshingDeferred) === null || _b === void 0 || _b.reject(error);
+			throw error;
+		} finally {
+			this.refreshingDeferred = null;
+			this._debug(debugName, "end");
+		}
+	}
+	async _notifyAllSubscribers(event, session, broadcast = true) {
+		const debugName = `#_notifyAllSubscribers(${event})`;
+		this._debug(debugName, "begin", session, `broadcast = ${broadcast}`);
+		try {
+			if (this.broadcastChannel && broadcast) this.broadcastChannel.postMessage({
+				event,
+				session
+			});
+			const errors = [];
+			const promises = Array.from(this.stateChangeEmitters.values()).map(async (x$1) => {
+				try {
+					await x$1.callback(event, session);
+				} catch (e) {
+					errors.push(e);
+				}
+			});
+			await Promise.all(promises);
+			if (errors.length > 0) {
+				for (let i$2 = 0; i$2 < errors.length; i$2 += 1) console.error(errors[i$2]);
+				throw errors[0];
+			}
+		} finally {
+			this._debug(debugName, "end");
+		}
+	}
+	async _saveSession(session) {
+		this._debug("#_saveSession()", session);
+		this.suppressGetSessionWarning = true;
+		await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+		const sessionToProcess = Object.assign({}, session);
+		const userIsProxy = sessionToProcess.user && sessionToProcess.user.__isUserNotAvailableProxy === true;
+		if (this.userStorage) {
+			if (!userIsProxy && sessionToProcess.user) await setItemAsync(this.userStorage, this.storageKey + "-user", { user: sessionToProcess.user });
+			else if (userIsProxy) {}
+			const mainSessionData = Object.assign({}, sessionToProcess);
+			delete mainSessionData.user;
+			const clonedMainSessionData = deepClone(mainSessionData);
+			await setItemAsync(this.storage, this.storageKey, clonedMainSessionData);
+		} else {
+			const clonedSession = deepClone(sessionToProcess);
+			await setItemAsync(this.storage, this.storageKey, clonedSession);
+		}
+	}
+	async _removeSession() {
+		this._debug("#_removeSession()");
+		this.suppressGetSessionWarning = false;
+		await removeItemAsync(this.storage, this.storageKey);
+		await removeItemAsync(this.storage, this.storageKey + "-code-verifier");
+		await removeItemAsync(this.storage, this.storageKey + "-user");
+		if (this.userStorage) await removeItemAsync(this.userStorage, this.storageKey + "-user");
+		await this._notifyAllSubscribers("SIGNED_OUT", null);
+	}
+	_removeVisibilityChangedCallback() {
+		this._debug("#_removeVisibilityChangedCallback()");
+		const callback = this.visibilityChangedCallback;
+		this.visibilityChangedCallback = null;
+		try {
+			if (callback && isBrowser() && (window === null || window === void 0 ? void 0 : window.removeEventListener)) window.removeEventListener("visibilitychange", callback);
+		} catch (e) {
+			console.error("removing visibilitychange callback failed", e);
+		}
+	}
+	async _startAutoRefresh() {
+		await this._stopAutoRefresh();
+		this._debug("#_startAutoRefresh()");
+		const ticker = setInterval(() => this._autoRefreshTokenTick(), AUTO_REFRESH_TICK_DURATION_MS);
+		this.autoRefreshTicker = ticker;
+		if (ticker && typeof ticker === "object" && typeof ticker.unref === "function") ticker.unref();
+		else if (typeof Deno !== "undefined" && typeof Deno.unrefTimer === "function") Deno.unrefTimer(ticker);
+		const timeout = setTimeout(async () => {
+			await this.initializePromise;
+			await this._autoRefreshTokenTick();
+		}, 0);
+		this.autoRefreshTickTimeout = timeout;
+		if (timeout && typeof timeout === "object" && typeof timeout.unref === "function") timeout.unref();
+		else if (typeof Deno !== "undefined" && typeof Deno.unrefTimer === "function") Deno.unrefTimer(timeout);
+	}
+	async _stopAutoRefresh() {
+		this._debug("#_stopAutoRefresh()");
+		const ticker = this.autoRefreshTicker;
+		this.autoRefreshTicker = null;
+		if (ticker) clearInterval(ticker);
+		const timeout = this.autoRefreshTickTimeout;
+		this.autoRefreshTickTimeout = null;
+		if (timeout) clearTimeout(timeout);
+	}
+	async startAutoRefresh() {
+		this._removeVisibilityChangedCallback();
+		await this._startAutoRefresh();
+	}
+	async stopAutoRefresh() {
+		this._removeVisibilityChangedCallback();
+		await this._stopAutoRefresh();
+	}
+	async _autoRefreshTokenTick() {
+		this._debug("#_autoRefreshTokenTick()", "begin");
+		try {
+			await this._acquireLock(0, async () => {
+				try {
+					const now = Date.now();
+					try {
+						return await this._useSession(async (result) => {
+							const { data: { session } } = result;
+							if (!session || !session.refresh_token || !session.expires_at) {
+								this._debug("#_autoRefreshTokenTick()", "no session");
+								return;
+							}
+							const expiresInTicks = Math.floor((session.expires_at * 1e3 - now) / AUTO_REFRESH_TICK_DURATION_MS);
+							this._debug("#_autoRefreshTokenTick()", `access token expires in ${expiresInTicks} ticks, a tick lasts ${AUTO_REFRESH_TICK_DURATION_MS}ms, refresh threshold is 3 ticks`);
+							if (expiresInTicks <= 3) await this._callRefreshToken(session.refresh_token);
+						});
+					} catch (e) {
+						console.error("Auto refresh tick failed with error. This is likely a transient error.", e);
+					}
+				} finally {
+					this._debug("#_autoRefreshTokenTick()", "end");
+				}
+			});
+		} catch (e) {
+			if (e.isAcquireTimeout || e instanceof LockAcquireTimeoutError) this._debug("auto refresh token tick lock not available");
+			else throw e;
+		}
+	}
+	async _handleVisibilityChange() {
+		this._debug("#_handleVisibilityChange()");
+		if (!isBrowser() || !(window === null || window === void 0 ? void 0 : window.addEventListener)) {
+			if (this.autoRefreshToken) this.startAutoRefresh();
+			return false;
+		}
+		try {
+			this.visibilityChangedCallback = async () => {
+				try {
+					await this._onVisibilityChanged(false);
+				} catch (error) {
+					this._debug("#visibilityChangedCallback", "error", error);
+				}
+			};
+			window === null || window === void 0 || window.addEventListener("visibilitychange", this.visibilityChangedCallback);
+			await this._onVisibilityChanged(true);
+		} catch (error) {
+			console.error("_handleVisibilityChange", error);
+		}
+	}
+	async _onVisibilityChanged(calledFromInitialize) {
+		const methodName = `#_onVisibilityChanged(${calledFromInitialize})`;
+		this._debug(methodName, "visibilityState", document.visibilityState);
+		if (document.visibilityState === "visible") {
+			if (this.autoRefreshToken) this._startAutoRefresh();
+			if (!calledFromInitialize) {
+				await this.initializePromise;
+				await this._acquireLock(this.lockAcquireTimeout, async () => {
+					if (document.visibilityState !== "visible") {
+						this._debug(methodName, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
+						return;
+					}
+					await this._recoverAndRefresh();
+				});
+			}
+		} else if (document.visibilityState === "hidden") {
+			if (this.autoRefreshToken) this._stopAutoRefresh();
+		}
+	}
+	async _getUrlForProvider(url, provider, options$1) {
+		const urlParams = [`provider=${encodeURIComponent(provider)}`];
+		if (options$1 === null || options$1 === void 0 ? void 0 : options$1.redirectTo) urlParams.push(`redirect_to=${encodeURIComponent(options$1.redirectTo)}`);
+		if (options$1 === null || options$1 === void 0 ? void 0 : options$1.scopes) urlParams.push(`scopes=${encodeURIComponent(options$1.scopes)}`);
+		if (this.flowType === "pkce") {
+			const [codeChallenge, codeChallengeMethod] = await getCodeChallengeAndMethod(this.storage, this.storageKey);
+			const flowParams = new URLSearchParams({
+				code_challenge: `${encodeURIComponent(codeChallenge)}`,
+				code_challenge_method: `${encodeURIComponent(codeChallengeMethod)}`
+			});
+			urlParams.push(flowParams.toString());
+		}
+		if (options$1 === null || options$1 === void 0 ? void 0 : options$1.queryParams) {
+			const query = new URLSearchParams(options$1.queryParams);
+			urlParams.push(query.toString());
+		}
+		if (options$1 === null || options$1 === void 0 ? void 0 : options$1.skipBrowserRedirect) urlParams.push(`skip_http_redirect=${options$1.skipBrowserRedirect}`);
+		return `${url}?${urlParams.join("&")}`;
+	}
+	async _unenroll(params) {
+		try {
+			return await this._useSession(async (result) => {
+				var _a$1;
+				const { data: sessionData, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				return await _request(this.fetch, "DELETE", `${this.url}/factors/${params.factorId}`, {
+					headers: this.headers,
+					jwt: (_a$1 = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _enroll(params) {
+		try {
+			return await this._useSession(async (result) => {
+				var _a$1, _b;
+				const { data: sessionData, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				const body = Object.assign({
+					friendly_name: params.friendlyName,
+					factor_type: params.factorType
+				}, params.factorType === "phone" ? { phone: params.phone } : params.factorType === "totp" ? { issuer: params.issuer } : {});
+				const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors`, {
+					body,
+					headers: this.headers,
+					jwt: (_a$1 = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token
+				});
+				if (error) return this._returnResult({
+					data: null,
+					error
+				});
+				if (params.factorType === "totp" && data.type === "totp" && ((_b = data === null || data === void 0 ? void 0 : data.totp) === null || _b === void 0 ? void 0 : _b.qr_code)) data.totp.qr_code = `data:image/svg+xml;utf-8,${data.totp.qr_code}`;
+				return this._returnResult({
+					data,
+					error: null
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _verify(params) {
+		return this._acquireLock(this.lockAcquireTimeout, async () => {
+			try {
+				return await this._useSession(async (result) => {
+					var _a$1;
+					const { data: sessionData, error: sessionError } = result;
+					if (sessionError) return this._returnResult({
+						data: null,
+						error: sessionError
+					});
+					const body = Object.assign({ challenge_id: params.challengeId }, "webauthn" in params ? { webauthn: Object.assign(Object.assign({}, params.webauthn), { credential_response: params.webauthn.type === "create" ? serializeCredentialCreationResponse(params.webauthn.credential_response) : serializeCredentialRequestResponse(params.webauthn.credential_response) }) } : { code: params.code });
+					const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/verify`, {
+						body,
+						headers: this.headers,
+						jwt: (_a$1 = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token
+					});
+					if (error) return this._returnResult({
+						data: null,
+						error
+					});
+					await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + data.expires_in }, data));
+					await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", data);
+					return this._returnResult({
+						data,
+						error
+					});
+				});
+			} catch (error) {
+				if (isAuthError(error)) return this._returnResult({
+					data: null,
+					error
+				});
+				throw error;
+			}
+		});
+	}
+	async _challenge(params) {
+		return this._acquireLock(this.lockAcquireTimeout, async () => {
+			try {
+				return await this._useSession(async (result) => {
+					var _a$1;
+					const { data: sessionData, error: sessionError } = result;
+					if (sessionError) return this._returnResult({
+						data: null,
+						error: sessionError
+					});
+					const response = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/challenge`, {
+						body: params,
+						headers: this.headers,
+						jwt: (_a$1 = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a$1 === void 0 ? void 0 : _a$1.access_token
+					});
+					if (response.error) return response;
+					const { data } = response;
+					if (data.type !== "webauthn") return {
+						data,
+						error: null
+					};
+					switch (data.webauthn.type) {
+						case "create": return {
+							data: Object.assign(Object.assign({}, data), { webauthn: Object.assign(Object.assign({}, data.webauthn), { credential_options: Object.assign(Object.assign({}, data.webauthn.credential_options), { publicKey: deserializeCredentialCreationOptions(data.webauthn.credential_options.publicKey) }) }) }),
+							error: null
+						};
+						case "request": return {
+							data: Object.assign(Object.assign({}, data), { webauthn: Object.assign(Object.assign({}, data.webauthn), { credential_options: Object.assign(Object.assign({}, data.webauthn.credential_options), { publicKey: deserializeCredentialRequestOptions(data.webauthn.credential_options.publicKey) }) }) }),
+							error: null
+						};
+					}
+				});
+			} catch (error) {
+				if (isAuthError(error)) return this._returnResult({
+					data: null,
+					error
+				});
+				throw error;
+			}
+		});
+	}
+	async _challengeAndVerify(params) {
+		const { data: challengeData, error: challengeError } = await this._challenge({ factorId: params.factorId });
+		if (challengeError) return this._returnResult({
+			data: null,
+			error: challengeError
+		});
+		return await this._verify({
+			factorId: params.factorId,
+			challengeId: challengeData.id,
+			code: params.code
+		});
+	}
+	async _listFactors() {
+		var _a$1;
+		const { data: { user }, error: userError } = await this.getUser();
+		if (userError) return {
+			data: null,
+			error: userError
+		};
+		const data = {
+			all: [],
+			phone: [],
+			totp: [],
+			webauthn: []
+		};
+		for (const factor of (_a$1 = user === null || user === void 0 ? void 0 : user.factors) !== null && _a$1 !== void 0 ? _a$1 : []) {
+			data.all.push(factor);
+			if (factor.status === "verified") data[factor.factor_type].push(factor);
+		}
+		return {
+			data,
+			error: null
+		};
+	}
+	async _getAuthenticatorAssuranceLevel(jwt) {
+		var _a$1, _b, _c, _d;
+		if (jwt) try {
+			const { payload: payload$1 } = decodeJWT(jwt);
+			let currentLevel$1 = null;
+			if (payload$1.aal) currentLevel$1 = payload$1.aal;
+			let nextLevel$1 = currentLevel$1;
+			const { data: { user }, error: userError } = await this.getUser(jwt);
+			if (userError) return this._returnResult({
+				data: null,
+				error: userError
+			});
+			if (((_b = (_a$1 = user === null || user === void 0 ? void 0 : user.factors) === null || _a$1 === void 0 ? void 0 : _a$1.filter((factor) => factor.status === "verified")) !== null && _b !== void 0 ? _b : []).length > 0) nextLevel$1 = "aal2";
+			const currentAuthenticationMethods$1 = payload$1.amr || [];
+			return {
+				data: {
+					currentLevel: currentLevel$1,
+					nextLevel: nextLevel$1,
+					currentAuthenticationMethods: currentAuthenticationMethods$1
+				},
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+		const { data: { session }, error: sessionError } = await this.getSession();
+		if (sessionError) return this._returnResult({
+			data: null,
+			error: sessionError
+		});
+		if (!session) return {
+			data: {
+				currentLevel: null,
+				nextLevel: null,
+				currentAuthenticationMethods: []
+			},
+			error: null
+		};
+		const { payload } = decodeJWT(session.access_token);
+		let currentLevel = null;
+		if (payload.aal) currentLevel = payload.aal;
+		let nextLevel = currentLevel;
+		if (((_d = (_c = session.user.factors) === null || _c === void 0 ? void 0 : _c.filter((factor) => factor.status === "verified")) !== null && _d !== void 0 ? _d : []).length > 0) nextLevel = "aal2";
+		const currentAuthenticationMethods = payload.amr || [];
+		return {
+			data: {
+				currentLevel,
+				nextLevel,
+				currentAuthenticationMethods
+			},
+			error: null
+		};
+	}
+	async _getAuthorizationDetails(authorizationId) {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: { session }, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				if (!session) return this._returnResult({
+					data: null,
+					error: new AuthSessionMissingError()
+				});
+				return await _request(this.fetch, "GET", `${this.url}/oauth/authorizations/${authorizationId}`, {
+					headers: this.headers,
+					jwt: session.access_token,
+					xform: (data) => ({
+						data,
+						error: null
+					})
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _approveAuthorization(authorizationId, options$1) {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: { session }, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				if (!session) return this._returnResult({
+					data: null,
+					error: new AuthSessionMissingError()
+				});
+				const response = await _request(this.fetch, "POST", `${this.url}/oauth/authorizations/${authorizationId}/consent`, {
+					headers: this.headers,
+					jwt: session.access_token,
+					body: { action: "approve" },
+					xform: (data) => ({
+						data,
+						error: null
+					})
+				});
+				if (response.data && response.data.redirect_url) {
+					if (isBrowser() && !(options$1 === null || options$1 === void 0 ? void 0 : options$1.skipBrowserRedirect)) window.location.assign(response.data.redirect_url);
+				}
+				return response;
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _denyAuthorization(authorizationId, options$1) {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: { session }, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				if (!session) return this._returnResult({
+					data: null,
+					error: new AuthSessionMissingError()
+				});
+				const response = await _request(this.fetch, "POST", `${this.url}/oauth/authorizations/${authorizationId}/consent`, {
+					headers: this.headers,
+					jwt: session.access_token,
+					body: { action: "deny" },
+					xform: (data) => ({
+						data,
+						error: null
+					})
+				});
+				if (response.data && response.data.redirect_url) {
+					if (isBrowser() && !(options$1 === null || options$1 === void 0 ? void 0 : options$1.skipBrowserRedirect)) window.location.assign(response.data.redirect_url);
+				}
+				return response;
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _listOAuthGrants() {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: { session }, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				if (!session) return this._returnResult({
+					data: null,
+					error: new AuthSessionMissingError()
+				});
+				return await _request(this.fetch, "GET", `${this.url}/user/oauth/grants`, {
+					headers: this.headers,
+					jwt: session.access_token,
+					xform: (data) => ({
+						data,
+						error: null
+					})
+				});
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async _revokeOAuthGrant(options$1) {
+		try {
+			return await this._useSession(async (result) => {
+				const { data: { session }, error: sessionError } = result;
+				if (sessionError) return this._returnResult({
+					data: null,
+					error: sessionError
+				});
+				if (!session) return this._returnResult({
+					data: null,
+					error: new AuthSessionMissingError()
+				});
+				await _request(this.fetch, "DELETE", `${this.url}/user/oauth/grants`, {
+					headers: this.headers,
+					jwt: session.access_token,
+					query: { client_id: options$1.clientId },
+					noResolveJson: true
+				});
+				return {
+					data: {},
+					error: null
+				};
+			});
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+	async fetchJwk(kid, jwks = { keys: [] }) {
+		let jwk = jwks.keys.find((key) => key.kid === kid);
+		if (jwk) return jwk;
+		const now = Date.now();
+		jwk = this.jwks.keys.find((key) => key.kid === kid);
+		if (jwk && this.jwks_cached_at + 6e5 > now) return jwk;
+		const { data, error } = await _request(this.fetch, "GET", `${this.url}/.well-known/jwks.json`, { headers: this.headers });
+		if (error) throw error;
+		if (!data.keys || data.keys.length === 0) return null;
+		this.jwks = data;
+		this.jwks_cached_at = now;
+		jwk = data.keys.find((key) => key.kid === kid);
+		if (!jwk) return null;
+		return jwk;
+	}
+	async getClaims(jwt, options$1 = {}) {
+		try {
+			let token = jwt;
+			if (!token) {
+				const { data, error } = await this.getSession();
+				if (error || !data.session) return this._returnResult({
+					data: null,
+					error
+				});
+				token = data.session.access_token;
+			}
+			const { header, payload, signature, raw: { header: rawHeader, payload: rawPayload } } = decodeJWT(token);
+			if (!(options$1 === null || options$1 === void 0 ? void 0 : options$1.allowExpired)) validateExp(payload.exp);
+			const signingKey = !header.alg || header.alg.startsWith("HS") || !header.kid || !("crypto" in globalThis && "subtle" in globalThis.crypto) ? null : await this.fetchJwk(header.kid, (options$1 === null || options$1 === void 0 ? void 0 : options$1.keys) ? { keys: options$1.keys } : options$1 === null || options$1 === void 0 ? void 0 : options$1.jwks);
+			if (!signingKey) {
+				const { error } = await this.getUser(token);
+				if (error) throw error;
+				return {
+					data: {
+						claims: payload,
+						header,
+						signature
+					},
+					error: null
+				};
+			}
+			const algorithm = getAlgorithm(header.alg);
+			const publicKey = await crypto.subtle.importKey("jwk", signingKey, algorithm, true, ["verify"]);
+			if (!await crypto.subtle.verify(algorithm, publicKey, signature, stringToUint8Array(`${rawHeader}.${rawPayload}`))) throw new AuthInvalidJwtError("Invalid JWT signature");
+			return {
+				data: {
+					claims: payload,
+					header,
+					signature
+				},
+				error: null
+			};
+		} catch (error) {
+			if (isAuthError(error)) return this._returnResult({
+				data: null,
+				error
+			});
+			throw error;
+		}
+	}
+};
+GoTrueClient.nextInstanceID = {};
+var AuthClient_default = GoTrueClient;
+var version$1 = "2.95.3";
+var JS_ENV = "";
+if (typeof Deno !== "undefined") JS_ENV = "deno";
+else if (typeof document !== "undefined") JS_ENV = "web";
+else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") JS_ENV = "react-native";
+else JS_ENV = "node";
+var DEFAULT_GLOBAL_OPTIONS = { headers: { "X-Client-Info": `supabase-js-${JS_ENV}/${version$1}` } };
+var DEFAULT_DB_OPTIONS = { schema: "public" };
+var DEFAULT_AUTH_OPTIONS = {
+	autoRefreshToken: true,
+	persistSession: true,
+	detectSessionInUrl: true,
+	flowType: "implicit"
+};
+var DEFAULT_REALTIME_OPTIONS = {};
+function _typeof(o$1) {
+	"@babel/helpers - typeof";
+	return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1$1) {
+		return typeof o$1$1;
+	} : function(o$1$1) {
+		return o$1$1 && "function" == typeof Symbol && o$1$1.constructor === Symbol && o$1$1 !== Symbol.prototype ? "symbol" : typeof o$1$1;
+	}, _typeof(o$1);
+}
+function toPrimitive(t$1, r$2) {
+	if ("object" != _typeof(t$1) || !t$1) return t$1;
+	var e = t$1[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i$2 = e.call(t$1, r$2 || "default");
+		if ("object" != _typeof(i$2)) return i$2;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r$2 ? String : Number)(t$1);
+}
+function toPropertyKey(t$1) {
+	var i$2 = toPrimitive(t$1, "string");
+	return "symbol" == _typeof(i$2) ? i$2 : i$2 + "";
+}
+function _defineProperty(e, r$2, t$1) {
+	return (r$2 = toPropertyKey(r$2)) in e ? Object.defineProperty(e, r$2, {
+		value: t$1,
+		enumerable: !0,
+		configurable: !0,
+		writable: !0
+	}) : e[r$2] = t$1, e;
+}
+function ownKeys(e, r$2) {
+	var t$1 = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o$1 = Object.getOwnPropertySymbols(e);
+		r$2 && (o$1 = o$1.filter(function(r$1$1) {
+			return Object.getOwnPropertyDescriptor(e, r$1$1).enumerable;
+		})), t$1.push.apply(t$1, o$1);
+	}
+	return t$1;
+}
+function _objectSpread2(e) {
+	for (var r$2 = 1; r$2 < arguments.length; r$2++) {
+		var t$1 = null != arguments[r$2] ? arguments[r$2] : {};
+		r$2 % 2 ? ownKeys(Object(t$1), !0).forEach(function(r$1$1) {
+			_defineProperty(e, r$1$1, t$1[r$1$1]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t$1)) : ownKeys(Object(t$1)).forEach(function(r$1$1) {
+			Object.defineProperty(e, r$1$1, Object.getOwnPropertyDescriptor(t$1, r$1$1));
+		});
+	}
+	return e;
+}
+var resolveFetch = (customFetch) => {
+	if (customFetch) return (...args) => customFetch(...args);
+	return (...args) => fetch(...args);
+};
+var resolveHeadersConstructor = () => {
+	return Headers;
+};
+var fetchWithAuth = (supabaseKey, getAccessToken, customFetch) => {
+	const fetch$1 = resolveFetch(customFetch);
+	const HeadersConstructor = resolveHeadersConstructor();
+	return async (input, init) => {
+		var _await$getAccessToken;
+		const accessToken = (_await$getAccessToken = await getAccessToken()) !== null && _await$getAccessToken !== void 0 ? _await$getAccessToken : supabaseKey;
+		let headers = new HeadersConstructor(init === null || init === void 0 ? void 0 : init.headers);
+		if (!headers.has("apikey")) headers.set("apikey", supabaseKey);
+		if (!headers.has("Authorization")) headers.set("Authorization", `Bearer ${accessToken}`);
+		return fetch$1(input, _objectSpread2(_objectSpread2({}, init), {}, { headers }));
+	};
+};
+function ensureTrailingSlash(url) {
+	return url.endsWith("/") ? url : url + "/";
+}
+function applySettingDefaults(options$1, defaults) {
+	var _DEFAULT_GLOBAL_OPTIO, _globalOptions$header;
+	const { db: dbOptions, auth: authOptions, realtime: realtimeOptions, global: globalOptions } = options$1;
+	const { db: DEFAULT_DB_OPTIONS$1, auth: DEFAULT_AUTH_OPTIONS$1, realtime: DEFAULT_REALTIME_OPTIONS$1, global: DEFAULT_GLOBAL_OPTIONS$1 } = defaults;
+	const result = {
+		db: _objectSpread2(_objectSpread2({}, DEFAULT_DB_OPTIONS$1), dbOptions),
+		auth: _objectSpread2(_objectSpread2({}, DEFAULT_AUTH_OPTIONS$1), authOptions),
+		realtime: _objectSpread2(_objectSpread2({}, DEFAULT_REALTIME_OPTIONS$1), realtimeOptions),
+		storage: {},
+		global: _objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_GLOBAL_OPTIONS$1), globalOptions), {}, { headers: _objectSpread2(_objectSpread2({}, (_DEFAULT_GLOBAL_OPTIO = DEFAULT_GLOBAL_OPTIONS$1 === null || DEFAULT_GLOBAL_OPTIONS$1 === void 0 ? void 0 : DEFAULT_GLOBAL_OPTIONS$1.headers) !== null && _DEFAULT_GLOBAL_OPTIO !== void 0 ? _DEFAULT_GLOBAL_OPTIO : {}), (_globalOptions$header = globalOptions === null || globalOptions === void 0 ? void 0 : globalOptions.headers) !== null && _globalOptions$header !== void 0 ? _globalOptions$header : {}) }),
+		accessToken: async () => ""
+	};
+	if (options$1.accessToken) result.accessToken = options$1.accessToken;
+	else delete result.accessToken;
+	return result;
+}
+function validateSupabaseUrl(supabaseUrl) {
+	const trimmedUrl = supabaseUrl === null || supabaseUrl === void 0 ? void 0 : supabaseUrl.trim();
+	if (!trimmedUrl) throw new Error("supabaseUrl is required.");
+	if (!trimmedUrl.match(/^https?:\/\//i)) throw new Error("Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.");
+	try {
+		return new URL(ensureTrailingSlash(trimmedUrl));
+	} catch (_unused) {
+		throw Error("Invalid supabaseUrl: Provided URL is malformed.");
+	}
+}
+var SupabaseAuthClient = class extends AuthClient_default {
+	constructor(options$1) {
+		super(options$1);
+	}
+};
+var SupabaseClient = class {
+	constructor(supabaseUrl, supabaseKey, options$1) {
+		var _settings$auth$storag, _settings$global$head;
+		this.supabaseUrl = supabaseUrl;
+		this.supabaseKey = supabaseKey;
+		const baseUrl = validateSupabaseUrl(supabaseUrl);
+		if (!supabaseKey) throw new Error("supabaseKey is required.");
+		this.realtimeUrl = new URL("realtime/v1", baseUrl);
+		this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws");
+		this.authUrl = new URL("auth/v1", baseUrl);
+		this.storageUrl = new URL("storage/v1", baseUrl);
+		this.functionsUrl = new URL("functions/v1", baseUrl);
+		const defaultStorageKey = `sb-${baseUrl.hostname.split(".")[0]}-auth-token`;
+		const DEFAULTS = {
+			db: DEFAULT_DB_OPTIONS,
+			realtime: DEFAULT_REALTIME_OPTIONS,
+			auth: _objectSpread2(_objectSpread2({}, DEFAULT_AUTH_OPTIONS), {}, { storageKey: defaultStorageKey }),
+			global: DEFAULT_GLOBAL_OPTIONS
+		};
+		const settings = applySettingDefaults(options$1 !== null && options$1 !== void 0 ? options$1 : {}, DEFAULTS);
+		this.storageKey = (_settings$auth$storag = settings.auth.storageKey) !== null && _settings$auth$storag !== void 0 ? _settings$auth$storag : "";
+		this.headers = (_settings$global$head = settings.global.headers) !== null && _settings$global$head !== void 0 ? _settings$global$head : {};
+		if (!settings.accessToken) {
+			var _settings$auth;
+			this.auth = this._initSupabaseAuthClient((_settings$auth = settings.auth) !== null && _settings$auth !== void 0 ? _settings$auth : {}, this.headers, settings.global.fetch);
+		} else {
+			this.accessToken = settings.accessToken;
+			this.auth = new Proxy({}, { get: (_$1, prop) => {
+				throw new Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(prop)} is not possible`);
+			} });
+		}
+		this.fetch = fetchWithAuth(supabaseKey, this._getAccessToken.bind(this), settings.global.fetch);
+		this.realtime = this._initRealtimeClient(_objectSpread2({
+			headers: this.headers,
+			accessToken: this._getAccessToken.bind(this)
+		}, settings.realtime));
+		if (this.accessToken) Promise.resolve(this.accessToken()).then((token) => this.realtime.setAuth(token)).catch((e) => console.warn("Failed to set initial Realtime auth token:", e));
+		this.rest = new PostgrestClient(new URL("rest/v1", baseUrl).href, {
+			headers: this.headers,
+			schema: settings.db.schema,
+			fetch: this.fetch,
+			timeout: settings.db.timeout,
+			urlLengthLimit: settings.db.urlLengthLimit
+		});
+		this.storage = new StorageClient(this.storageUrl.href, this.headers, this.fetch, options$1 === null || options$1 === void 0 ? void 0 : options$1.storage);
+		if (!settings.accessToken) this._listenForAuthEvents();
+	}
+	get functions() {
+		return new FunctionsClient(this.functionsUrl.href, {
+			headers: this.headers,
+			customFetch: this.fetch
+		});
+	}
+	from(relation) {
+		return this.rest.from(relation);
+	}
+	schema(schema) {
+		return this.rest.schema(schema);
+	}
+	rpc(fn, args = {}, options$1 = {
+		head: false,
+		get: false,
+		count: void 0
+	}) {
+		return this.rest.rpc(fn, args, options$1);
+	}
+	channel(name, opts = { config: {} }) {
+		return this.realtime.channel(name, opts);
+	}
+	getChannels() {
+		return this.realtime.getChannels();
+	}
+	removeChannel(channel) {
+		return this.realtime.removeChannel(channel);
+	}
+	removeAllChannels() {
+		return this.realtime.removeAllChannels();
+	}
+	async _getAccessToken() {
+		var _this = this;
+		var _data$session$access_, _data$session;
+		if (_this.accessToken) return await _this.accessToken();
+		const { data } = await _this.auth.getSession();
+		return (_data$session$access_ = (_data$session = data.session) === null || _data$session === void 0 ? void 0 : _data$session.access_token) !== null && _data$session$access_ !== void 0 ? _data$session$access_ : _this.supabaseKey;
+	}
+	_initSupabaseAuthClient({ autoRefreshToken, persistSession, detectSessionInUrl, storage, userStorage, storageKey, flowType, lock, debug, throwOnError }, headers, fetch$1) {
+		const authHeaders = {
+			Authorization: `Bearer ${this.supabaseKey}`,
+			apikey: `${this.supabaseKey}`
+		};
+		return new SupabaseAuthClient({
+			url: this.authUrl.href,
+			headers: _objectSpread2(_objectSpread2({}, authHeaders), headers),
+			storageKey,
+			autoRefreshToken,
+			persistSession,
+			detectSessionInUrl,
+			storage,
+			userStorage,
+			flowType,
+			lock,
+			debug,
+			throwOnError,
+			fetch: fetch$1,
+			hasCustomAuthorizationHeader: Object.keys(this.headers).some((key) => key.toLowerCase() === "authorization")
+		});
+	}
+	_initRealtimeClient(options$1) {
+		return new RealtimeClient(this.realtimeUrl.href, _objectSpread2(_objectSpread2({}, options$1), {}, { params: _objectSpread2(_objectSpread2({}, { apikey: this.supabaseKey }), options$1 === null || options$1 === void 0 ? void 0 : options$1.params) }));
+	}
+	_listenForAuthEvents() {
+		return this.auth.onAuthStateChange((event, session) => {
+			this._handleTokenChanged(event, "CLIENT", session === null || session === void 0 ? void 0 : session.access_token);
+		});
+	}
+	_handleTokenChanged(event, source, token) {
+		if ((event === "TOKEN_REFRESHED" || event === "SIGNED_IN") && this.changedAccessToken !== token) {
+			this.changedAccessToken = token;
+			this.realtime.setAuth(token);
+		} else if (event === "SIGNED_OUT") {
+			this.realtime.setAuth();
+			if (source == "STORAGE") this.auth.signOut();
+			this.changedAccessToken = void 0;
+		}
+	}
+};
+var createClient = (supabaseUrl, supabaseKey, options$1) => {
+	return new SupabaseClient(supabaseUrl, supabaseKey, options$1);
+};
+function shouldShowDeprecationWarning() {
+	if (typeof window !== "undefined") return false;
+	const _process = globalThis["process"];
+	if (!_process) return false;
+	const processVersion = _process["version"];
+	if (processVersion === void 0 || processVersion === null) return false;
+	const versionMatch = processVersion.match(/^v(\d+)\./);
+	if (!versionMatch) return false;
+	return parseInt(versionMatch[1], 10) <= 18;
+}
+if (shouldShowDeprecationWarning()) console.warn("⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217");
+const supabase = createClient("https://aqmsvswynbtyweeqswyt.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxbXN2c3d5bmJ0eXdlZXFzd3l0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMTg3NDYsImV4cCI6MjA4NTg5NDc0Nn0.1nzL4SUlB1Kf-VVJkwk6Ulfx3UXUGYN-SLZFRwaxZIY", { auth: {
+	storage: localStorage,
+	persistSession: true,
+	autoRefreshToken: true
+} });
+var AuthContext = (0, import_react.createContext)(void 0);
+const useAuth = () => {
+	const context = (0, import_react.useContext)(AuthContext);
+	if (context === void 0) throw new Error("useAuth must be used within an AuthProvider");
+	return context;
+};
+const AuthProvider = ({ children }) => {
+	const [user, setUser] = (0, import_react.useState)(null);
+	const [session, setSession] = (0, import_react.useState)(null);
+	const [loading, setLoading] = (0, import_react.useState)(true);
+	(0, import_react.useEffect)(() => {
+		const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session$1) => {
+			setSession(session$1);
+			setUser(session$1?.user ?? null);
+			setLoading(false);
+		});
+		supabase.auth.getSession().then(({ data: { session: session$1 } }) => {
+			setSession(session$1);
+			setUser(session$1?.user ?? null);
+			setLoading(false);
+		});
+		return () => subscription.unsubscribe();
+	}, []);
+	const signInWithEmail = async (email$1) => {
+		const redirectUrl = window.location.origin + "/upload";
+		const { error } = await supabase.auth.signInWithOtp({
+			email: email$1,
+			options: { emailRedirectTo: redirectUrl }
+		});
+		return { error };
+	};
+	const signOut = async () => {
+		const { error } = await supabase.auth.signOut();
+		return { error };
+	};
+	const value = {
+		user,
+		session,
+		signInWithEmail,
+		signOut,
+		loading
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthContext.Provider, {
+		value,
+		children
+	});
+};
+const parseCSV = async (file) => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			try {
+				const text = event.target?.result;
+				if (!text) {
+					resolve([]);
+					return;
+				}
+				const lines = text.split(/\r\n|\n/);
+				const headers = lines[0].split(/[;,]/).map((h) => h.trim().toLowerCase().replace(/^"|"$/g, ""));
+				const nameIndex = headers.findIndex((h) => h === "nome" || h === "name");
+				const phoneIndex = headers.findIndex((h) => h === "telefone" || h === "phone" || h === "celular");
+				const messageIndex = headers.findIndex((h) => h === "mensagem" || h === "message");
+				if (nameIndex === -1 || phoneIndex === -1 || messageIndex === -1) {
+					reject(/* @__PURE__ */ new Error("Colunas obrigatórias não encontradas. O arquivo deve conter: Nome, Telefone, Mensagem"));
+					return;
+				}
+				const contacts = [];
+				for (let i$2 = 1; i$2 < lines.length; i$2++) {
+					const line = lines[i$2].trim();
+					if (!line) continue;
+					const row = [];
+					let inQuotes = false;
+					let currentValue = "";
+					for (let j = 0; j < line.length; j++) {
+						const char = line[j];
+						if (char === "\"") inQuotes = !inQuotes;
+						else if ((char === "," || char === ";") && !inQuotes) {
+							row.push(currentValue.trim().replace(/^"|"$/g, ""));
+							currentValue = "";
+						} else currentValue += char;
+					}
+					row.push(currentValue.trim().replace(/^"|"$/g, ""));
+					if (row.length > Math.max(nameIndex, phoneIndex, messageIndex)) contacts.push({
+						name: row[nameIndex],
+						phone: row[phoneIndex],
+						message: row[messageIndex]
+					});
+				}
+				resolve(contacts);
+			} catch (error) {
+				reject(error);
+			}
+		};
+		reader.onerror = () => reject(/* @__PURE__ */ new Error("Erro ao ler o arquivo"));
+		reader.readAsText(file);
+	});
+};
+const contactsService = {
+	async getAll() {
+		const { data, error } = await supabase.from("contacts").select("*").order("created_at", { ascending: false });
+		if (error) throw error;
+		return data;
+	},
+	async create(contact) {
+		const { data: { user } } = await supabase.auth.getUser();
+		if (!user) throw new Error("User not authenticated");
+		const { data, error } = await supabase.from("contacts").insert({
+			...contact,
+			user_id: user.id
+		}).select().single();
+		if (error) throw error;
+		return data;
+	},
+	async createBulk(contacts) {
+		const { data: { user } } = await supabase.auth.getUser();
+		if (!user) throw new Error("User not authenticated");
+		const contactsWithUser = contacts.map((c) => ({
+			...c,
+			user_id: user.id
+		}));
+		const chunkSize = 100;
+		const errors = [];
+		for (let i$2 = 0; i$2 < contactsWithUser.length; i$2 += chunkSize) {
+			const chunk = contactsWithUser.slice(i$2, i$2 + chunkSize);
+			const { error } = await supabase.from("contacts").insert(chunk);
+			if (error) errors.push(error);
+		}
+		if (errors.length > 0) throw errors[0];
+		return true;
+	},
+	async update(id, updates) {
+		const { data, error } = await supabase.from("contacts").update(updates).eq("id", id).select().single();
+		if (error) throw error;
+		return data;
+	},
+	async delete(id) {
+		const { error } = await supabase.from("contacts").delete().eq("id", id);
+		if (error) throw error;
+		return true;
+	},
+	async deleteBulk(ids) {
+		const { error } = await supabase.from("contacts").delete().in("id", ids);
+		if (error) throw error;
+		return true;
+	}
+};
+function usePrevious(value) {
+	const ref = import_react.useRef({
+		value,
+		previous: value
+	});
+	return import_react.useMemo(() => {
+		if (ref.current.value !== value) {
+			ref.current.previous = ref.current.value;
+			ref.current.value = value;
+		}
+		return ref.current.previous;
+	}, [value]);
+}
+var CHECKBOX_NAME = "Checkbox";
+var [createCheckboxContext, createCheckboxScope] = createContextScope(CHECKBOX_NAME);
+var [CheckboxProviderImpl, useCheckboxContext] = createCheckboxContext(CHECKBOX_NAME);
+function CheckboxProvider(props) {
+	const { __scopeCheckbox, checked: checkedProp, children, defaultChecked, disabled, form, name, onCheckedChange, required: required$1, value = "on", internal_do_not_use_render } = props;
+	const [checked, setChecked] = useControllableState({
+		prop: checkedProp,
+		defaultProp: defaultChecked ?? false,
+		onChange: onCheckedChange,
+		caller: CHECKBOX_NAME
+	});
+	const [control, setControl] = import_react.useState(null);
+	const [bubbleInput, setBubbleInput] = import_react.useState(null);
+	const hasConsumerStoppedPropagationRef = import_react.useRef(false);
+	const isFormControl = control ? !!form || !!control.closest("form") : true;
+	const context = {
+		checked,
+		disabled,
+		setChecked,
+		control,
+		setControl,
+		name,
+		form,
+		value,
+		hasConsumerStoppedPropagationRef,
+		required: required$1,
+		defaultChecked: isIndeterminate(defaultChecked) ? false : defaultChecked,
+		isFormControl,
+		bubbleInput,
+		setBubbleInput
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CheckboxProviderImpl, {
+		scope: __scopeCheckbox,
+		...context,
+		children: isFunction$1(internal_do_not_use_render) ? internal_do_not_use_render(context) : children
+	});
+}
+var TRIGGER_NAME$2 = "CheckboxTrigger";
+var CheckboxTrigger = import_react.forwardRef(({ __scopeCheckbox, onKeyDown, onClick, ...checkboxProps }, forwardedRef) => {
+	const { control, value, disabled, checked, required: required$1, setControl, setChecked, hasConsumerStoppedPropagationRef, isFormControl, bubbleInput } = useCheckboxContext(TRIGGER_NAME$2, __scopeCheckbox);
+	const composedRefs = useComposedRefs(forwardedRef, setControl);
+	const initialCheckedStateRef = import_react.useRef(checked);
+	import_react.useEffect(() => {
+		const form = control?.form;
+		if (form) {
+			const reset = () => setChecked(initialCheckedStateRef.current);
+			form.addEventListener("reset", reset);
+			return () => form.removeEventListener("reset", reset);
+		}
+	}, [control, setChecked]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.button, {
+		type: "button",
+		role: "checkbox",
+		"aria-checked": isIndeterminate(checked) ? "mixed" : checked,
+		"aria-required": required$1,
+		"data-state": getState$1(checked),
+		"data-disabled": disabled ? "" : void 0,
+		disabled,
+		value,
+		...checkboxProps,
+		ref: composedRefs,
+		onKeyDown: composeEventHandlers(onKeyDown, (event) => {
+			if (event.key === "Enter") event.preventDefault();
+		}),
+		onClick: composeEventHandlers(onClick, (event) => {
+			setChecked((prevChecked) => isIndeterminate(prevChecked) ? true : !prevChecked);
+			if (bubbleInput && isFormControl) {
+				hasConsumerStoppedPropagationRef.current = event.isPropagationStopped();
+				if (!hasConsumerStoppedPropagationRef.current) event.stopPropagation();
+			}
+		})
+	});
+});
+CheckboxTrigger.displayName = TRIGGER_NAME$2;
+var Checkbox$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeCheckbox, name, checked, defaultChecked, required: required$1, disabled, value, onCheckedChange, form, ...checkboxProps } = props;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CheckboxProvider, {
+		__scopeCheckbox,
+		checked,
+		defaultChecked,
+		disabled,
+		required: required$1,
+		onCheckedChange,
+		name,
+		form,
+		value,
+		internal_do_not_use_render: ({ isFormControl }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CheckboxTrigger, {
+			...checkboxProps,
+			ref: forwardedRef,
+			__scopeCheckbox
+		}), isFormControl && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CheckboxBubbleInput, { __scopeCheckbox })] })
+	});
+});
+Checkbox$1.displayName = CHECKBOX_NAME;
+var INDICATOR_NAME = "CheckboxIndicator";
+var CheckboxIndicator = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeCheckbox, forceMount, ...indicatorProps } = props;
+	const context = useCheckboxContext(INDICATOR_NAME, __scopeCheckbox);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || isIndeterminate(context.checked) || context.checked === true,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.span, {
+			"data-state": getState$1(context.checked),
+			"data-disabled": context.disabled ? "" : void 0,
+			...indicatorProps,
+			ref: forwardedRef,
+			style: {
+				pointerEvents: "none",
+				...props.style
+			}
+		})
+	});
+});
+CheckboxIndicator.displayName = INDICATOR_NAME;
+var BUBBLE_INPUT_NAME = "CheckboxBubbleInput";
+var CheckboxBubbleInput = import_react.forwardRef(({ __scopeCheckbox, ...props }, forwardedRef) => {
+	const { control, hasConsumerStoppedPropagationRef, checked, defaultChecked, required: required$1, disabled, name, value, form, bubbleInput, setBubbleInput } = useCheckboxContext(BUBBLE_INPUT_NAME, __scopeCheckbox);
+	const composedRefs = useComposedRefs(forwardedRef, setBubbleInput);
+	const prevChecked = usePrevious(checked);
+	const controlSize = useSize(control);
+	import_react.useEffect(() => {
+		const input = bubbleInput;
+		if (!input) return;
+		const inputProto = window.HTMLInputElement.prototype;
+		const setChecked = Object.getOwnPropertyDescriptor(inputProto, "checked").set;
+		const bubbles = !hasConsumerStoppedPropagationRef.current;
+		if (prevChecked !== checked && setChecked) {
+			const event = new Event("click", { bubbles });
+			input.indeterminate = isIndeterminate(checked);
+			setChecked.call(input, isIndeterminate(checked) ? false : checked);
+			input.dispatchEvent(event);
+		}
+	}, [
+		bubbleInput,
+		prevChecked,
+		checked,
+		hasConsumerStoppedPropagationRef
+	]);
+	const defaultCheckedRef = import_react.useRef(isIndeterminate(checked) ? false : checked);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.input, {
+		type: "checkbox",
+		"aria-hidden": true,
+		defaultChecked: defaultChecked ?? defaultCheckedRef.current,
+		required: required$1,
+		disabled,
+		name,
+		value,
+		form,
+		...props,
+		tabIndex: -1,
+		ref: composedRefs,
+		style: {
+			...props.style,
+			...controlSize,
+			position: "absolute",
+			pointerEvents: "none",
+			opacity: 0,
+			margin: 0,
+			transform: "translateX(-100%)"
+		}
+	});
+});
+CheckboxBubbleInput.displayName = BUBBLE_INPUT_NAME;
+function isFunction$1(value) {
+	return typeof value === "function";
+}
+function isIndeterminate(checked) {
+	return checked === "indeterminate";
+}
+function getState$1(checked) {
+	return isIndeterminate(checked) ? "indeterminate" : checked ? "checked" : "unchecked";
+}
+var Checkbox = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox$1, {
+	ref,
+	className: cn("peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground", className),
+	...props,
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CheckboxIndicator, {
+		className: cn("flex items-center justify-center text-current"),
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "h-4 w-4" })
+	})
+}));
+Checkbox.displayName = Checkbox$1.displayName;
+var isCheckBoxInput = (element) => element.type === "checkbox";
+var isDateObject = (value) => value instanceof Date;
+var isNullOrUndefined = (value) => value == null;
+var isObjectType = (value) => typeof value === "object";
+var isObject$1 = (value) => !isNullOrUndefined(value) && !Array.isArray(value) && isObjectType(value) && !isDateObject(value);
+var getEventValue = (event) => isObject$1(event) && event.target ? isCheckBoxInput(event.target) ? event.target.checked : event.target.value : event;
+var getNodeParentName = (name) => name.substring(0, name.search(/\.\d+(\.|$)/)) || name;
+var isNameInFieldArray = (names, name) => names.has(getNodeParentName(name));
+var isPlainObject$1 = (tempObject) => {
+	const prototypeCopy = tempObject.constructor && tempObject.constructor.prototype;
+	return isObject$1(prototypeCopy) && prototypeCopy.hasOwnProperty("isPrototypeOf");
+};
+var isWeb = typeof window !== "undefined" && typeof window.HTMLElement !== "undefined" && typeof document !== "undefined";
+function cloneObject(data) {
+	if (data instanceof Date) return new Date(data);
+	const isFileListInstance = typeof FileList !== "undefined" && data instanceof FileList;
+	if (isWeb && (data instanceof Blob || isFileListInstance)) return data;
+	const isArray = Array.isArray(data);
+	if (!isArray && !(isObject$1(data) && isPlainObject$1(data))) return data;
+	const copy = isArray ? [] : Object.create(Object.getPrototypeOf(data));
+	for (const key in data) if (Object.prototype.hasOwnProperty.call(data, key)) copy[key] = cloneObject(data[key]);
+	return copy;
+}
+var isKey = (value) => /^\w*$/.test(value);
+var isUndefined = (val) => val === void 0;
+var compact = (value) => Array.isArray(value) ? value.filter(Boolean) : [];
+var stringToPath = (input) => compact(input.replace(/["|']|\]/g, "").split(/\.|\[/));
+var get = (object$1, path, defaultValue) => {
+	if (!path || !isObject$1(object$1)) return defaultValue;
+	const result = (isKey(path) ? [path] : stringToPath(path)).reduce((result$1, key) => isNullOrUndefined(result$1) ? result$1 : result$1[key], object$1);
+	return isUndefined(result) || result === object$1 ? isUndefined(object$1[path]) ? defaultValue : object$1[path] : result;
+};
+var isBoolean = (value) => typeof value === "boolean";
+var isFunction = (value) => typeof value === "function";
+var set = (object$1, path, value) => {
+	let index$1 = -1;
+	const tempPath = isKey(path) ? [path] : stringToPath(path);
+	const length = tempPath.length;
+	const lastIndex = length - 1;
+	while (++index$1 < length) {
+		const key = tempPath[index$1];
+		let newValue = value;
+		if (index$1 !== lastIndex) {
+			const objValue = object$1[key];
+			newValue = isObject$1(objValue) || Array.isArray(objValue) ? objValue : !isNaN(+tempPath[index$1 + 1]) ? [] : {};
+		}
+		if (key === "__proto__" || key === "constructor" || key === "prototype") return;
+		object$1[key] = newValue;
+		object$1 = object$1[key];
+	}
+};
+var EVENTS = {
+	BLUR: "blur",
+	FOCUS_OUT: "focusout",
+	CHANGE: "change"
+};
+var VALIDATION_MODE = {
+	onBlur: "onBlur",
+	onChange: "onChange",
+	onSubmit: "onSubmit",
+	onTouched: "onTouched",
+	all: "all"
+};
+var INPUT_VALIDATION_RULES = {
+	max: "max",
+	min: "min",
+	maxLength: "maxLength",
+	minLength: "minLength",
+	pattern: "pattern",
+	required: "required",
+	validate: "validate"
+};
+var HookFormControlContext = import_react.createContext(null);
+HookFormControlContext.displayName = "HookFormControlContext";
+var useFormControlContext = () => import_react.useContext(HookFormControlContext);
+var getProxyFormState = (formState, control, localProxyFormState, isRoot = true) => {
+	const result = { defaultValues: control._defaultValues };
+	for (const key in formState) Object.defineProperty(result, key, { get: () => {
+		const _key = key;
+		if (control._proxyFormState[_key] !== VALIDATION_MODE.all) control._proxyFormState[_key] = !isRoot || VALIDATION_MODE.all;
+		localProxyFormState && (localProxyFormState[_key] = true);
+		return formState[_key];
+	} });
+	return result;
+};
+var useIsomorphicLayoutEffect$1 = typeof window !== "undefined" ? import_react.useLayoutEffect : import_react.useEffect;
+function useFormState(props) {
+	const formControl = useFormControlContext();
+	const { control = formControl, disabled, name, exact } = props || {};
+	const [formState, updateFormState] = import_react.useState(control._formState);
+	const _localProxyFormState = import_react.useRef({
+		isDirty: false,
+		isLoading: false,
+		dirtyFields: false,
+		touchedFields: false,
+		validatingFields: false,
+		isValidating: false,
+		isValid: false,
+		errors: false
+	});
+	useIsomorphicLayoutEffect$1(() => control._subscribe({
+		name,
+		formState: _localProxyFormState.current,
+		exact,
+		callback: (formState$1) => {
+			!disabled && updateFormState({
+				...control._formState,
+				...formState$1
+			});
+		}
+	}), [
+		name,
+		disabled,
+		exact
+	]);
+	import_react.useEffect(() => {
+		_localProxyFormState.current.isValid && control._setValid(true);
+	}, [control]);
+	return import_react.useMemo(() => getProxyFormState(formState, control, _localProxyFormState.current, false), [formState, control]);
+}
+var isString = (value) => typeof value === "string";
+var generateWatchOutput = (names, _names, formValues, isGlobal, defaultValue) => {
+	if (isString(names)) {
+		isGlobal && _names.watch.add(names);
+		return get(formValues, names, defaultValue);
+	}
+	if (Array.isArray(names)) return names.map((fieldName) => (isGlobal && _names.watch.add(fieldName), get(formValues, fieldName)));
+	isGlobal && (_names.watchAll = true);
+	return formValues;
+};
+var isPrimitive = (value) => isNullOrUndefined(value) || !isObjectType(value);
+function deepEqual(object1, object2, _internal_visited = /* @__PURE__ */ new WeakSet()) {
+	if (isPrimitive(object1) || isPrimitive(object2)) return Object.is(object1, object2);
+	if (isDateObject(object1) && isDateObject(object2)) return Object.is(object1.getTime(), object2.getTime());
+	const keys1 = Object.keys(object1);
+	const keys2 = Object.keys(object2);
+	if (keys1.length !== keys2.length) return false;
+	if (_internal_visited.has(object1) || _internal_visited.has(object2)) return true;
+	_internal_visited.add(object1);
+	_internal_visited.add(object2);
+	for (const key of keys1) {
+		const val1 = object1[key];
+		if (!keys2.includes(key)) return false;
+		if (key !== "ref") {
+			const val2 = object2[key];
+			if (isDateObject(val1) && isDateObject(val2) || isObject$1(val1) && isObject$1(val2) || Array.isArray(val1) && Array.isArray(val2) ? !deepEqual(val1, val2, _internal_visited) : !Object.is(val1, val2)) return false;
+		}
+	}
+	return true;
+}
+function useWatch(props) {
+	const formControl = useFormControlContext();
+	const { control = formControl, name, defaultValue, disabled, exact, compute } = props || {};
+	const _defaultValue = import_react.useRef(defaultValue);
+	const _compute = import_react.useRef(compute);
+	const _computeFormValues = import_react.useRef(void 0);
+	const _prevControl = import_react.useRef(control);
+	const _prevName = import_react.useRef(name);
+	_compute.current = compute;
+	const [value, updateValue] = import_react.useState(() => {
+		const defaultValue$1 = control._getWatch(name, _defaultValue.current);
+		return _compute.current ? _compute.current(defaultValue$1) : defaultValue$1;
+	});
+	const getCurrentOutput = import_react.useCallback((values) => {
+		const formValues = generateWatchOutput(name, control._names, values || control._formValues, false, _defaultValue.current);
+		return _compute.current ? _compute.current(formValues) : formValues;
+	}, [
+		control._formValues,
+		control._names,
+		name
+	]);
+	const refreshValue = import_react.useCallback((values) => {
+		if (!disabled) {
+			const formValues = generateWatchOutput(name, control._names, values || control._formValues, false, _defaultValue.current);
+			if (_compute.current) {
+				const computedFormValues = _compute.current(formValues);
+				if (!deepEqual(computedFormValues, _computeFormValues.current)) {
+					updateValue(computedFormValues);
+					_computeFormValues.current = computedFormValues;
+				}
+			} else updateValue(formValues);
+		}
+	}, [
+		control._formValues,
+		control._names,
+		disabled,
+		name
+	]);
+	useIsomorphicLayoutEffect$1(() => {
+		if (_prevControl.current !== control || !deepEqual(_prevName.current, name)) {
+			_prevControl.current = control;
+			_prevName.current = name;
+			refreshValue();
+		}
+		return control._subscribe({
+			name,
+			formState: { values: true },
+			exact,
+			callback: (formState) => {
+				refreshValue(formState.values);
+			}
+		});
+	}, [
+		control,
+		exact,
+		name,
+		refreshValue
+	]);
+	import_react.useEffect(() => control._removeUnmounted());
+	const controlChanged = _prevControl.current !== control;
+	const prevName = _prevName.current;
+	const computedOutput = import_react.useMemo(() => {
+		if (disabled) return null;
+		const nameChanged = !controlChanged && !deepEqual(prevName, name);
+		return controlChanged || nameChanged ? getCurrentOutput() : null;
+	}, [
+		disabled,
+		controlChanged,
+		name,
+		prevName,
+		getCurrentOutput
+	]);
+	return computedOutput !== null ? computedOutput : value;
+}
+function useController(props) {
+	const formControl = useFormControlContext();
+	const { name, disabled, control = formControl, shouldUnregister, defaultValue, exact = true } = props;
+	const isArrayField = isNameInFieldArray(control._names.array, name);
+	const value = useWatch({
+		control,
+		name,
+		defaultValue: import_react.useMemo(() => get(control._formValues, name, get(control._defaultValues, name, defaultValue)), [
+			control,
+			name,
+			defaultValue
+		]),
+		exact
+	});
+	const formState = useFormState({
+		control,
+		name,
+		exact
+	});
+	const _props = import_react.useRef(props);
+	const _previousNameRef = import_react.useRef(void 0);
+	const _registerProps = import_react.useRef(control.register(name, {
+		...props.rules,
+		value,
+		...isBoolean(props.disabled) ? { disabled: props.disabled } : {}
+	}));
+	_props.current = props;
+	const fieldState = import_react.useMemo(() => Object.defineProperties({}, {
+		invalid: {
+			enumerable: true,
+			get: () => !!get(formState.errors, name)
+		},
+		isDirty: {
+			enumerable: true,
+			get: () => !!get(formState.dirtyFields, name)
+		},
+		isTouched: {
+			enumerable: true,
+			get: () => !!get(formState.touchedFields, name)
+		},
+		isValidating: {
+			enumerable: true,
+			get: () => !!get(formState.validatingFields, name)
+		},
+		error: {
+			enumerable: true,
+			get: () => get(formState.errors, name)
+		}
+	}), [formState, name]);
+	const onChange = import_react.useCallback((event) => _registerProps.current.onChange({
+		target: {
+			value: getEventValue(event),
+			name
+		},
+		type: EVENTS.CHANGE
+	}), [name]);
+	const onBlur = import_react.useCallback(() => _registerProps.current.onBlur({
+		target: {
+			value: get(control._formValues, name),
+			name
+		},
+		type: EVENTS.BLUR
+	}), [name, control._formValues]);
+	const ref = import_react.useCallback((elm) => {
+		const field$1 = get(control._fields, name);
+		if (field$1 && field$1._f && elm) field$1._f.ref = {
+			focus: () => isFunction(elm.focus) && elm.focus(),
+			select: () => isFunction(elm.select) && elm.select(),
+			setCustomValidity: (message) => isFunction(elm.setCustomValidity) && elm.setCustomValidity(message),
+			reportValidity: () => isFunction(elm.reportValidity) && elm.reportValidity()
+		};
+	}, [control._fields, name]);
+	const field = import_react.useMemo(() => ({
+		name,
+		value,
+		...isBoolean(disabled) || formState.disabled ? { disabled: formState.disabled || disabled } : {},
+		onChange,
+		onBlur,
+		ref
+	}), [
+		name,
+		disabled,
+		formState.disabled,
+		onChange,
+		onBlur,
+		ref,
+		value
+	]);
+	import_react.useEffect(() => {
+		const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
+		const previousName = _previousNameRef.current;
+		if (previousName && previousName !== name && !isArrayField) control.unregister(previousName);
+		control.register(name, {
+			..._props.current.rules,
+			...isBoolean(_props.current.disabled) ? { disabled: _props.current.disabled } : {}
+		});
+		const updateMounted = (name$1, value$1) => {
+			const field$1 = get(control._fields, name$1);
+			if (field$1 && field$1._f) field$1._f.mount = value$1;
+		};
+		updateMounted(name, true);
+		if (_shouldUnregisterField) {
+			const value$1 = cloneObject(get(control._options.defaultValues, name, _props.current.defaultValue));
+			set(control._defaultValues, name, value$1);
+			if (isUndefined(get(control._formValues, name))) set(control._formValues, name, value$1);
+		}
+		!isArrayField && control.register(name);
+		_previousNameRef.current = name;
+		return () => {
+			(isArrayField ? _shouldUnregisterField && !control._state.action : _shouldUnregisterField) ? control.unregister(name) : updateMounted(name, false);
+		};
+	}, [
+		name,
+		control,
+		isArrayField,
+		shouldUnregister
+	]);
+	import_react.useEffect(() => {
+		control._setDisabledField({
+			disabled,
+			name
+		});
+	}, [
+		disabled,
+		name,
+		control
+	]);
+	return import_react.useMemo(() => ({
+		field,
+		formState,
+		fieldState
+	}), [
+		field,
+		formState,
+		fieldState
+	]);
+}
+var Controller = (props) => props.render(useController(props));
+var HookFormContext = import_react.createContext(null);
+HookFormContext.displayName = "HookFormContext";
+var useFormContext = () => import_react.useContext(HookFormContext);
+var FormProvider = (props) => {
+	const { children, watch, getValues, getFieldState, setError, clearErrors, setValue, trigger, formState, resetField, reset, handleSubmit, unregister, control, register, setFocus, subscribe } = props;
+	return import_react.createElement(HookFormContext.Provider, { value: import_react.useMemo(() => ({
+		watch,
+		getValues,
+		getFieldState,
+		setError,
+		clearErrors,
+		setValue,
+		trigger,
+		formState,
+		resetField,
+		reset,
+		handleSubmit,
+		unregister,
+		control,
+		register,
+		setFocus,
+		subscribe
+	}), [
+		clearErrors,
+		control,
+		formState,
+		getFieldState,
+		getValues,
+		handleSubmit,
+		register,
+		reset,
+		resetField,
+		setError,
+		setFocus,
+		setValue,
+		subscribe,
+		trigger,
+		unregister,
+		watch
+	]) }, import_react.createElement(HookFormControlContext.Provider, { value: control }, children));
+};
+var appendErrors = (name, validateAllFieldCriteria, errors, type, message) => validateAllFieldCriteria ? {
+	...errors[name],
+	types: {
+		...errors[name] && errors[name].types ? errors[name].types : {},
+		[type]: message || true
+	}
+} : {};
+var convertToArrayPayload = (value) => Array.isArray(value) ? value : [value];
+var createSubject = () => {
+	let _observers = [];
+	const next = (value) => {
+		for (const observer of _observers) observer.next && observer.next(value);
+	};
+	const subscribe = (observer) => {
+		_observers.push(observer);
+		return { unsubscribe: () => {
+			_observers = _observers.filter((o$1) => o$1 !== observer);
+		} };
+	};
+	const unsubscribe = () => {
+		_observers = [];
+	};
+	return {
+		get observers() {
+			return _observers;
+		},
+		next,
+		subscribe,
+		unsubscribe
+	};
+};
+function extractFormValues(fieldsState, formValues) {
+	const values = {};
+	for (const key in fieldsState) if (fieldsState.hasOwnProperty(key)) {
+		const fieldState = fieldsState[key];
+		const fieldValue = formValues[key];
+		if (fieldState && isObject$1(fieldState) && fieldValue) {
+			const nestedFieldsState = extractFormValues(fieldState, fieldValue);
+			if (isObject$1(nestedFieldsState)) values[key] = nestedFieldsState;
+		} else if (fieldsState[key]) values[key] = fieldValue;
+	}
+	return values;
+}
+var isEmptyObject = (value) => isObject$1(value) && !Object.keys(value).length;
+var isFileInput = (element) => element.type === "file";
+var isHTMLElement = (value) => {
+	if (!isWeb) return false;
+	const owner = value ? value.ownerDocument : 0;
+	return value instanceof (owner && owner.defaultView ? owner.defaultView.HTMLElement : HTMLElement);
+};
+var isMultipleSelect = (element) => element.type === `select-multiple`;
+var isRadioInput = (element) => element.type === "radio";
+var isRadioOrCheckbox = (ref) => isRadioInput(ref) || isCheckBoxInput(ref);
+var live = (ref) => isHTMLElement(ref) && ref.isConnected;
+function baseGet(object$1, updatePath) {
+	const length = updatePath.slice(0, -1).length;
+	let index$1 = 0;
+	while (index$1 < length) object$1 = isUndefined(object$1) ? index$1++ : object$1[updatePath[index$1++]];
+	return object$1;
+}
+function isEmptyArray(obj) {
+	for (const key in obj) if (obj.hasOwnProperty(key) && !isUndefined(obj[key])) return false;
+	return true;
+}
+function unset(object$1, path) {
+	const paths = Array.isArray(path) ? path : isKey(path) ? [path] : stringToPath(path);
+	const childObject = paths.length === 1 ? object$1 : baseGet(object$1, paths);
+	const index$1 = paths.length - 1;
+	const key = paths[index$1];
+	if (childObject) delete childObject[key];
+	if (index$1 !== 0 && (isObject$1(childObject) && isEmptyObject(childObject) || Array.isArray(childObject) && isEmptyArray(childObject))) unset(object$1, paths.slice(0, -1));
+	return object$1;
+}
+var objectHasFunction = (data) => {
+	for (const key in data) if (isFunction(data[key])) return true;
+	return false;
+};
+function isTraversable(value) {
+	return Array.isArray(value) || isObject$1(value) && !objectHasFunction(value);
+}
+function markFieldsDirty(data, fields = {}) {
+	for (const key in data) {
+		const value = data[key];
+		if (isTraversable(value)) {
+			fields[key] = Array.isArray(value) ? [] : {};
+			markFieldsDirty(value, fields[key]);
+		} else if (!isUndefined(value)) fields[key] = true;
+	}
+	return fields;
+}
+function getDirtyFields(data, formValues, dirtyFieldsFromValues) {
+	if (!dirtyFieldsFromValues) dirtyFieldsFromValues = markFieldsDirty(formValues);
+	for (const key in data) {
+		const value = data[key];
+		if (isTraversable(value)) if (isUndefined(formValues) || isPrimitive(dirtyFieldsFromValues[key])) dirtyFieldsFromValues[key] = markFieldsDirty(value, Array.isArray(value) ? [] : {});
+		else getDirtyFields(value, isNullOrUndefined(formValues) ? {} : formValues[key], dirtyFieldsFromValues[key]);
+		else {
+			const formValue = formValues[key];
+			dirtyFieldsFromValues[key] = !deepEqual(value, formValue);
+		}
+	}
+	return dirtyFieldsFromValues;
+}
+var defaultResult = {
+	value: false,
+	isValid: false
+};
+var validResult = {
+	value: true,
+	isValid: true
+};
+var getCheckboxValue = (options$1) => {
+	if (Array.isArray(options$1)) {
+		if (options$1.length > 1) {
+			const values = options$1.filter((option) => option && option.checked && !option.disabled).map((option) => option.value);
+			return {
+				value: values,
+				isValid: !!values.length
+			};
+		}
+		return options$1[0].checked && !options$1[0].disabled ? options$1[0].attributes && !isUndefined(options$1[0].attributes.value) ? isUndefined(options$1[0].value) || options$1[0].value === "" ? validResult : {
+			value: options$1[0].value,
+			isValid: true
+		} : validResult : defaultResult;
+	}
+	return defaultResult;
+};
+var getFieldValueAs = (value, { valueAsNumber, valueAsDate, setValueAs }) => isUndefined(value) ? value : valueAsNumber ? value === "" ? NaN : value ? +value : value : valueAsDate && isString(value) ? new Date(value) : setValueAs ? setValueAs(value) : value;
+var defaultReturn = {
+	isValid: false,
+	value: null
+};
+var getRadioValue = (options$1) => Array.isArray(options$1) ? options$1.reduce((previous, option) => option && option.checked && !option.disabled ? {
+	isValid: true,
+	value: option.value
+} : previous, defaultReturn) : defaultReturn;
+function getFieldValue(_f) {
+	const ref = _f.ref;
+	if (isFileInput(ref)) return ref.files;
+	if (isRadioInput(ref)) return getRadioValue(_f.refs).value;
+	if (isMultipleSelect(ref)) return [...ref.selectedOptions].map(({ value }) => value);
+	if (isCheckBoxInput(ref)) return getCheckboxValue(_f.refs).value;
+	return getFieldValueAs(isUndefined(ref.value) ? _f.ref.value : ref.value, _f);
+}
+var getResolverOptions = (fieldsNames, _fields, criteriaMode, shouldUseNativeValidation) => {
+	const fields = {};
+	for (const name of fieldsNames) {
+		const field = get(_fields, name);
+		field && set(fields, name, field._f);
+	}
+	return {
+		criteriaMode,
+		names: [...fieldsNames],
+		fields,
+		shouldUseNativeValidation
+	};
+};
+var isRegex = (value) => value instanceof RegExp;
+var getRuleValue = (rule) => isUndefined(rule) ? rule : isRegex(rule) ? rule.source : isObject$1(rule) ? isRegex(rule.value) ? rule.value.source : rule.value : rule;
+var getValidationModes = (mode) => ({
+	isOnSubmit: !mode || mode === VALIDATION_MODE.onSubmit,
+	isOnBlur: mode === VALIDATION_MODE.onBlur,
+	isOnChange: mode === VALIDATION_MODE.onChange,
+	isOnAll: mode === VALIDATION_MODE.all,
+	isOnTouch: mode === VALIDATION_MODE.onTouched
+});
+var ASYNC_FUNCTION = "AsyncFunction";
+var hasPromiseValidation = (fieldReference) => !!fieldReference && !!fieldReference.validate && !!(isFunction(fieldReference.validate) && fieldReference.validate.constructor.name === ASYNC_FUNCTION || isObject$1(fieldReference.validate) && Object.values(fieldReference.validate).find((validateFunction) => validateFunction.constructor.name === ASYNC_FUNCTION));
+var hasValidation = (options$1) => options$1.mount && (options$1.required || options$1.min || options$1.max || options$1.maxLength || options$1.minLength || options$1.pattern || options$1.validate);
+var isWatched = (name, _names, isBlurEvent) => !isBlurEvent && (_names.watchAll || _names.watch.has(name) || [..._names.watch].some((watchName) => name.startsWith(watchName) && /^\.\w+/.test(name.slice(watchName.length))));
+var iterateFieldsByAction = (fields, action, fieldsNames, abortEarly) => {
+	for (const key of fieldsNames || Object.keys(fields)) {
+		const field = get(fields, key);
+		if (field) {
+			const { _f, ...currentField } = field;
+			if (_f) {
+				if (_f.refs && _f.refs[0] && action(_f.refs[0], key) && !abortEarly) return true;
+				else if (_f.ref && action(_f.ref, _f.name) && !abortEarly) return true;
+				else if (iterateFieldsByAction(currentField, action)) break;
+			} else if (isObject$1(currentField)) {
+				if (iterateFieldsByAction(currentField, action)) break;
+			}
+		}
+	}
+};
+function schemaErrorLookup(errors, _fields, name) {
+	const error = get(errors, name);
+	if (error || isKey(name)) return {
+		error,
+		name
+	};
+	const names = name.split(".");
+	while (names.length) {
+		const fieldName = names.join(".");
+		const field = get(_fields, fieldName);
+		const foundError = get(errors, fieldName);
+		if (field && !Array.isArray(field) && name !== fieldName) return { name };
+		if (foundError && foundError.type) return {
+			name: fieldName,
+			error: foundError
+		};
+		if (foundError && foundError.root && foundError.root.type) return {
+			name: `${fieldName}.root`,
+			error: foundError.root
+		};
+		names.pop();
+	}
+	return { name };
+}
+var shouldRenderFormState = (formStateData, _proxyFormState, updateFormState, isRoot) => {
+	updateFormState(formStateData);
+	const { name, ...formState } = formStateData;
+	return isEmptyObject(formState) || Object.keys(formState).length >= Object.keys(_proxyFormState).length || Object.keys(formState).find((key) => _proxyFormState[key] === (!isRoot || VALIDATION_MODE.all));
+};
+var shouldSubscribeByName = (name, signalName, exact) => !name || !signalName || name === signalName || convertToArrayPayload(name).some((currentName) => currentName && (exact ? currentName === signalName : currentName.startsWith(signalName) || signalName.startsWith(currentName)));
+var skipValidation = (isBlurEvent, isTouched, isSubmitted, reValidateMode, mode) => {
+	if (mode.isOnAll) return false;
+	else if (!isSubmitted && mode.isOnTouch) return !(isTouched || isBlurEvent);
+	else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) return !isBlurEvent;
+	else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) return isBlurEvent;
+	return true;
+};
+var unsetEmptyArray = (ref, name) => !compact(get(ref, name)).length && unset(ref, name);
+var updateFieldArrayRootError = (errors, error, name) => {
+	const fieldArrayErrors = convertToArrayPayload(get(errors, name));
+	set(fieldArrayErrors, "root", error[name]);
+	set(errors, name, fieldArrayErrors);
+	return errors;
+};
+function getValidateError(result, ref, type = "validate") {
+	if (isString(result) || Array.isArray(result) && result.every(isString) || isBoolean(result) && !result) return {
+		type,
+		message: isString(result) ? result : "",
+		ref
+	};
+}
+var getValueAndMessage = (validationData) => isObject$1(validationData) && !isRegex(validationData) ? validationData : {
+	value: validationData,
+	message: ""
+};
+var validateField = async (field, disabledFieldNames, formValues, validateAllFieldCriteria, shouldUseNativeValidation, isFieldArray) => {
+	const { ref, refs, required: required$1, maxLength, minLength, min: min$1, max: max$1, pattern, validate, name, valueAsNumber, mount } = field._f;
+	const inputValue = get(formValues, name);
+	if (!mount || disabledFieldNames.has(name)) return {};
+	const inputRef = refs ? refs[0] : ref;
+	const setCustomValidity = (message) => {
+		if (shouldUseNativeValidation && inputRef.reportValidity) {
+			inputRef.setCustomValidity(isBoolean(message) ? "" : message || "");
+			inputRef.reportValidity();
+		}
+	};
+	const error = {};
+	const isRadio = isRadioInput(ref);
+	const isCheckBox = isCheckBoxInput(ref);
+	const isRadioOrCheckbox$1 = isRadio || isCheckBox;
+	const isEmpty = (valueAsNumber || isFileInput(ref)) && isUndefined(ref.value) && isUndefined(inputValue) || isHTMLElement(ref) && ref.value === "" || inputValue === "" || Array.isArray(inputValue) && !inputValue.length;
+	const appendErrorsCurry = appendErrors.bind(null, name, validateAllFieldCriteria, error);
+	const getMinMaxMessage = (exceedMax, maxLengthMessage, minLengthMessage, maxType = INPUT_VALIDATION_RULES.maxLength, minType = INPUT_VALIDATION_RULES.minLength) => {
+		const message = exceedMax ? maxLengthMessage : minLengthMessage;
+		error[name] = {
+			type: exceedMax ? maxType : minType,
+			message,
+			ref,
+			...appendErrorsCurry(exceedMax ? maxType : minType, message)
+		};
+	};
+	if (isFieldArray ? !Array.isArray(inputValue) || !inputValue.length : required$1 && (!isRadioOrCheckbox$1 && (isEmpty || isNullOrUndefined(inputValue)) || isBoolean(inputValue) && !inputValue || isCheckBox && !getCheckboxValue(refs).isValid || isRadio && !getRadioValue(refs).isValid)) {
+		const { value, message } = isString(required$1) ? {
+			value: !!required$1,
+			message: required$1
+		} : getValueAndMessage(required$1);
+		if (value) {
+			error[name] = {
+				type: INPUT_VALIDATION_RULES.required,
+				message,
+				ref: inputRef,
+				...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message)
+			};
+			if (!validateAllFieldCriteria) {
+				setCustomValidity(message);
+				return error;
+			}
+		}
+	}
+	if (!isEmpty && (!isNullOrUndefined(min$1) || !isNullOrUndefined(max$1))) {
+		let exceedMax;
+		let exceedMin;
+		const maxOutput = getValueAndMessage(max$1);
+		const minOutput = getValueAndMessage(min$1);
+		if (!isNullOrUndefined(inputValue) && !isNaN(inputValue)) {
+			const valueNumber = ref.valueAsNumber || (inputValue ? +inputValue : inputValue);
+			if (!isNullOrUndefined(maxOutput.value)) exceedMax = valueNumber > maxOutput.value;
+			if (!isNullOrUndefined(minOutput.value)) exceedMin = valueNumber < minOutput.value;
+		} else {
+			const valueDate = ref.valueAsDate || new Date(inputValue);
+			const convertTimeToDate = (time$2) => /* @__PURE__ */ new Date((/* @__PURE__ */ new Date()).toDateString() + " " + time$2);
+			const isTime = ref.type == "time";
+			const isWeek = ref.type == "week";
+			if (isString(maxOutput.value) && inputValue) exceedMax = isTime ? convertTimeToDate(inputValue) > convertTimeToDate(maxOutput.value) : isWeek ? inputValue > maxOutput.value : valueDate > new Date(maxOutput.value);
+			if (isString(minOutput.value) && inputValue) exceedMin = isTime ? convertTimeToDate(inputValue) < convertTimeToDate(minOutput.value) : isWeek ? inputValue < minOutput.value : valueDate < new Date(minOutput.value);
+		}
+		if (exceedMax || exceedMin) {
+			getMinMaxMessage(!!exceedMax, maxOutput.message, minOutput.message, INPUT_VALIDATION_RULES.max, INPUT_VALIDATION_RULES.min);
+			if (!validateAllFieldCriteria) {
+				setCustomValidity(error[name].message);
+				return error;
+			}
+		}
+	}
+	if ((maxLength || minLength) && !isEmpty && (isString(inputValue) || isFieldArray && Array.isArray(inputValue))) {
+		const maxLengthOutput = getValueAndMessage(maxLength);
+		const minLengthOutput = getValueAndMessage(minLength);
+		const exceedMax = !isNullOrUndefined(maxLengthOutput.value) && inputValue.length > +maxLengthOutput.value;
+		const exceedMin = !isNullOrUndefined(minLengthOutput.value) && inputValue.length < +minLengthOutput.value;
+		if (exceedMax || exceedMin) {
+			getMinMaxMessage(exceedMax, maxLengthOutput.message, minLengthOutput.message);
+			if (!validateAllFieldCriteria) {
+				setCustomValidity(error[name].message);
+				return error;
+			}
+		}
+	}
+	if (pattern && !isEmpty && isString(inputValue)) {
+		const { value: patternValue, message } = getValueAndMessage(pattern);
+		if (isRegex(patternValue) && !inputValue.match(patternValue)) {
+			error[name] = {
+				type: INPUT_VALIDATION_RULES.pattern,
+				message,
+				ref,
+				...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message)
+			};
+			if (!validateAllFieldCriteria) {
+				setCustomValidity(message);
+				return error;
+			}
+		}
+	}
+	if (validate) {
+		if (isFunction(validate)) {
+			const validateError = getValidateError(await validate(inputValue, formValues), inputRef);
+			if (validateError) {
+				error[name] = {
+					...validateError,
+					...appendErrorsCurry(INPUT_VALIDATION_RULES.validate, validateError.message)
+				};
+				if (!validateAllFieldCriteria) {
+					setCustomValidity(validateError.message);
+					return error;
+				}
+			}
+		} else if (isObject$1(validate)) {
+			let validationResult = {};
+			for (const key in validate) {
+				if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) break;
+				const validateError = getValidateError(await validate[key](inputValue, formValues), inputRef, key);
+				if (validateError) {
+					validationResult = {
+						...validateError,
+						...appendErrorsCurry(key, validateError.message)
+					};
+					setCustomValidity(validateError.message);
+					if (validateAllFieldCriteria) error[name] = validationResult;
+				}
+			}
+			if (!isEmptyObject(validationResult)) {
+				error[name] = {
+					ref: inputRef,
+					...validationResult
+				};
+				if (!validateAllFieldCriteria) return error;
+			}
+		}
+	}
+	setCustomValidity(true);
+	return error;
+};
+var defaultOptions = {
+	mode: VALIDATION_MODE.onSubmit,
+	reValidateMode: VALIDATION_MODE.onChange,
+	shouldFocusError: true
+};
+function createFormControl(props = {}) {
+	let _options = {
+		...defaultOptions,
+		...props
+	};
+	let _formState = {
+		submitCount: 0,
+		isDirty: false,
+		isReady: false,
+		isLoading: isFunction(_options.defaultValues),
+		isValidating: false,
+		isSubmitted: false,
+		isSubmitting: false,
+		isSubmitSuccessful: false,
+		isValid: false,
+		touchedFields: {},
+		dirtyFields: {},
+		validatingFields: {},
+		errors: _options.errors || {},
+		disabled: _options.disabled || false
+	};
+	let _fields = {};
+	let _defaultValues = isObject$1(_options.defaultValues) || isObject$1(_options.values) ? cloneObject(_options.defaultValues || _options.values) || {} : {};
+	let _formValues = _options.shouldUnregister ? {} : cloneObject(_defaultValues);
+	let _state = {
+		action: false,
+		mount: false,
+		watch: false,
+		keepIsValid: false
+	};
+	let _names = {
+		mount: /* @__PURE__ */ new Set(),
+		disabled: /* @__PURE__ */ new Set(),
+		unMount: /* @__PURE__ */ new Set(),
+		array: /* @__PURE__ */ new Set(),
+		watch: /* @__PURE__ */ new Set()
+	};
+	let delayErrorCallback;
+	let timer = 0;
+	const defaultProxyFormState = {
+		isDirty: false,
+		dirtyFields: false,
+		validatingFields: false,
+		touchedFields: false,
+		isValidating: false,
+		isValid: false,
+		errors: false
+	};
+	const _proxyFormState = { ...defaultProxyFormState };
+	let _proxySubscribeFormState = { ..._proxyFormState };
+	const _subjects = {
+		array: createSubject(),
+		state: createSubject()
+	};
+	const shouldDisplayAllAssociatedErrors = _options.criteriaMode === VALIDATION_MODE.all;
+	const debounce = (callback) => (wait) => {
+		clearTimeout(timer);
+		timer = setTimeout(callback, wait);
+	};
+	const _setValid = async (shouldUpdateValid) => {
+		if (_state.keepIsValid) return;
+		if (!_options.disabled && (_proxyFormState.isValid || _proxySubscribeFormState.isValid || shouldUpdateValid)) {
+			let isValid;
+			if (_options.resolver) {
+				isValid = isEmptyObject((await _runSchema()).errors);
+				_updateIsValidating();
+			} else isValid = await executeBuiltInValidation(_fields, true);
+			if (isValid !== _formState.isValid) _subjects.state.next({ isValid });
+		}
+	};
+	const _updateIsValidating = (names, isValidating) => {
+		if (!_options.disabled && (_proxyFormState.isValidating || _proxyFormState.validatingFields || _proxySubscribeFormState.isValidating || _proxySubscribeFormState.validatingFields)) {
+			(names || Array.from(_names.mount)).forEach((name) => {
+				if (name) isValidating ? set(_formState.validatingFields, name, isValidating) : unset(_formState.validatingFields, name);
+			});
+			_subjects.state.next({
+				validatingFields: _formState.validatingFields,
+				isValidating: !isEmptyObject(_formState.validatingFields)
+			});
+		}
+	};
+	const _setFieldArray = (name, values = [], method, args, shouldSetValues = true, shouldUpdateFieldsAndState = true) => {
+		if (args && method && !_options.disabled) {
+			_state.action = true;
+			if (shouldUpdateFieldsAndState && Array.isArray(get(_fields, name))) {
+				const fieldValues = method(get(_fields, name), args.argA, args.argB);
+				shouldSetValues && set(_fields, name, fieldValues);
+			}
+			if (shouldUpdateFieldsAndState && Array.isArray(get(_formState.errors, name))) {
+				const errors = method(get(_formState.errors, name), args.argA, args.argB);
+				shouldSetValues && set(_formState.errors, name, errors);
+				unsetEmptyArray(_formState.errors, name);
+			}
+			if ((_proxyFormState.touchedFields || _proxySubscribeFormState.touchedFields) && shouldUpdateFieldsAndState && Array.isArray(get(_formState.touchedFields, name))) {
+				const touchedFields = method(get(_formState.touchedFields, name), args.argA, args.argB);
+				shouldSetValues && set(_formState.touchedFields, name, touchedFields);
+			}
+			if (_proxyFormState.dirtyFields || _proxySubscribeFormState.dirtyFields) _formState.dirtyFields = getDirtyFields(_defaultValues, _formValues);
+			_subjects.state.next({
+				name,
+				isDirty: _getDirty(name, values),
+				dirtyFields: _formState.dirtyFields,
+				errors: _formState.errors,
+				isValid: _formState.isValid
+			});
+		} else set(_formValues, name, values);
+	};
+	const updateErrors = (name, error) => {
+		set(_formState.errors, name, error);
+		_subjects.state.next({ errors: _formState.errors });
+	};
+	const _setErrors = (errors) => {
+		_formState.errors = errors;
+		_subjects.state.next({
+			errors: _formState.errors,
+			isValid: false
+		});
+	};
+	const updateValidAndValue = (name, shouldSkipSetValueAs, value, ref) => {
+		const field = get(_fields, name);
+		if (field) {
+			const defaultValue = get(_formValues, name, isUndefined(value) ? get(_defaultValues, name) : value);
+			isUndefined(defaultValue) || ref && ref.defaultChecked || shouldSkipSetValueAs ? set(_formValues, name, shouldSkipSetValueAs ? defaultValue : getFieldValue(field._f)) : setFieldValue(name, defaultValue);
+			_state.mount && !_state.action && _setValid();
+		}
+	};
+	const updateTouchAndDirty = (name, fieldValue, isBlurEvent, shouldDirty, shouldRender) => {
+		let shouldUpdateField = false;
+		let isPreviousDirty = false;
+		const output = { name };
+		if (!_options.disabled) {
+			if (!isBlurEvent || shouldDirty) {
+				if (_proxyFormState.isDirty || _proxySubscribeFormState.isDirty) {
+					isPreviousDirty = _formState.isDirty;
+					_formState.isDirty = output.isDirty = _getDirty();
+					shouldUpdateField = isPreviousDirty !== output.isDirty;
+				}
+				const isCurrentFieldPristine = deepEqual(get(_defaultValues, name), fieldValue);
+				isPreviousDirty = !!get(_formState.dirtyFields, name);
+				isCurrentFieldPristine ? unset(_formState.dirtyFields, name) : set(_formState.dirtyFields, name, true);
+				output.dirtyFields = _formState.dirtyFields;
+				shouldUpdateField = shouldUpdateField || (_proxyFormState.dirtyFields || _proxySubscribeFormState.dirtyFields) && isPreviousDirty !== !isCurrentFieldPristine;
+			}
+			if (isBlurEvent) {
+				const isPreviousFieldTouched = get(_formState.touchedFields, name);
+				if (!isPreviousFieldTouched) {
+					set(_formState.touchedFields, name, isBlurEvent);
+					output.touchedFields = _formState.touchedFields;
+					shouldUpdateField = shouldUpdateField || (_proxyFormState.touchedFields || _proxySubscribeFormState.touchedFields) && isPreviousFieldTouched !== isBlurEvent;
+				}
+			}
+			shouldUpdateField && shouldRender && _subjects.state.next(output);
+		}
+		return shouldUpdateField ? output : {};
+	};
+	const shouldRenderByError = (name, isValid, error, fieldState) => {
+		const previousFieldError = get(_formState.errors, name);
+		const shouldUpdateValid = (_proxyFormState.isValid || _proxySubscribeFormState.isValid) && isBoolean(isValid) && _formState.isValid !== isValid;
+		if (_options.delayError && error) {
+			delayErrorCallback = debounce(() => updateErrors(name, error));
+			delayErrorCallback(_options.delayError);
+		} else {
+			clearTimeout(timer);
+			delayErrorCallback = null;
+			error ? set(_formState.errors, name, error) : unset(_formState.errors, name);
+		}
+		if ((error ? !deepEqual(previousFieldError, error) : previousFieldError) || !isEmptyObject(fieldState) || shouldUpdateValid) {
+			const updatedFormState = {
+				...fieldState,
+				...shouldUpdateValid && isBoolean(isValid) ? { isValid } : {},
+				errors: _formState.errors,
+				name
+			};
+			_formState = {
+				..._formState,
+				...updatedFormState
+			};
+			_subjects.state.next(updatedFormState);
+		}
+	};
+	const _runSchema = async (name) => {
+		_updateIsValidating(name, true);
+		return await _options.resolver(_formValues, _options.context, getResolverOptions(name || _names.mount, _fields, _options.criteriaMode, _options.shouldUseNativeValidation));
+	};
+	const executeSchemaAndUpdateState = async (names) => {
+		const { errors } = await _runSchema(names);
+		_updateIsValidating(names);
+		if (names) for (const name of names) {
+			const error = get(errors, name);
+			error ? set(_formState.errors, name, error) : unset(_formState.errors, name);
+		}
+		else _formState.errors = errors;
+		return errors;
+	};
+	const executeBuiltInValidation = async (fields, shouldOnlyCheckValid, context = { valid: true }) => {
+		for (const name in fields) {
+			const field = fields[name];
+			if (field) {
+				const { _f, ...fieldValue } = field;
+				if (_f) {
+					const isFieldArrayRoot = _names.array.has(_f.name);
+					const isPromiseFunction = field._f && hasPromiseValidation(field._f);
+					if (isPromiseFunction && _proxyFormState.validatingFields) _updateIsValidating([_f.name], true);
+					const fieldError = await validateField(field, _names.disabled, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation && !shouldOnlyCheckValid, isFieldArrayRoot);
+					if (isPromiseFunction && _proxyFormState.validatingFields) _updateIsValidating([_f.name]);
+					if (fieldError[_f.name]) {
+						context.valid = false;
+						if (shouldOnlyCheckValid || props.shouldUseNativeValidation) break;
+					}
+					!shouldOnlyCheckValid && (get(fieldError, _f.name) ? isFieldArrayRoot ? updateFieldArrayRootError(_formState.errors, fieldError, _f.name) : set(_formState.errors, _f.name, fieldError[_f.name]) : unset(_formState.errors, _f.name));
+				}
+				!isEmptyObject(fieldValue) && await executeBuiltInValidation(fieldValue, shouldOnlyCheckValid, context);
+			}
+		}
+		return context.valid;
+	};
+	const _removeUnmounted = () => {
+		for (const name of _names.unMount) {
+			const field = get(_fields, name);
+			field && (field._f.refs ? field._f.refs.every((ref) => !live(ref)) : !live(field._f.ref)) && unregister(name);
+		}
+		_names.unMount = /* @__PURE__ */ new Set();
+	};
+	const _getDirty = (name, data) => !_options.disabled && (name && data && set(_formValues, name, data), !deepEqual(getValues(), _defaultValues));
+	const _getWatch = (names, defaultValue, isGlobal) => generateWatchOutput(names, _names, { ..._state.mount ? _formValues : isUndefined(defaultValue) ? _defaultValues : isString(names) ? { [names]: defaultValue } : defaultValue }, isGlobal, defaultValue);
+	const _getFieldArray = (name) => compact(get(_state.mount ? _formValues : _defaultValues, name, _options.shouldUnregister ? get(_defaultValues, name, []) : []));
+	const setFieldValue = (name, value, options$1 = {}) => {
+		const field = get(_fields, name);
+		let fieldValue = value;
+		if (field) {
+			const fieldReference = field._f;
+			if (fieldReference) {
+				!fieldReference.disabled && set(_formValues, name, getFieldValueAs(value, fieldReference));
+				fieldValue = isHTMLElement(fieldReference.ref) && isNullOrUndefined(value) ? "" : value;
+				if (isMultipleSelect(fieldReference.ref)) [...fieldReference.ref.options].forEach((optionRef) => optionRef.selected = fieldValue.includes(optionRef.value));
+				else if (fieldReference.refs) if (isCheckBoxInput(fieldReference.ref)) fieldReference.refs.forEach((checkboxRef) => {
+					if (!checkboxRef.defaultChecked || !checkboxRef.disabled) if (Array.isArray(fieldValue)) checkboxRef.checked = !!fieldValue.find((data) => data === checkboxRef.value);
+					else checkboxRef.checked = fieldValue === checkboxRef.value || !!fieldValue;
+				});
+				else fieldReference.refs.forEach((radioRef) => radioRef.checked = radioRef.value === fieldValue);
+				else if (isFileInput(fieldReference.ref)) fieldReference.ref.value = "";
+				else {
+					fieldReference.ref.value = fieldValue;
+					if (!fieldReference.ref.type) _subjects.state.next({
+						name,
+						values: cloneObject(_formValues)
+					});
+				}
+			}
+		}
+		(options$1.shouldDirty || options$1.shouldTouch) && updateTouchAndDirty(name, fieldValue, options$1.shouldTouch, options$1.shouldDirty, true);
+		options$1.shouldValidate && trigger(name);
+	};
+	const setValues = (name, value, options$1) => {
+		for (const fieldKey in value) {
+			if (!value.hasOwnProperty(fieldKey)) return;
+			const fieldValue = value[fieldKey];
+			const fieldName = name + "." + fieldKey;
+			const field = get(_fields, fieldName);
+			(_names.array.has(name) || isObject$1(fieldValue) || field && !field._f) && !isDateObject(fieldValue) ? setValues(fieldName, fieldValue, options$1) : setFieldValue(fieldName, fieldValue, options$1);
+		}
+	};
+	const setValue = (name, value, options$1 = {}) => {
+		const field = get(_fields, name);
+		const isFieldArray = _names.array.has(name);
+		const cloneValue = cloneObject(value);
+		set(_formValues, name, cloneValue);
+		if (isFieldArray) {
+			_subjects.array.next({
+				name,
+				values: cloneObject(_formValues)
+			});
+			if ((_proxyFormState.isDirty || _proxyFormState.dirtyFields || _proxySubscribeFormState.isDirty || _proxySubscribeFormState.dirtyFields) && options$1.shouldDirty) _subjects.state.next({
+				name,
+				dirtyFields: getDirtyFields(_defaultValues, _formValues),
+				isDirty: _getDirty(name, cloneValue)
+			});
+		} else field && !field._f && !isNullOrUndefined(cloneValue) ? setValues(name, cloneValue, options$1) : setFieldValue(name, cloneValue, options$1);
+		if (isWatched(name, _names)) _subjects.state.next({
+			..._formState,
+			name,
+			values: cloneObject(_formValues)
+		});
+		else _subjects.state.next({
+			name: _state.mount ? name : void 0,
+			values: cloneObject(_formValues)
+		});
+	};
+	const onChange = async (event) => {
+		_state.mount = true;
+		const target = event.target;
+		let name = target.name;
+		let isFieldValueUpdated = true;
+		const field = get(_fields, name);
+		const _updateIsFieldValueUpdated = (fieldValue) => {
+			isFieldValueUpdated = Number.isNaN(fieldValue) || isDateObject(fieldValue) && isNaN(fieldValue.getTime()) || deepEqual(fieldValue, get(_formValues, name, fieldValue));
+		};
+		const validationModeBeforeSubmit = getValidationModes(_options.mode);
+		const validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
+		if (field) {
+			let error;
+			let isValid;
+			const fieldValue = target.type ? getFieldValue(field._f) : getEventValue(event);
+			const isBlurEvent = event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
+			const shouldSkipValidation = !hasValidation(field._f) && !_options.resolver && !get(_formState.errors, name) && !field._f.deps || skipValidation(isBlurEvent, get(_formState.touchedFields, name), _formState.isSubmitted, validationModeAfterSubmit, validationModeBeforeSubmit);
+			const watched = isWatched(name, _names, isBlurEvent);
+			set(_formValues, name, fieldValue);
+			if (isBlurEvent) {
+				if (!target || !target.readOnly) {
+					field._f.onBlur && field._f.onBlur(event);
+					delayErrorCallback && delayErrorCallback(0);
+				}
+			} else if (field._f.onChange) field._f.onChange(event);
+			const fieldState = updateTouchAndDirty(name, fieldValue, isBlurEvent);
+			const shouldRender = !isEmptyObject(fieldState) || watched;
+			!isBlurEvent && _subjects.state.next({
+				name,
+				type: event.type,
+				values: cloneObject(_formValues)
+			});
+			if (shouldSkipValidation) {
+				if (_proxyFormState.isValid || _proxySubscribeFormState.isValid) {
+					if (_options.mode === "onBlur") {
+						if (isBlurEvent) _setValid();
+					} else if (!isBlurEvent) _setValid();
+				}
+				return shouldRender && _subjects.state.next({
+					name,
+					...watched ? {} : fieldState
+				});
+			}
+			!isBlurEvent && watched && _subjects.state.next({ ..._formState });
+			if (_options.resolver) {
+				const { errors } = await _runSchema([name]);
+				_updateIsValidating([name]);
+				_updateIsFieldValueUpdated(fieldValue);
+				if (isFieldValueUpdated) {
+					const previousErrorLookupResult = schemaErrorLookup(_formState.errors, _fields, name);
+					const errorLookupResult = schemaErrorLookup(errors, _fields, previousErrorLookupResult.name || name);
+					error = errorLookupResult.error;
+					name = errorLookupResult.name;
+					isValid = isEmptyObject(errors);
+				}
+			} else {
+				_updateIsValidating([name], true);
+				error = (await validateField(field, _names.disabled, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation))[name];
+				_updateIsValidating([name]);
+				_updateIsFieldValueUpdated(fieldValue);
+				if (isFieldValueUpdated) {
+					if (error) isValid = false;
+					else if (_proxyFormState.isValid || _proxySubscribeFormState.isValid) isValid = await executeBuiltInValidation(_fields, true);
+				}
+			}
+			if (isFieldValueUpdated) {
+				field._f.deps && (!Array.isArray(field._f.deps) || field._f.deps.length > 0) && trigger(field._f.deps);
+				shouldRenderByError(name, isValid, error, fieldState);
+			}
+		}
+	};
+	const _focusInput = (ref, key) => {
+		if (get(_formState.errors, key) && ref.focus) {
+			ref.focus();
+			return 1;
+		}
+	};
+	const trigger = async (name, options$1 = {}) => {
+		let isValid;
+		let validationResult;
+		const fieldNames = convertToArrayPayload(name);
+		if (_options.resolver) {
+			const errors = await executeSchemaAndUpdateState(isUndefined(name) ? name : fieldNames);
+			isValid = isEmptyObject(errors);
+			validationResult = name ? !fieldNames.some((name$1) => get(errors, name$1)) : isValid;
+		} else if (name) {
+			validationResult = (await Promise.all(fieldNames.map(async (fieldName) => {
+				const field = get(_fields, fieldName);
+				return await executeBuiltInValidation(field && field._f ? { [fieldName]: field } : field);
+			}))).every(Boolean);
+			!(!validationResult && !_formState.isValid) && _setValid();
+		} else validationResult = isValid = await executeBuiltInValidation(_fields);
+		_subjects.state.next({
+			...!isString(name) || (_proxyFormState.isValid || _proxySubscribeFormState.isValid) && isValid !== _formState.isValid ? {} : { name },
+			..._options.resolver || !name ? { isValid } : {},
+			errors: _formState.errors
+		});
+		options$1.shouldFocus && !validationResult && iterateFieldsByAction(_fields, _focusInput, name ? fieldNames : _names.mount);
+		return validationResult;
+	};
+	const getValues = (fieldNames, config$1) => {
+		let values = { ..._state.mount ? _formValues : _defaultValues };
+		if (config$1) values = extractFormValues(config$1.dirtyFields ? _formState.dirtyFields : _formState.touchedFields, values);
+		return isUndefined(fieldNames) ? values : isString(fieldNames) ? get(values, fieldNames) : fieldNames.map((name) => get(values, name));
+	};
+	const getFieldState = (name, formState) => ({
+		invalid: !!get((formState || _formState).errors, name),
+		isDirty: !!get((formState || _formState).dirtyFields, name),
+		error: get((formState || _formState).errors, name),
+		isValidating: !!get(_formState.validatingFields, name),
+		isTouched: !!get((formState || _formState).touchedFields, name)
+	});
+	const clearErrors = (name) => {
+		name && convertToArrayPayload(name).forEach((inputName) => unset(_formState.errors, inputName));
+		_subjects.state.next({ errors: name ? _formState.errors : {} });
+	};
+	const setError = (name, error, options$1) => {
+		const ref = (get(_fields, name, { _f: {} })._f || {}).ref;
+		const { ref: currentRef, message, type, ...restOfErrorTree } = get(_formState.errors, name) || {};
+		set(_formState.errors, name, {
+			...restOfErrorTree,
+			...error,
+			ref
+		});
+		_subjects.state.next({
+			name,
+			errors: _formState.errors,
+			isValid: false
+		});
+		options$1 && options$1.shouldFocus && ref && ref.focus && ref.focus();
+	};
+	const watch = (name, defaultValue) => isFunction(name) ? _subjects.state.subscribe({ next: (payload) => "values" in payload && name(_getWatch(void 0, defaultValue), payload) }) : _getWatch(name, defaultValue, true);
+	const _subscribe = (props$1) => _subjects.state.subscribe({ next: (formState) => {
+		if (shouldSubscribeByName(props$1.name, formState.name, props$1.exact) && shouldRenderFormState(formState, props$1.formState || _proxyFormState, _setFormState, props$1.reRenderRoot)) props$1.callback({
+			values: { ..._formValues },
+			..._formState,
+			...formState,
+			defaultValues: _defaultValues
+		});
+	} }).unsubscribe;
+	const subscribe = (props$1) => {
+		_state.mount = true;
+		_proxySubscribeFormState = {
+			..._proxySubscribeFormState,
+			...props$1.formState
+		};
+		return _subscribe({
+			...props$1,
+			formState: {
+				...defaultProxyFormState,
+				...props$1.formState
+			}
+		});
+	};
+	const unregister = (name, options$1 = {}) => {
+		for (const fieldName of name ? convertToArrayPayload(name) : _names.mount) {
+			_names.mount.delete(fieldName);
+			_names.array.delete(fieldName);
+			if (!options$1.keepValue) {
+				unset(_fields, fieldName);
+				unset(_formValues, fieldName);
+			}
+			!options$1.keepError && unset(_formState.errors, fieldName);
+			!options$1.keepDirty && unset(_formState.dirtyFields, fieldName);
+			!options$1.keepTouched && unset(_formState.touchedFields, fieldName);
+			!options$1.keepIsValidating && unset(_formState.validatingFields, fieldName);
+			!_options.shouldUnregister && !options$1.keepDefaultValue && unset(_defaultValues, fieldName);
+		}
+		_subjects.state.next({ values: cloneObject(_formValues) });
+		_subjects.state.next({
+			..._formState,
+			...!options$1.keepDirty ? {} : { isDirty: _getDirty() }
+		});
+		!options$1.keepIsValid && _setValid();
+	};
+	const _setDisabledField = ({ disabled, name }) => {
+		if (isBoolean(disabled) && _state.mount || !!disabled || _names.disabled.has(name)) {
+			const disabledStateChanged = _names.disabled.has(name) !== !!disabled;
+			disabled ? _names.disabled.add(name) : _names.disabled.delete(name);
+			disabledStateChanged && _state.mount && !_state.action && _setValid();
+		}
+	};
+	const register = (name, options$1 = {}) => {
+		let field = get(_fields, name);
+		const disabledIsDefined = isBoolean(options$1.disabled) || isBoolean(_options.disabled);
+		set(_fields, name, {
+			...field || {},
+			_f: {
+				...field && field._f ? field._f : { ref: { name } },
+				name,
+				mount: true,
+				...options$1
+			}
+		});
+		_names.mount.add(name);
+		if (field) _setDisabledField({
+			disabled: isBoolean(options$1.disabled) ? options$1.disabled : _options.disabled,
+			name
+		});
+		else updateValidAndValue(name, true, options$1.value);
+		return {
+			...disabledIsDefined ? { disabled: options$1.disabled || _options.disabled } : {},
+			..._options.progressive ? {
+				required: !!options$1.required,
+				min: getRuleValue(options$1.min),
+				max: getRuleValue(options$1.max),
+				minLength: getRuleValue(options$1.minLength),
+				maxLength: getRuleValue(options$1.maxLength),
+				pattern: getRuleValue(options$1.pattern)
+			} : {},
+			name,
+			onChange,
+			onBlur: onChange,
+			ref: (ref) => {
+				if (ref) {
+					register(name, options$1);
+					field = get(_fields, name);
+					const fieldRef = isUndefined(ref.value) ? ref.querySelectorAll ? ref.querySelectorAll("input,select,textarea")[0] || ref : ref : ref;
+					const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
+					const refs = field._f.refs || [];
+					if (radioOrCheckbox ? refs.find((option) => option === fieldRef) : fieldRef === field._f.ref) return;
+					set(_fields, name, { _f: {
+						...field._f,
+						...radioOrCheckbox ? {
+							refs: [
+								...refs.filter(live),
+								fieldRef,
+								...Array.isArray(get(_defaultValues, name)) ? [{}] : []
+							],
+							ref: {
+								type: fieldRef.type,
+								name
+							}
+						} : { ref: fieldRef }
+					} });
+					updateValidAndValue(name, false, void 0, fieldRef);
+				} else {
+					field = get(_fields, name, {});
+					if (field._f) field._f.mount = false;
+					(_options.shouldUnregister || options$1.shouldUnregister) && !(isNameInFieldArray(_names.array, name) && _state.action) && _names.unMount.add(name);
+				}
+			}
+		};
+	};
+	const _focusError = () => _options.shouldFocusError && iterateFieldsByAction(_fields, _focusInput, _names.mount);
+	const _disableForm = (disabled) => {
+		if (isBoolean(disabled)) {
+			_subjects.state.next({ disabled });
+			iterateFieldsByAction(_fields, (ref, name) => {
+				const currentField = get(_fields, name);
+				if (currentField) {
+					ref.disabled = currentField._f.disabled || disabled;
+					if (Array.isArray(currentField._f.refs)) currentField._f.refs.forEach((inputRef) => {
+						inputRef.disabled = currentField._f.disabled || disabled;
+					});
+				}
+			}, 0, false);
+		}
+	};
+	const handleSubmit = (onValid, onInvalid) => async (e) => {
+		let onValidError = void 0;
+		if (e) {
+			e.preventDefault && e.preventDefault();
+			e.persist && e.persist();
+		}
+		let fieldValues = cloneObject(_formValues);
+		_subjects.state.next({ isSubmitting: true });
+		if (_options.resolver) {
+			const { errors, values } = await _runSchema();
+			_updateIsValidating();
+			_formState.errors = errors;
+			fieldValues = cloneObject(values);
+		} else await executeBuiltInValidation(_fields);
+		if (_names.disabled.size) for (const name of _names.disabled) unset(fieldValues, name);
+		unset(_formState.errors, "root");
+		if (isEmptyObject(_formState.errors)) {
+			_subjects.state.next({ errors: {} });
+			try {
+				await onValid(fieldValues, e);
+			} catch (error) {
+				onValidError = error;
+			}
+		} else {
+			if (onInvalid) await onInvalid({ ..._formState.errors }, e);
+			_focusError();
+			setTimeout(_focusError);
+		}
+		_subjects.state.next({
+			isSubmitted: true,
+			isSubmitting: false,
+			isSubmitSuccessful: isEmptyObject(_formState.errors) && !onValidError,
+			submitCount: _formState.submitCount + 1,
+			errors: _formState.errors
+		});
+		if (onValidError) throw onValidError;
+	};
+	const resetField = (name, options$1 = {}) => {
+		if (get(_fields, name)) {
+			if (isUndefined(options$1.defaultValue)) setValue(name, cloneObject(get(_defaultValues, name)));
+			else {
+				setValue(name, options$1.defaultValue);
+				set(_defaultValues, name, cloneObject(options$1.defaultValue));
+			}
+			if (!options$1.keepTouched) unset(_formState.touchedFields, name);
+			if (!options$1.keepDirty) {
+				unset(_formState.dirtyFields, name);
+				_formState.isDirty = options$1.defaultValue ? _getDirty(name, cloneObject(get(_defaultValues, name))) : _getDirty();
+			}
+			if (!options$1.keepError) {
+				unset(_formState.errors, name);
+				_proxyFormState.isValid && _setValid();
+			}
+			_subjects.state.next({ ..._formState });
+		}
+	};
+	const _reset = (formValues, keepStateOptions = {}) => {
+		const updatedValues = formValues ? cloneObject(formValues) : _defaultValues;
+		const cloneUpdatedValues = cloneObject(updatedValues);
+		const isEmptyResetValues = isEmptyObject(formValues);
+		const values = isEmptyResetValues ? _defaultValues : cloneUpdatedValues;
+		if (!keepStateOptions.keepDefaultValues) _defaultValues = updatedValues;
+		if (!keepStateOptions.keepValues) {
+			if (keepStateOptions.keepDirtyValues) {
+				const fieldsToCheck = new Set([..._names.mount, ...Object.keys(getDirtyFields(_defaultValues, _formValues))]);
+				for (const fieldName of Array.from(fieldsToCheck)) {
+					const isDirty = get(_formState.dirtyFields, fieldName);
+					const existingValue = get(_formValues, fieldName);
+					const newValue = get(values, fieldName);
+					if (isDirty && !isUndefined(existingValue)) set(values, fieldName, existingValue);
+					else if (!isDirty && !isUndefined(newValue)) setValue(fieldName, newValue);
+				}
+			} else {
+				if (isWeb && isUndefined(formValues)) for (const name of _names.mount) {
+					const field = get(_fields, name);
+					if (field && field._f) {
+						const fieldReference = Array.isArray(field._f.refs) ? field._f.refs[0] : field._f.ref;
+						if (isHTMLElement(fieldReference)) {
+							const form = fieldReference.closest("form");
+							if (form) {
+								form.reset();
+								break;
+							}
+						}
+					}
+				}
+				if (keepStateOptions.keepFieldsRef) for (const fieldName of _names.mount) setValue(fieldName, get(values, fieldName));
+				else _fields = {};
+			}
+			_formValues = _options.shouldUnregister ? keepStateOptions.keepDefaultValues ? cloneObject(_defaultValues) : {} : cloneObject(values);
+			_subjects.array.next({ values: { ...values } });
+			_subjects.state.next({ values: { ...values } });
+		}
+		_names = {
+			mount: keepStateOptions.keepDirtyValues ? _names.mount : /* @__PURE__ */ new Set(),
+			unMount: /* @__PURE__ */ new Set(),
+			array: /* @__PURE__ */ new Set(),
+			disabled: /* @__PURE__ */ new Set(),
+			watch: /* @__PURE__ */ new Set(),
+			watchAll: false,
+			focus: ""
+		};
+		_state.mount = !_proxyFormState.isValid || !!keepStateOptions.keepIsValid || !!keepStateOptions.keepDirtyValues || !_options.shouldUnregister && !isEmptyObject(values);
+		_state.watch = !!_options.shouldUnregister;
+		_state.keepIsValid = !!keepStateOptions.keepIsValid;
+		_state.action = false;
+		if (!keepStateOptions.keepErrors) _formState.errors = {};
+		_subjects.state.next({
+			submitCount: keepStateOptions.keepSubmitCount ? _formState.submitCount : 0,
+			isDirty: isEmptyResetValues ? false : keepStateOptions.keepDirty ? _formState.isDirty : !!(keepStateOptions.keepDefaultValues && !deepEqual(formValues, _defaultValues)),
+			isSubmitted: keepStateOptions.keepIsSubmitted ? _formState.isSubmitted : false,
+			dirtyFields: isEmptyResetValues ? {} : keepStateOptions.keepDirtyValues ? keepStateOptions.keepDefaultValues && _formValues ? getDirtyFields(_defaultValues, _formValues) : _formState.dirtyFields : keepStateOptions.keepDefaultValues && formValues ? getDirtyFields(_defaultValues, formValues) : keepStateOptions.keepDirty ? _formState.dirtyFields : {},
+			touchedFields: keepStateOptions.keepTouched ? _formState.touchedFields : {},
+			errors: keepStateOptions.keepErrors ? _formState.errors : {},
+			isSubmitSuccessful: keepStateOptions.keepIsSubmitSuccessful ? _formState.isSubmitSuccessful : false,
+			isSubmitting: false,
+			defaultValues: _defaultValues
+		});
+	};
+	const reset = (formValues, keepStateOptions) => _reset(isFunction(formValues) ? formValues(_formValues) : formValues, {
+		..._options.resetOptions,
+		...keepStateOptions
+	});
+	const setFocus = (name, options$1 = {}) => {
+		const field = get(_fields, name);
+		const fieldReference = field && field._f;
+		if (fieldReference) {
+			const fieldRef = fieldReference.refs ? fieldReference.refs[0] : fieldReference.ref;
+			if (fieldRef.focus) setTimeout(() => {
+				fieldRef.focus();
+				options$1.shouldSelect && isFunction(fieldRef.select) && fieldRef.select();
+			});
+		}
+	};
+	const _setFormState = (updatedFormState) => {
+		_formState = {
+			..._formState,
+			...updatedFormState
+		};
+	};
+	const _resetDefaultValues = () => isFunction(_options.defaultValues) && _options.defaultValues().then((values) => {
+		reset(values, _options.resetOptions);
+		_subjects.state.next({ isLoading: false });
+	});
+	const methods = {
+		control: {
+			register,
+			unregister,
+			getFieldState,
+			handleSubmit,
+			setError,
+			_subscribe,
+			_runSchema,
+			_updateIsValidating,
+			_focusError,
+			_getWatch,
+			_getDirty,
+			_setValid,
+			_setFieldArray,
+			_setDisabledField,
+			_setErrors,
+			_getFieldArray,
+			_reset,
+			_resetDefaultValues,
+			_removeUnmounted,
+			_disableForm,
+			_subjects,
+			_proxyFormState,
+			get _fields() {
+				return _fields;
+			},
+			get _formValues() {
+				return _formValues;
+			},
+			get _state() {
+				return _state;
+			},
+			set _state(value) {
+				_state = value;
+			},
+			get _defaultValues() {
+				return _defaultValues;
+			},
+			get _names() {
+				return _names;
+			},
+			set _names(value) {
+				_names = value;
+			},
+			get _formState() {
+				return _formState;
+			},
+			get _options() {
+				return _options;
+			},
+			set _options(value) {
+				_options = {
+					..._options,
+					...value
+				};
+			}
+		},
+		subscribe,
+		trigger,
+		register,
+		handleSubmit,
+		watch,
+		setValue,
+		getValues,
+		reset,
+		resetField,
+		clearErrors,
+		unregister,
+		setError,
+		setFocus,
+		getFieldState
+	};
+	return {
+		...methods,
+		formControl: methods
+	};
+}
+function useForm(props = {}) {
+	const _formControl = import_react.useRef(void 0);
+	const _values = import_react.useRef(void 0);
+	const [formState, updateFormState] = import_react.useState({
+		isDirty: false,
+		isValidating: false,
+		isLoading: isFunction(props.defaultValues),
+		isSubmitted: false,
+		isSubmitting: false,
+		isSubmitSuccessful: false,
+		isValid: false,
+		submitCount: 0,
+		dirtyFields: {},
+		touchedFields: {},
+		validatingFields: {},
+		errors: props.errors || {},
+		disabled: props.disabled || false,
+		isReady: false,
+		defaultValues: isFunction(props.defaultValues) ? void 0 : props.defaultValues
+	});
+	if (!_formControl.current) if (props.formControl) {
+		_formControl.current = {
+			...props.formControl,
+			formState
+		};
+		if (props.defaultValues && !isFunction(props.defaultValues)) props.formControl.reset(props.defaultValues, props.resetOptions);
+	} else {
+		const { formControl, ...rest } = createFormControl(props);
+		_formControl.current = {
+			...rest,
+			formState
+		};
+	}
+	const control = _formControl.current.control;
+	control._options = props;
+	useIsomorphicLayoutEffect$1(() => {
+		const sub = control._subscribe({
+			formState: control._proxyFormState,
+			callback: () => updateFormState({ ...control._formState }),
+			reRenderRoot: true
+		});
+		updateFormState((data) => ({
+			...data,
+			isReady: true
+		}));
+		control._formState.isReady = true;
+		return sub;
+	}, [control]);
+	import_react.useEffect(() => control._disableForm(props.disabled), [control, props.disabled]);
+	import_react.useEffect(() => {
+		if (props.mode) control._options.mode = props.mode;
+		if (props.reValidateMode) control._options.reValidateMode = props.reValidateMode;
+	}, [
+		control,
+		props.mode,
+		props.reValidateMode
+	]);
+	import_react.useEffect(() => {
+		if (props.errors) {
+			control._setErrors(props.errors);
+			control._focusError();
+		}
+	}, [control, props.errors]);
+	import_react.useEffect(() => {
+		props.shouldUnregister && control._subjects.state.next({ values: control._getWatch() });
+	}, [control, props.shouldUnregister]);
+	import_react.useEffect(() => {
+		if (control._proxyFormState.isDirty) {
+			const isDirty = control._getDirty();
+			if (isDirty !== formState.isDirty) control._subjects.state.next({ isDirty });
+		}
+	}, [control, formState.isDirty]);
+	import_react.useEffect(() => {
+		var _a$1;
+		if (props.values && !deepEqual(props.values, _values.current)) {
+			control._reset(props.values, {
+				keepFieldsRef: true,
+				...control._options.resetOptions
+			});
+			if (!((_a$1 = control._options.resetOptions) === null || _a$1 === void 0 ? void 0 : _a$1.keepIsValid)) control._setValid();
+			_values.current = props.values;
+			updateFormState((state) => ({ ...state }));
+		} else control._resetDefaultValues();
+	}, [control, props.values]);
+	import_react.useEffect(() => {
+		if (!control._state.mount) {
+			control._setValid();
+			control._state.mount = true;
+		}
+		if (control._state.watch) {
+			control._state.watch = false;
+			control._subjects.state.next({ ...control._formState });
+		}
+		control._removeUnmounted();
+	});
+	_formControl.current.formState = import_react.useMemo(() => getProxyFormState(formState, control), [control, formState]);
+	return _formControl.current;
+}
+var r = (t$1, r$2, o$1) => {
+	if (t$1 && "reportValidity" in t$1) {
+		const s$2 = get(o$1, r$2);
+		t$1.setCustomValidity(s$2 && s$2.message || ""), t$1.reportValidity();
+	}
+}, o = (e, t$1) => {
+	for (const o$1 in t$1.fields) {
+		const s$2 = t$1.fields[o$1];
+		s$2 && s$2.ref && "reportValidity" in s$2.ref ? r(s$2.ref, o$1, e) : s$2 && s$2.refs && s$2.refs.forEach((t$2) => r(t$2, o$1, e));
+	}
+}, s = (r$2, s$2) => {
+	s$2.shouldUseNativeValidation && o(r$2, s$2);
+	const n$1 = {};
+	for (const o$1 in r$2) {
+		const f = get(s$2.fields, o$1), c = Object.assign(r$2[o$1] || {}, { ref: f && f.ref });
+		if (i$1(s$2.names || Object.keys(r$2), o$1)) {
+			const r$3 = Object.assign({}, get(n$1, o$1));
+			set(r$3, "root", c), set(n$1, o$1, r$3);
+		} else set(n$1, o$1, c);
+	}
+	return n$1;
+}, i$1 = (e, t$1) => {
+	const r$2 = n(t$1);
+	return e.some((e$1) => n(e$1).match(`^${r$2}\\.\\d+`));
+};
+function n(e) {
+	return e.replace(/\]|\[/g, "");
+}
+Object.freeze({ status: "aborted" });
+function $constructor(name, initializer$2, params) {
+	function init(inst, def) {
+		if (!inst._zod) Object.defineProperty(inst, "_zod", {
+			value: {
+				def,
+				constr: _$1,
+				traits: /* @__PURE__ */ new Set()
+			},
+			enumerable: false
+		});
+		if (inst._zod.traits.has(name)) return;
+		inst._zod.traits.add(name);
+		initializer$2(inst, def);
+		const proto = _$1.prototype;
+		const keys = Object.keys(proto);
+		for (let i$2 = 0; i$2 < keys.length; i$2++) {
+			const k = keys[i$2];
+			if (!(k in inst)) inst[k] = proto[k].bind(inst);
+		}
+	}
+	const Parent = params?.Parent ?? Object;
+	class Definition extends Parent {}
+	Object.defineProperty(Definition, "name", { value: name });
+	function _$1(def) {
+		var _a$1;
+		const inst = params?.Parent ? new Definition() : this;
+		init(inst, def);
+		(_a$1 = inst._zod).deferred ?? (_a$1.deferred = []);
+		for (const fn of inst._zod.deferred) fn();
+		return inst;
+	}
+	Object.defineProperty(_$1, "init", { value: init });
+	Object.defineProperty(_$1, Symbol.hasInstance, { value: (inst) => {
+		if (params?.Parent && inst instanceof params.Parent) return true;
+		return inst?._zod?.traits?.has(name);
+	} });
+	Object.defineProperty(_$1, "name", { value: name });
+	return _$1;
+}
+var $ZodAsyncError = class extends Error {
+	constructor() {
+		super(`Encountered Promise during synchronous parse. Use .parseAsync() instead.`);
+	}
+};
+var $ZodEncodeError = class extends Error {
+	constructor(name) {
+		super(`Encountered unidirectional transform during encode: ${name}`);
+		this.name = "ZodEncodeError";
+	}
+};
+const globalConfig = {};
+function config(newConfig) {
+	if (newConfig) Object.assign(globalConfig, newConfig);
+	return globalConfig;
+}
+function getEnumValues(entries) {
+	const numericValues = Object.values(entries).filter((v) => typeof v === "number");
+	return Object.entries(entries).filter(([k, _$1]) => numericValues.indexOf(+k) === -1).map(([_$1, v]) => v);
+}
+function jsonStringifyReplacer(_$1, value) {
+	if (typeof value === "bigint") return value.toString();
+	return value;
+}
+function cached(getter) {
+	return { get value() {
+		{
+			const value = getter();
+			Object.defineProperty(this, "value", { value });
+			return value;
+		}
+		throw new Error("cached value already set");
+	} };
+}
+function nullish(input) {
+	return input === null || input === void 0;
+}
+function cleanRegex(source) {
+	const start = source.startsWith("^") ? 1 : 0;
+	const end = source.endsWith("$") ? source.length - 1 : source.length;
+	return source.slice(start, end);
+}
+var EVALUATING = Symbol("evaluating");
+function defineLazy(object$1, key, getter) {
+	let value = void 0;
+	Object.defineProperty(object$1, key, {
+		get() {
+			if (value === EVALUATING) return;
+			if (value === void 0) {
+				value = EVALUATING;
+				value = getter();
+			}
+			return value;
+		},
+		set(v) {
+			Object.defineProperty(object$1, key, { value: v });
+		},
+		configurable: true
+	});
+}
+function assignProp(target, prop, value) {
+	Object.defineProperty(target, prop, {
+		value,
+		writable: true,
+		enumerable: true,
+		configurable: true
+	});
+}
+function mergeDefs(...defs) {
+	const mergedDescriptors = {};
+	for (const def of defs) {
+		const descriptors = Object.getOwnPropertyDescriptors(def);
+		Object.assign(mergedDescriptors, descriptors);
+	}
+	return Object.defineProperties({}, mergedDescriptors);
+}
+function esc(str) {
+	return JSON.stringify(str);
+}
+function slugify(input) {
+	return input.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, "");
+}
+const captureStackTrace = "captureStackTrace" in Error ? Error.captureStackTrace : (..._args) => {};
+function isObject(data) {
+	return typeof data === "object" && data !== null && !Array.isArray(data);
+}
+const allowsEval = cached(() => {
+	if (typeof navigator !== "undefined" && navigator?.userAgent?.includes("Cloudflare")) return false;
+	try {
+		new Function("");
+		return true;
+	} catch (_$1) {
+		return false;
+	}
+});
+function isPlainObject(o$1) {
+	if (isObject(o$1) === false) return false;
+	const ctor = o$1.constructor;
+	if (ctor === void 0) return true;
+	if (typeof ctor !== "function") return true;
+	const prot = ctor.prototype;
+	if (isObject(prot) === false) return false;
+	if (Object.prototype.hasOwnProperty.call(prot, "isPrototypeOf") === false) return false;
+	return true;
+}
+function shallowClone(o$1) {
+	if (isPlainObject(o$1)) return { ...o$1 };
+	if (Array.isArray(o$1)) return [...o$1];
+	return o$1;
+}
+const propertyKeyTypes = new Set([
+	"string",
+	"number",
+	"symbol"
+]);
+function escapeRegex(str) {
+	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function clone(inst, def, params) {
+	const cl = new inst._zod.constr(def ?? inst._zod.def);
+	if (!def || params?.parent) cl._zod.parent = inst;
+	return cl;
+}
+function normalizeParams(_params) {
+	const params = _params;
+	if (!params) return {};
+	if (typeof params === "string") return { error: () => params };
+	if (params?.message !== void 0) {
+		if (params?.error !== void 0) throw new Error("Cannot specify both `message` and `error` params");
+		params.error = params.message;
+	}
+	delete params.message;
+	if (typeof params.error === "string") return {
+		...params,
+		error: () => params.error
+	};
+	return params;
+}
+function optionalKeys(shape) {
+	return Object.keys(shape).filter((k) => {
+		return shape[k]._zod.optin === "optional" && shape[k]._zod.optout === "optional";
+	});
+}
+Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, -Number.MAX_VALUE, Number.MAX_VALUE;
+function pick(schema, mask) {
+	const currDef = schema._zod.def;
+	const checks = currDef.checks;
+	if (checks && checks.length > 0) throw new Error(".pick() cannot be used on object schemas containing refinements");
+	return clone(schema, mergeDefs(schema._zod.def, {
+		get shape() {
+			const newShape = {};
+			for (const key in mask) {
+				if (!(key in currDef.shape)) throw new Error(`Unrecognized key: "${key}"`);
+				if (!mask[key]) continue;
+				newShape[key] = currDef.shape[key];
+			}
+			assignProp(this, "shape", newShape);
+			return newShape;
+		},
+		checks: []
+	}));
+}
+function omit(schema, mask) {
+	const currDef = schema._zod.def;
+	const checks = currDef.checks;
+	if (checks && checks.length > 0) throw new Error(".omit() cannot be used on object schemas containing refinements");
+	return clone(schema, mergeDefs(schema._zod.def, {
+		get shape() {
+			const newShape = { ...schema._zod.def.shape };
+			for (const key in mask) {
+				if (!(key in currDef.shape)) throw new Error(`Unrecognized key: "${key}"`);
+				if (!mask[key]) continue;
+				delete newShape[key];
+			}
+			assignProp(this, "shape", newShape);
+			return newShape;
+		},
+		checks: []
+	}));
+}
+function extend(schema, shape) {
+	if (!isPlainObject(shape)) throw new Error("Invalid input to extend: expected a plain object");
+	const checks = schema._zod.def.checks;
+	if (checks && checks.length > 0) {
+		const existingShape = schema._zod.def.shape;
+		for (const key in shape) if (Object.getOwnPropertyDescriptor(existingShape, key) !== void 0) throw new Error("Cannot overwrite keys on object schemas containing refinements. Use `.safeExtend()` instead.");
+	}
+	return clone(schema, mergeDefs(schema._zod.def, { get shape() {
+		const _shape = {
+			...schema._zod.def.shape,
+			...shape
+		};
+		assignProp(this, "shape", _shape);
+		return _shape;
+	} }));
+}
+function safeExtend(schema, shape) {
+	if (!isPlainObject(shape)) throw new Error("Invalid input to safeExtend: expected a plain object");
+	return clone(schema, mergeDefs(schema._zod.def, { get shape() {
+		const _shape = {
+			...schema._zod.def.shape,
+			...shape
+		};
+		assignProp(this, "shape", _shape);
+		return _shape;
+	} }));
+}
+function merge(a$1, b$1) {
+	return clone(a$1, mergeDefs(a$1._zod.def, {
+		get shape() {
+			const _shape = {
+				...a$1._zod.def.shape,
+				...b$1._zod.def.shape
+			};
+			assignProp(this, "shape", _shape);
+			return _shape;
+		},
+		get catchall() {
+			return b$1._zod.def.catchall;
+		},
+		checks: []
+	}));
+}
+function partial(Class, schema, mask) {
+	const checks = schema._zod.def.checks;
+	if (checks && checks.length > 0) throw new Error(".partial() cannot be used on object schemas containing refinements");
+	return clone(schema, mergeDefs(schema._zod.def, {
+		get shape() {
+			const oldShape = schema._zod.def.shape;
+			const shape = { ...oldShape };
+			if (mask) for (const key in mask) {
+				if (!(key in oldShape)) throw new Error(`Unrecognized key: "${key}"`);
+				if (!mask[key]) continue;
+				shape[key] = Class ? new Class({
+					type: "optional",
+					innerType: oldShape[key]
+				}) : oldShape[key];
+			}
+			else for (const key in oldShape) shape[key] = Class ? new Class({
+				type: "optional",
+				innerType: oldShape[key]
+			}) : oldShape[key];
+			assignProp(this, "shape", shape);
+			return shape;
+		},
+		checks: []
+	}));
+}
+function required(Class, schema, mask) {
+	return clone(schema, mergeDefs(schema._zod.def, { get shape() {
+		const oldShape = schema._zod.def.shape;
+		const shape = { ...oldShape };
+		if (mask) for (const key in mask) {
+			if (!(key in shape)) throw new Error(`Unrecognized key: "${key}"`);
+			if (!mask[key]) continue;
+			shape[key] = new Class({
+				type: "nonoptional",
+				innerType: oldShape[key]
+			});
+		}
+		else for (const key in oldShape) shape[key] = new Class({
+			type: "nonoptional",
+			innerType: oldShape[key]
+		});
+		assignProp(this, "shape", shape);
+		return shape;
+	} }));
+}
+function aborted(x$1, startIndex = 0) {
+	if (x$1.aborted === true) return true;
+	for (let i$2 = startIndex; i$2 < x$1.issues.length; i$2++) if (x$1.issues[i$2]?.continue !== true) return true;
+	return false;
+}
+function prefixIssues(path, issues) {
+	return issues.map((iss) => {
+		var _a$1;
+		(_a$1 = iss).path ?? (_a$1.path = []);
+		iss.path.unshift(path);
+		return iss;
+	});
+}
+function unwrapMessage(message) {
+	return typeof message === "string" ? message : message?.message;
+}
+function finalizeIssue(iss, ctx, config$1) {
+	const full = {
+		...iss,
+		path: iss.path ?? []
+	};
+	if (!iss.message) full.message = unwrapMessage(iss.inst?._zod.def?.error?.(iss)) ?? unwrapMessage(ctx?.error?.(iss)) ?? unwrapMessage(config$1.customError?.(iss)) ?? unwrapMessage(config$1.localeError?.(iss)) ?? "Invalid input";
+	delete full.inst;
+	delete full.continue;
+	if (!ctx?.reportInput) delete full.input;
+	return full;
+}
+function getLengthableOrigin(input) {
+	if (Array.isArray(input)) return "array";
+	if (typeof input === "string") return "string";
+	return "unknown";
+}
+function issue(...args) {
+	const [iss, input, inst] = args;
+	if (typeof iss === "string") return {
+		message: iss,
+		code: "custom",
+		input,
+		inst
+	};
+	return { ...iss };
+}
+var initializer$1 = (inst, def) => {
+	inst.name = "$ZodError";
+	Object.defineProperty(inst, "_zod", {
+		value: inst._zod,
+		enumerable: false
+	});
+	Object.defineProperty(inst, "issues", {
+		value: def,
+		enumerable: false
+	});
+	inst.message = JSON.stringify(def, jsonStringifyReplacer, 2);
+	Object.defineProperty(inst, "toString", {
+		value: () => inst.message,
+		enumerable: false
+	});
+};
+const $ZodError = $constructor("$ZodError", initializer$1);
+const $ZodRealError = $constructor("$ZodError", initializer$1, { Parent: Error });
+function flattenError(error, mapper = (issue$1) => issue$1.message) {
+	const fieldErrors = {};
+	const formErrors = [];
+	for (const sub of error.issues) if (sub.path.length > 0) {
+		fieldErrors[sub.path[0]] = fieldErrors[sub.path[0]] || [];
+		fieldErrors[sub.path[0]].push(mapper(sub));
+	} else formErrors.push(mapper(sub));
+	return {
+		formErrors,
+		fieldErrors
+	};
+}
+function formatError(error, mapper = (issue$1) => issue$1.message) {
+	const fieldErrors = { _errors: [] };
+	const processError = (error$1) => {
+		for (const issue$1 of error$1.issues) if (issue$1.code === "invalid_union" && issue$1.errors.length) issue$1.errors.map((issues) => processError({ issues }));
+		else if (issue$1.code === "invalid_key") processError({ issues: issue$1.issues });
+		else if (issue$1.code === "invalid_element") processError({ issues: issue$1.issues });
+		else if (issue$1.path.length === 0) fieldErrors._errors.push(mapper(issue$1));
+		else {
+			let curr = fieldErrors;
+			let i$2 = 0;
+			while (i$2 < issue$1.path.length) {
+				const el = issue$1.path[i$2];
+				if (!(i$2 === issue$1.path.length - 1)) curr[el] = curr[el] || { _errors: [] };
+				else {
+					curr[el] = curr[el] || { _errors: [] };
+					curr[el]._errors.push(mapper(issue$1));
+				}
+				curr = curr[el];
+				i$2++;
+			}
+		}
+	};
+	processError(error);
+	return fieldErrors;
+}
+const _parse = (_Err) => (schema, value, _ctx, _params) => {
+	const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
+	const result = schema._zod.run({
+		value,
+		issues: []
+	}, ctx);
+	if (result instanceof Promise) throw new $ZodAsyncError();
+	if (result.issues.length) {
+		const e = new (_params?.Err ?? _Err)(result.issues.map((iss) => finalizeIssue(iss, ctx, config())));
+		captureStackTrace(e, _params?.callee);
+		throw e;
+	}
+	return result.value;
+};
+const parse$2 = /* @__PURE__ */ _parse($ZodRealError);
+const _parseAsync = (_Err) => async (schema, value, _ctx, params) => {
+	const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
+	let result = schema._zod.run({
+		value,
+		issues: []
+	}, ctx);
+	if (result instanceof Promise) result = await result;
+	if (result.issues.length) {
+		const e = new (params?.Err ?? _Err)(result.issues.map((iss) => finalizeIssue(iss, ctx, config())));
+		captureStackTrace(e, params?.callee);
+		throw e;
+	}
+	return result.value;
+};
+const parseAsync$1 = /* @__PURE__ */ _parseAsync($ZodRealError);
+const _safeParse = (_Err) => (schema, value, _ctx) => {
+	const ctx = _ctx ? {
+		..._ctx,
+		async: false
+	} : { async: false };
+	const result = schema._zod.run({
+		value,
+		issues: []
+	}, ctx);
+	if (result instanceof Promise) throw new $ZodAsyncError();
+	return result.issues.length ? {
+		success: false,
+		error: new (_Err ?? $ZodError)(result.issues.map((iss) => finalizeIssue(iss, ctx, config())))
+	} : {
+		success: true,
+		data: result.value
+	};
+};
+const safeParse$1 = /* @__PURE__ */ _safeParse($ZodRealError);
+const _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
+	const ctx = _ctx ? Object.assign(_ctx, { async: true }) : { async: true };
+	let result = schema._zod.run({
+		value,
+		issues: []
+	}, ctx);
+	if (result instanceof Promise) result = await result;
+	return result.issues.length ? {
+		success: false,
+		error: new _Err(result.issues.map((iss) => finalizeIssue(iss, ctx, config())))
+	} : {
+		success: true,
+		data: result.value
+	};
+};
+const safeParseAsync$1 = /* @__PURE__ */ _safeParseAsync($ZodRealError);
+const _encode = (_Err) => (schema, value, _ctx) => {
+	const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+	return _parse(_Err)(schema, value, ctx);
+};
+const _decode = (_Err) => (schema, value, _ctx) => {
+	return _parse(_Err)(schema, value, _ctx);
+};
+const _encodeAsync = (_Err) => async (schema, value, _ctx) => {
+	const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+	return _parseAsync(_Err)(schema, value, ctx);
+};
+const _decodeAsync = (_Err) => async (schema, value, _ctx) => {
+	return _parseAsync(_Err)(schema, value, _ctx);
+};
+const _safeEncode = (_Err) => (schema, value, _ctx) => {
+	const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+	return _safeParse(_Err)(schema, value, ctx);
+};
+const _safeDecode = (_Err) => (schema, value, _ctx) => {
+	return _safeParse(_Err)(schema, value, _ctx);
+};
+const _safeEncodeAsync = (_Err) => async (schema, value, _ctx) => {
+	const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+	return _safeParseAsync(_Err)(schema, value, ctx);
+};
+const _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
+	return _safeParseAsync(_Err)(schema, value, _ctx);
+};
+const cuid = /^[cC][^\s-]{8,}$/;
+const cuid2 = /^[0-9a-z]+$/;
+const ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
+const xid = /^[0-9a-vA-V]{20}$/;
+const ksuid = /^[A-Za-z0-9]{27}$/;
+const nanoid = /^[a-zA-Z0-9_-]{21}$/;
+const duration$1 = /^P(?:(\d+W)|(?!.*W)(?=\d|T\d)(\d+Y)?(\d+M)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+([.,]\d+)?S)?)?)$/;
+const guid = /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
+const uuid = (version$5) => {
+	if (!version$5) return /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/;
+	return /* @__PURE__ */ new RegExp(`^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-${version$5}[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$`);
+};
+const email = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;
+var _emoji$1 = `^(\\p{Extended_Pictographic}|\\p{Emoji_Component})+$`;
+function emoji() {
+	return new RegExp(_emoji$1, "u");
+}
+const ipv4 = /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/;
+const ipv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))$/;
+const cidrv4 = /^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\/([0-9]|[1-2][0-9]|3[0-2])$/;
+const cidrv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|([0-9a-fA-F]{1,4})?::([0-9a-fA-F]{1,4}:?){0,6})\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$/;
+const base64 = /^$|^(?:[0-9a-zA-Z+/]{4})*(?:(?:[0-9a-zA-Z+/]{2}==)|(?:[0-9a-zA-Z+/]{3}=))?$/;
+const base64url = /^[A-Za-z0-9_-]*$/;
+const e164 = /^\+[1-9]\d{6,14}$/;
+var dateSource = `(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))`;
+const date$1 = /* @__PURE__ */ new RegExp(`^${dateSource}$`);
+function timeSource(args) {
+	const hhmm = `(?:[01]\\d|2[0-3]):[0-5]\\d`;
+	return typeof args.precision === "number" ? args.precision === -1 ? `${hhmm}` : args.precision === 0 ? `${hhmm}:[0-5]\\d` : `${hhmm}:[0-5]\\d\\.\\d{${args.precision}}` : `${hhmm}(?::[0-5]\\d(?:\\.\\d+)?)?`;
+}
+function time$1(args) {
+	return /* @__PURE__ */ new RegExp(`^${timeSource(args)}$`);
+}
+function datetime$1(args) {
+	const time$2 = timeSource({ precision: args.precision });
+	const opts = ["Z"];
+	if (args.local) opts.push("");
+	if (args.offset) opts.push(`([+-](?:[01]\\d|2[0-3]):[0-5]\\d)`);
+	const timeRegex = `${time$2}(?:${opts.join("|")})`;
+	return /* @__PURE__ */ new RegExp(`^${dateSource}T(?:${timeRegex})$`);
+}
+const string$1 = (params) => {
+	const regex = params ? `[\\s\\S]{${params?.minimum ?? 0},${params?.maximum ?? ""}}` : `[\\s\\S]*`;
+	return /* @__PURE__ */ new RegExp(`^${regex}$`);
+};
+const lowercase = /^[^A-Z]*$/;
+const uppercase = /^[^a-z]*$/;
+const $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
+	var _a$1;
+	inst._zod ?? (inst._zod = {});
+	inst._zod.def = def;
+	(_a$1 = inst._zod).onattach ?? (_a$1.onattach = []);
+});
+const $ZodCheckMaxLength = /* @__PURE__ */ $constructor("$ZodCheckMaxLength", (inst, def) => {
+	var _a$1;
+	$ZodCheck.init(inst, def);
+	(_a$1 = inst._zod.def).when ?? (_a$1.when = (payload) => {
+		const val = payload.value;
+		return !nullish(val) && val.length !== void 0;
+	});
+	inst._zod.onattach.push((inst$1) => {
+		const curr = inst$1._zod.bag.maximum ?? Number.POSITIVE_INFINITY;
+		if (def.maximum < curr) inst$1._zod.bag.maximum = def.maximum;
+	});
+	inst._zod.check = (payload) => {
+		const input = payload.value;
+		if (input.length <= def.maximum) return;
+		const origin = getLengthableOrigin(input);
+		payload.issues.push({
+			origin,
+			code: "too_big",
+			maximum: def.maximum,
+			inclusive: true,
+			input,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckMinLength = /* @__PURE__ */ $constructor("$ZodCheckMinLength", (inst, def) => {
+	var _a$1;
+	$ZodCheck.init(inst, def);
+	(_a$1 = inst._zod.def).when ?? (_a$1.when = (payload) => {
+		const val = payload.value;
+		return !nullish(val) && val.length !== void 0;
+	});
+	inst._zod.onattach.push((inst$1) => {
+		const curr = inst$1._zod.bag.minimum ?? Number.NEGATIVE_INFINITY;
+		if (def.minimum > curr) inst$1._zod.bag.minimum = def.minimum;
+	});
+	inst._zod.check = (payload) => {
+		const input = payload.value;
+		if (input.length >= def.minimum) return;
+		const origin = getLengthableOrigin(input);
+		payload.issues.push({
+			origin,
+			code: "too_small",
+			minimum: def.minimum,
+			inclusive: true,
+			input,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckLengthEquals = /* @__PURE__ */ $constructor("$ZodCheckLengthEquals", (inst, def) => {
+	var _a$1;
+	$ZodCheck.init(inst, def);
+	(_a$1 = inst._zod.def).when ?? (_a$1.when = (payload) => {
+		const val = payload.value;
+		return !nullish(val) && val.length !== void 0;
+	});
+	inst._zod.onattach.push((inst$1) => {
+		const bag = inst$1._zod.bag;
+		bag.minimum = def.length;
+		bag.maximum = def.length;
+		bag.length = def.length;
+	});
+	inst._zod.check = (payload) => {
+		const input = payload.value;
+		const length = input.length;
+		if (length === def.length) return;
+		const origin = getLengthableOrigin(input);
+		const tooBig = length > def.length;
+		payload.issues.push({
+			origin,
+			...tooBig ? {
+				code: "too_big",
+				maximum: def.length
+			} : {
+				code: "too_small",
+				minimum: def.length
+			},
+			inclusive: true,
+			exact: true,
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckStringFormat = /* @__PURE__ */ $constructor("$ZodCheckStringFormat", (inst, def) => {
+	var _a$1, _b;
+	$ZodCheck.init(inst, def);
+	inst._zod.onattach.push((inst$1) => {
+		const bag = inst$1._zod.bag;
+		bag.format = def.format;
+		if (def.pattern) {
+			bag.patterns ?? (bag.patterns = /* @__PURE__ */ new Set());
+			bag.patterns.add(def.pattern);
+		}
+	});
+	if (def.pattern) (_a$1 = inst._zod).check ?? (_a$1.check = (payload) => {
+		def.pattern.lastIndex = 0;
+		if (def.pattern.test(payload.value)) return;
+		payload.issues.push({
+			origin: "string",
+			code: "invalid_format",
+			format: def.format,
+			input: payload.value,
+			...def.pattern ? { pattern: def.pattern.toString() } : {},
+			inst,
+			continue: !def.abort
+		});
+	});
+	else (_b = inst._zod).check ?? (_b.check = () => {});
+});
+const $ZodCheckRegex = /* @__PURE__ */ $constructor("$ZodCheckRegex", (inst, def) => {
+	$ZodCheckStringFormat.init(inst, def);
+	inst._zod.check = (payload) => {
+		def.pattern.lastIndex = 0;
+		if (def.pattern.test(payload.value)) return;
+		payload.issues.push({
+			origin: "string",
+			code: "invalid_format",
+			format: "regex",
+			input: payload.value,
+			pattern: def.pattern.toString(),
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckLowerCase = /* @__PURE__ */ $constructor("$ZodCheckLowerCase", (inst, def) => {
+	def.pattern ?? (def.pattern = lowercase);
+	$ZodCheckStringFormat.init(inst, def);
+});
+const $ZodCheckUpperCase = /* @__PURE__ */ $constructor("$ZodCheckUpperCase", (inst, def) => {
+	def.pattern ?? (def.pattern = uppercase);
+	$ZodCheckStringFormat.init(inst, def);
+});
+const $ZodCheckIncludes = /* @__PURE__ */ $constructor("$ZodCheckIncludes", (inst, def) => {
+	$ZodCheck.init(inst, def);
+	const escapedRegex = escapeRegex(def.includes);
+	const pattern = new RegExp(typeof def.position === "number" ? `^.{${def.position}}${escapedRegex}` : escapedRegex);
+	def.pattern = pattern;
+	inst._zod.onattach.push((inst$1) => {
+		const bag = inst$1._zod.bag;
+		bag.patterns ?? (bag.patterns = /* @__PURE__ */ new Set());
+		bag.patterns.add(pattern);
+	});
+	inst._zod.check = (payload) => {
+		if (payload.value.includes(def.includes, def.position)) return;
+		payload.issues.push({
+			origin: "string",
+			code: "invalid_format",
+			format: "includes",
+			includes: def.includes,
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckStartsWith = /* @__PURE__ */ $constructor("$ZodCheckStartsWith", (inst, def) => {
+	$ZodCheck.init(inst, def);
+	const pattern = /* @__PURE__ */ new RegExp(`^${escapeRegex(def.prefix)}.*`);
+	def.pattern ?? (def.pattern = pattern);
+	inst._zod.onattach.push((inst$1) => {
+		const bag = inst$1._zod.bag;
+		bag.patterns ?? (bag.patterns = /* @__PURE__ */ new Set());
+		bag.patterns.add(pattern);
+	});
+	inst._zod.check = (payload) => {
+		if (payload.value.startsWith(def.prefix)) return;
+		payload.issues.push({
+			origin: "string",
+			code: "invalid_format",
+			format: "starts_with",
+			prefix: def.prefix,
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckEndsWith = /* @__PURE__ */ $constructor("$ZodCheckEndsWith", (inst, def) => {
+	$ZodCheck.init(inst, def);
+	const pattern = /* @__PURE__ */ new RegExp(`.*${escapeRegex(def.suffix)}$`);
+	def.pattern ?? (def.pattern = pattern);
+	inst._zod.onattach.push((inst$1) => {
+		const bag = inst$1._zod.bag;
+		bag.patterns ?? (bag.patterns = /* @__PURE__ */ new Set());
+		bag.patterns.add(pattern);
+	});
+	inst._zod.check = (payload) => {
+		if (payload.value.endsWith(def.suffix)) return;
+		payload.issues.push({
+			origin: "string",
+			code: "invalid_format",
+			format: "ends_with",
+			suffix: def.suffix,
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (inst, def) => {
+	$ZodCheck.init(inst, def);
+	inst._zod.check = (payload) => {
+		payload.value = def.tx(payload.value);
+	};
+});
+var Doc = class {
+	constructor(args = []) {
+		this.content = [];
+		this.indent = 0;
+		if (this) this.args = args;
+	}
+	indented(fn) {
+		this.indent += 1;
+		fn(this);
+		this.indent -= 1;
+	}
+	write(arg) {
+		if (typeof arg === "function") {
+			arg(this, { execution: "sync" });
+			arg(this, { execution: "async" });
+			return;
+		}
+		const lines = arg.split("\n").filter((x$1) => x$1);
+		const minIndent = Math.min(...lines.map((x$1) => x$1.length - x$1.trimStart().length));
+		const dedented = lines.map((x$1) => x$1.slice(minIndent)).map((x$1) => " ".repeat(this.indent * 2) + x$1);
+		for (const line of dedented) this.content.push(line);
+	}
+	compile() {
+		const F = Function;
+		const args = this?.args;
+		const lines = [...(this?.content ?? [``]).map((x$1) => `  ${x$1}`)];
+		return new F(...args, lines.join("\n"));
+	}
+};
+const version = {
+	major: 4,
+	minor: 3,
+	patch: 5
+};
+const $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
+	var _a$1;
+	inst ?? (inst = {});
+	inst._zod.def = def;
+	inst._zod.bag = inst._zod.bag || {};
+	inst._zod.version = version;
+	const checks = [...inst._zod.def.checks ?? []];
+	if (inst._zod.traits.has("$ZodCheck")) checks.unshift(inst);
+	for (const ch of checks) for (const fn of ch._zod.onattach) fn(inst);
+	if (checks.length === 0) {
+		(_a$1 = inst._zod).deferred ?? (_a$1.deferred = []);
+		inst._zod.deferred?.push(() => {
+			inst._zod.run = inst._zod.parse;
+		});
+	} else {
+		const runChecks = (payload, checks$1, ctx) => {
+			let isAborted = aborted(payload);
+			let asyncResult;
+			for (const ch of checks$1) {
+				if (ch._zod.def.when) {
+					if (!ch._zod.def.when(payload)) continue;
+				} else if (isAborted) continue;
+				const currLen = payload.issues.length;
+				const _$1 = ch._zod.check(payload);
+				if (_$1 instanceof Promise && ctx?.async === false) throw new $ZodAsyncError();
+				if (asyncResult || _$1 instanceof Promise) asyncResult = (asyncResult ?? Promise.resolve()).then(async () => {
+					await _$1;
+					if (payload.issues.length === currLen) return;
+					if (!isAborted) isAborted = aborted(payload, currLen);
+				});
+				else {
+					if (payload.issues.length === currLen) continue;
+					if (!isAborted) isAborted = aborted(payload, currLen);
+				}
+			}
+			if (asyncResult) return asyncResult.then(() => {
+				return payload;
+			});
+			return payload;
+		};
+		const handleCanaryResult = (canary, payload, ctx) => {
+			if (aborted(canary)) {
+				canary.aborted = true;
+				return canary;
+			}
+			const checkResult = runChecks(payload, checks, ctx);
+			if (checkResult instanceof Promise) {
+				if (ctx.async === false) throw new $ZodAsyncError();
+				return checkResult.then((checkResult$1) => inst._zod.parse(checkResult$1, ctx));
+			}
+			return inst._zod.parse(checkResult, ctx);
+		};
+		inst._zod.run = (payload, ctx) => {
+			if (ctx.skipChecks) return inst._zod.parse(payload, ctx);
+			if (ctx.direction === "backward") {
+				const canary = inst._zod.parse({
+					value: payload.value,
+					issues: []
+				}, {
+					...ctx,
+					skipChecks: true
+				});
+				if (canary instanceof Promise) return canary.then((canary$1) => {
+					return handleCanaryResult(canary$1, payload, ctx);
+				});
+				return handleCanaryResult(canary, payload, ctx);
+			}
+			const result = inst._zod.parse(payload, ctx);
+			if (result instanceof Promise) {
+				if (ctx.async === false) throw new $ZodAsyncError();
+				return result.then((result$1) => runChecks(result$1, checks, ctx));
+			}
+			return runChecks(result, checks, ctx);
+		};
+	}
+	defineLazy(inst, "~standard", () => ({
+		validate: (value) => {
+			try {
+				const r$2 = safeParse$1(inst, value);
+				return r$2.success ? { value: r$2.data } : { issues: r$2.error?.issues };
+			} catch (_$1) {
+				return safeParseAsync$1(inst, value).then((r$2) => r$2.success ? { value: r$2.data } : { issues: r$2.error?.issues });
+			}
+		},
+		vendor: "zod",
+		version: 1
+	}));
+});
+const $ZodString = /* @__PURE__ */ $constructor("$ZodString", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.pattern = [...inst?._zod.bag?.patterns ?? []].pop() ?? string$1(inst._zod.bag);
+	inst._zod.parse = (payload, _$1) => {
+		if (def.coerce) try {
+			payload.value = String(payload.value);
+		} catch (_$2) {}
+		if (typeof payload.value === "string") return payload;
+		payload.issues.push({
+			expected: "string",
+			code: "invalid_type",
+			input: payload.value,
+			inst
+		});
+		return payload;
+	};
+});
+const $ZodStringFormat = /* @__PURE__ */ $constructor("$ZodStringFormat", (inst, def) => {
+	$ZodCheckStringFormat.init(inst, def);
+	$ZodString.init(inst, def);
+});
+const $ZodGUID = /* @__PURE__ */ $constructor("$ZodGUID", (inst, def) => {
+	def.pattern ?? (def.pattern = guid);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodUUID = /* @__PURE__ */ $constructor("$ZodUUID", (inst, def) => {
+	if (def.version) {
+		const v = {
+			v1: 1,
+			v2: 2,
+			v3: 3,
+			v4: 4,
+			v5: 5,
+			v6: 6,
+			v7: 7,
+			v8: 8
+		}[def.version];
+		if (v === void 0) throw new Error(`Invalid UUID version: "${def.version}"`);
+		def.pattern ?? (def.pattern = uuid(v));
+	} else def.pattern ?? (def.pattern = uuid());
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodEmail = /* @__PURE__ */ $constructor("$ZodEmail", (inst, def) => {
+	def.pattern ?? (def.pattern = email);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodURL = /* @__PURE__ */ $constructor("$ZodURL", (inst, def) => {
+	$ZodStringFormat.init(inst, def);
+	inst._zod.check = (payload) => {
+		try {
+			const trimmed = payload.value.trim();
+			const url = new URL(trimmed);
+			if (def.hostname) {
+				def.hostname.lastIndex = 0;
+				if (!def.hostname.test(url.hostname)) payload.issues.push({
+					code: "invalid_format",
+					format: "url",
+					note: "Invalid hostname",
+					pattern: def.hostname.source,
+					input: payload.value,
+					inst,
+					continue: !def.abort
+				});
+			}
+			if (def.protocol) {
+				def.protocol.lastIndex = 0;
+				if (!def.protocol.test(url.protocol.endsWith(":") ? url.protocol.slice(0, -1) : url.protocol)) payload.issues.push({
+					code: "invalid_format",
+					format: "url",
+					note: "Invalid protocol",
+					pattern: def.protocol.source,
+					input: payload.value,
+					inst,
+					continue: !def.abort
+				});
+			}
+			if (def.normalize) payload.value = url.href;
+			else payload.value = trimmed;
+			return;
+		} catch (_$1) {
+			payload.issues.push({
+				code: "invalid_format",
+				format: "url",
+				input: payload.value,
+				inst,
+				continue: !def.abort
+			});
+		}
+	};
+});
+const $ZodEmoji = /* @__PURE__ */ $constructor("$ZodEmoji", (inst, def) => {
+	def.pattern ?? (def.pattern = emoji());
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodNanoID = /* @__PURE__ */ $constructor("$ZodNanoID", (inst, def) => {
+	def.pattern ?? (def.pattern = nanoid);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodCUID = /* @__PURE__ */ $constructor("$ZodCUID", (inst, def) => {
+	def.pattern ?? (def.pattern = cuid);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodCUID2 = /* @__PURE__ */ $constructor("$ZodCUID2", (inst, def) => {
+	def.pattern ?? (def.pattern = cuid2);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodULID = /* @__PURE__ */ $constructor("$ZodULID", (inst, def) => {
+	def.pattern ?? (def.pattern = ulid);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodXID = /* @__PURE__ */ $constructor("$ZodXID", (inst, def) => {
+	def.pattern ?? (def.pattern = xid);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodKSUID = /* @__PURE__ */ $constructor("$ZodKSUID", (inst, def) => {
+	def.pattern ?? (def.pattern = ksuid);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodISODateTime = /* @__PURE__ */ $constructor("$ZodISODateTime", (inst, def) => {
+	def.pattern ?? (def.pattern = datetime$1(def));
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodISODate = /* @__PURE__ */ $constructor("$ZodISODate", (inst, def) => {
+	def.pattern ?? (def.pattern = date$1);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodISOTime = /* @__PURE__ */ $constructor("$ZodISOTime", (inst, def) => {
+	def.pattern ?? (def.pattern = time$1(def));
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodISODuration = /* @__PURE__ */ $constructor("$ZodISODuration", (inst, def) => {
+	def.pattern ?? (def.pattern = duration$1);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodIPv4 = /* @__PURE__ */ $constructor("$ZodIPv4", (inst, def) => {
+	def.pattern ?? (def.pattern = ipv4);
+	$ZodStringFormat.init(inst, def);
+	inst._zod.bag.format = `ipv4`;
+});
+const $ZodIPv6 = /* @__PURE__ */ $constructor("$ZodIPv6", (inst, def) => {
+	def.pattern ?? (def.pattern = ipv6);
+	$ZodStringFormat.init(inst, def);
+	inst._zod.bag.format = `ipv6`;
+	inst._zod.check = (payload) => {
+		try {
+			new URL(`http://[${payload.value}]`);
+		} catch {
+			payload.issues.push({
+				code: "invalid_format",
+				format: "ipv6",
+				input: payload.value,
+				inst,
+				continue: !def.abort
+			});
+		}
+	};
+});
+const $ZodCIDRv4 = /* @__PURE__ */ $constructor("$ZodCIDRv4", (inst, def) => {
+	def.pattern ?? (def.pattern = cidrv4);
+	$ZodStringFormat.init(inst, def);
+});
+const $ZodCIDRv6 = /* @__PURE__ */ $constructor("$ZodCIDRv6", (inst, def) => {
+	def.pattern ?? (def.pattern = cidrv6);
+	$ZodStringFormat.init(inst, def);
+	inst._zod.check = (payload) => {
+		const parts = payload.value.split("/");
+		try {
+			if (parts.length !== 2) throw new Error();
+			const [address, prefix] = parts;
+			if (!prefix) throw new Error();
+			const prefixNum = Number(prefix);
+			if (`${prefixNum}` !== prefix) throw new Error();
+			if (prefixNum < 0 || prefixNum > 128) throw new Error();
+			new URL(`http://[${address}]`);
+		} catch {
+			payload.issues.push({
+				code: "invalid_format",
+				format: "cidrv6",
+				input: payload.value,
+				inst,
+				continue: !def.abort
+			});
+		}
+	};
+});
+function isValidBase64(data) {
+	if (data === "") return true;
+	if (data.length % 4 !== 0) return false;
+	try {
+		atob(data);
+		return true;
+	} catch {
+		return false;
+	}
+}
+const $ZodBase64 = /* @__PURE__ */ $constructor("$ZodBase64", (inst, def) => {
+	def.pattern ?? (def.pattern = base64);
+	$ZodStringFormat.init(inst, def);
+	inst._zod.bag.contentEncoding = "base64";
+	inst._zod.check = (payload) => {
+		if (isValidBase64(payload.value)) return;
+		payload.issues.push({
+			code: "invalid_format",
+			format: "base64",
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+function isValidBase64URL(data) {
+	if (!base64url.test(data)) return false;
+	const base64$1 = data.replace(/[-_]/g, (c) => c === "-" ? "+" : "/");
+	return isValidBase64(base64$1.padEnd(Math.ceil(base64$1.length / 4) * 4, "="));
+}
+const $ZodBase64URL = /* @__PURE__ */ $constructor("$ZodBase64URL", (inst, def) => {
+	def.pattern ?? (def.pattern = base64url);
+	$ZodStringFormat.init(inst, def);
+	inst._zod.bag.contentEncoding = "base64url";
+	inst._zod.check = (payload) => {
+		if (isValidBase64URL(payload.value)) return;
+		payload.issues.push({
+			code: "invalid_format",
+			format: "base64url",
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodE164 = /* @__PURE__ */ $constructor("$ZodE164", (inst, def) => {
+	def.pattern ?? (def.pattern = e164);
+	$ZodStringFormat.init(inst, def);
+});
+function isValidJWT(token, algorithm = null) {
+	try {
+		const tokensParts = token.split(".");
+		if (tokensParts.length !== 3) return false;
+		const [header] = tokensParts;
+		if (!header) return false;
+		const parsedHeader = JSON.parse(atob(header));
+		if ("typ" in parsedHeader && parsedHeader?.typ !== "JWT") return false;
+		if (!parsedHeader.alg) return false;
+		if (algorithm && (!("alg" in parsedHeader) || parsedHeader.alg !== algorithm)) return false;
+		return true;
+	} catch {
+		return false;
+	}
+}
+const $ZodJWT = /* @__PURE__ */ $constructor("$ZodJWT", (inst, def) => {
+	$ZodStringFormat.init(inst, def);
+	inst._zod.check = (payload) => {
+		if (isValidJWT(payload.value, def.alg)) return;
+		payload.issues.push({
+			code: "invalid_format",
+			format: "jwt",
+			input: payload.value,
+			inst,
+			continue: !def.abort
+		});
+	};
+});
+const $ZodUnknown = /* @__PURE__ */ $constructor("$ZodUnknown", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.parse = (payload) => payload;
+});
+const $ZodNever = /* @__PURE__ */ $constructor("$ZodNever", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.parse = (payload, _ctx) => {
+		payload.issues.push({
+			expected: "never",
+			code: "invalid_type",
+			input: payload.value,
+			inst
+		});
+		return payload;
+	};
+});
+function handleArrayResult(result, final, index$1) {
+	if (result.issues.length) final.issues.push(...prefixIssues(index$1, result.issues));
+	final.value[index$1] = result.value;
+}
+const $ZodArray = /* @__PURE__ */ $constructor("$ZodArray", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.parse = (payload, ctx) => {
+		const input = payload.value;
+		if (!Array.isArray(input)) {
+			payload.issues.push({
+				expected: "array",
+				code: "invalid_type",
+				input,
+				inst
+			});
+			return payload;
+		}
+		payload.value = Array(input.length);
+		const proms = [];
+		for (let i$2 = 0; i$2 < input.length; i$2++) {
+			const item = input[i$2];
+			const result = def.element._zod.run({
+				value: item,
+				issues: []
+			}, ctx);
+			if (result instanceof Promise) proms.push(result.then((result$1) => handleArrayResult(result$1, payload, i$2)));
+			else handleArrayResult(result, payload, i$2);
+		}
+		if (proms.length) return Promise.all(proms).then(() => payload);
+		return payload;
+	};
+});
+function handlePropertyResult(result, final, key, input, isOptionalOut) {
+	if (result.issues.length) {
+		if (isOptionalOut && !(key in input)) return;
+		final.issues.push(...prefixIssues(key, result.issues));
+	}
+	if (result.value === void 0) {
+		if (key in input) final.value[key] = void 0;
+	} else final.value[key] = result.value;
+}
+function normalizeDef(def) {
+	const keys = Object.keys(def.shape);
+	for (const k of keys) if (!def.shape?.[k]?._zod?.traits?.has("$ZodType")) throw new Error(`Invalid element at key "${k}": expected a Zod schema`);
+	const okeys = optionalKeys(def.shape);
+	return {
+		...def,
+		keys,
+		keySet: new Set(keys),
+		numKeys: keys.length,
+		optionalKeys: new Set(okeys)
+	};
+}
+function handleCatchall(proms, input, payload, ctx, def, inst) {
+	const unrecognized = [];
+	const keySet = def.keySet;
+	const _catchall = def.catchall._zod;
+	const t$1 = _catchall.def.type;
+	const isOptionalOut = _catchall.optout === "optional";
+	for (const key in input) {
+		if (keySet.has(key)) continue;
+		if (t$1 === "never") {
+			unrecognized.push(key);
+			continue;
+		}
+		const r$2 = _catchall.run({
+			value: input[key],
+			issues: []
+		}, ctx);
+		if (r$2 instanceof Promise) proms.push(r$2.then((r$3) => handlePropertyResult(r$3, payload, key, input, isOptionalOut)));
+		else handlePropertyResult(r$2, payload, key, input, isOptionalOut);
+	}
+	if (unrecognized.length) payload.issues.push({
+		code: "unrecognized_keys",
+		keys: unrecognized,
+		input,
+		inst
+	});
+	if (!proms.length) return payload;
+	return Promise.all(proms).then(() => {
+		return payload;
+	});
+}
+const $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
+	$ZodType.init(inst, def);
+	if (!Object.getOwnPropertyDescriptor(def, "shape")?.get) {
+		const sh = def.shape;
+		Object.defineProperty(def, "shape", { get: () => {
+			const newSh = { ...sh };
+			Object.defineProperty(def, "shape", { value: newSh });
+			return newSh;
+		} });
+	}
+	const _normalized = cached(() => normalizeDef(def));
+	defineLazy(inst._zod, "propValues", () => {
+		const shape = def.shape;
+		const propValues = {};
+		for (const key in shape) {
+			const field = shape[key]._zod;
+			if (field.values) {
+				propValues[key] ?? (propValues[key] = /* @__PURE__ */ new Set());
+				for (const v of field.values) propValues[key].add(v);
+			}
+		}
+		return propValues;
+	});
+	const isObject$2 = isObject;
+	const catchall = def.catchall;
+	let value;
+	inst._zod.parse = (payload, ctx) => {
+		value ?? (value = _normalized.value);
+		const input = payload.value;
+		if (!isObject$2(input)) {
+			payload.issues.push({
+				expected: "object",
+				code: "invalid_type",
+				input,
+				inst
+			});
+			return payload;
+		}
+		payload.value = {};
+		const proms = [];
+		const shape = value.shape;
+		for (const key of value.keys) {
+			const el = shape[key];
+			const isOptionalOut = el._zod.optout === "optional";
+			const r$2 = el._zod.run({
+				value: input[key],
+				issues: []
+			}, ctx);
+			if (r$2 instanceof Promise) proms.push(r$2.then((r$3) => handlePropertyResult(r$3, payload, key, input, isOptionalOut)));
+			else handlePropertyResult(r$2, payload, key, input, isOptionalOut);
+		}
+		if (!catchall) return proms.length ? Promise.all(proms).then(() => payload) : payload;
+		return handleCatchall(proms, input, payload, ctx, _normalized.value, inst);
+	};
+});
+const $ZodObjectJIT = /* @__PURE__ */ $constructor("$ZodObjectJIT", (inst, def) => {
+	$ZodObject.init(inst, def);
+	const superParse = inst._zod.parse;
+	const _normalized = cached(() => normalizeDef(def));
+	const generateFastpass = (shape) => {
+		const doc = new Doc([
+			"shape",
+			"payload",
+			"ctx"
+		]);
+		const normalized = _normalized.value;
+		const parseStr = (key) => {
+			const k = esc(key);
+			return `shape[${k}]._zod.run({ value: input[${k}], issues: [] }, ctx)`;
+		};
+		doc.write(`const input = payload.value;`);
+		const ids = Object.create(null);
+		let counter = 0;
+		for (const key of normalized.keys) ids[key] = `key_${counter++}`;
+		doc.write(`const newResult = {};`);
+		for (const key of normalized.keys) {
+			const id = ids[key];
+			const k = esc(key);
+			const isOptionalOut = shape[key]?._zod?.optout === "optional";
+			doc.write(`const ${id} = ${parseStr(key)};`);
+			if (isOptionalOut) doc.write(`
+        if (${id}.issues.length) {
+          if (${k} in input) {
+            payload.issues = payload.issues.concat(${id}.issues.map(iss => ({
+              ...iss,
+              path: iss.path ? [${k}, ...iss.path] : [${k}]
+            })));
+          }
+        }
+        
+        if (${id}.value === undefined) {
+          if (${k} in input) {
+            newResult[${k}] = undefined;
+          }
+        } else {
+          newResult[${k}] = ${id}.value;
+        }
+        
+      `);
+			else doc.write(`
+        if (${id}.issues.length) {
+          payload.issues = payload.issues.concat(${id}.issues.map(iss => ({
+            ...iss,
+            path: iss.path ? [${k}, ...iss.path] : [${k}]
+          })));
+        }
+        
+        if (${id}.value === undefined) {
+          if (${k} in input) {
+            newResult[${k}] = undefined;
+          }
+        } else {
+          newResult[${k}] = ${id}.value;
+        }
+        
+      `);
+		}
+		doc.write(`payload.value = newResult;`);
+		doc.write(`return payload;`);
+		const fn = doc.compile();
+		return (payload, ctx) => fn(shape, payload, ctx);
+	};
+	let fastpass;
+	const isObject$2 = isObject;
+	const jit = !globalConfig.jitless;
+	const fastEnabled = jit && allowsEval.value;
+	const catchall = def.catchall;
+	let value;
+	inst._zod.parse = (payload, ctx) => {
+		value ?? (value = _normalized.value);
+		const input = payload.value;
+		if (!isObject$2(input)) {
+			payload.issues.push({
+				expected: "object",
+				code: "invalid_type",
+				input,
+				inst
+			});
+			return payload;
+		}
+		if (jit && fastEnabled && ctx?.async === false && ctx.jitless !== true) {
+			if (!fastpass) fastpass = generateFastpass(def.shape);
+			payload = fastpass(payload, ctx);
+			if (!catchall) return payload;
+			return handleCatchall([], input, payload, ctx, value, inst);
+		}
+		return superParse(payload, ctx);
+	};
+});
+function handleUnionResults(results, final, inst, ctx) {
+	for (const result of results) if (result.issues.length === 0) {
+		final.value = result.value;
+		return final;
+	}
+	const nonaborted = results.filter((r$2) => !aborted(r$2));
+	if (nonaborted.length === 1) {
+		final.value = nonaborted[0].value;
+		return nonaborted[0];
+	}
+	final.issues.push({
+		code: "invalid_union",
+		input: final.value,
+		inst,
+		errors: results.map((result) => result.issues.map((iss) => finalizeIssue(iss, ctx, config())))
+	});
+	return final;
+}
+const $ZodUnion = /* @__PURE__ */ $constructor("$ZodUnion", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "optin", () => def.options.some((o$1) => o$1._zod.optin === "optional") ? "optional" : void 0);
+	defineLazy(inst._zod, "optout", () => def.options.some((o$1) => o$1._zod.optout === "optional") ? "optional" : void 0);
+	defineLazy(inst._zod, "values", () => {
+		if (def.options.every((o$1) => o$1._zod.values)) return new Set(def.options.flatMap((option) => Array.from(option._zod.values)));
+	});
+	defineLazy(inst._zod, "pattern", () => {
+		if (def.options.every((o$1) => o$1._zod.pattern)) {
+			const patterns = def.options.map((o$1) => o$1._zod.pattern);
+			return /* @__PURE__ */ new RegExp(`^(${patterns.map((p) => cleanRegex(p.source)).join("|")})$`);
+		}
+	});
+	const single = def.options.length === 1;
+	const first = def.options[0]._zod.run;
+	inst._zod.parse = (payload, ctx) => {
+		if (single) return first(payload, ctx);
+		let async = false;
+		const results = [];
+		for (const option of def.options) {
+			const result = option._zod.run({
+				value: payload.value,
+				issues: []
+			}, ctx);
+			if (result instanceof Promise) {
+				results.push(result);
+				async = true;
+			} else {
+				if (result.issues.length === 0) return result;
+				results.push(result);
+			}
+		}
+		if (!async) return handleUnionResults(results, payload, inst, ctx);
+		return Promise.all(results).then((results$1) => {
+			return handleUnionResults(results$1, payload, inst, ctx);
+		});
+	};
+});
+const $ZodIntersection = /* @__PURE__ */ $constructor("$ZodIntersection", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.parse = (payload, ctx) => {
+		const input = payload.value;
+		const left = def.left._zod.run({
+			value: input,
+			issues: []
+		}, ctx);
+		const right = def.right._zod.run({
+			value: input,
+			issues: []
+		}, ctx);
+		if (left instanceof Promise || right instanceof Promise) return Promise.all([left, right]).then(([left$1, right$1]) => {
+			return handleIntersectionResults(payload, left$1, right$1);
+		});
+		return handleIntersectionResults(payload, left, right);
+	};
+});
+function mergeValues(a$1, b$1) {
+	if (a$1 === b$1) return {
+		valid: true,
+		data: a$1
+	};
+	if (a$1 instanceof Date && b$1 instanceof Date && +a$1 === +b$1) return {
+		valid: true,
+		data: a$1
+	};
+	if (isPlainObject(a$1) && isPlainObject(b$1)) {
+		const bKeys = Object.keys(b$1);
+		const sharedKeys = Object.keys(a$1).filter((key) => bKeys.indexOf(key) !== -1);
+		const newObj = {
+			...a$1,
+			...b$1
+		};
+		for (const key of sharedKeys) {
+			const sharedValue = mergeValues(a$1[key], b$1[key]);
+			if (!sharedValue.valid) return {
+				valid: false,
+				mergeErrorPath: [key, ...sharedValue.mergeErrorPath]
+			};
+			newObj[key] = sharedValue.data;
+		}
+		return {
+			valid: true,
+			data: newObj
+		};
+	}
+	if (Array.isArray(a$1) && Array.isArray(b$1)) {
+		if (a$1.length !== b$1.length) return {
+			valid: false,
+			mergeErrorPath: []
+		};
+		const newArray = [];
+		for (let index$1 = 0; index$1 < a$1.length; index$1++) {
+			const itemA = a$1[index$1];
+			const itemB = b$1[index$1];
+			const sharedValue = mergeValues(itemA, itemB);
+			if (!sharedValue.valid) return {
+				valid: false,
+				mergeErrorPath: [index$1, ...sharedValue.mergeErrorPath]
+			};
+			newArray.push(sharedValue.data);
+		}
+		return {
+			valid: true,
+			data: newArray
+		};
+	}
+	return {
+		valid: false,
+		mergeErrorPath: []
+	};
+}
+function handleIntersectionResults(result, left, right) {
+	const unrecKeys = /* @__PURE__ */ new Map();
+	let unrecIssue;
+	for (const iss of left.issues) if (iss.code === "unrecognized_keys") {
+		unrecIssue ?? (unrecIssue = iss);
+		for (const k of iss.keys) {
+			if (!unrecKeys.has(k)) unrecKeys.set(k, {});
+			unrecKeys.get(k).l = true;
+		}
+	} else result.issues.push(iss);
+	for (const iss of right.issues) if (iss.code === "unrecognized_keys") for (const k of iss.keys) {
+		if (!unrecKeys.has(k)) unrecKeys.set(k, {});
+		unrecKeys.get(k).r = true;
+	}
+	else result.issues.push(iss);
+	const bothKeys = [...unrecKeys].filter(([, f]) => f.l && f.r).map(([k]) => k);
+	if (bothKeys.length && unrecIssue) result.issues.push({
+		...unrecIssue,
+		keys: bothKeys
+	});
+	if (aborted(result)) return result;
+	const merged = mergeValues(left.value, right.value);
+	if (!merged.valid) throw new Error(`Unmergable intersection. Error path: ${JSON.stringify(merged.mergeErrorPath)}`);
+	result.value = merged.data;
+	return result;
+}
+const $ZodEnum = /* @__PURE__ */ $constructor("$ZodEnum", (inst, def) => {
+	$ZodType.init(inst, def);
+	const values = getEnumValues(def.entries);
+	const valuesSet = new Set(values);
+	inst._zod.values = valuesSet;
+	inst._zod.pattern = /* @__PURE__ */ new RegExp(`^(${values.filter((k) => propertyKeyTypes.has(typeof k)).map((o$1) => typeof o$1 === "string" ? escapeRegex(o$1) : o$1.toString()).join("|")})$`);
+	inst._zod.parse = (payload, _ctx) => {
+		const input = payload.value;
+		if (valuesSet.has(input)) return payload;
+		payload.issues.push({
+			code: "invalid_value",
+			values,
+			input,
+			inst
+		});
+		return payload;
+	};
+});
+const $ZodTransform = /* @__PURE__ */ $constructor("$ZodTransform", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.parse = (payload, ctx) => {
+		if (ctx.direction === "backward") throw new $ZodEncodeError(inst.constructor.name);
+		const _out = def.transform(payload.value, payload);
+		if (ctx.async) return (_out instanceof Promise ? _out : Promise.resolve(_out)).then((output) => {
+			payload.value = output;
+			return payload;
+		});
+		if (_out instanceof Promise) throw new $ZodAsyncError();
+		payload.value = _out;
+		return payload;
+	};
+});
+function handleOptionalResult(result, input) {
+	if (result.issues.length && input === void 0) return {
+		issues: [],
+		value: void 0
+	};
+	return result;
+}
+const $ZodOptional = /* @__PURE__ */ $constructor("$ZodOptional", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.optin = "optional";
+	inst._zod.optout = "optional";
+	defineLazy(inst._zod, "values", () => {
+		return def.innerType._zod.values ? new Set([...def.innerType._zod.values, void 0]) : void 0;
+	});
+	defineLazy(inst._zod, "pattern", () => {
+		const pattern = def.innerType._zod.pattern;
+		return pattern ? /* @__PURE__ */ new RegExp(`^(${cleanRegex(pattern.source)})?$`) : void 0;
+	});
+	inst._zod.parse = (payload, ctx) => {
+		if (def.innerType._zod.optin === "optional") {
+			const result = def.innerType._zod.run(payload, ctx);
+			if (result instanceof Promise) return result.then((r$2) => handleOptionalResult(r$2, payload.value));
+			return handleOptionalResult(result, payload.value);
+		}
+		if (payload.value === void 0) return payload;
+		return def.innerType._zod.run(payload, ctx);
+	};
+});
+const $ZodExactOptional = /* @__PURE__ */ $constructor("$ZodExactOptional", (inst, def) => {
+	$ZodOptional.init(inst, def);
+	defineLazy(inst._zod, "values", () => def.innerType._zod.values);
+	defineLazy(inst._zod, "pattern", () => def.innerType._zod.pattern);
+	inst._zod.parse = (payload, ctx) => {
+		return def.innerType._zod.run(payload, ctx);
+	};
+});
+const $ZodNullable = /* @__PURE__ */ $constructor("$ZodNullable", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "optin", () => def.innerType._zod.optin);
+	defineLazy(inst._zod, "optout", () => def.innerType._zod.optout);
+	defineLazy(inst._zod, "pattern", () => {
+		const pattern = def.innerType._zod.pattern;
+		return pattern ? /* @__PURE__ */ new RegExp(`^(${cleanRegex(pattern.source)}|null)$`) : void 0;
+	});
+	defineLazy(inst._zod, "values", () => {
+		return def.innerType._zod.values ? new Set([...def.innerType._zod.values, null]) : void 0;
+	});
+	inst._zod.parse = (payload, ctx) => {
+		if (payload.value === null) return payload;
+		return def.innerType._zod.run(payload, ctx);
+	};
+});
+const $ZodDefault = /* @__PURE__ */ $constructor("$ZodDefault", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.optin = "optional";
+	defineLazy(inst._zod, "values", () => def.innerType._zod.values);
+	inst._zod.parse = (payload, ctx) => {
+		if (ctx.direction === "backward") return def.innerType._zod.run(payload, ctx);
+		if (payload.value === void 0) {
+			payload.value = def.defaultValue;
+			return payload;
+		}
+		const result = def.innerType._zod.run(payload, ctx);
+		if (result instanceof Promise) return result.then((result$1) => handleDefaultResult(result$1, def));
+		return handleDefaultResult(result, def);
+	};
+});
+function handleDefaultResult(payload, def) {
+	if (payload.value === void 0) payload.value = def.defaultValue;
+	return payload;
+}
+const $ZodPrefault = /* @__PURE__ */ $constructor("$ZodPrefault", (inst, def) => {
+	$ZodType.init(inst, def);
+	inst._zod.optin = "optional";
+	defineLazy(inst._zod, "values", () => def.innerType._zod.values);
+	inst._zod.parse = (payload, ctx) => {
+		if (ctx.direction === "backward") return def.innerType._zod.run(payload, ctx);
+		if (payload.value === void 0) payload.value = def.defaultValue;
+		return def.innerType._zod.run(payload, ctx);
+	};
+});
+const $ZodNonOptional = /* @__PURE__ */ $constructor("$ZodNonOptional", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "values", () => {
+		const v = def.innerType._zod.values;
+		return v ? new Set([...v].filter((x$1) => x$1 !== void 0)) : void 0;
+	});
+	inst._zod.parse = (payload, ctx) => {
+		const result = def.innerType._zod.run(payload, ctx);
+		if (result instanceof Promise) return result.then((result$1) => handleNonOptionalResult(result$1, inst));
+		return handleNonOptionalResult(result, inst);
+	};
+});
+function handleNonOptionalResult(payload, inst) {
+	if (!payload.issues.length && payload.value === void 0) payload.issues.push({
+		code: "invalid_type",
+		expected: "nonoptional",
+		input: payload.value,
+		inst
+	});
+	return payload;
+}
+const $ZodCatch = /* @__PURE__ */ $constructor("$ZodCatch", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "optin", () => def.innerType._zod.optin);
+	defineLazy(inst._zod, "optout", () => def.innerType._zod.optout);
+	defineLazy(inst._zod, "values", () => def.innerType._zod.values);
+	inst._zod.parse = (payload, ctx) => {
+		if (ctx.direction === "backward") return def.innerType._zod.run(payload, ctx);
+		const result = def.innerType._zod.run(payload, ctx);
+		if (result instanceof Promise) return result.then((result$1) => {
+			payload.value = result$1.value;
+			if (result$1.issues.length) {
+				payload.value = def.catchValue({
+					...payload,
+					error: { issues: result$1.issues.map((iss) => finalizeIssue(iss, ctx, config())) },
+					input: payload.value
+				});
+				payload.issues = [];
+			}
+			return payload;
+		});
+		payload.value = result.value;
+		if (result.issues.length) {
+			payload.value = def.catchValue({
+				...payload,
+				error: { issues: result.issues.map((iss) => finalizeIssue(iss, ctx, config())) },
+				input: payload.value
+			});
+			payload.issues = [];
+		}
+		return payload;
+	};
+});
+const $ZodPipe = /* @__PURE__ */ $constructor("$ZodPipe", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "values", () => def.in._zod.values);
+	defineLazy(inst._zod, "optin", () => def.in._zod.optin);
+	defineLazy(inst._zod, "optout", () => def.out._zod.optout);
+	defineLazy(inst._zod, "propValues", () => def.in._zod.propValues);
+	inst._zod.parse = (payload, ctx) => {
+		if (ctx.direction === "backward") {
+			const right = def.out._zod.run(payload, ctx);
+			if (right instanceof Promise) return right.then((right$1) => handlePipeResult(right$1, def.in, ctx));
+			return handlePipeResult(right, def.in, ctx);
+		}
+		const left = def.in._zod.run(payload, ctx);
+		if (left instanceof Promise) return left.then((left$1) => handlePipeResult(left$1, def.out, ctx));
+		return handlePipeResult(left, def.out, ctx);
+	};
+});
+function handlePipeResult(left, next, ctx) {
+	if (left.issues.length) {
+		left.aborted = true;
+		return left;
+	}
+	return next._zod.run({
+		value: left.value,
+		issues: left.issues
+	}, ctx);
+}
+const $ZodReadonly = /* @__PURE__ */ $constructor("$ZodReadonly", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "propValues", () => def.innerType._zod.propValues);
+	defineLazy(inst._zod, "values", () => def.innerType._zod.values);
+	defineLazy(inst._zod, "optin", () => def.innerType?._zod?.optin);
+	defineLazy(inst._zod, "optout", () => def.innerType?._zod?.optout);
+	inst._zod.parse = (payload, ctx) => {
+		if (ctx.direction === "backward") return def.innerType._zod.run(payload, ctx);
+		const result = def.innerType._zod.run(payload, ctx);
+		if (result instanceof Promise) return result.then(handleReadonlyResult);
+		return handleReadonlyResult(result);
+	};
+});
+function handleReadonlyResult(payload) {
+	payload.value = Object.freeze(payload.value);
+	return payload;
+}
+const $ZodCustom = /* @__PURE__ */ $constructor("$ZodCustom", (inst, def) => {
+	$ZodCheck.init(inst, def);
+	$ZodType.init(inst, def);
+	inst._zod.parse = (payload, _$1) => {
+		return payload;
+	};
+	inst._zod.check = (payload) => {
+		const input = payload.value;
+		const r$2 = def.fn(input);
+		if (r$2 instanceof Promise) return r$2.then((r$3) => handleRefineResult(r$3, payload, input, inst));
+		handleRefineResult(r$2, payload, input, inst);
+	};
+});
+function handleRefineResult(result, payload, input, inst) {
+	if (!result) {
+		const _iss = {
+			code: "custom",
+			input,
+			inst,
+			path: [...inst._zod.def.path ?? []],
+			continue: !inst._zod.def.abort
+		};
+		if (inst._zod.def.params) _iss.params = inst._zod.def.params;
+		payload.issues.push(issue(_iss));
+	}
+}
+var _a;
+var $ZodRegistry = class {
+	constructor() {
+		this._map = /* @__PURE__ */ new WeakMap();
+		this._idmap = /* @__PURE__ */ new Map();
+	}
+	add(schema, ..._meta) {
+		const meta$2 = _meta[0];
+		this._map.set(schema, meta$2);
+		if (meta$2 && typeof meta$2 === "object" && "id" in meta$2) this._idmap.set(meta$2.id, schema);
+		return this;
+	}
+	clear() {
+		this._map = /* @__PURE__ */ new WeakMap();
+		this._idmap = /* @__PURE__ */ new Map();
+		return this;
+	}
+	remove(schema) {
+		const meta$2 = this._map.get(schema);
+		if (meta$2 && typeof meta$2 === "object" && "id" in meta$2) this._idmap.delete(meta$2.id);
+		this._map.delete(schema);
+		return this;
+	}
+	get(schema) {
+		const p = schema._zod.parent;
+		if (p) {
+			const pm = { ...this.get(p) ?? {} };
+			delete pm.id;
+			const f = {
+				...pm,
+				...this._map.get(schema)
+			};
+			return Object.keys(f).length ? f : void 0;
+		}
+		return this._map.get(schema);
+	}
+	has(schema) {
+		return this._map.has(schema);
+	}
+};
+function registry() {
+	return new $ZodRegistry();
+}
+(_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
+const globalRegistry = globalThis.__zod_globalRegistry;
+/* @__NO_SIDE_EFFECTS__ */
+function _string(Class, params) {
+	return new Class({
+		type: "string",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _email(Class, params) {
+	return new Class({
+		type: "string",
+		format: "email",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _guid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "guid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _uuid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "uuid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _uuidv4(Class, params) {
+	return new Class({
+		type: "string",
+		format: "uuid",
+		check: "string_format",
+		abort: false,
+		version: "v4",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _uuidv6(Class, params) {
+	return new Class({
+		type: "string",
+		format: "uuid",
+		check: "string_format",
+		abort: false,
+		version: "v6",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _uuidv7(Class, params) {
+	return new Class({
+		type: "string",
+		format: "uuid",
+		check: "string_format",
+		abort: false,
+		version: "v7",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _url(Class, params) {
+	return new Class({
+		type: "string",
+		format: "url",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _emoji(Class, params) {
+	return new Class({
+		type: "string",
+		format: "emoji",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _nanoid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "nanoid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _cuid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "cuid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _cuid2(Class, params) {
+	return new Class({
+		type: "string",
+		format: "cuid2",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _ulid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "ulid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _xid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "xid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _ksuid(Class, params) {
+	return new Class({
+		type: "string",
+		format: "ksuid",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _ipv4(Class, params) {
+	return new Class({
+		type: "string",
+		format: "ipv4",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _ipv6(Class, params) {
+	return new Class({
+		type: "string",
+		format: "ipv6",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _cidrv4(Class, params) {
+	return new Class({
+		type: "string",
+		format: "cidrv4",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _cidrv6(Class, params) {
+	return new Class({
+		type: "string",
+		format: "cidrv6",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _base64(Class, params) {
+	return new Class({
+		type: "string",
+		format: "base64",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _base64url(Class, params) {
+	return new Class({
+		type: "string",
+		format: "base64url",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _e164(Class, params) {
+	return new Class({
+		type: "string",
+		format: "e164",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _jwt(Class, params) {
+	return new Class({
+		type: "string",
+		format: "jwt",
+		check: "string_format",
+		abort: false,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _isoDateTime(Class, params) {
+	return new Class({
+		type: "string",
+		format: "datetime",
+		check: "string_format",
+		offset: false,
+		local: false,
+		precision: null,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _isoDate(Class, params) {
+	return new Class({
+		type: "string",
+		format: "date",
+		check: "string_format",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _isoTime(Class, params) {
+	return new Class({
+		type: "string",
+		format: "time",
+		check: "string_format",
+		precision: null,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _isoDuration(Class, params) {
+	return new Class({
+		type: "string",
+		format: "duration",
+		check: "string_format",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _unknown(Class) {
+	return new Class({ type: "unknown" });
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _never(Class, params) {
+	return new Class({
+		type: "never",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _maxLength(maximum, params) {
+	return new $ZodCheckMaxLength({
+		check: "max_length",
+		...normalizeParams(params),
+		maximum
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _minLength(minimum, params) {
+	return new $ZodCheckMinLength({
+		check: "min_length",
+		...normalizeParams(params),
+		minimum
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _length(length, params) {
+	return new $ZodCheckLengthEquals({
+		check: "length_equals",
+		...normalizeParams(params),
+		length
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _regex(pattern, params) {
+	return new $ZodCheckRegex({
+		check: "string_format",
+		format: "regex",
+		...normalizeParams(params),
+		pattern
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _lowercase(params) {
+	return new $ZodCheckLowerCase({
+		check: "string_format",
+		format: "lowercase",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _uppercase(params) {
+	return new $ZodCheckUpperCase({
+		check: "string_format",
+		format: "uppercase",
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _includes(includes, params) {
+	return new $ZodCheckIncludes({
+		check: "string_format",
+		format: "includes",
+		...normalizeParams(params),
+		includes
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _startsWith(prefix, params) {
+	return new $ZodCheckStartsWith({
+		check: "string_format",
+		format: "starts_with",
+		...normalizeParams(params),
+		prefix
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _endsWith(suffix, params) {
+	return new $ZodCheckEndsWith({
+		check: "string_format",
+		format: "ends_with",
+		...normalizeParams(params),
+		suffix
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _overwrite(tx) {
+	return new $ZodCheckOverwrite({
+		check: "overwrite",
+		tx
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _normalize(form) {
+	return /* @__PURE__ */ _overwrite((input) => input.normalize(form));
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _trim() {
+	return /* @__PURE__ */ _overwrite((input) => input.trim());
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _toLowerCase() {
+	return /* @__PURE__ */ _overwrite((input) => input.toLowerCase());
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _toUpperCase() {
+	return /* @__PURE__ */ _overwrite((input) => input.toUpperCase());
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _slugify() {
+	return /* @__PURE__ */ _overwrite((input) => slugify(input));
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _array(Class, element, params) {
+	return new Class({
+		type: "array",
+		element,
+		...normalizeParams(params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _refine(Class, fn, _params) {
+	return new Class({
+		type: "custom",
+		check: "custom",
+		fn,
+		...normalizeParams(_params)
+	});
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _superRefine(fn) {
+	const ch = /* @__PURE__ */ _check((payload) => {
+		payload.addIssue = (issue$1) => {
+			if (typeof issue$1 === "string") payload.issues.push(issue(issue$1, payload.value, ch._zod.def));
+			else {
+				const _issue = issue$1;
+				if (_issue.fatal) _issue.continue = false;
+				_issue.code ?? (_issue.code = "custom");
+				_issue.input ?? (_issue.input = payload.value);
+				_issue.inst ?? (_issue.inst = ch);
+				_issue.continue ?? (_issue.continue = !ch._zod.def.abort);
+				payload.issues.push(issue(_issue));
+			}
+		};
+		return fn(payload.value, payload);
+	});
+	return ch;
+}
+/* @__NO_SIDE_EFFECTS__ */
+function _check(fn, params) {
+	const ch = new $ZodCheck({
+		check: "custom",
+		...normalizeParams(params)
+	});
+	ch._zod.check = fn;
+	return ch;
+}
+function initializeContext(params) {
+	let target = params?.target ?? "draft-2020-12";
+	if (target === "draft-4") target = "draft-04";
+	if (target === "draft-7") target = "draft-07";
+	return {
+		processors: params.processors ?? {},
+		metadataRegistry: params?.metadata ?? globalRegistry,
+		target,
+		unrepresentable: params?.unrepresentable ?? "throw",
+		override: params?.override ?? (() => {}),
+		io: params?.io ?? "output",
+		counter: 0,
+		seen: /* @__PURE__ */ new Map(),
+		cycles: params?.cycles ?? "ref",
+		reused: params?.reused ?? "inline",
+		external: params?.external ?? void 0
+	};
+}
+function process$1(schema, ctx, _params = {
+	path: [],
+	schemaPath: []
+}) {
+	var _a$1;
+	const def = schema._zod.def;
+	const seen$1 = ctx.seen.get(schema);
+	if (seen$1) {
+		seen$1.count++;
+		if (_params.schemaPath.includes(schema)) seen$1.cycle = _params.path;
+		return seen$1.schema;
+	}
+	const result = {
+		schema: {},
+		count: 1,
+		cycle: void 0,
+		path: _params.path
+	};
+	ctx.seen.set(schema, result);
+	const overrideSchema = schema._zod.toJSONSchema?.();
+	if (overrideSchema) result.schema = overrideSchema;
+	else {
+		const params = {
+			..._params,
+			schemaPath: [..._params.schemaPath, schema],
+			path: _params.path
+		};
+		if (schema._zod.processJSONSchema) schema._zod.processJSONSchema(ctx, result.schema, params);
+		else {
+			const _json = result.schema;
+			const processor = ctx.processors[def.type];
+			if (!processor) throw new Error(`[toJSONSchema]: Non-representable type encountered: ${def.type}`);
+			processor(schema, ctx, _json, params);
+		}
+		const parent = schema._zod.parent;
+		if (parent) {
+			if (!result.ref) result.ref = parent;
+			process$1(parent, ctx, params);
+			ctx.seen.get(parent).isParent = true;
+		}
+	}
+	const meta$2 = ctx.metadataRegistry.get(schema);
+	if (meta$2) Object.assign(result.schema, meta$2);
+	if (ctx.io === "input" && isTransforming(schema)) {
+		delete result.schema.examples;
+		delete result.schema.default;
+	}
+	if (ctx.io === "input" && result.schema._prefault) (_a$1 = result.schema).default ?? (_a$1.default = result.schema._prefault);
+	delete result.schema._prefault;
+	return ctx.seen.get(schema).schema;
+}
+function extractDefs(ctx, schema) {
+	const root = ctx.seen.get(schema);
+	if (!root) throw new Error("Unprocessed schema. This is a bug in Zod.");
+	const idToSchema = /* @__PURE__ */ new Map();
+	for (const entry of ctx.seen.entries()) {
+		const id = ctx.metadataRegistry.get(entry[0])?.id;
+		if (id) {
+			const existing = idToSchema.get(id);
+			if (existing && existing !== entry[0]) throw new Error(`Duplicate schema id "${id}" detected during JSON Schema conversion. Two different schemas cannot share the same id when converted together.`);
+			idToSchema.set(id, entry[0]);
+		}
+	}
+	const makeURI = (entry) => {
+		const defsSegment = ctx.target === "draft-2020-12" ? "$defs" : "definitions";
+		if (ctx.external) {
+			const externalId = ctx.external.registry.get(entry[0])?.id;
+			const uriGenerator = ctx.external.uri ?? ((id$1) => id$1);
+			if (externalId) return { ref: uriGenerator(externalId) };
+			const id = entry[1].defId ?? entry[1].schema.id ?? `schema${ctx.counter++}`;
+			entry[1].defId = id;
+			return {
+				defId: id,
+				ref: `${uriGenerator("__shared")}#/${defsSegment}/${id}`
+			};
+		}
+		if (entry[1] === root) return { ref: "#" };
+		const defUriPrefix = `#/${defsSegment}/`;
+		const defId = entry[1].schema.id ?? `__schema${ctx.counter++}`;
+		return {
+			defId,
+			ref: defUriPrefix + defId
+		};
+	};
+	const extractToDef = (entry) => {
+		if (entry[1].schema.$ref) return;
+		const seen$1 = entry[1];
+		const { ref, defId } = makeURI(entry);
+		seen$1.def = { ...seen$1.schema };
+		if (defId) seen$1.defId = defId;
+		const schema$1 = seen$1.schema;
+		for (const key in schema$1) delete schema$1[key];
+		schema$1.$ref = ref;
+	};
+	if (ctx.cycles === "throw") for (const entry of ctx.seen.entries()) {
+		const seen$1 = entry[1];
+		if (seen$1.cycle) throw new Error(`Cycle detected: #/${seen$1.cycle?.join("/")}/<root>
+
+Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.`);
+	}
+	for (const entry of ctx.seen.entries()) {
+		const seen$1 = entry[1];
+		if (schema === entry[0]) {
+			extractToDef(entry);
+			continue;
+		}
+		if (ctx.external) {
+			const ext = ctx.external.registry.get(entry[0])?.id;
+			if (schema !== entry[0] && ext) {
+				extractToDef(entry);
+				continue;
+			}
+		}
+		if (ctx.metadataRegistry.get(entry[0])?.id) {
+			extractToDef(entry);
+			continue;
+		}
+		if (seen$1.cycle) {
+			extractToDef(entry);
+			continue;
+		}
+		if (seen$1.count > 1) {
+			if (ctx.reused === "ref") {
+				extractToDef(entry);
+				continue;
+			}
+		}
+	}
+}
+function finalize(ctx, schema) {
+	const root = ctx.seen.get(schema);
+	if (!root) throw new Error("Unprocessed schema. This is a bug in Zod.");
+	const flattenRef = (zodSchema) => {
+		const seen$1 = ctx.seen.get(zodSchema);
+		if (seen$1.ref === null) return;
+		const schema$1 = seen$1.def ?? seen$1.schema;
+		const _cached = { ...schema$1 };
+		const ref = seen$1.ref;
+		seen$1.ref = null;
+		if (ref) {
+			flattenRef(ref);
+			const refSeen = ctx.seen.get(ref);
+			const refSchema = refSeen.schema;
+			if (refSchema.$ref && (ctx.target === "draft-07" || ctx.target === "draft-04" || ctx.target === "openapi-3.0")) {
+				schema$1.allOf = schema$1.allOf ?? [];
+				schema$1.allOf.push(refSchema);
+			} else Object.assign(schema$1, refSchema);
+			Object.assign(schema$1, _cached);
+			if (zodSchema._zod.parent === ref) for (const key in schema$1) {
+				if (key === "$ref" || key === "allOf") continue;
+				if (!(key in _cached)) delete schema$1[key];
+			}
+			if (refSchema.$ref) for (const key in schema$1) {
+				if (key === "$ref" || key === "allOf") continue;
+				if (key in refSeen.def && JSON.stringify(schema$1[key]) === JSON.stringify(refSeen.def[key])) delete schema$1[key];
+			}
+		}
+		const parent = zodSchema._zod.parent;
+		if (parent && parent !== ref) {
+			flattenRef(parent);
+			const parentSeen = ctx.seen.get(parent);
+			if (parentSeen?.schema.$ref) {
+				schema$1.$ref = parentSeen.schema.$ref;
+				if (parentSeen.def) for (const key in schema$1) {
+					if (key === "$ref" || key === "allOf") continue;
+					if (key in parentSeen.def && JSON.stringify(schema$1[key]) === JSON.stringify(parentSeen.def[key])) delete schema$1[key];
+				}
+			}
+		}
+		ctx.override({
+			zodSchema,
+			jsonSchema: schema$1,
+			path: seen$1.path ?? []
+		});
+	};
+	for (const entry of [...ctx.seen.entries()].reverse()) flattenRef(entry[0]);
+	const result = {};
+	if (ctx.target === "draft-2020-12") result.$schema = "https://json-schema.org/draft/2020-12/schema";
+	else if (ctx.target === "draft-07") result.$schema = "http://json-schema.org/draft-07/schema#";
+	else if (ctx.target === "draft-04") result.$schema = "http://json-schema.org/draft-04/schema#";
+	else if (ctx.target === "openapi-3.0") {}
+	if (ctx.external?.uri) {
+		const id = ctx.external.registry.get(schema)?.id;
+		if (!id) throw new Error("Schema is missing an `id` property");
+		result.$id = ctx.external.uri(id);
+	}
+	Object.assign(result, root.def ?? root.schema);
+	const defs = ctx.external?.defs ?? {};
+	for (const entry of ctx.seen.entries()) {
+		const seen$1 = entry[1];
+		if (seen$1.def && seen$1.defId) defs[seen$1.defId] = seen$1.def;
+	}
+	if (ctx.external) {} else if (Object.keys(defs).length > 0) if (ctx.target === "draft-2020-12") result.$defs = defs;
+	else result.definitions = defs;
+	try {
+		const finalized = JSON.parse(JSON.stringify(result));
+		Object.defineProperty(finalized, "~standard", {
+			value: {
+				...schema["~standard"],
+				jsonSchema: {
+					input: createStandardJSONSchemaMethod(schema, "input", ctx.processors),
+					output: createStandardJSONSchemaMethod(schema, "output", ctx.processors)
+				}
+			},
+			enumerable: false,
+			writable: false
+		});
+		return finalized;
+	} catch (_err) {
+		throw new Error("Error converting schema to JSON.");
+	}
+}
+function isTransforming(_schema, _ctx) {
+	const ctx = _ctx ?? { seen: /* @__PURE__ */ new Set() };
+	if (ctx.seen.has(_schema)) return false;
+	ctx.seen.add(_schema);
+	const def = _schema._zod.def;
+	if (def.type === "transform") return true;
+	if (def.type === "array") return isTransforming(def.element, ctx);
+	if (def.type === "set") return isTransforming(def.valueType, ctx);
+	if (def.type === "lazy") return isTransforming(def.getter(), ctx);
+	if (def.type === "promise" || def.type === "optional" || def.type === "nonoptional" || def.type === "nullable" || def.type === "readonly" || def.type === "default" || def.type === "prefault") return isTransforming(def.innerType, ctx);
+	if (def.type === "intersection") return isTransforming(def.left, ctx) || isTransforming(def.right, ctx);
+	if (def.type === "record" || def.type === "map") return isTransforming(def.keyType, ctx) || isTransforming(def.valueType, ctx);
+	if (def.type === "pipe") return isTransforming(def.in, ctx) || isTransforming(def.out, ctx);
+	if (def.type === "object") {
+		for (const key in def.shape) if (isTransforming(def.shape[key], ctx)) return true;
+		return false;
+	}
+	if (def.type === "union") {
+		for (const option of def.options) if (isTransforming(option, ctx)) return true;
+		return false;
+	}
+	if (def.type === "tuple") {
+		for (const item of def.items) if (isTransforming(item, ctx)) return true;
+		if (def.rest && isTransforming(def.rest, ctx)) return true;
+		return false;
+	}
+	return false;
+}
+const createToJSONSchemaMethod = (schema, processors = {}) => (params) => {
+	const ctx = initializeContext({
+		...params,
+		processors
+	});
+	process$1(schema, ctx);
+	extractDefs(ctx, schema);
+	return finalize(ctx, schema);
+};
+const createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) => {
+	const { libraryOptions, target } = params ?? {};
+	const ctx = initializeContext({
+		...libraryOptions ?? {},
+		target,
+		io,
+		processors
+	});
+	process$1(schema, ctx);
+	extractDefs(ctx, schema);
+	return finalize(ctx, schema);
+};
+var formatMap = {
+	guid: "uuid",
+	url: "uri",
+	datetime: "date-time",
+	json_string: "json-string",
+	regex: ""
+};
+const stringProcessor = (schema, ctx, _json, _params) => {
+	const json = _json;
+	json.type = "string";
+	const { minimum, maximum, format, patterns, contentEncoding } = schema._zod.bag;
+	if (typeof minimum === "number") json.minLength = minimum;
+	if (typeof maximum === "number") json.maxLength = maximum;
+	if (format) {
+		json.format = formatMap[format] ?? format;
+		if (json.format === "") delete json.format;
+		if (format === "time") delete json.format;
+	}
+	if (contentEncoding) json.contentEncoding = contentEncoding;
+	if (patterns && patterns.size > 0) {
+		const regexes = [...patterns];
+		if (regexes.length === 1) json.pattern = regexes[0].source;
+		else if (regexes.length > 1) json.allOf = [...regexes.map((regex) => ({
+			...ctx.target === "draft-07" || ctx.target === "draft-04" || ctx.target === "openapi-3.0" ? { type: "string" } : {},
+			pattern: regex.source
+		}))];
+	}
+};
+const neverProcessor = (_schema, _ctx, json, _params) => {
+	json.not = {};
+};
+const unknownProcessor = (_schema, _ctx, _json, _params) => {};
+const enumProcessor = (schema, _ctx, json, _params) => {
+	const def = schema._zod.def;
+	const values = getEnumValues(def.entries);
+	if (values.every((v) => typeof v === "number")) json.type = "number";
+	if (values.every((v) => typeof v === "string")) json.type = "string";
+	json.enum = values;
+};
+const customProcessor = (_schema, ctx, _json, _params) => {
+	if (ctx.unrepresentable === "throw") throw new Error("Custom types cannot be represented in JSON Schema");
+};
+const transformProcessor = (_schema, ctx, _json, _params) => {
+	if (ctx.unrepresentable === "throw") throw new Error("Transforms cannot be represented in JSON Schema");
+};
+const arrayProcessor = (schema, ctx, _json, params) => {
+	const json = _json;
+	const def = schema._zod.def;
+	const { minimum, maximum } = schema._zod.bag;
+	if (typeof minimum === "number") json.minItems = minimum;
+	if (typeof maximum === "number") json.maxItems = maximum;
+	json.type = "array";
+	json.items = process$1(def.element, ctx, {
+		...params,
+		path: [...params.path, "items"]
+	});
+};
+const objectProcessor = (schema, ctx, _json, params) => {
+	const json = _json;
+	const def = schema._zod.def;
+	json.type = "object";
+	json.properties = {};
+	const shape = def.shape;
+	for (const key in shape) json.properties[key] = process$1(shape[key], ctx, {
+		...params,
+		path: [
+			...params.path,
+			"properties",
+			key
+		]
+	});
+	const allKeys = new Set(Object.keys(shape));
+	const requiredKeys = new Set([...allKeys].filter((key) => {
+		const v = def.shape[key]._zod;
+		if (ctx.io === "input") return v.optin === void 0;
+		else return v.optout === void 0;
+	}));
+	if (requiredKeys.size > 0) json.required = Array.from(requiredKeys);
+	if (def.catchall?._zod.def.type === "never") json.additionalProperties = false;
+	else if (!def.catchall) {
+		if (ctx.io === "output") json.additionalProperties = false;
+	} else if (def.catchall) json.additionalProperties = process$1(def.catchall, ctx, {
+		...params,
+		path: [...params.path, "additionalProperties"]
+	});
+};
+const unionProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	const isExclusive = def.inclusive === false;
+	const options$1 = def.options.map((x$1, i$2) => process$1(x$1, ctx, {
+		...params,
+		path: [
+			...params.path,
+			isExclusive ? "oneOf" : "anyOf",
+			i$2
+		]
+	}));
+	if (isExclusive) json.oneOf = options$1;
+	else json.anyOf = options$1;
+};
+const intersectionProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	const a$1 = process$1(def.left, ctx, {
+		...params,
+		path: [
+			...params.path,
+			"allOf",
+			0
+		]
+	});
+	const b$1 = process$1(def.right, ctx, {
+		...params,
+		path: [
+			...params.path,
+			"allOf",
+			1
+		]
+	});
+	const isSimpleIntersection = (val) => "allOf" in val && Object.keys(val).length === 1;
+	json.allOf = [...isSimpleIntersection(a$1) ? a$1.allOf : [a$1], ...isSimpleIntersection(b$1) ? b$1.allOf : [b$1]];
+};
+const nullableProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	const inner = process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	if (ctx.target === "openapi-3.0") {
+		seen$1.ref = def.innerType;
+		json.nullable = true;
+	} else json.anyOf = [inner, { type: "null" }];
+};
+const nonoptionalProcessor = (schema, ctx, _json, params) => {
+	const def = schema._zod.def;
+	process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = def.innerType;
+};
+const defaultProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = def.innerType;
+	json.default = JSON.parse(JSON.stringify(def.defaultValue));
+};
+const prefaultProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = def.innerType;
+	if (ctx.io === "input") json._prefault = JSON.parse(JSON.stringify(def.defaultValue));
+};
+const catchProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = def.innerType;
+	let catchValue;
+	try {
+		catchValue = def.catchValue(void 0);
+	} catch {
+		throw new Error("Dynamic catch values are not supported in JSON Schema");
+	}
+	json.default = catchValue;
+};
+const pipeProcessor = (schema, ctx, _json, params) => {
+	const def = schema._zod.def;
+	const innerType = ctx.io === "input" ? def.in._zod.def.type === "transform" ? def.out : def.in : def.out;
+	process$1(innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = innerType;
+};
+const readonlyProcessor = (schema, ctx, json, params) => {
+	const def = schema._zod.def;
+	process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = def.innerType;
+	json.readOnly = true;
+};
+const optionalProcessor = (schema, ctx, _json, params) => {
+	const def = schema._zod.def;
+	process$1(def.innerType, ctx, params);
+	const seen$1 = ctx.seen.get(schema);
+	seen$1.ref = def.innerType;
+};
+function t(r$2, e) {
+	try {
+		var o$1 = r$2();
+	} catch (r$3) {
+		return e(r$3);
+	}
+	return o$1 && o$1.then ? o$1.then(void 0, e) : o$1;
+}
+function s$1(r$2, e) {
+	for (var n$1 = {}; r$2.length;) {
+		var t$1 = r$2[0], s$2 = t$1.code, i$2 = t$1.message, a$1 = t$1.path.join(".");
+		if (!n$1[a$1]) if ("unionErrors" in t$1) {
+			var u = t$1.unionErrors[0].errors[0];
+			n$1[a$1] = {
+				message: u.message,
+				type: u.code
+			};
+		} else n$1[a$1] = {
+			message: i$2,
+			type: s$2
+		};
+		if ("unionErrors" in t$1 && t$1.unionErrors.forEach(function(e$1) {
+			return e$1.errors.forEach(function(e$2) {
+				return r$2.push(e$2);
+			});
+		}), e) {
+			var c = n$1[a$1].types, f = c && c[t$1.code];
+			n$1[a$1] = appendErrors(a$1, e, n$1, s$2, f ? [].concat(f, t$1.message) : t$1.message);
+		}
+		r$2.shift();
+	}
+	return n$1;
+}
+function i(r$2, e) {
+	for (var n$1 = {}; r$2.length;) {
+		var t$1 = r$2[0], s$2 = t$1.code, i$2 = t$1.message, a$1 = t$1.path.join(".");
+		if (!n$1[a$1]) if ("invalid_union" === t$1.code && t$1.errors.length > 0) {
+			var u = t$1.errors[0][0];
+			n$1[a$1] = {
+				message: u.message,
+				type: u.code
+			};
+		} else n$1[a$1] = {
+			message: i$2,
+			type: s$2
+		};
+		if ("invalid_union" === t$1.code && t$1.errors.forEach(function(e$1) {
+			return e$1.forEach(function(e$2) {
+				return r$2.push(e$2);
+			});
+		}), e) {
+			var c = n$1[a$1].types, f = c && c[t$1.code];
+			n$1[a$1] = appendErrors(a$1, e, n$1, s$2, f ? [].concat(f, t$1.message) : t$1.message);
+		}
+		r$2.shift();
+	}
+	return n$1;
+}
+function a(o$1, a$1, u) {
+	if (void 0 === u && (u = {}), function(r$2) {
+		return "_def" in r$2 && "object" == typeof r$2._def && "typeName" in r$2._def;
+	}(o$1)) return function(n$1, i$2, c) {
+		try {
+			return Promise.resolve(t(function() {
+				return Promise.resolve(o$1["sync" === u.mode ? "parse" : "parseAsync"](n$1, a$1)).then(function(e) {
+					return c.shouldUseNativeValidation && o({}, c), {
+						errors: {},
+						values: u.raw ? Object.assign({}, n$1) : e
+					};
+				});
+			}, function(r$2) {
+				if (function(r$3) {
+					return Array.isArray(null == r$3 ? void 0 : r$3.issues);
+				}(r$2)) return {
+					values: {},
+					errors: s(s$1(r$2.errors, !c.shouldUseNativeValidation && "all" === c.criteriaMode), c)
+				};
+				throw r$2;
+			}));
+		} catch (r$2) {
+			return Promise.reject(r$2);
+		}
+	};
+	if (function(r$2) {
+		return "_zod" in r$2 && "object" == typeof r$2._zod;
+	}(o$1)) return function(s$2, c, f) {
+		try {
+			return Promise.resolve(t(function() {
+				return Promise.resolve(("sync" === u.mode ? parse$2 : parseAsync$1)(o$1, s$2, a$1)).then(function(e) {
+					return f.shouldUseNativeValidation && o({}, f), {
+						errors: {},
+						values: u.raw ? Object.assign({}, s$2) : e
+					};
+				});
+			}, function(r$2) {
+				if (function(r$3) {
+					return r$3 instanceof $ZodError;
+				}(r$2)) return {
+					values: {},
+					errors: s(i(r$2.issues, !f.shouldUseNativeValidation && "all" === f.criteriaMode), f)
+				};
+				throw r$2;
+			}));
+		} catch (r$2) {
+			return Promise.reject(r$2);
+		}
+	};
+	throw new Error("Invalid input: not a Zod schema");
+}
+const ZodISODateTime = /* @__PURE__ */ $constructor("ZodISODateTime", (inst, def) => {
+	$ZodISODateTime.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+function datetime(params) {
+	return /* @__PURE__ */ _isoDateTime(ZodISODateTime, params);
+}
+const ZodISODate = /* @__PURE__ */ $constructor("ZodISODate", (inst, def) => {
+	$ZodISODate.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+function date(params) {
+	return /* @__PURE__ */ _isoDate(ZodISODate, params);
+}
+const ZodISOTime = /* @__PURE__ */ $constructor("ZodISOTime", (inst, def) => {
+	$ZodISOTime.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+function time(params) {
+	return /* @__PURE__ */ _isoTime(ZodISOTime, params);
+}
+const ZodISODuration = /* @__PURE__ */ $constructor("ZodISODuration", (inst, def) => {
+	$ZodISODuration.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+function duration(params) {
+	return /* @__PURE__ */ _isoDuration(ZodISODuration, params);
+}
+var initializer = (inst, issues) => {
+	$ZodError.init(inst, issues);
+	inst.name = "ZodError";
+	Object.defineProperties(inst, {
+		format: { value: (mapper) => formatError(inst, mapper) },
+		flatten: { value: (mapper) => flattenError(inst, mapper) },
+		addIssue: { value: (issue$1) => {
+			inst.issues.push(issue$1);
+			inst.message = JSON.stringify(inst.issues, jsonStringifyReplacer, 2);
+		} },
+		addIssues: { value: (issues$1) => {
+			inst.issues.push(...issues$1);
+			inst.message = JSON.stringify(inst.issues, jsonStringifyReplacer, 2);
+		} },
+		isEmpty: { get() {
+			return inst.issues.length === 0;
+		} }
+	});
+};
+$constructor("ZodError", initializer);
+const ZodRealError = $constructor("ZodError", initializer, { Parent: Error });
+const parse$1 = /* @__PURE__ */ _parse(ZodRealError);
+const parseAsync = /* @__PURE__ */ _parseAsync(ZodRealError);
+const safeParse = /* @__PURE__ */ _safeParse(ZodRealError);
+const safeParseAsync = /* @__PURE__ */ _safeParseAsync(ZodRealError);
+const encode = /* @__PURE__ */ _encode(ZodRealError);
+const decode = /* @__PURE__ */ _decode(ZodRealError);
+const encodeAsync = /* @__PURE__ */ _encodeAsync(ZodRealError);
+const decodeAsync = /* @__PURE__ */ _decodeAsync(ZodRealError);
+const safeEncode = /* @__PURE__ */ _safeEncode(ZodRealError);
+const safeDecode = /* @__PURE__ */ _safeDecode(ZodRealError);
+const safeEncodeAsync = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
+const safeDecodeAsync = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
+const ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
+	$ZodType.init(inst, def);
+	Object.assign(inst["~standard"], { jsonSchema: {
+		input: createStandardJSONSchemaMethod(inst, "input"),
+		output: createStandardJSONSchemaMethod(inst, "output")
+	} });
+	inst.toJSONSchema = createToJSONSchemaMethod(inst, {});
+	inst.def = def;
+	inst.type = def.type;
+	Object.defineProperty(inst, "_def", { value: def });
+	inst.check = (...checks) => {
+		return inst.clone(mergeDefs(def, { checks: [...def.checks ?? [], ...checks.map((ch) => typeof ch === "function" ? { _zod: {
+			check: ch,
+			def: { check: "custom" },
+			onattach: []
+		} } : ch)] }), { parent: true });
+	};
+	inst.with = inst.check;
+	inst.clone = (def$1, params) => clone(inst, def$1, params);
+	inst.brand = () => inst;
+	inst.register = ((reg, meta$2) => {
+		reg.add(inst, meta$2);
+		return inst;
+	});
+	inst.parse = (data, params) => parse$1(inst, data, params, { callee: inst.parse });
+	inst.safeParse = (data, params) => safeParse(inst, data, params);
+	inst.parseAsync = async (data, params) => parseAsync(inst, data, params, { callee: inst.parseAsync });
+	inst.safeParseAsync = async (data, params) => safeParseAsync(inst, data, params);
+	inst.spa = inst.safeParseAsync;
+	inst.encode = (data, params) => encode(inst, data, params);
+	inst.decode = (data, params) => decode(inst, data, params);
+	inst.encodeAsync = async (data, params) => encodeAsync(inst, data, params);
+	inst.decodeAsync = async (data, params) => decodeAsync(inst, data, params);
+	inst.safeEncode = (data, params) => safeEncode(inst, data, params);
+	inst.safeDecode = (data, params) => safeDecode(inst, data, params);
+	inst.safeEncodeAsync = async (data, params) => safeEncodeAsync(inst, data, params);
+	inst.safeDecodeAsync = async (data, params) => safeDecodeAsync(inst, data, params);
+	inst.refine = (check, params) => inst.check(refine(check, params));
+	inst.superRefine = (refinement) => inst.check(superRefine(refinement));
+	inst.overwrite = (fn) => inst.check(/* @__PURE__ */ _overwrite(fn));
+	inst.optional = () => optional(inst);
+	inst.exactOptional = () => exactOptional(inst);
+	inst.nullable = () => nullable(inst);
+	inst.nullish = () => optional(nullable(inst));
+	inst.nonoptional = (params) => nonoptional(inst, params);
+	inst.array = () => array(inst);
+	inst.or = (arg) => union([inst, arg]);
+	inst.and = (arg) => intersection(inst, arg);
+	inst.transform = (tx) => pipe(inst, transform(tx));
+	inst.default = (def$1) => _default(inst, def$1);
+	inst.prefault = (def$1) => prefault(inst, def$1);
+	inst.catch = (params) => _catch(inst, params);
+	inst.pipe = (target) => pipe(inst, target);
+	inst.readonly = () => readonly(inst);
+	inst.describe = (description) => {
+		const cl = inst.clone();
+		globalRegistry.add(cl, { description });
+		return cl;
+	};
+	Object.defineProperty(inst, "description", {
+		get() {
+			return globalRegistry.get(inst)?.description;
+		},
+		configurable: true
+	});
+	inst.meta = (...args) => {
+		if (args.length === 0) return globalRegistry.get(inst);
+		const cl = inst.clone();
+		globalRegistry.add(cl, args[0]);
+		return cl;
+	};
+	inst.isOptional = () => inst.safeParse(void 0).success;
+	inst.isNullable = () => inst.safeParse(null).success;
+	inst.apply = (fn) => fn(inst);
+	return inst;
+});
+const _ZodString = /* @__PURE__ */ $constructor("_ZodString", (inst, def) => {
+	$ZodString.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => stringProcessor(inst, ctx, json, params);
+	const bag = inst._zod.bag;
+	inst.format = bag.format ?? null;
+	inst.minLength = bag.minimum ?? null;
+	inst.maxLength = bag.maximum ?? null;
+	inst.regex = (...args) => inst.check(/* @__PURE__ */ _regex(...args));
+	inst.includes = (...args) => inst.check(/* @__PURE__ */ _includes(...args));
+	inst.startsWith = (...args) => inst.check(/* @__PURE__ */ _startsWith(...args));
+	inst.endsWith = (...args) => inst.check(/* @__PURE__ */ _endsWith(...args));
+	inst.min = (...args) => inst.check(/* @__PURE__ */ _minLength(...args));
+	inst.max = (...args) => inst.check(/* @__PURE__ */ _maxLength(...args));
+	inst.length = (...args) => inst.check(/* @__PURE__ */ _length(...args));
+	inst.nonempty = (...args) => inst.check(/* @__PURE__ */ _minLength(1, ...args));
+	inst.lowercase = (params) => inst.check(/* @__PURE__ */ _lowercase(params));
+	inst.uppercase = (params) => inst.check(/* @__PURE__ */ _uppercase(params));
+	inst.trim = () => inst.check(/* @__PURE__ */ _trim());
+	inst.normalize = (...args) => inst.check(/* @__PURE__ */ _normalize(...args));
+	inst.toLowerCase = () => inst.check(/* @__PURE__ */ _toLowerCase());
+	inst.toUpperCase = () => inst.check(/* @__PURE__ */ _toUpperCase());
+	inst.slugify = () => inst.check(/* @__PURE__ */ _slugify());
+});
+const ZodString = /* @__PURE__ */ $constructor("ZodString", (inst, def) => {
+	$ZodString.init(inst, def);
+	_ZodString.init(inst, def);
+	inst.email = (params) => inst.check(/* @__PURE__ */ _email(ZodEmail, params));
+	inst.url = (params) => inst.check(/* @__PURE__ */ _url(ZodURL, params));
+	inst.jwt = (params) => inst.check(/* @__PURE__ */ _jwt(ZodJWT, params));
+	inst.emoji = (params) => inst.check(/* @__PURE__ */ _emoji(ZodEmoji, params));
+	inst.guid = (params) => inst.check(/* @__PURE__ */ _guid(ZodGUID, params));
+	inst.uuid = (params) => inst.check(/* @__PURE__ */ _uuid(ZodUUID, params));
+	inst.uuidv4 = (params) => inst.check(/* @__PURE__ */ _uuidv4(ZodUUID, params));
+	inst.uuidv6 = (params) => inst.check(/* @__PURE__ */ _uuidv6(ZodUUID, params));
+	inst.uuidv7 = (params) => inst.check(/* @__PURE__ */ _uuidv7(ZodUUID, params));
+	inst.nanoid = (params) => inst.check(/* @__PURE__ */ _nanoid(ZodNanoID, params));
+	inst.guid = (params) => inst.check(/* @__PURE__ */ _guid(ZodGUID, params));
+	inst.cuid = (params) => inst.check(/* @__PURE__ */ _cuid(ZodCUID, params));
+	inst.cuid2 = (params) => inst.check(/* @__PURE__ */ _cuid2(ZodCUID2, params));
+	inst.ulid = (params) => inst.check(/* @__PURE__ */ _ulid(ZodULID, params));
+	inst.base64 = (params) => inst.check(/* @__PURE__ */ _base64(ZodBase64, params));
+	inst.base64url = (params) => inst.check(/* @__PURE__ */ _base64url(ZodBase64URL, params));
+	inst.xid = (params) => inst.check(/* @__PURE__ */ _xid(ZodXID, params));
+	inst.ksuid = (params) => inst.check(/* @__PURE__ */ _ksuid(ZodKSUID, params));
+	inst.ipv4 = (params) => inst.check(/* @__PURE__ */ _ipv4(ZodIPv4, params));
+	inst.ipv6 = (params) => inst.check(/* @__PURE__ */ _ipv6(ZodIPv6, params));
+	inst.cidrv4 = (params) => inst.check(/* @__PURE__ */ _cidrv4(ZodCIDRv4, params));
+	inst.cidrv6 = (params) => inst.check(/* @__PURE__ */ _cidrv6(ZodCIDRv6, params));
+	inst.e164 = (params) => inst.check(/* @__PURE__ */ _e164(ZodE164, params));
+	inst.datetime = (params) => inst.check(datetime(params));
+	inst.date = (params) => inst.check(date(params));
+	inst.time = (params) => inst.check(time(params));
+	inst.duration = (params) => inst.check(duration(params));
+});
+function string(params) {
+	return /* @__PURE__ */ _string(ZodString, params);
+}
+const ZodStringFormat = /* @__PURE__ */ $constructor("ZodStringFormat", (inst, def) => {
+	$ZodStringFormat.init(inst, def);
+	_ZodString.init(inst, def);
+});
+const ZodEmail = /* @__PURE__ */ $constructor("ZodEmail", (inst, def) => {
+	$ZodEmail.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodGUID = /* @__PURE__ */ $constructor("ZodGUID", (inst, def) => {
+	$ZodGUID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodUUID = /* @__PURE__ */ $constructor("ZodUUID", (inst, def) => {
+	$ZodUUID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodURL = /* @__PURE__ */ $constructor("ZodURL", (inst, def) => {
+	$ZodURL.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodEmoji = /* @__PURE__ */ $constructor("ZodEmoji", (inst, def) => {
+	$ZodEmoji.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodNanoID = /* @__PURE__ */ $constructor("ZodNanoID", (inst, def) => {
+	$ZodNanoID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodCUID = /* @__PURE__ */ $constructor("ZodCUID", (inst, def) => {
+	$ZodCUID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodCUID2 = /* @__PURE__ */ $constructor("ZodCUID2", (inst, def) => {
+	$ZodCUID2.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodULID = /* @__PURE__ */ $constructor("ZodULID", (inst, def) => {
+	$ZodULID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodXID = /* @__PURE__ */ $constructor("ZodXID", (inst, def) => {
+	$ZodXID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodKSUID = /* @__PURE__ */ $constructor("ZodKSUID", (inst, def) => {
+	$ZodKSUID.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodIPv4 = /* @__PURE__ */ $constructor("ZodIPv4", (inst, def) => {
+	$ZodIPv4.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodIPv6 = /* @__PURE__ */ $constructor("ZodIPv6", (inst, def) => {
+	$ZodIPv6.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodCIDRv4 = /* @__PURE__ */ $constructor("ZodCIDRv4", (inst, def) => {
+	$ZodCIDRv4.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodCIDRv6 = /* @__PURE__ */ $constructor("ZodCIDRv6", (inst, def) => {
+	$ZodCIDRv6.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodBase64 = /* @__PURE__ */ $constructor("ZodBase64", (inst, def) => {
+	$ZodBase64.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodBase64URL = /* @__PURE__ */ $constructor("ZodBase64URL", (inst, def) => {
+	$ZodBase64URL.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodE164 = /* @__PURE__ */ $constructor("ZodE164", (inst, def) => {
+	$ZodE164.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodJWT = /* @__PURE__ */ $constructor("ZodJWT", (inst, def) => {
+	$ZodJWT.init(inst, def);
+	ZodStringFormat.init(inst, def);
+});
+const ZodUnknown = /* @__PURE__ */ $constructor("ZodUnknown", (inst, def) => {
+	$ZodUnknown.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => unknownProcessor(inst, ctx, json, params);
+});
+function unknown() {
+	return /* @__PURE__ */ _unknown(ZodUnknown);
+}
+const ZodNever = /* @__PURE__ */ $constructor("ZodNever", (inst, def) => {
+	$ZodNever.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => neverProcessor(inst, ctx, json, params);
+});
+function never(params) {
+	return /* @__PURE__ */ _never(ZodNever, params);
+}
+const ZodArray = /* @__PURE__ */ $constructor("ZodArray", (inst, def) => {
+	$ZodArray.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => arrayProcessor(inst, ctx, json, params);
+	inst.element = def.element;
+	inst.min = (minLength, params) => inst.check(/* @__PURE__ */ _minLength(minLength, params));
+	inst.nonempty = (params) => inst.check(/* @__PURE__ */ _minLength(1, params));
+	inst.max = (maxLength, params) => inst.check(/* @__PURE__ */ _maxLength(maxLength, params));
+	inst.length = (len, params) => inst.check(/* @__PURE__ */ _length(len, params));
+	inst.unwrap = () => inst.element;
+});
+function array(element, params) {
+	return /* @__PURE__ */ _array(ZodArray, element, params);
+}
+const ZodObject = /* @__PURE__ */ $constructor("ZodObject", (inst, def) => {
+	$ZodObjectJIT.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => objectProcessor(inst, ctx, json, params);
+	defineLazy(inst, "shape", () => {
+		return def.shape;
+	});
+	inst.keyof = () => _enum(Object.keys(inst._zod.def.shape));
+	inst.catchall = (catchall) => inst.clone({
+		...inst._zod.def,
+		catchall
+	});
+	inst.passthrough = () => inst.clone({
+		...inst._zod.def,
+		catchall: unknown()
+	});
+	inst.loose = () => inst.clone({
+		...inst._zod.def,
+		catchall: unknown()
+	});
+	inst.strict = () => inst.clone({
+		...inst._zod.def,
+		catchall: never()
+	});
+	inst.strip = () => inst.clone({
+		...inst._zod.def,
+		catchall: void 0
+	});
+	inst.extend = (incoming) => {
+		return extend(inst, incoming);
+	};
+	inst.safeExtend = (incoming) => {
+		return safeExtend(inst, incoming);
+	};
+	inst.merge = (other) => merge(inst, other);
+	inst.pick = (mask) => pick(inst, mask);
+	inst.omit = (mask) => omit(inst, mask);
+	inst.partial = (...args) => partial(ZodOptional, inst, args[0]);
+	inst.required = (...args) => required(ZodNonOptional, inst, args[0]);
+});
+function object(shape, params) {
+	return new ZodObject({
+		type: "object",
+		shape: shape ?? {},
+		...normalizeParams(params)
+	});
+}
+const ZodUnion = /* @__PURE__ */ $constructor("ZodUnion", (inst, def) => {
+	$ZodUnion.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => unionProcessor(inst, ctx, json, params);
+	inst.options = def.options;
+});
+function union(options$1, params) {
+	return new ZodUnion({
+		type: "union",
+		options: options$1,
+		...normalizeParams(params)
+	});
+}
+const ZodIntersection = /* @__PURE__ */ $constructor("ZodIntersection", (inst, def) => {
+	$ZodIntersection.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => intersectionProcessor(inst, ctx, json, params);
+});
+function intersection(left, right) {
+	return new ZodIntersection({
+		type: "intersection",
+		left,
+		right
+	});
+}
+const ZodEnum = /* @__PURE__ */ $constructor("ZodEnum", (inst, def) => {
+	$ZodEnum.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => enumProcessor(inst, ctx, json, params);
+	inst.enum = def.entries;
+	inst.options = Object.values(def.entries);
+	const keys = new Set(Object.keys(def.entries));
+	inst.extract = (values, params) => {
+		const newEntries = {};
+		for (const value of values) if (keys.has(value)) newEntries[value] = def.entries[value];
+		else throw new Error(`Key ${value} not found in enum`);
+		return new ZodEnum({
+			...def,
+			checks: [],
+			...normalizeParams(params),
+			entries: newEntries
+		});
+	};
+	inst.exclude = (values, params) => {
+		const newEntries = { ...def.entries };
+		for (const value of values) if (keys.has(value)) delete newEntries[value];
+		else throw new Error(`Key ${value} not found in enum`);
+		return new ZodEnum({
+			...def,
+			checks: [],
+			...normalizeParams(params),
+			entries: newEntries
+		});
+	};
+});
+function _enum(values, params) {
+	return new ZodEnum({
+		type: "enum",
+		entries: Array.isArray(values) ? Object.fromEntries(values.map((v) => [v, v])) : values,
+		...normalizeParams(params)
+	});
+}
+const ZodTransform = /* @__PURE__ */ $constructor("ZodTransform", (inst, def) => {
+	$ZodTransform.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => transformProcessor(inst, ctx, json, params);
+	inst._zod.parse = (payload, _ctx) => {
+		if (_ctx.direction === "backward") throw new $ZodEncodeError(inst.constructor.name);
+		payload.addIssue = (issue$1) => {
+			if (typeof issue$1 === "string") payload.issues.push(issue(issue$1, payload.value, def));
+			else {
+				const _issue = issue$1;
+				if (_issue.fatal) _issue.continue = false;
+				_issue.code ?? (_issue.code = "custom");
+				_issue.input ?? (_issue.input = payload.value);
+				_issue.inst ?? (_issue.inst = inst);
+				payload.issues.push(issue(_issue));
+			}
+		};
+		const output = def.transform(payload.value, payload);
+		if (output instanceof Promise) return output.then((output$1) => {
+			payload.value = output$1;
+			return payload;
+		});
+		payload.value = output;
+		return payload;
+	};
+});
+function transform(fn) {
+	return new ZodTransform({
+		type: "transform",
+		transform: fn
+	});
+}
+const ZodOptional = /* @__PURE__ */ $constructor("ZodOptional", (inst, def) => {
+	$ZodOptional.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => optionalProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+});
+function optional(innerType) {
+	return new ZodOptional({
+		type: "optional",
+		innerType
+	});
+}
+const ZodExactOptional = /* @__PURE__ */ $constructor("ZodExactOptional", (inst, def) => {
+	$ZodExactOptional.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => optionalProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+});
+function exactOptional(innerType) {
+	return new ZodExactOptional({
+		type: "optional",
+		innerType
+	});
+}
+const ZodNullable = /* @__PURE__ */ $constructor("ZodNullable", (inst, def) => {
+	$ZodNullable.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => nullableProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+});
+function nullable(innerType) {
+	return new ZodNullable({
+		type: "nullable",
+		innerType
+	});
+}
+const ZodDefault = /* @__PURE__ */ $constructor("ZodDefault", (inst, def) => {
+	$ZodDefault.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => defaultProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+	inst.removeDefault = inst.unwrap;
+});
+function _default(innerType, defaultValue) {
+	return new ZodDefault({
+		type: "default",
+		innerType,
+		get defaultValue() {
+			return typeof defaultValue === "function" ? defaultValue() : shallowClone(defaultValue);
+		}
+	});
+}
+const ZodPrefault = /* @__PURE__ */ $constructor("ZodPrefault", (inst, def) => {
+	$ZodPrefault.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => prefaultProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+});
+function prefault(innerType, defaultValue) {
+	return new ZodPrefault({
+		type: "prefault",
+		innerType,
+		get defaultValue() {
+			return typeof defaultValue === "function" ? defaultValue() : shallowClone(defaultValue);
+		}
+	});
+}
+const ZodNonOptional = /* @__PURE__ */ $constructor("ZodNonOptional", (inst, def) => {
+	$ZodNonOptional.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => nonoptionalProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+});
+function nonoptional(innerType, params) {
+	return new ZodNonOptional({
+		type: "nonoptional",
+		innerType,
+		...normalizeParams(params)
+	});
+}
+const ZodCatch = /* @__PURE__ */ $constructor("ZodCatch", (inst, def) => {
+	$ZodCatch.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => catchProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+	inst.removeCatch = inst.unwrap;
+});
+function _catch(innerType, catchValue) {
+	return new ZodCatch({
+		type: "catch",
+		innerType,
+		catchValue: typeof catchValue === "function" ? catchValue : () => catchValue
+	});
+}
+const ZodPipe = /* @__PURE__ */ $constructor("ZodPipe", (inst, def) => {
+	$ZodPipe.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => pipeProcessor(inst, ctx, json, params);
+	inst.in = def.in;
+	inst.out = def.out;
+});
+function pipe(in_, out) {
+	return new ZodPipe({
+		type: "pipe",
+		in: in_,
+		out
+	});
+}
+const ZodReadonly = /* @__PURE__ */ $constructor("ZodReadonly", (inst, def) => {
+	$ZodReadonly.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => readonlyProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.innerType;
+});
+function readonly(innerType) {
+	return new ZodReadonly({
+		type: "readonly",
+		innerType
+	});
+}
+const ZodCustom = /* @__PURE__ */ $constructor("ZodCustom", (inst, def) => {
+	$ZodCustom.init(inst, def);
+	ZodType.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => customProcessor(inst, ctx, json, params);
+});
+function refine(fn, _params = {}) {
+	return /* @__PURE__ */ _refine(ZodCustom, fn, _params);
+}
+function superRefine(fn) {
+	return /* @__PURE__ */ _superRefine(fn);
+}
+var AUTOFOCUS_ON_MOUNT = "focusScope.autoFocusOnMount";
+var AUTOFOCUS_ON_UNMOUNT = "focusScope.autoFocusOnUnmount";
+var EVENT_OPTIONS = {
+	bubbles: false,
+	cancelable: true
+};
+var FOCUS_SCOPE_NAME = "FocusScope";
+var FocusScope = import_react.forwardRef((props, forwardedRef) => {
+	const { loop = false, trapped = false, onMountAutoFocus: onMountAutoFocusProp, onUnmountAutoFocus: onUnmountAutoFocusProp, ...scopeProps } = props;
+	const [container, setContainer] = import_react.useState(null);
+	const onMountAutoFocus = useCallbackRef$1(onMountAutoFocusProp);
+	const onUnmountAutoFocus = useCallbackRef$1(onUnmountAutoFocusProp);
+	const lastFocusedElementRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, (node) => setContainer(node));
+	const focusScope = import_react.useRef({
+		paused: false,
+		pause() {
+			this.paused = true;
+		},
+		resume() {
+			this.paused = false;
+		}
+	}).current;
+	import_react.useEffect(() => {
+		if (trapped) {
+			let handleFocusIn2 = function(event) {
+				if (focusScope.paused || !container) return;
+				const target = event.target;
+				if (container.contains(target)) lastFocusedElementRef.current = target;
+				else focus(lastFocusedElementRef.current, { select: true });
+			}, handleFocusOut2 = function(event) {
+				if (focusScope.paused || !container) return;
+				const relatedTarget = event.relatedTarget;
+				if (relatedTarget === null) return;
+				if (!container.contains(relatedTarget)) focus(lastFocusedElementRef.current, { select: true });
+			}, handleMutations2 = function(mutations) {
+				if (document.activeElement !== document.body) return;
+				for (const mutation of mutations) if (mutation.removedNodes.length > 0) focus(container);
+			};
+			document.addEventListener("focusin", handleFocusIn2);
+			document.addEventListener("focusout", handleFocusOut2);
+			const mutationObserver = new MutationObserver(handleMutations2);
+			if (container) mutationObserver.observe(container, {
+				childList: true,
+				subtree: true
+			});
+			return () => {
+				document.removeEventListener("focusin", handleFocusIn2);
+				document.removeEventListener("focusout", handleFocusOut2);
+				mutationObserver.disconnect();
+			};
+		}
+	}, [
+		trapped,
+		container,
+		focusScope.paused
+	]);
+	import_react.useEffect(() => {
+		if (container) {
+			focusScopesStack.add(focusScope);
+			const previouslyFocusedElement = document.activeElement;
+			if (!container.contains(previouslyFocusedElement)) {
+				const mountEvent = new CustomEvent(AUTOFOCUS_ON_MOUNT, EVENT_OPTIONS);
+				container.addEventListener(AUTOFOCUS_ON_MOUNT, onMountAutoFocus);
+				container.dispatchEvent(mountEvent);
+				if (!mountEvent.defaultPrevented) {
+					focusFirst(removeLinks(getTabbableCandidates(container)), { select: true });
+					if (document.activeElement === previouslyFocusedElement) focus(container);
+				}
+			}
+			return () => {
+				container.removeEventListener(AUTOFOCUS_ON_MOUNT, onMountAutoFocus);
+				setTimeout(() => {
+					const unmountEvent = new CustomEvent(AUTOFOCUS_ON_UNMOUNT, EVENT_OPTIONS);
+					container.addEventListener(AUTOFOCUS_ON_UNMOUNT, onUnmountAutoFocus);
+					container.dispatchEvent(unmountEvent);
+					if (!unmountEvent.defaultPrevented) focus(previouslyFocusedElement ?? document.body, { select: true });
+					container.removeEventListener(AUTOFOCUS_ON_UNMOUNT, onUnmountAutoFocus);
+					focusScopesStack.remove(focusScope);
+				}, 0);
+			};
+		}
+	}, [
+		container,
+		onMountAutoFocus,
+		onUnmountAutoFocus,
+		focusScope
+	]);
+	const handleKeyDown = import_react.useCallback((event) => {
+		if (!loop && !trapped) return;
+		if (focusScope.paused) return;
+		const isTabKey = event.key === "Tab" && !event.altKey && !event.ctrlKey && !event.metaKey;
+		const focusedElement = document.activeElement;
+		if (isTabKey && focusedElement) {
+			const container2 = event.currentTarget;
+			const [first, last] = getTabbableEdges(container2);
+			if (!(first && last)) {
+				if (focusedElement === container2) event.preventDefault();
+			} else if (!event.shiftKey && focusedElement === last) {
+				event.preventDefault();
+				if (loop) focus(first, { select: true });
+			} else if (event.shiftKey && focusedElement === first) {
+				event.preventDefault();
+				if (loop) focus(last, { select: true });
+			}
+		}
+	}, [
+		loop,
+		trapped,
+		focusScope.paused
+	]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
+		tabIndex: -1,
+		...scopeProps,
+		ref: composedRefs,
+		onKeyDown: handleKeyDown
+	});
+});
+FocusScope.displayName = FOCUS_SCOPE_NAME;
+function focusFirst(candidates, { select = false } = {}) {
+	const previouslyFocusedElement = document.activeElement;
+	for (const candidate of candidates) {
+		focus(candidate, { select });
+		if (document.activeElement !== previouslyFocusedElement) return;
+	}
+}
+function getTabbableEdges(container) {
+	const candidates = getTabbableCandidates(container);
+	return [findVisible(candidates, container), findVisible(candidates.reverse(), container)];
+}
+function getTabbableCandidates(container) {
+	const nodes = [];
+	const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, { acceptNode: (node) => {
+		const isHiddenInput = node.tagName === "INPUT" && node.type === "hidden";
+		if (node.disabled || node.hidden || isHiddenInput) return NodeFilter.FILTER_SKIP;
+		return node.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+	} });
+	while (walker.nextNode()) nodes.push(walker.currentNode);
+	return nodes;
+}
+function findVisible(elements, container) {
+	for (const element of elements) if (!isHidden(element, { upTo: container })) return element;
+}
+function isHidden(node, { upTo }) {
+	if (getComputedStyle(node).visibility === "hidden") return true;
+	while (node) {
+		if (upTo !== void 0 && node === upTo) return false;
+		if (getComputedStyle(node).display === "none") return true;
+		node = node.parentElement;
+	}
+	return false;
+}
+function isSelectableInput(element) {
+	return element instanceof HTMLInputElement && "select" in element;
+}
+function focus(element, { select = false } = {}) {
+	if (element && element.focus) {
+		const previouslyFocusedElement = document.activeElement;
+		element.focus({ preventScroll: true });
+		if (element !== previouslyFocusedElement && isSelectableInput(element) && select) element.select();
+	}
+}
+var focusScopesStack = createFocusScopesStack();
+function createFocusScopesStack() {
+	let stack = [];
+	return {
+		add(focusScope) {
+			const activeFocusScope = stack[0];
+			if (focusScope !== activeFocusScope) activeFocusScope?.pause();
+			stack = arrayRemove(stack, focusScope);
+			stack.unshift(focusScope);
+		},
+		remove(focusScope) {
+			stack = arrayRemove(stack, focusScope);
+			stack[0]?.resume();
+		}
+	};
+}
+function arrayRemove(array$1, item) {
+	const updatedArray = [...array$1];
+	const index$1 = updatedArray.indexOf(item);
+	if (index$1 !== -1) updatedArray.splice(index$1, 1);
+	return updatedArray;
+}
+function removeLinks(items) {
+	return items.filter((item) => item.tagName !== "A");
+}
+var count = 0;
+function useFocusGuards() {
+	import_react.useEffect(() => {
+		const edgeGuards = document.querySelectorAll("[data-radix-focus-guard]");
+		document.body.insertAdjacentElement("afterbegin", edgeGuards[0] ?? createFocusGuard());
+		document.body.insertAdjacentElement("beforeend", edgeGuards[1] ?? createFocusGuard());
+		count++;
+		return () => {
+			if (count === 1) document.querySelectorAll("[data-radix-focus-guard]").forEach((node) => node.remove());
+			count--;
+		};
+	}, []);
+}
+function createFocusGuard() {
+	const element = document.createElement("span");
+	element.setAttribute("data-radix-focus-guard", "");
+	element.tabIndex = 0;
+	element.style.outline = "none";
+	element.style.opacity = "0";
+	element.style.position = "fixed";
+	element.style.pointerEvents = "none";
+	return element;
+}
+var zeroRightClassName = "right-scroll-bar-position";
+var fullWidthClassName = "width-before-scroll-bar";
+var noScrollbarsClassName = "with-scroll-bars-hidden";
+var removedBarSizeVariable = "--removed-body-scroll-bar-size";
+function assignRef(ref, value) {
+	if (typeof ref === "function") ref(value);
+	else if (ref) ref.current = value;
+	return ref;
+}
+function useCallbackRef(initialValue, callback) {
+	var ref = (0, import_react.useState)(function() {
+		return {
+			value: initialValue,
+			callback,
+			facade: {
+				get current() {
+					return ref.value;
+				},
+				set current(value) {
+					var last = ref.value;
+					if (last !== value) {
+						ref.value = value;
+						ref.callback(value, last);
+					}
+				}
+			}
+		};
+	})[0];
+	ref.callback = callback;
+	return ref.facade;
+}
+var useIsomorphicLayoutEffect = typeof window !== "undefined" ? import_react.useLayoutEffect : import_react.useEffect;
+var currentValues = /* @__PURE__ */ new WeakMap();
+function useMergeRefs(refs, defaultValue) {
+	var callbackRef = useCallbackRef(defaultValue || null, function(newValue) {
+		return refs.forEach(function(ref) {
+			return assignRef(ref, newValue);
+		});
+	});
+	useIsomorphicLayoutEffect(function() {
+		var oldValue = currentValues.get(callbackRef);
+		if (oldValue) {
+			var prevRefs_1 = new Set(oldValue);
+			var nextRefs_1 = new Set(refs);
+			var current_1 = callbackRef.current;
+			prevRefs_1.forEach(function(ref) {
+				if (!nextRefs_1.has(ref)) assignRef(ref, null);
+			});
+			nextRefs_1.forEach(function(ref) {
+				if (!prevRefs_1.has(ref)) assignRef(ref, current_1);
+			});
+		}
+		currentValues.set(callbackRef, refs);
+	}, [refs]);
+	return callbackRef;
+}
+function ItoI(a$1) {
+	return a$1;
+}
+function innerCreateMedium(defaults, middleware) {
+	if (middleware === void 0) middleware = ItoI;
+	var buffer = [];
+	var assigned = false;
+	return {
+		read: function() {
+			if (assigned) throw new Error("Sidecar: could not `read` from an `assigned` medium. `read` could be used only with `useMedium`.");
+			if (buffer.length) return buffer[buffer.length - 1];
+			return defaults;
+		},
+		useMedium: function(data) {
+			var item = middleware(data, assigned);
+			buffer.push(item);
+			return function() {
+				buffer = buffer.filter(function(x$1) {
+					return x$1 !== item;
+				});
+			};
+		},
+		assignSyncMedium: function(cb) {
+			assigned = true;
+			while (buffer.length) {
+				var cbs = buffer;
+				buffer = [];
+				cbs.forEach(cb);
+			}
+			buffer = {
+				push: function(x$1) {
+					return cb(x$1);
+				},
+				filter: function() {
+					return buffer;
+				}
+			};
+		},
+		assignMedium: function(cb) {
+			assigned = true;
+			var pendingQueue = [];
+			if (buffer.length) {
+				var cbs = buffer;
+				buffer = [];
+				cbs.forEach(cb);
+				pendingQueue = buffer;
+			}
+			var executeQueue = function() {
+				var cbs$1 = pendingQueue;
+				pendingQueue = [];
+				cbs$1.forEach(cb);
+			};
+			var cycle = function() {
+				return Promise.resolve().then(executeQueue);
+			};
+			cycle();
+			buffer = {
+				push: function(x$1) {
+					pendingQueue.push(x$1);
+					cycle();
+				},
+				filter: function(filter) {
+					pendingQueue = pendingQueue.filter(filter);
+					return buffer;
+				}
+			};
+		}
+	};
+}
+function createSidecarMedium(options$1) {
+	if (options$1 === void 0) options$1 = {};
+	var medium = innerCreateMedium(null);
+	medium.options = __assign({
+		async: true,
+		ssr: false
+	}, options$1);
+	return medium;
+}
+var SideCar = function(_a$1) {
+	var sideCar = _a$1.sideCar, rest = __rest(_a$1, ["sideCar"]);
+	if (!sideCar) throw new Error("Sidecar: please provide `sideCar` property to import the right car");
+	var Target = sideCar.read();
+	if (!Target) throw new Error("Sidecar medium not found");
+	return import_react.createElement(Target, __assign({}, rest));
+};
+SideCar.isSideCarExport = true;
+function exportSidecar(medium, exported) {
+	medium.useMedium(exported);
+	return SideCar;
+}
+var effectCar = createSidecarMedium();
+var nothing = function() {};
+var RemoveScroll = import_react.forwardRef(function(props, parentRef) {
+	var ref = import_react.useRef(null);
+	var _a$1 = import_react.useState({
+		onScrollCapture: nothing,
+		onWheelCapture: nothing,
+		onTouchMoveCapture: nothing
+	}), callbacks = _a$1[0], setCallbacks = _a$1[1];
+	var forwardProps = props.forwardProps, children = props.children, className = props.className, removeScrollBar = props.removeScrollBar, enabled = props.enabled, shards = props.shards, sideCar = props.sideCar, noRelative = props.noRelative, noIsolation = props.noIsolation, inert = props.inert, allowPinchZoom = props.allowPinchZoom, _b = props.as, Container = _b === void 0 ? "div" : _b, gapMode = props.gapMode, rest = __rest(props, [
+		"forwardProps",
+		"children",
+		"className",
+		"removeScrollBar",
+		"enabled",
+		"shards",
+		"sideCar",
+		"noRelative",
+		"noIsolation",
+		"inert",
+		"allowPinchZoom",
+		"as",
+		"gapMode"
+	]);
+	var SideCar$1 = sideCar;
+	var containerRef = useMergeRefs([ref, parentRef]);
+	var containerProps = __assign(__assign({}, rest), callbacks);
+	return import_react.createElement(import_react.Fragment, null, enabled && import_react.createElement(SideCar$1, {
+		sideCar: effectCar,
+		removeScrollBar,
+		shards,
+		noRelative,
+		noIsolation,
+		inert,
+		setCallbacks,
+		allowPinchZoom: !!allowPinchZoom,
+		lockRef: ref,
+		gapMode
+	}), forwardProps ? import_react.cloneElement(import_react.Children.only(children), __assign(__assign({}, containerProps), { ref: containerRef })) : import_react.createElement(Container, __assign({}, containerProps, {
+		className,
+		ref: containerRef
+	}), children));
+});
+RemoveScroll.defaultProps = {
+	enabled: true,
+	removeScrollBar: true,
+	inert: false
+};
+RemoveScroll.classNames = {
+	fullWidth: fullWidthClassName,
+	zeroRight: zeroRightClassName
+};
+var currentNonce;
+var getNonce = function() {
+	if (currentNonce) return currentNonce;
+	if (typeof __webpack_nonce__ !== "undefined") return __webpack_nonce__;
+};
+function makeStyleTag() {
+	if (!document) return null;
+	var tag = document.createElement("style");
+	tag.type = "text/css";
+	var nonce = getNonce();
+	if (nonce) tag.setAttribute("nonce", nonce);
+	return tag;
+}
+function injectStyles(tag, css) {
+	if (tag.styleSheet) tag.styleSheet.cssText = css;
+	else tag.appendChild(document.createTextNode(css));
+}
+function insertStyleTag(tag) {
+	(document.head || document.getElementsByTagName("head")[0]).appendChild(tag);
+}
+var stylesheetSingleton = function() {
+	var counter = 0;
+	var stylesheet = null;
+	return {
+		add: function(style) {
+			if (counter == 0) {
+				if (stylesheet = makeStyleTag()) {
+					injectStyles(stylesheet, style);
+					insertStyleTag(stylesheet);
+				}
+			}
+			counter++;
+		},
+		remove: function() {
+			counter--;
+			if (!counter && stylesheet) {
+				stylesheet.parentNode && stylesheet.parentNode.removeChild(stylesheet);
+				stylesheet = null;
+			}
+		}
+	};
+};
+var styleHookSingleton = function() {
+	var sheet = stylesheetSingleton();
+	return function(styles, isDynamic) {
+		import_react.useEffect(function() {
+			sheet.add(styles);
+			return function() {
+				sheet.remove();
+			};
+		}, [styles && isDynamic]);
+	};
+};
+var styleSingleton = function() {
+	var useStyle = styleHookSingleton();
+	var Sheet = function(_a$1) {
+		var styles = _a$1.styles, dynamic = _a$1.dynamic;
+		useStyle(styles, dynamic);
+		return null;
+	};
+	return Sheet;
+};
+var zeroGap = {
+	left: 0,
+	top: 0,
+	right: 0,
+	gap: 0
+};
+var parse = function(x$1) {
+	return parseInt(x$1 || "", 10) || 0;
+};
+var getOffset = function(gapMode) {
+	var cs = window.getComputedStyle(document.body);
+	var left = cs[gapMode === "padding" ? "paddingLeft" : "marginLeft"];
+	var top = cs[gapMode === "padding" ? "paddingTop" : "marginTop"];
+	var right = cs[gapMode === "padding" ? "paddingRight" : "marginRight"];
+	return [
+		parse(left),
+		parse(top),
+		parse(right)
+	];
+};
+var getGapWidth = function(gapMode) {
+	if (gapMode === void 0) gapMode = "margin";
+	if (typeof window === "undefined") return zeroGap;
+	var offsets = getOffset(gapMode);
+	var documentWidth = document.documentElement.clientWidth;
+	var windowWidth = window.innerWidth;
+	return {
+		left: offsets[0],
+		top: offsets[1],
+		right: offsets[2],
+		gap: Math.max(0, windowWidth - documentWidth + offsets[2] - offsets[0])
+	};
+};
+var Style = styleSingleton();
+var lockAttribute = "data-scroll-locked";
+var getStyles = function(_a$1, allowRelative, gapMode, important) {
+	var left = _a$1.left, top = _a$1.top, right = _a$1.right, gap = _a$1.gap;
+	if (gapMode === void 0) gapMode = "margin";
+	return "\n  .".concat(noScrollbarsClassName, " {\n   overflow: hidden ").concat(important, ";\n   padding-right: ").concat(gap, "px ").concat(important, ";\n  }\n  body[").concat(lockAttribute, "] {\n    overflow: hidden ").concat(important, ";\n    overscroll-behavior: contain;\n    ").concat([
+		allowRelative && "position: relative ".concat(important, ";"),
+		gapMode === "margin" && "\n    padding-left: ".concat(left, "px;\n    padding-top: ").concat(top, "px;\n    padding-right: ").concat(right, "px;\n    margin-left:0;\n    margin-top:0;\n    margin-right: ").concat(gap, "px ").concat(important, ";\n    "),
+		gapMode === "padding" && "padding-right: ".concat(gap, "px ").concat(important, ";")
+	].filter(Boolean).join(""), "\n  }\n  \n  .").concat(zeroRightClassName, " {\n    right: ").concat(gap, "px ").concat(important, ";\n  }\n  \n  .").concat(fullWidthClassName, " {\n    margin-right: ").concat(gap, "px ").concat(important, ";\n  }\n  \n  .").concat(zeroRightClassName, " .").concat(zeroRightClassName, " {\n    right: 0 ").concat(important, ";\n  }\n  \n  .").concat(fullWidthClassName, " .").concat(fullWidthClassName, " {\n    margin-right: 0 ").concat(important, ";\n  }\n  \n  body[").concat(lockAttribute, "] {\n    ").concat(removedBarSizeVariable, ": ").concat(gap, "px;\n  }\n");
+};
+var getCurrentUseCounter = function() {
+	var counter = parseInt(document.body.getAttribute("data-scroll-locked") || "0", 10);
+	return isFinite(counter) ? counter : 0;
+};
+var useLockAttribute = function() {
+	import_react.useEffect(function() {
+		document.body.setAttribute(lockAttribute, (getCurrentUseCounter() + 1).toString());
+		return function() {
+			var newCounter = getCurrentUseCounter() - 1;
+			if (newCounter <= 0) document.body.removeAttribute(lockAttribute);
+			else document.body.setAttribute(lockAttribute, newCounter.toString());
+		};
+	}, []);
+};
+var RemoveScrollBar = function(_a$1) {
+	var noRelative = _a$1.noRelative, noImportant = _a$1.noImportant, _b = _a$1.gapMode, gapMode = _b === void 0 ? "margin" : _b;
+	useLockAttribute();
+	var gap = import_react.useMemo(function() {
+		return getGapWidth(gapMode);
+	}, [gapMode]);
+	return import_react.createElement(Style, { styles: getStyles(gap, !noRelative, gapMode, !noImportant ? "!important" : "") });
+};
+var passiveSupported = false;
+if (typeof window !== "undefined") try {
+	var options = Object.defineProperty({}, "passive", { get: function() {
+		passiveSupported = true;
+		return true;
+	} });
+	window.addEventListener("test", options, options);
+	window.removeEventListener("test", options, options);
+} catch (err) {
+	passiveSupported = false;
+}
+var nonPassive = passiveSupported ? { passive: false } : false;
+var alwaysContainsScroll = function(node) {
+	return node.tagName === "TEXTAREA";
+};
+var elementCanBeScrolled = function(node, overflow) {
+	if (!(node instanceof Element)) return false;
+	var styles = window.getComputedStyle(node);
+	return styles[overflow] !== "hidden" && !(styles.overflowY === styles.overflowX && !alwaysContainsScroll(node) && styles[overflow] === "visible");
+};
+var elementCouldBeVScrolled = function(node) {
+	return elementCanBeScrolled(node, "overflowY");
+};
+var elementCouldBeHScrolled = function(node) {
+	return elementCanBeScrolled(node, "overflowX");
+};
+var locationCouldBeScrolled = function(axis, node) {
+	var ownerDocument = node.ownerDocument;
+	var current = node;
+	do {
+		if (typeof ShadowRoot !== "undefined" && current instanceof ShadowRoot) current = current.host;
+		if (elementCouldBeScrolled(axis, current)) {
+			var _a$1 = getScrollVariables(axis, current);
+			if (_a$1[1] > _a$1[2]) return true;
+		}
+		current = current.parentNode;
+	} while (current && current !== ownerDocument.body);
+	return false;
+};
+var getVScrollVariables = function(_a$1) {
+	return [
+		_a$1.scrollTop,
+		_a$1.scrollHeight,
+		_a$1.clientHeight
+	];
+};
+var getHScrollVariables = function(_a$1) {
+	return [
+		_a$1.scrollLeft,
+		_a$1.scrollWidth,
+		_a$1.clientWidth
+	];
+};
+var elementCouldBeScrolled = function(axis, node) {
+	return axis === "v" ? elementCouldBeVScrolled(node) : elementCouldBeHScrolled(node);
+};
+var getScrollVariables = function(axis, node) {
+	return axis === "v" ? getVScrollVariables(node) : getHScrollVariables(node);
+};
+var getDirectionFactor = function(axis, direction) {
+	return axis === "h" && direction === "rtl" ? -1 : 1;
+};
+var handleScroll = function(axis, endTarget, event, sourceDelta, noOverscroll) {
+	var directionFactor = getDirectionFactor(axis, window.getComputedStyle(endTarget).direction);
+	var delta = directionFactor * sourceDelta;
+	var target = event.target;
+	var targetInLock = endTarget.contains(target);
+	var shouldCancelScroll = false;
+	var isDeltaPositive = delta > 0;
+	var availableScroll = 0;
+	var availableScrollTop = 0;
+	do {
+		if (!target) break;
+		var _a$1 = getScrollVariables(axis, target), position = _a$1[0];
+		var elementScroll = _a$1[1] - _a$1[2] - directionFactor * position;
+		if (position || elementScroll) {
+			if (elementCouldBeScrolled(axis, target)) {
+				availableScroll += elementScroll;
+				availableScrollTop += position;
+			}
+		}
+		var parent_1 = target.parentNode;
+		target = parent_1 && parent_1.nodeType === Node.DOCUMENT_FRAGMENT_NODE ? parent_1.host : parent_1;
+	} while (!targetInLock && target !== document.body || targetInLock && (endTarget.contains(target) || endTarget === target));
+	if (isDeltaPositive && (noOverscroll && Math.abs(availableScroll) < 1 || !noOverscroll && delta > availableScroll)) shouldCancelScroll = true;
+	else if (!isDeltaPositive && (noOverscroll && Math.abs(availableScrollTop) < 1 || !noOverscroll && -delta > availableScrollTop)) shouldCancelScroll = true;
+	return shouldCancelScroll;
+};
+var getTouchXY = function(event) {
+	return "changedTouches" in event ? [event.changedTouches[0].clientX, event.changedTouches[0].clientY] : [0, 0];
+};
+var getDeltaXY = function(event) {
+	return [event.deltaX, event.deltaY];
+};
+var extractRef = function(ref) {
+	return ref && "current" in ref ? ref.current : ref;
+};
+var deltaCompare = function(x$1, y) {
+	return x$1[0] === y[0] && x$1[1] === y[1];
+};
+var generateStyle = function(id) {
+	return "\n  .block-interactivity-".concat(id, " {pointer-events: none;}\n  .allow-interactivity-").concat(id, " {pointer-events: all;}\n");
+};
+var idCounter = 0;
+var lockStack = [];
+function RemoveScrollSideCar(props) {
+	var shouldPreventQueue = import_react.useRef([]);
+	var touchStartRef = import_react.useRef([0, 0]);
+	var activeAxis = import_react.useRef();
+	var id = import_react.useState(idCounter++)[0];
+	var Style$1 = import_react.useState(styleSingleton)[0];
+	var lastProps = import_react.useRef(props);
+	import_react.useEffect(function() {
+		lastProps.current = props;
+	}, [props]);
+	import_react.useEffect(function() {
+		if (props.inert) {
+			document.body.classList.add("block-interactivity-".concat(id));
+			var allow_1 = __spreadArray([props.lockRef.current], (props.shards || []).map(extractRef), true).filter(Boolean);
+			allow_1.forEach(function(el) {
+				return el.classList.add("allow-interactivity-".concat(id));
+			});
+			return function() {
+				document.body.classList.remove("block-interactivity-".concat(id));
+				allow_1.forEach(function(el) {
+					return el.classList.remove("allow-interactivity-".concat(id));
+				});
+			};
+		}
+	}, [
+		props.inert,
+		props.lockRef.current,
+		props.shards
+	]);
+	var shouldCancelEvent = import_react.useCallback(function(event, parent) {
+		if ("touches" in event && event.touches.length === 2 || event.type === "wheel" && event.ctrlKey) return !lastProps.current.allowPinchZoom;
+		var touch = getTouchXY(event);
+		var touchStart = touchStartRef.current;
+		var deltaX = "deltaX" in event ? event.deltaX : touchStart[0] - touch[0];
+		var deltaY = "deltaY" in event ? event.deltaY : touchStart[1] - touch[1];
+		var currentAxis;
+		var target = event.target;
+		var moveDirection = Math.abs(deltaX) > Math.abs(deltaY) ? "h" : "v";
+		if ("touches" in event && moveDirection === "h" && target.type === "range") return false;
+		var selection = window.getSelection();
+		var anchorNode = selection && selection.anchorNode;
+		if (anchorNode ? anchorNode === target || anchorNode.contains(target) : false) return false;
+		var canBeScrolledInMainDirection = locationCouldBeScrolled(moveDirection, target);
+		if (!canBeScrolledInMainDirection) return true;
+		if (canBeScrolledInMainDirection) currentAxis = moveDirection;
+		else {
+			currentAxis = moveDirection === "v" ? "h" : "v";
+			canBeScrolledInMainDirection = locationCouldBeScrolled(moveDirection, target);
+		}
+		if (!canBeScrolledInMainDirection) return false;
+		if (!activeAxis.current && "changedTouches" in event && (deltaX || deltaY)) activeAxis.current = currentAxis;
+		if (!currentAxis) return true;
+		var cancelingAxis = activeAxis.current || currentAxis;
+		return handleScroll(cancelingAxis, parent, event, cancelingAxis === "h" ? deltaX : deltaY, true);
+	}, []);
+	var shouldPrevent = import_react.useCallback(function(_event) {
+		var event = _event;
+		if (!lockStack.length || lockStack[lockStack.length - 1] !== Style$1) return;
+		var delta = "deltaY" in event ? getDeltaXY(event) : getTouchXY(event);
+		var sourceEvent = shouldPreventQueue.current.filter(function(e) {
+			return e.name === event.type && (e.target === event.target || event.target === e.shadowParent) && deltaCompare(e.delta, delta);
+		})[0];
+		if (sourceEvent && sourceEvent.should) {
+			if (event.cancelable) event.preventDefault();
+			return;
+		}
+		if (!sourceEvent) {
+			var shardNodes = (lastProps.current.shards || []).map(extractRef).filter(Boolean).filter(function(node) {
+				return node.contains(event.target);
+			});
+			if (shardNodes.length > 0 ? shouldCancelEvent(event, shardNodes[0]) : !lastProps.current.noIsolation) {
+				if (event.cancelable) event.preventDefault();
+			}
+		}
+	}, []);
+	var shouldCancel = import_react.useCallback(function(name, delta, target, should) {
+		var event = {
+			name,
+			delta,
+			target,
+			should,
+			shadowParent: getOutermostShadowParent(target)
+		};
+		shouldPreventQueue.current.push(event);
+		setTimeout(function() {
+			shouldPreventQueue.current = shouldPreventQueue.current.filter(function(e) {
+				return e !== event;
+			});
+		}, 1);
+	}, []);
+	var scrollTouchStart = import_react.useCallback(function(event) {
+		touchStartRef.current = getTouchXY(event);
+		activeAxis.current = void 0;
+	}, []);
+	var scrollWheel = import_react.useCallback(function(event) {
+		shouldCancel(event.type, getDeltaXY(event), event.target, shouldCancelEvent(event, props.lockRef.current));
+	}, []);
+	var scrollTouchMove = import_react.useCallback(function(event) {
+		shouldCancel(event.type, getTouchXY(event), event.target, shouldCancelEvent(event, props.lockRef.current));
+	}, []);
+	import_react.useEffect(function() {
+		lockStack.push(Style$1);
+		props.setCallbacks({
+			onScrollCapture: scrollWheel,
+			onWheelCapture: scrollWheel,
+			onTouchMoveCapture: scrollTouchMove
+		});
+		document.addEventListener("wheel", shouldPrevent, nonPassive);
+		document.addEventListener("touchmove", shouldPrevent, nonPassive);
+		document.addEventListener("touchstart", scrollTouchStart, nonPassive);
+		return function() {
+			lockStack = lockStack.filter(function(inst) {
+				return inst !== Style$1;
+			});
+			document.removeEventListener("wheel", shouldPrevent, nonPassive);
+			document.removeEventListener("touchmove", shouldPrevent, nonPassive);
+			document.removeEventListener("touchstart", scrollTouchStart, nonPassive);
+		};
+	}, []);
+	var removeScrollBar = props.removeScrollBar, inert = props.inert;
+	return import_react.createElement(import_react.Fragment, null, inert ? import_react.createElement(Style$1, { styles: generateStyle(id) }) : null, removeScrollBar ? import_react.createElement(RemoveScrollBar, {
+		noRelative: props.noRelative,
+		gapMode: props.gapMode
+	}) : null);
+}
+function getOutermostShadowParent(node) {
+	var shadowParent = null;
+	while (node !== null) {
+		if (node instanceof ShadowRoot) {
+			shadowParent = node.host;
+			node = node.host;
+		}
+		node = node.parentNode;
+	}
+	return shadowParent;
+}
+var sidecar_default = exportSidecar(effectCar, RemoveScrollSideCar);
+var ReactRemoveScroll = import_react.forwardRef(function(props, ref) {
+	return import_react.createElement(RemoveScroll, __assign({}, props, {
+		ref,
+		sideCar: sidecar_default
+	}));
+});
+ReactRemoveScroll.classNames = RemoveScroll.classNames;
+var Combination_default = ReactRemoveScroll;
+var getDefaultParent = function(originalTarget) {
+	if (typeof document === "undefined") return null;
+	return (Array.isArray(originalTarget) ? originalTarget[0] : originalTarget).ownerDocument.body;
+};
+var counterMap = /* @__PURE__ */ new WeakMap();
+var uncontrolledNodes = /* @__PURE__ */ new WeakMap();
+var markerMap = {};
+var lockCount = 0;
+var unwrapHost = function(node) {
+	return node && (node.host || unwrapHost(node.parentNode));
+};
+var correctTargets = function(parent, targets) {
+	return targets.map(function(target) {
+		if (parent.contains(target)) return target;
+		var correctedTarget = unwrapHost(target);
+		if (correctedTarget && parent.contains(correctedTarget)) return correctedTarget;
+		console.error("aria-hidden", target, "in not contained inside", parent, ". Doing nothing");
+		return null;
+	}).filter(function(x$1) {
+		return Boolean(x$1);
+	});
+};
+var applyAttributeToOthers = function(originalTarget, parentNode, markerName, controlAttribute) {
+	var targets = correctTargets(parentNode, Array.isArray(originalTarget) ? originalTarget : [originalTarget]);
+	if (!markerMap[markerName]) markerMap[markerName] = /* @__PURE__ */ new WeakMap();
+	var markerCounter = markerMap[markerName];
+	var hiddenNodes = [];
+	var elementsToKeep = /* @__PURE__ */ new Set();
+	var elementsToStop = new Set(targets);
+	var keep = function(el) {
+		if (!el || elementsToKeep.has(el)) return;
+		elementsToKeep.add(el);
+		keep(el.parentNode);
+	};
+	targets.forEach(keep);
+	var deep = function(parent) {
+		if (!parent || elementsToStop.has(parent)) return;
+		Array.prototype.forEach.call(parent.children, function(node) {
+			if (elementsToKeep.has(node)) deep(node);
+			else try {
+				var attr = node.getAttribute(controlAttribute);
+				var alreadyHidden = attr !== null && attr !== "false";
+				var counterValue = (counterMap.get(node) || 0) + 1;
+				var markerValue = (markerCounter.get(node) || 0) + 1;
+				counterMap.set(node, counterValue);
+				markerCounter.set(node, markerValue);
+				hiddenNodes.push(node);
+				if (counterValue === 1 && alreadyHidden) uncontrolledNodes.set(node, true);
+				if (markerValue === 1) node.setAttribute(markerName, "true");
+				if (!alreadyHidden) node.setAttribute(controlAttribute, "true");
+			} catch (e) {
+				console.error("aria-hidden: cannot operate on ", node, e);
+			}
+		});
+	};
+	deep(parentNode);
+	elementsToKeep.clear();
+	lockCount++;
+	return function() {
+		hiddenNodes.forEach(function(node) {
+			var counterValue = counterMap.get(node) - 1;
+			var markerValue = markerCounter.get(node) - 1;
+			counterMap.set(node, counterValue);
+			markerCounter.set(node, markerValue);
+			if (!counterValue) {
+				if (!uncontrolledNodes.has(node)) node.removeAttribute(controlAttribute);
+				uncontrolledNodes.delete(node);
+			}
+			if (!markerValue) node.removeAttribute(markerName);
+		});
+		lockCount--;
+		if (!lockCount) {
+			counterMap = /* @__PURE__ */ new WeakMap();
+			counterMap = /* @__PURE__ */ new WeakMap();
+			uncontrolledNodes = /* @__PURE__ */ new WeakMap();
+			markerMap = {};
+		}
+	};
+};
+var hideOthers = function(originalTarget, parentNode, markerName) {
+	if (markerName === void 0) markerName = "data-aria-hidden";
+	var targets = Array.from(Array.isArray(originalTarget) ? originalTarget : [originalTarget]);
+	var activeParentNode = parentNode || getDefaultParent(originalTarget);
+	if (!activeParentNode) return function() {
+		return null;
+	};
+	targets.push.apply(targets, Array.from(activeParentNode.querySelectorAll("[aria-live], script")));
+	return applyAttributeToOthers(targets, activeParentNode, markerName, "aria-hidden");
+};
+var DIALOG_NAME = "Dialog";
+var [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME);
+var [DialogProvider, useDialogContext] = createDialogContext(DIALOG_NAME);
+var Dialog$1 = (props) => {
+	const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props;
+	const triggerRef = import_react.useRef(null);
+	const contentRef = import_react.useRef(null);
+	const [open, setOpen] = useControllableState({
+		prop: openProp,
+		defaultProp: defaultOpen ?? false,
+		onChange: onOpenChange,
+		caller: DIALOG_NAME
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogProvider, {
+		scope: __scopeDialog,
+		triggerRef,
+		contentRef,
+		contentId: useId(),
+		titleId: useId(),
+		descriptionId: useId(),
+		open,
+		onOpenChange: setOpen,
+		onOpenToggle: import_react.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
+		modal,
+		children
+	});
+};
+Dialog$1.displayName = DIALOG_NAME;
+var TRIGGER_NAME$1 = "DialogTrigger";
+var DialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...triggerProps } = props;
+	const context = useDialogContext(TRIGGER_NAME$1, __scopeDialog);
+	const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.button, {
+		type: "button",
+		"aria-haspopup": "dialog",
+		"aria-expanded": context.open,
+		"aria-controls": context.contentId,
+		"data-state": getState(context.open),
+		...triggerProps,
+		ref: composedTriggerRef,
+		onClick: composeEventHandlers(props.onClick, context.onOpenToggle)
+	});
+});
+DialogTrigger$1.displayName = TRIGGER_NAME$1;
+var PORTAL_NAME$1 = "DialogPortal";
+var [PortalProvider, usePortalContext] = createDialogContext(PORTAL_NAME$1, { forceMount: void 0 });
+var DialogPortal$1 = (props) => {
+	const { __scopeDialog, forceMount, children, container } = props;
+	const context = useDialogContext(PORTAL_NAME$1, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PortalProvider, {
+		scope: __scopeDialog,
+		forceMount,
+		children: import_react.Children.map(children, (child) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+			present: forceMount || context.open,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal, {
+				asChild: true,
+				container,
+				children: child
+			})
+		}))
+	});
+};
+DialogPortal$1.displayName = PORTAL_NAME$1;
+var OVERLAY_NAME$1 = "DialogOverlay";
+var DialogOverlay$1 = import_react.forwardRef((props, forwardedRef) => {
+	const portalContext = usePortalContext(OVERLAY_NAME$1, props.__scopeDialog);
+	const { forceMount = portalContext.forceMount, ...overlayProps } = props;
+	const context = useDialogContext(OVERLAY_NAME$1, props.__scopeDialog);
+	return context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.open,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlayImpl, {
+			...overlayProps,
+			ref: forwardedRef
+		})
+	}) : null;
+});
+DialogOverlay$1.displayName = OVERLAY_NAME$1;
+var Slot$1 = /* @__PURE__ */ createSlot$1("DialogOverlay.RemoveScroll");
+var DialogOverlayImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...overlayProps } = props;
+	const context = useDialogContext(OVERLAY_NAME$1, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Combination_default, {
+		as: Slot$1,
+		allowPinchZoom: true,
+		shards: [context.contentRef],
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.div, {
+			"data-state": getState(context.open),
+			...overlayProps,
+			ref: forwardedRef,
+			style: {
+				pointerEvents: "auto",
+				...overlayProps.style
+			}
+		})
+	});
+});
+var CONTENT_NAME$1 = "DialogContent";
+var DialogContent$1 = import_react.forwardRef((props, forwardedRef) => {
+	const portalContext = usePortalContext(CONTENT_NAME$1, props.__scopeDialog);
+	const { forceMount = portalContext.forceMount, ...contentProps } = props;
+	const context = useDialogContext(CONTENT_NAME$1, props.__scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Presence, {
+		present: forceMount || context.open,
+		children: context.modal ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentModal, {
+			...contentProps,
+			ref: forwardedRef
+		}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentNonModal, {
+			...contentProps,
+			ref: forwardedRef
+		})
+	});
+});
+DialogContent$1.displayName = CONTENT_NAME$1;
+var DialogContentModal = import_react.forwardRef((props, forwardedRef) => {
+	const context = useDialogContext(CONTENT_NAME$1, props.__scopeDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef);
+	import_react.useEffect(() => {
+		const content = contentRef.current;
+		if (content) return hideOthers(content);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
+		...props,
+		ref: composedRefs,
+		trapFocus: context.open,
+		disableOutsidePointerEvents: true,
+		onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
+			event.preventDefault();
+			context.triggerRef.current?.focus();
+		}),
+		onPointerDownOutside: composeEventHandlers(props.onPointerDownOutside, (event) => {
+			const originalEvent = event.detail.originalEvent;
+			const ctrlLeftClick = originalEvent.button === 0 && originalEvent.ctrlKey === true;
+			if (originalEvent.button === 2 || ctrlLeftClick) event.preventDefault();
+		}),
+		onFocusOutside: composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault())
+	});
+});
+var DialogContentNonModal = import_react.forwardRef((props, forwardedRef) => {
+	const context = useDialogContext(CONTENT_NAME$1, props.__scopeDialog);
+	const hasInteractedOutsideRef = import_react.useRef(false);
+	const hasPointerDownOutsideRef = import_react.useRef(false);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogContentImpl, {
+		...props,
+		ref: forwardedRef,
+		trapFocus: false,
+		disableOutsidePointerEvents: false,
+		onCloseAutoFocus: (event) => {
+			props.onCloseAutoFocus?.(event);
+			if (!event.defaultPrevented) {
+				if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
+				event.preventDefault();
+			}
+			hasInteractedOutsideRef.current = false;
+			hasPointerDownOutsideRef.current = false;
+		},
+		onInteractOutside: (event) => {
+			props.onInteractOutside?.(event);
+			if (!event.defaultPrevented) {
+				hasInteractedOutsideRef.current = true;
+				if (event.detail.originalEvent.type === "pointerdown") hasPointerDownOutsideRef.current = true;
+			}
+			const target = event.target;
+			if (context.triggerRef.current?.contains(target)) event.preventDefault();
+			if (event.detail.originalEvent.type === "focusin" && hasPointerDownOutsideRef.current) event.preventDefault();
+		}
+	});
+});
+var DialogContentImpl = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props;
+	const context = useDialogContext(CONTENT_NAME$1, __scopeDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, contentRef);
+	useFocusGuards();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FocusScope, {
+		asChild: true,
+		loop: true,
+		trapped: trapFocus,
+		onMountAutoFocus: onOpenAutoFocus,
+		onUnmountAutoFocus: onCloseAutoFocus,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DismissableLayer, {
+			role: "dialog",
+			id: context.contentId,
+			"aria-describedby": context.descriptionId,
+			"aria-labelledby": context.titleId,
+			"data-state": getState(context.open),
+			...contentProps,
+			ref: composedRefs,
+			onDismiss: () => context.onOpenChange(false)
+		})
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TitleWarning, { titleId: context.titleId }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DescriptionWarning$1, {
+		contentRef,
+		descriptionId: context.descriptionId
+	})] })] });
+});
+var TITLE_NAME$1 = "DialogTitle";
+var DialogTitle$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...titleProps } = props;
+	const context = useDialogContext(TITLE_NAME$1, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.h2, {
+		id: context.titleId,
+		...titleProps,
+		ref: forwardedRef
+	});
+});
+DialogTitle$1.displayName = TITLE_NAME$1;
+var DESCRIPTION_NAME$1 = "DialogDescription";
+var DialogDescription$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...descriptionProps } = props;
+	const context = useDialogContext(DESCRIPTION_NAME$1, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.p, {
+		id: context.descriptionId,
+		...descriptionProps,
+		ref: forwardedRef
+	});
+});
+DialogDescription$1.displayName = DESCRIPTION_NAME$1;
+var CLOSE_NAME = "DialogClose";
+var DialogClose$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeDialog, ...closeProps } = props;
+	const context = useDialogContext(CLOSE_NAME, __scopeDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive$1.button, {
+		type: "button",
+		...closeProps,
+		ref: forwardedRef,
+		onClick: composeEventHandlers(props.onClick, () => context.onOpenChange(false))
+	});
+});
+DialogClose$1.displayName = CLOSE_NAME;
+function getState(open) {
+	return open ? "open" : "closed";
+}
+var TITLE_WARNING_NAME = "DialogTitleWarning";
+var [WarningProvider, useWarningContext] = createContext2(TITLE_WARNING_NAME, {
+	contentName: CONTENT_NAME$1,
+	titleName: TITLE_NAME$1,
+	docsSlug: "dialog"
+});
+var TitleWarning = ({ titleId }) => {
+	const titleWarningContext = useWarningContext(TITLE_WARNING_NAME);
+	const MESSAGE = `\`${titleWarningContext.contentName}\` requires a \`${titleWarningContext.titleName}\` for the component to be accessible for screen reader users.
+
+If you want to hide the \`${titleWarningContext.titleName}\`, you can wrap it with our VisuallyHidden component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/${titleWarningContext.docsSlug}`;
+	import_react.useEffect(() => {
+		if (titleId) {
+			if (!document.getElementById(titleId)) console.error(MESSAGE);
+		}
+	}, [MESSAGE, titleId]);
+	return null;
+};
+var DESCRIPTION_WARNING_NAME = "DialogDescriptionWarning";
+var DescriptionWarning$1 = ({ contentRef, descriptionId }) => {
+	const MESSAGE = `Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${useWarningContext(DESCRIPTION_WARNING_NAME).contentName}}.`;
+	import_react.useEffect(() => {
+		const describedById = contentRef.current?.getAttribute("aria-describedby");
+		if (descriptionId && describedById) {
+			if (!document.getElementById(descriptionId)) console.warn(MESSAGE);
+		}
+	}, [
+		MESSAGE,
+		contentRef,
+		descriptionId
+	]);
+	return null;
+};
+var Root$1 = Dialog$1;
+var Trigger = DialogTrigger$1;
+var Portal$1 = DialogPortal$1;
+var Overlay = DialogOverlay$1;
+var Content = DialogContent$1;
+var Title = DialogTitle$1;
+var Description = DialogDescription$1;
+var Close = DialogClose$1;
+var Dialog = Root$1;
+var DialogPortal = Portal$1;
+var DialogOverlay = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay, {
+	ref,
+	className: cn("fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className),
+	...props
+}));
+DialogOverlay.displayName = Overlay.displayName;
+var DialogContent = import_react.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogPortal, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogOverlay, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
+	ref,
+	className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg overflow-y-auto max-h-screen", className),
+	...props,
+	children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Close, {
+		className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+			className: "sr-only",
+			children: "Close"
+		})]
+	})]
+})] }));
+DialogContent.displayName = Content.displayName;
+var DialogHeader = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className),
+	...props
+});
+DialogHeader.displayName = "DialogHeader";
+var DialogFooter = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
+	...props
+});
+DialogFooter.displayName = "DialogFooter";
+var DialogTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
+	ref,
+	className: cn("text-lg font-semibold leading-none tracking-tight", className),
+	...props
+}));
+DialogTitle.displayName = Title.displayName;
+var DialogDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
+	ref,
+	className: cn("text-sm text-muted-foreground", className),
+	...props
+}));
+DialogDescription.displayName = Description.displayName;
+require_react_dom();
+var Primitive = [
+	"a",
+	"button",
+	"div",
+	"form",
+	"h2",
+	"h3",
+	"img",
+	"input",
+	"label",
+	"li",
+	"nav",
+	"ol",
+	"p",
+	"select",
+	"span",
+	"svg",
+	"ul"
+].reduce((primitive, node) => {
+	const Slot$2 = /* @__PURE__ */ createSlot(`Primitive.${node}`);
+	const Node$1 = import_react.forwardRef((props, forwardedRef) => {
+		const { asChild, ...primitiveProps } = props;
+		const Comp = asChild ? Slot$2 : node;
+		if (typeof window !== "undefined") window[Symbol.for("radix-ui")] = true;
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Comp, {
+			...primitiveProps,
+			ref: forwardedRef
+		});
+	});
+	Node$1.displayName = `Primitive.${node}`;
+	return {
+		...primitive,
+		[node]: Node$1
+	};
+}, {});
+var NAME = "Label";
+var Label$1 = import_react.forwardRef((props, forwardedRef) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Primitive.label, {
+		...props,
+		ref: forwardedRef,
+		onMouseDown: (event) => {
+			if (event.target.closest("button, input, select, textarea")) return;
+			props.onMouseDown?.(event);
+			if (!event.defaultPrevented && event.detail > 1) event.preventDefault();
+		}
+	});
+});
+Label$1.displayName = NAME;
+var Root = Label$1;
+var labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70");
+var Label = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root, {
+	ref,
+	className: cn(labelVariants(), className),
+	...props
+}));
+Label.displayName = Root.displayName;
+var Form = FormProvider;
+var FormFieldContext = import_react.createContext({});
+var FormField = ({ ...props }) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormFieldContext.Provider, {
+		value: { name: props.name },
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Controller, { ...props })
+	});
+};
+var useFormField = () => {
+	const fieldContext = import_react.useContext(FormFieldContext);
+	const itemContext = import_react.useContext(FormItemContext);
+	const { getFieldState, formState } = useFormContext();
+	const fieldState = getFieldState(fieldContext.name, formState);
+	if (!fieldContext) throw new Error("useFormField should be used within <FormField>");
+	const { id } = itemContext;
+	return {
+		id,
+		name: fieldContext.name,
+		formItemId: `${id}-form-item`,
+		formDescriptionId: `${id}-form-item-description`,
+		formMessageId: `${id}-form-item-message`,
+		...fieldState
+	};
+};
+var FormItemContext = import_react.createContext({});
+var FormItem = import_react.forwardRef(({ className, ...props }, ref) => {
+	const id = import_react.useId();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormItemContext.Provider, {
+		value: { id },
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			ref,
+			className: cn("space-y-2", className),
+			...props
+		})
+	});
+});
+FormItem.displayName = "FormItem";
+var FormLabel = import_react.forwardRef(({ className, ...props }, ref) => {
+	const { error, formItemId } = useFormField();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
+		ref,
+		className: cn(error && "text-destructive", className),
+		htmlFor: formItemId,
+		...props
+	});
+});
+FormLabel.displayName = "FormLabel";
+var FormControl = import_react.forwardRef(({ ...props }, ref) => {
+	const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Slot, {
+		ref,
+		id: formItemId,
+		"aria-describedby": !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
+		"aria-invalid": !!error,
+		...props
+	});
+});
+FormControl.displayName = "FormControl";
+var FormDescription = import_react.forwardRef(({ className, ...props }, ref) => {
+	const { formDescriptionId } = useFormField();
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+		ref,
+		id: formDescriptionId,
+		className: cn("text-sm text-muted-foreground", className),
+		...props
+	});
+});
+FormDescription.displayName = "FormDescription";
+var FormMessage = import_react.forwardRef(({ className, children, ...props }, ref) => {
+	const { error, formMessageId } = useFormField();
+	const body = error ? String(error?.message ?? "") : children;
+	if (!body) return null;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+		ref,
+		id: formMessageId,
+		className: cn("text-sm font-medium text-destructive", className),
+		...props,
+		children: body
+	});
+});
+FormMessage.displayName = "FormMessage";
+var Input = import_react.forwardRef(({ className, type, ...props }, ref) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+		type,
+		className: cn("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
+		ref,
+		...props
+	});
+});
+Input.displayName = "Input";
+var Textarea = import_react.forwardRef(({ className, ...props }, ref) => {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", {
+		className: cn("flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
+		ref,
+		...props
+	});
+});
+Textarea.displayName = "Textarea";
+var formSchema$1 = object({
+	name: string().min(1, "Nome é obrigatório"),
+	phone: string().min(1, "Telefone é obrigatório"),
+	message: string().min(1, "Mensagem é obrigatória")
+});
+function EditContactDialog({ contact, open, onOpenChange, onSuccess }) {
+	const [isLoading, setIsLoading] = (0, import_react.useState)(false);
+	const form = useForm({
+		resolver: a(formSchema$1),
+		defaultValues: {
+			name: contact?.name || "",
+			phone: contact?.phone || "",
+			message: contact?.message || ""
+		},
+		values: {
+			name: contact?.name || "",
+			phone: contact?.phone || "",
+			message: contact?.message || ""
+		}
+	});
+	const onSubmit = async (values) => {
+		if (!contact) return;
+		setIsLoading(true);
+		try {
+			await contactsService.update(contact.id, values);
+			toast.success("Contato atualizado com sucesso");
+			onSuccess();
+			onOpenChange(false);
+		} catch (error) {
+			console.error(error);
+			toast.error("Erro ao atualizar contato");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dialog, {
+		open,
+		onOpenChange,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogContent, {
+			className: "sm:max-w-[425px]",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogTitle, { children: "Editar Contato" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogDescription, { children: "Faça alterações nos dados do contato aqui. Clique em salvar quando terminar." })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
+				...form,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: form.handleSubmit(onSubmit),
+					className: "space-y-4",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+							control: form.control,
+							name: "name",
+							render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Nome" }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									placeholder: "Nome do contato",
+									...field
+								}) }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+							] })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+							control: form.control,
+							name: "phone",
+							render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Telefone" }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+									placeholder: "5511999999999",
+									...field
+								}) }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+							] })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+							control: form.control,
+							name: "message",
+							render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Mensagem" }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Textarea, {
+									placeholder: "Olá, tudo bem?",
+									className: "resize-none min-h-[100px]",
+									...field
+								}) }),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+							] })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(DialogFooter, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							type: "submit",
+							disabled: isLoading,
+							children: [isLoading && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Salvar alterações"]
+						}) })
+					]
+				})
+			})]
+		})
+	});
+}
+var ROOT_NAME = "AlertDialog";
+var [createAlertDialogContext, createAlertDialogScope] = createContextScope(ROOT_NAME, [createDialogScope]);
+var useDialogScope = createDialogScope();
+var AlertDialog$1 = (props) => {
+	const { __scopeAlertDialog, ...alertDialogProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Root$1, {
+		...dialogScope,
+		...alertDialogProps,
+		modal: true
+	});
+};
+AlertDialog$1.displayName = ROOT_NAME;
+var TRIGGER_NAME = "AlertDialogTrigger";
+var AlertDialogTrigger$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, ...triggerProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trigger, {
+		...dialogScope,
+		...triggerProps,
+		ref: forwardedRef
+	});
+});
+AlertDialogTrigger$1.displayName = TRIGGER_NAME;
+var PORTAL_NAME = "AlertDialogPortal";
+var AlertDialogPortal$1 = (props) => {
+	const { __scopeAlertDialog, ...portalProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Portal$1, {
+		...dialogScope,
+		...portalProps
+	});
+};
+AlertDialogPortal$1.displayName = PORTAL_NAME;
+var OVERLAY_NAME = "AlertDialogOverlay";
+var AlertDialogOverlay$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, ...overlayProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay, {
+		...dialogScope,
+		...overlayProps,
+		ref: forwardedRef
+	});
+});
+AlertDialogOverlay$1.displayName = OVERLAY_NAME;
+var CONTENT_NAME = "AlertDialogContent";
+var [AlertDialogContentProvider, useAlertDialogContentContext] = createAlertDialogContext(CONTENT_NAME);
+var Slottable = /* @__PURE__ */ createSlottable("AlertDialogContent");
+var AlertDialogContent$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, children, ...contentProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	const contentRef = import_react.useRef(null);
+	const composedRefs = useComposedRefs(forwardedRef, contentRef);
+	const cancelRef = import_react.useRef(null);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(WarningProvider, {
+		contentName: CONTENT_NAME,
+		titleName: TITLE_NAME,
+		docsSlug: "alert-dialog",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertDialogContentProvider, {
+			scope: __scopeAlertDialog,
+			cancelRef,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Content, {
+				role: "alertdialog",
+				...dialogScope,
+				...contentProps,
+				ref: composedRefs,
+				onOpenAutoFocus: composeEventHandlers(contentProps.onOpenAutoFocus, (event) => {
+					event.preventDefault();
+					cancelRef.current?.focus({ preventScroll: true });
+				}),
+				onPointerDownOutside: (event) => event.preventDefault(),
+				onInteractOutside: (event) => event.preventDefault(),
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Slottable, { children }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DescriptionWarning, { contentRef })]
+			})
+		})
+	});
+});
+AlertDialogContent$1.displayName = CONTENT_NAME;
+var TITLE_NAME = "AlertDialogTitle";
+var AlertDialogTitle$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, ...titleProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title, {
+		...dialogScope,
+		...titleProps,
+		ref: forwardedRef
+	});
+});
+AlertDialogTitle$1.displayName = TITLE_NAME;
+var DESCRIPTION_NAME = "AlertDialogDescription";
+var AlertDialogDescription$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, ...descriptionProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description, {
+		...dialogScope,
+		...descriptionProps,
+		ref: forwardedRef
+	});
+});
+AlertDialogDescription$1.displayName = DESCRIPTION_NAME;
+var ACTION_NAME = "AlertDialogAction";
+var AlertDialogAction$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, ...actionProps } = props;
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Close, {
+		...dialogScope,
+		...actionProps,
+		ref: forwardedRef
+	});
+});
+AlertDialogAction$1.displayName = ACTION_NAME;
+var CANCEL_NAME = "AlertDialogCancel";
+var AlertDialogCancel$1 = import_react.forwardRef((props, forwardedRef) => {
+	const { __scopeAlertDialog, ...cancelProps } = props;
+	const { cancelRef } = useAlertDialogContentContext(CANCEL_NAME, __scopeAlertDialog);
+	const dialogScope = useDialogScope(__scopeAlertDialog);
+	const ref = useComposedRefs(forwardedRef, cancelRef);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Close, {
+		...dialogScope,
+		...cancelProps,
+		ref
+	});
+});
+AlertDialogCancel$1.displayName = CANCEL_NAME;
+var DescriptionWarning = ({ contentRef }) => {
+	const MESSAGE = `\`${CONTENT_NAME}\` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the \`${CONTENT_NAME}\` by passing a \`${DESCRIPTION_NAME}\` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an \`id\` and passing the same value to the \`aria-describedby\` prop in \`${CONTENT_NAME}\`. If the description is confusing or duplicative for sighted users, you can use the \`@radix-ui/react-visually-hidden\` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog`;
+	import_react.useEffect(() => {
+		if (!document.getElementById(contentRef.current?.getAttribute("aria-describedby"))) console.warn(MESSAGE);
+	}, [MESSAGE, contentRef]);
+	return null;
+};
+var Root2 = AlertDialog$1;
+var Trigger2 = AlertDialogTrigger$1;
+var Portal2 = AlertDialogPortal$1;
+var Overlay2 = AlertDialogOverlay$1;
+var Content2 = AlertDialogContent$1;
+var Action = AlertDialogAction$1;
+var Cancel = AlertDialogCancel$1;
+var Title2 = AlertDialogTitle$1;
+var Description2 = AlertDialogDescription$1;
+var AlertDialog = Root2;
+var AlertDialogTrigger = Trigger2;
+var AlertDialogPortal = Portal2;
+var AlertDialogOverlay = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Overlay2, {
+	className: cn("fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className),
+	...props,
+	ref
+}));
+AlertDialogOverlay.displayName = Overlay2.displayName;
+var AlertDialogContent = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDialogPortal, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertDialogOverlay, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Content2, {
+	ref,
+	className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg", className),
+	...props
+})] }));
+AlertDialogContent.displayName = Content2.displayName;
+var AlertDialogHeader = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col space-y-2 text-center sm:text-left", className),
+	...props
+});
+AlertDialogHeader.displayName = "AlertDialogHeader";
+var AlertDialogFooter = ({ className, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+	className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className),
+	...props
+});
+AlertDialogFooter.displayName = "AlertDialogFooter";
+var AlertDialogTitle = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Title2, {
+	ref,
+	className: cn("text-lg font-semibold", className),
+	...props
+}));
+AlertDialogTitle.displayName = Title2.displayName;
+var AlertDialogDescription = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Description2, {
+	ref,
+	className: cn("text-sm text-muted-foreground", className),
+	...props
+}));
+AlertDialogDescription.displayName = Description2.displayName;
+var AlertDialogAction = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Action, {
+	ref,
+	className: cn(buttonVariants(), className),
+	...props
+}));
+AlertDialogAction.displayName = Action.displayName;
+var AlertDialogCancel = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cancel, {
+	ref,
+	className: cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className),
+	...props
+}));
+AlertDialogCancel.displayName = Cancel.displayName;
+function ContactsTable({ contacts, onRefresh }) {
+	const [selectedIds, setSelectedIds] = (0, import_react.useState)([]);
+	const [editingContact, setEditingContact] = (0, import_react.useState)(null);
+	const [isEditDialogOpen, setIsEditDialogOpen] = (0, import_react.useState)(false);
+	const [isDeleting, setIsDeleting] = (0, import_react.useState)(false);
+	const toggleSelectAll = () => {
+		if (selectedIds.length === contacts.length) setSelectedIds([]);
+		else setSelectedIds(contacts.map((c) => c.id));
+	};
+	const toggleSelectOne = (id) => {
+		if (selectedIds.includes(id)) setSelectedIds(selectedIds.filter((item) => item !== id));
+		else setSelectedIds([...selectedIds, id]);
+	};
+	const handleDelete = async (id) => {
+		try {
+			await contactsService.delete(id);
+			toast.success("Contato removido");
+			if (selectedIds.includes(id)) setSelectedIds(selectedIds.filter((item) => item !== id));
+			onRefresh();
+		} catch (error) {
+			console.error(error);
+			toast.error("Erro ao remover contato");
+		}
+	};
+	const handleBulkDelete = async () => {
+		if (selectedIds.length === 0) return;
+		setIsDeleting(true);
+		try {
+			await contactsService.deleteBulk(selectedIds);
+			toast.success(`${selectedIds.length} contatos removidos`);
+			setSelectedIds([]);
+			onRefresh();
+		} catch (error) {
+			console.error(error);
+			toast.error("Erro ao remover contatos");
+		} finally {
+			setIsDeleting(false);
+		}
+	};
+	const handleBulkSend = () => {
+		if (selectedIds.length === 0) return;
+		toast.success("Iniciando envio em massa", { description: `Preparando envio para ${selectedIds.length} contatos selecionados.` });
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "space-y-4",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex flex-col sm:flex-row justify-between items-center gap-4 bg-muted/30 p-4 rounded-lg border",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex items-center gap-2",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+						className: "text-sm text-muted-foreground font-medium",
+						children: [
+							selectedIds.length,
+							" de ",
+							contacts.length,
+							" selecionados"
+						]
+					})
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex items-center gap-2",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDialog, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertDialogTrigger, {
+						asChild: true,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							variant: "destructive",
+							size: "sm",
+							disabled: selectedIds.length === 0 || isDeleting,
+							className: "gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "h-4 w-4" }), "Excluir todos"]
+						})
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDialogContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertDialogTitle, { children: "Tem certeza?" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDialogDescription, { children: [
+						"Esta ação não pode ser desfeita. Isso excluirá permanentemente",
+						" ",
+						selectedIds.length,
+						" contatos selecionados."
+					] })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AlertDialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertDialogCancel, { children: "Cancelar" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AlertDialogAction, {
+						onClick: handleBulkDelete,
+						children: "Sim, excluir"
+					})] })] })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+						variant: "default",
+						size: "sm",
+						onClick: handleBulkSend,
+						disabled: selectedIds.length === 0,
+						className: "gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Send, { className: "h-4 w-4" }), "Enviar em Massa"]
+					})]
+				})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "rounded-md border bg-card",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+						className: "w-[50px]",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox, {
+							checked: contacts.length > 0 && selectedIds.length === contacts.length,
+							onCheckedChange: toggleSelectAll,
+							"aria-label": "Select all"
+						})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Nome" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Telefone" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+						className: "min-w-[200px]",
+						children: "Mensagem"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+						className: "text-right",
+						children: "Ações"
+					})
+				] }) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: contacts.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableRow, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+					colSpan: 5,
+					className: "h-24 text-center text-muted-foreground",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex flex-col items-center justify-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { className: "h-6 w-6 opacity-50" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Nenhum contato encontrado. Faça upload de uma planilha." })]
+					})
+				}) }) : contacts.map((contact) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, {
+					"data-state": selectedIds.includes(contact.id) ? "selected" : void 0,
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Checkbox, {
+							checked: selectedIds.includes(contact.id),
+							onCheckedChange: () => toggleSelectOne(contact.id),
+							"aria-label": `Select ${contact.name}`
+						}) }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							className: "font-medium",
+							children: contact.name
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, { children: contact.phone }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							className: "max-w-[300px] truncate",
+							title: contact.message,
+							children: contact.message
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							className: "text-right",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex justify-end gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									variant: "ghost",
+									size: "icon",
+									onClick: () => {
+										setEditingContact(contact);
+										setIsEditDialogOpen(true);
+									},
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pencil, { className: "h-4 w-4 text-muted-foreground hover:text-primary" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "sr-only",
+										children: "Editar"
+									})]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									variant: "ghost",
+									size: "icon",
+									onClick: () => handleDelete(contact.id),
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "h-4 w-4 text-muted-foreground hover:text-destructive" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "sr-only",
+										children: "Excluir"
+									})]
+								})]
+							})
+						})
+					]
+				}, contact.id)) })] })
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EditContactDialog, {
+				contact: editingContact,
+				open: isEditDialogOpen,
+				onOpenChange: setIsEditDialogOpen,
+				onSuccess: onRefresh
+			})
+		]
+	});
+}
 function Upload() {
+	const { user, loading: authLoading, signOut } = useAuth();
 	const [file, setFile] = (0, import_react.useState)(null);
 	const [isDragging, setIsDragging] = (0, import_react.useState)(false);
-	const [isLoading, setIsLoading] = (0, import_react.useState)(false);
+	const [isProcessing, setIsProcessing] = (0, import_react.useState)(false);
+	const [isLoadingContacts, setIsLoadingContacts] = (0, import_react.useState)(true);
+	const [contacts, setContacts] = (0, import_react.useState)([]);
 	const fileInputRef = (0, import_react.useRef)(null);
+	(0, import_react.useEffect)(() => {
+		if (user) fetchContacts();
+	}, [user]);
+	const fetchContacts = async () => {
+		setIsLoadingContacts(true);
+		try {
+			setContacts(await contactsService.getAll());
+		} catch (error) {
+			console.error(error);
+			toast.error("Erro ao carregar contatos");
+		} finally {
+			setIsLoadingContacts(false);
+		}
+	};
 	const validateFile = (selectedFile) => {
 		const validTypes = [
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -23944,10 +38974,14 @@ function Upload() {
 			".csv"
 		];
 		const fileExtension = "." + selectedFile.name.split(".").pop()?.toLowerCase();
-		if (validTypes.includes(selectedFile.type) || validExtensions.includes(fileExtension)) {
+		if (validTypes.includes(selectedFile.type) || validExtensions.includes(fileExtension)) if (fileExtension === ".xlsx" || fileExtension === ".xls") {
+			toast.warning("Suporte limitado a CSV", { description: "No momento, recomendamos o uso de arquivos .csv para processamento direto." });
 			setFile(selectedFile);
-			toast.success("Arquivo enviado com sucesso!", { description: `${selectedFile.name} pronto para processamento.` });
-		} else toast.error("Formato de arquivo inválido", { description: "Por favor, use arquivos .xlsx ou .csv." });
+		} else {
+			setFile(selectedFile);
+			toast.success("Arquivo selecionado!", { description: `${selectedFile.name} pronto para processamento.` });
+		}
+		else toast.error("Formato de arquivo inválido", { description: "Por favor, use arquivos .xlsx ou .csv." });
 	};
 	const handleDragOver = (e) => {
 		e.preventDefault();
@@ -23968,159 +39002,263 @@ function Upload() {
 		if (selectedFile) validateFile(selectedFile);
 		e.target.value = "";
 	};
-	const handleSubmit = async () => {
+	const handleProcessFile = async () => {
 		if (!file) return;
-		setIsLoading(true);
-		await new Promise((resolve) => setTimeout(resolve, 2e3));
-		setIsLoading(false);
-		toast.success("Processamento iniciado!", { description: "Sua planilha está sendo processada para envio." });
+		if (!file.name.toLowerCase().endsWith(".csv")) {
+			toast.error("Erro de Processamento", { description: "Por favor, converta seu arquivo Excel para CSV antes de enviar." });
+			return;
+		}
+		setIsProcessing(true);
+		try {
+			const parsedContacts = await parseCSV(file);
+			if (parsedContacts.length === 0) {
+				toast.warning("Arquivo vazio ou formato incorreto");
+				return;
+			}
+			toast.info(`Processando ${parsedContacts.length} contatos...`);
+			await contactsService.createBulk(parsedContacts);
+			toast.success("Sucesso!", { description: `${parsedContacts.length} contatos importados com sucesso.` });
+			setFile(null);
+			fetchContacts();
+		} catch (error) {
+			console.error(error);
+			toast.error("Erro ao processar arquivo", { description: error.message || "Verifique o formato das colunas." });
+		} finally {
+			setIsProcessing(false);
+		}
 	};
 	const removeFile = () => {
 		setFile(null);
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "container mx-auto px-4 py-12 max-w-7xl animate-fade-in-up",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "max-w-4xl mx-auto space-y-8",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "text-center space-y-2",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-					className: "text-3xl font-bold tracking-tight",
-					children: "Upload de Planilha"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-muted-foreground",
-					children: "Carregue seus contatos para iniciar o disparo."
-				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid md:grid-cols-5 gap-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "md:col-span-2 space-y-4",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
-						className: "text-lg",
-						children: "Estrutura do Arquivo"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Seu arquivo deve conter as seguintes colunas exatas:" })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "rounded-md border overflow-hidden",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, {
-							className: "bg-muted/50",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
-									className: "w-[80px]",
-									children: "Nome"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, { children: "Telefone" }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
-									className: "text-right",
-									children: "Mensagem"
-								})
-							] })
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableBody, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-								className: "font-medium text-xs",
-								children: "João"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-								className: "text-xs",
-								children: "551199..."
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-								className: "text-right text-xs",
-								children: "Olá..."
-							})
-						] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-								className: "font-medium text-xs",
-								children: "Maria"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-								className: "text-xs",
-								children: "552198..."
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
-								className: "text-right text-xs",
-								children: "Promo..."
-							})
-						] })] })] })
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "text-xs text-muted-foreground mt-4",
-						children: "* Formatos aceitos: .xlsx, .csv"
-					})] })] })
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "md:col-span-3",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
-						className: "h-full flex flex-col",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, {
-							className: "flex-1 p-6 flex flex-col justify-center",
-							children: !file ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: cn("flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-10 transition-all duration-200 cursor-pointer h-64 bg-slate-50/50 hover:bg-slate-50", isDragging ? "border-primary bg-primary/5 scale-[1.02]" : "border-slate-200"),
-								onDragOver: handleDragOver,
-								onDragLeave: handleDragLeave,
-								onDrop: handleDrop,
-								onClick: () => fileInputRef.current?.click(),
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
-										type: "file",
-										className: "hidden",
-										ref: fileInputRef,
-										accept: ".xlsx,.xls,.csv",
-										onChange: handleFileInput
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: cn("p-4 rounded-full bg-slate-100 mb-4 transition-colors", isDragging && "bg-primary/10"),
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Upload$1, { className: cn("h-8 w-8 text-slate-400 transition-colors", isDragging && "text-primary animate-pulse") })
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "font-semibold text-lg text-foreground",
-										children: "Clique para upload"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-sm text-muted-foreground mt-1 text-center",
-										children: "ou arraste e solte seu arquivo aqui"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "text-xs text-muted-foreground mt-4 px-3 py-1 bg-slate-100 rounded-full",
-										children: "XLSX ou CSV"
-									})
-								]
-							}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex flex-col items-center justify-center h-64 border rounded-xl p-8 bg-slate-50/50 relative group",
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-										variant: "ghost",
-										size: "icon",
-										className: "absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive transition-colors",
-										onClick: removeFile,
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-5 w-5" })
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "bg-primary/10 p-4 rounded-full mb-4",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileSpreadsheet, { className: "h-10 w-10 text-primary" })
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-										className: "font-semibold text-lg text-foreground truncate max-w-[250px]",
-										children: file.name
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-										className: "text-sm text-muted-foreground mt-1",
-										children: [(file.size / 1024).toFixed(2), " KB"]
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "flex items-center gap-2 mt-4 text-sm text-green-600 font-medium",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileCheck, { className: "h-4 w-4" }), "Arquivo válido"]
-									})
-								]
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "p-6 pt-0 mt-auto",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-								className: "w-full h-12 text-base shadow-sm hover:shadow-md transition-all",
-								disabled: !file || isLoading,
-								onClick: handleSubmit,
-								children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-5 w-5 animate-spin" }), "Processando..."] }) : "Enviar Planilha"
-							})
-						})]
-					})
-				})]
+	if (authLoading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-8 w-8 animate-spin text-primary" })
+	});
+	if (!user) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
+		to: "/auth",
+		replace: true
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "container mx-auto px-4 py-8 max-w-7xl animate-fade-in-up",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "flex justify-between items-center mb-8",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+				className: "text-3xl font-bold tracking-tight",
+				children: "Gerenciador de Contatos"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				className: "text-muted-foreground",
+				children: "Importe e gerencie sua lista de disparos."
+			})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+				variant: "outline",
+				size: "sm",
+				onClick: () => signOut(),
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "mr-2 h-4 w-4" }), "Sair"]
 			})]
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "grid lg:grid-cols-3 gap-8 mb-8",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "lg:col-span-1 space-y-4",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+					className: "text-lg",
+					children: "Upload de Arquivo"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Importe seus contatos via CSV." })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardContent, { children: [!file ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: cn("flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition-all duration-200 cursor-pointer h-48 bg-slate-50/50 hover:bg-slate-50", isDragging ? "border-primary bg-primary/5 scale-[1.02]" : "border-slate-200"),
+					onDragOver: handleDragOver,
+					onDragLeave: handleDragLeave,
+					onDrop: handleDrop,
+					onClick: () => fileInputRef.current?.click(),
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+							type: "file",
+							className: "hidden",
+							ref: fileInputRef,
+							accept: ".csv",
+							onChange: handleFileInput
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: cn("p-3 rounded-full bg-slate-100 mb-3 transition-colors", isDragging && "bg-primary/10"),
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Upload$1, { className: cn("h-6 w-6 text-slate-400 transition-colors", isDragging && "text-primary animate-pulse") })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "font-semibold text-sm text-foreground",
+							children: "Clique ou arraste CSV"
+						})
+					]
+				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex flex-col items-center justify-center h-48 border rounded-xl p-6 bg-slate-50/50 relative group",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+							variant: "ghost",
+							size: "icon",
+							className: "absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive transition-colors",
+							onClick: removeFile,
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "bg-primary/10 p-3 rounded-full mb-3",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileSpreadsheet, { className: "h-8 w-8 text-primary" })
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "font-semibold text-sm text-foreground truncate max-w-[200px]",
+							children: file.name
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							className: "text-xs text-muted-foreground mt-1",
+							children: [(file.size / 1024).toFixed(2), " KB"]
+						})
+					]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+					className: "w-full mt-4",
+					disabled: !file || isProcessing,
+					onClick: handleProcessFile,
+					children: isProcessing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Processando..."] }) : "Processar Arquivo"
+				})] })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardHeader, {
+					className: "pb-3",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+						className: "text-sm",
+						children: "Estrutura Exigida (CSV)"
+					})
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "rounded-md border overflow-hidden",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Table, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHeader, {
+						className: "bg-muted/50",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+								className: "h-8 text-xs",
+								children: "Nome"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+								className: "h-8 text-xs",
+								children: "Telefone"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableHead, {
+								className: "h-8 text-xs text-right",
+								children: "Mensagem"
+							})
+						] })
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableBody, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(TableRow, { children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							className: "py-2 text-xs font-medium",
+							children: "Ana"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							className: "py-2 text-xs",
+							children: "5511..."
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TableCell, {
+							className: "py-2 text-xs text-right",
+							children: "Olá..."
+						})
+					] }) })] })
+				}) })] })]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "lg:col-span-2",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+					className: "h-full flex flex-col",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, { children: "Contatos Importados" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Revise e selecione os contatos para disparo." })] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, {
+						className: "flex-1",
+						children: isLoadingContacts ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "h-64 flex items-center justify-center",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-8 w-8 animate-spin text-muted-foreground" })
+						}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ContactsTable, {
+							contacts,
+							onRefresh: fetchContacts
+						})
+					})]
+				})
+			})]
+		})]
+	});
+}
+var formSchema = object({ email: string().email("Email inválido") });
+function AuthPage() {
+	const { signInWithEmail, user, loading } = useAuth();
+	const [isSubmitting, setIsSubmitting] = (0, import_react.useState)(false);
+	const [emailSent, setEmailSent] = (0, import_react.useState)(false);
+	const form = useForm({
+		resolver: a(formSchema),
+		defaultValues: { email: "" }
+	});
+	if (loading) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-8 w-8 animate-spin text-primary" })
+	});
+	if (user) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigate, {
+		to: "/upload",
+		replace: true
+	});
+	const onSubmit = async (values) => {
+		setIsSubmitting(true);
+		try {
+			const { error } = await signInWithEmail(values.email);
+			if (error) toast.error("Erro ao enviar link", { description: error.message });
+			else {
+				setEmailSent(true);
+				toast.success("Link enviado!", { description: "Verifique sua caixa de entrada para fazer login." });
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Ocorreu um erro inesperado");
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "min-h-screen flex items-center justify-center bg-slate-50 p-4",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Card, {
+			className: "w-full max-w-md",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(CardHeader, {
+				className: "text-center",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardTitle, {
+					className: "text-2xl",
+					children: "Bem-vindo de volta"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardDescription, { children: "Digite seu email para receber um link de acesso mágico" })]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CardContent, { children: emailSent ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "text-center space-y-4 py-6",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "bg-green-100 p-4 rounded-full w-fit mx-auto",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { className: "h-8 w-8 text-green-600" })
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "text-lg font-medium text-green-700",
+						children: "Email enviado!"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-muted-foreground",
+						children: "Verifique sua caixa de entrada e clique no link para acessar."
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "outline",
+						onClick: () => setEmailSent(false),
+						className: "mt-4",
+						children: "Tentar outro email"
+					})
+				]
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
+				...form,
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+					onSubmit: form.handleSubmit(onSubmit),
+					className: "space-y-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+						control: form.control,
+						name: "email",
+						render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormLabel, { children: "Email" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								placeholder: "seu@email.com",
+								...field
+							}) }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})
+						] })
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						type: "submit",
+						className: "w-full",
+						disabled: isSubmitting,
+						children: isSubmitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "mr-2 h-4 w-4 animate-spin" }), "Enviando..."] }) : "Enviar Link de Acesso"
+					})]
+				})
+			}) })]
 		})
 	});
 }
@@ -24207,7 +39345,7 @@ function Layout() {
 		]
 	});
 }
-var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
+var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 	future: {
 		v7_startTransition: false,
 		v7_relativeSplatPath: false
@@ -24217,20 +39355,27 @@ var App = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrowserRouter, {
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Toaster$1, { position: "top-center" }),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Routes, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Route, {
 			element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Layout, {}),
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-				path: "/",
-				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index, {})
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
-				path: "/upload",
-				element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Upload, {})
-			})]
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+					path: "/",
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Index, {})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+					path: "/auth",
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthPage, {})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
+					path: "/upload",
+					element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Upload, {})
+				})
+			]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Route, {
 			path: "*",
 			element: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(NotFound_default, {})
 		})] })
 	] })
-});
+}) });
 var App_default = App;
 (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App_default, {}));
 
-//# sourceMappingURL=index-BIjPaPwt.js.map
+//# sourceMappingURL=index-Dg8V63oy.js.map

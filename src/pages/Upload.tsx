@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   Card,
   CardContent,
@@ -21,15 +21,43 @@ import {
   X,
   Loader2,
   FileCheck,
+  LogOut,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/hooks/use-auth'
+import { Navigate } from 'react-router-dom'
+import { parseCSV } from '@/lib/csv'
+import { contactsService, Contact } from '@/services/contacts'
+import { ContactsTable } from '@/components/contacts/ContactsTable'
 
 export default function Upload() {
+  const { user, loading: authLoading, signOut } = useAuth()
   const [file, setFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [isLoadingContacts, setIsLoadingContacts] = useState(true)
+  const [contacts, setContacts] = useState<Contact[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (user) {
+      fetchContacts()
+    }
+  }, [user])
+
+  const fetchContacts = async () => {
+    setIsLoadingContacts(true)
+    try {
+      const data = await contactsService.getAll()
+      setContacts(data)
+    } catch (error) {
+      console.error(error)
+      toast.error('Erro ao carregar contatos')
+    } finally {
+      setIsLoadingContacts(false)
+    }
+  }
 
   const validateFile = (selectedFile: File) => {
     const validTypes = [
@@ -37,7 +65,6 @@ export default function Upload() {
       'application/vnd.ms-excel', // .xls
       'text/csv', // .csv
     ]
-    // Also check extension as fallback
     const validExtensions = ['.xlsx', '.xls', '.csv']
     const fileExtension =
       '.' + selectedFile.name.split('.').pop()?.toLowerCase()
@@ -46,10 +73,19 @@ export default function Upload() {
       validTypes.includes(selectedFile.type) ||
       validExtensions.includes(fileExtension)
     ) {
-      setFile(selectedFile)
-      toast.success('Arquivo enviado com sucesso!', {
-        description: `${selectedFile.name} pronto para processamento.`,
-      })
+      if (fileExtension === '.xlsx' || fileExtension === '.xls') {
+        toast.warning('Suporte limitado a CSV', {
+          description:
+            'No momento, recomendamos o uso de arquivos .csv para processamento direto.',
+        })
+        // Still set file, but processing might fail if we don't have xlsx parser
+        setFile(selectedFile)
+      } else {
+        setFile(selectedFile)
+        toast.success('Arquivo selecionado!', {
+          description: `${selectedFile.name} pronto para processamento.`,
+        })
+      }
     } else {
       toast.error('Formato de arquivo inválido', {
         description: 'Por favor, use arquivos .xlsx ou .csv.',
@@ -81,181 +117,218 @@ export default function Upload() {
     if (selectedFile) {
       validateFile(selectedFile)
     }
-    // Reset input so the same file can be selected again if needed
     e.target.value = ''
   }
 
-  const handleSubmit = async () => {
+  const handleProcessFile = async () => {
     if (!file) return
 
-    setIsLoading(true)
-    // Simulate processing delay
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsLoading(false)
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      toast.error('Erro de Processamento', {
+        description:
+          'Por favor, converta seu arquivo Excel para CSV antes de enviar.',
+      })
+      return
+    }
 
-    toast.success('Processamento iniciado!', {
-      description: 'Sua planilha está sendo processada para envio.',
-    })
-    // Here you would typically navigate to a dashboard or reset
+    setIsProcessing(true)
+    try {
+      const parsedContacts = await parseCSV(file)
+      if (parsedContacts.length === 0) {
+        toast.warning('Arquivo vazio ou formato incorreto')
+        return
+      }
+
+      toast.info(`Processando ${parsedContacts.length} contatos...`)
+
+      await contactsService.createBulk(parsedContacts)
+
+      toast.success('Sucesso!', {
+        description: `${parsedContacts.length} contatos importados com sucesso.`,
+      })
+
+      setFile(null)
+      fetchContacts()
+    } catch (error: any) {
+      console.error(error)
+      toast.error('Erro ao processar arquivo', {
+        description: error.message || 'Verifique o formato das colunas.',
+      })
+    } finally {
+      setIsProcessing(false)
+    }
   }
 
   const removeFile = () => {
     setFile(null)
   }
 
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />
+  }
+
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl animate-fade-in-up">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-center space-y-2">
+    <div className="container mx-auto px-4 py-8 max-w-7xl animate-fade-in-up">
+      <div className="flex justify-between items-center mb-8">
+        <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Upload de Planilha
+            Gerenciador de Contatos
           </h1>
           <p className="text-muted-foreground">
-            Carregue seus contatos para iniciar o disparo.
+            Importe e gerencie sua lista de disparos.
           </p>
         </div>
+        <Button variant="outline" size="sm" onClick={() => signOut()}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Sair
+        </Button>
+      </div>
 
-        <div className="grid md:grid-cols-5 gap-8">
-          {/* Instructions Column */}
-          <div className="md:col-span-2 space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Estrutura do Arquivo</CardTitle>
-                <CardDescription>
-                  Seu arquivo deve conter as seguintes colunas exatas:
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="rounded-md border overflow-hidden">
-                  <Table>
-                    <TableHeader className="bg-muted/50">
-                      <TableRow>
-                        <TableHead className="w-[80px]">Nome</TableHead>
-                        <TableHead>Telefone</TableHead>
-                        <TableHead className="text-right">Mensagem</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium text-xs">
-                          João
-                        </TableCell>
-                        <TableCell className="text-xs">551199...</TableCell>
-                        <TableCell className="text-right text-xs">
-                          Olá...
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium text-xs">
-                          Maria
-                        </TableCell>
-                        <TableCell className="text-xs">552198...</TableCell>
-                        <TableCell className="text-right text-xs">
-                          Promo...
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-                <p className="text-xs text-muted-foreground mt-4">
-                  * Formatos aceitos: .xlsx, .csv
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Upload Column */}
-          <div className="md:col-span-3">
-            <Card className="h-full flex flex-col">
-              <CardContent className="flex-1 p-6 flex flex-col justify-center">
-                {!file ? (
+      <div className="grid lg:grid-cols-3 gap-8 mb-8">
+        {/* Upload Section */}
+        <div className="lg:col-span-1 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Upload de Arquivo</CardTitle>
+              <CardDescription>Importe seus contatos via CSV.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {!file ? (
+                <div
+                  className={cn(
+                    'flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition-all duration-200 cursor-pointer h-48 bg-slate-50/50 hover:bg-slate-50',
+                    isDragging
+                      ? 'border-primary bg-primary/5 scale-[1.02]'
+                      : 'border-slate-200',
+                  )}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <input
+                    type="file"
+                    className="hidden"
+                    ref={fileInputRef}
+                    accept=".csv"
+                    onChange={handleFileInput}
+                  />
                   <div
                     className={cn(
-                      'flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-10 transition-all duration-200 cursor-pointer h-64 bg-slate-50/50 hover:bg-slate-50',
-                      isDragging
-                        ? 'border-primary bg-primary/5 scale-[1.02]'
-                        : 'border-slate-200',
+                      'p-3 rounded-full bg-slate-100 mb-3 transition-colors',
+                      isDragging && 'bg-primary/10',
                     )}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={() => fileInputRef.current?.click()}
                   >
-                    <input
-                      type="file"
-                      className="hidden"
-                      ref={fileInputRef}
-                      accept=".xlsx,.xls,.csv"
-                      onChange={handleFileInput}
-                    />
-                    <div
+                    <UploadIcon
                       className={cn(
-                        'p-4 rounded-full bg-slate-100 mb-4 transition-colors',
-                        isDragging && 'bg-primary/10',
+                        'h-6 w-6 text-slate-400 transition-colors',
+                        isDragging && 'text-primary animate-pulse',
                       )}
-                    >
-                      <UploadIcon
-                        className={cn(
-                          'h-8 w-8 text-slate-400 transition-colors',
-                          isDragging && 'text-primary animate-pulse',
-                        )}
-                      />
-                    </div>
-                    <p className="font-semibold text-lg text-foreground">
-                      Clique para upload
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1 text-center">
-                      ou arraste e solte seu arquivo aqui
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-4 px-3 py-1 bg-slate-100 rounded-full">
-                      XLSX ou CSV
-                    </p>
+                    />
                   </div>
-                ) : (
-                  <div className="flex flex-col items-center justify-center h-64 border rounded-xl p-8 bg-slate-50/50 relative group">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive transition-colors"
-                      onClick={removeFile}
-                    >
-                      <X className="h-5 w-5" />
-                    </Button>
-                    <div className="bg-primary/10 p-4 rounded-full mb-4">
-                      <FileSpreadsheet className="h-10 w-10 text-primary" />
-                    </div>
-                    <p className="font-semibold text-lg text-foreground truncate max-w-[250px]">
-                      {file.name}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {(file.size / 1024).toFixed(2)} KB
-                    </p>
-                    <div className="flex items-center gap-2 mt-4 text-sm text-green-600 font-medium">
-                      <FileCheck className="h-4 w-4" />
-                      Arquivo válido
-                    </div>
+                  <p className="font-semibold text-sm text-foreground">
+                    Clique ou arraste CSV
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-48 border rounded-xl p-6 bg-slate-50/50 relative group">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive transition-colors"
+                    onClick={removeFile}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                  <div className="bg-primary/10 p-3 rounded-full mb-3">
+                    <FileSpreadsheet className="h-8 w-8 text-primary" />
                   </div>
-                )}
-              </CardContent>
+                  <p className="font-semibold text-sm text-foreground truncate max-w-[200px]">
+                    {file.name}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {(file.size / 1024).toFixed(2)} KB
+                  </p>
+                </div>
+              )}
 
-              <div className="p-6 pt-0 mt-auto">
-                <Button
-                  className="w-full h-12 text-base shadow-sm hover:shadow-md transition-all"
-                  disabled={!file || isLoading}
-                  onClick={handleSubmit}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Processando...
-                    </>
-                  ) : (
-                    'Enviar Planilha'
-                  )}
-                </Button>
+              <Button
+                className="w-full mt-4"
+                disabled={!file || isProcessing}
+                onClick={handleProcessFile}
+              >
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processando...
+                  </>
+                ) : (
+                  'Processar Arquivo'
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm">Estrutura Exigida (CSV)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border overflow-hidden">
+                <Table>
+                  <TableHeader className="bg-muted/50">
+                    <TableRow>
+                      <TableHead className="h-8 text-xs">Nome</TableHead>
+                      <TableHead className="h-8 text-xs">Telefone</TableHead>
+                      <TableHead className="h-8 text-xs text-right">
+                        Mensagem
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="py-2 text-xs font-medium">
+                        Ana
+                      </TableCell>
+                      <TableCell className="py-2 text-xs">5511...</TableCell>
+                      <TableCell className="py-2 text-xs text-right">
+                        Olá...
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
-            </Card>
-          </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Table Section */}
+        <div className="lg:col-span-2">
+          <Card className="h-full flex flex-col">
+            <CardHeader>
+              <CardTitle>Contatos Importados</CardTitle>
+              <CardDescription>
+                Revise e selecione os contatos para disparo.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1">
+              {isLoadingContacts ? (
+                <div className="h-64 flex items-center justify-center">
+                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                </div>
+              ) : (
+                <ContactsTable contacts={contacts} onRefresh={fetchContacts} />
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
