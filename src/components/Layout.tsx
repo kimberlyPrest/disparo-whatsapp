@@ -37,7 +37,7 @@ export default function Layout() {
                 <MessageCircle className="h-5 w-5 text-primary" />
               </div>
               <span className="font-bold text-lg tracking-tight text-foreground">
-                ZapSender
+                Ripple
               </span>
             </div>
           </header>
@@ -104,7 +104,7 @@ export default function Layout() {
                     <div className="bg-primary/10 p-2 rounded-full">
                       <MessageCircle className="h-6 w-6 text-primary" />
                     </div>
-                    WhatsApp Sender
+                    Ripple
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-4">
@@ -121,7 +121,7 @@ export default function Layout() {
                 <MessageCircle className="h-6 w-6 text-primary" />
               </div>
               <span className="font-bold text-lg tracking-tight text-foreground">
-                WhatsApp Sender
+                Ripple
               </span>
             </Link>
           </div>
@@ -143,8 +143,8 @@ export default function Layout() {
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <p>
-              &copy; {new Date().getFullYear()} Disparo WhatsApp. Todos os
-              direitos reservados.
+              &copy; {new Date().getFullYear()} Ripple. Todos os direitos
+              reservados.
             </p>
             <p className="text-center md:text-right">
               Ferramenta simples para envio de mensagens em massa.
