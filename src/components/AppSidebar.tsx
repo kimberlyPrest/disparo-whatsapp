@@ -29,6 +29,7 @@ export function AppSidebar() {
   const { user, signOut } = useAuth()
   const location = useLocation()
   const [profileName, setProfileName] = useState<string>('')
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchProfile() {
@@ -37,18 +38,23 @@ export function AppSidebar() {
       try {
         const { data } = await supabase
           .from('profiles')
-          .select('name')
+          .select('name, avatar_url')
           .eq('id', user.id)
           .single()
 
-        if (data && data.name) {
-          setProfileName(data.name)
+        // Cast data to any because avatar_url might not be in the generated types yet
+        const profileData = data as any
+
+        if (profileData) {
+          if (profileData.name) setProfileName(profileData.name)
+          if (profileData.avatar_url) setAvatarUrl(profileData.avatar_url)
         } else if (user.user_metadata?.name) {
           setProfileName(user.user_metadata.name)
-        } else {
-          // Fallback to email username if no name found
+        }
+
+        // Fallback name if still empty
+        if (!profileName && !data?.name && !user.user_metadata?.name) {
           const emailName = user.email?.split('@')[0] || 'Usuário'
-          // Capitalize first letter
           setProfileName(emailName.charAt(0).toUpperCase() + emailName.slice(1))
         }
       } catch (error) {
@@ -59,7 +65,7 @@ export function AppSidebar() {
     if (user) {
       fetchProfile()
 
-      // Real-time updates for profile name
+      // Real-time updates for profile
       const subscription = supabase
         .channel('sidebar_profile')
         .on(
@@ -71,8 +77,11 @@ export function AppSidebar() {
             filter: `id=eq.${user.id}`,
           },
           (payload) => {
-            if (payload.new && 'name' in payload.new && payload.new.name) {
-              setProfileName(payload.new.name as string)
+            const newData = payload.new as any
+            if (newData) {
+              if (newData.name) setProfileName(newData.name)
+              if (newData.avatar_url !== undefined)
+                setAvatarUrl(newData.avatar_url)
             }
           },
         )
@@ -111,6 +120,15 @@ export function AppSidebar() {
     return (
       location.pathname === path || location.pathname.startsWith(path + '/')
     )
+  }
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
   }
 
   return (
@@ -172,11 +190,16 @@ export function AppSidebar() {
           <div className="flex items-center gap-3 overflow-hidden">
             <Avatar className="h-9 w-9 border border-white shadow-sm">
               <AvatarImage
-                src={`https://img.usecurling.com/ppl/thumbnail?gender=male&seed=${user?.id}`}
+                src={avatarUrl || ''}
                 alt={profileName}
+                className="object-cover"
               />
-              <AvatarFallback className="bg-green-100 text-green-700">
-                <UserIcon className="h-4 w-4" />
+              <AvatarFallback className="bg-green-100 text-green-700 font-semibold">
+                {profileName ? (
+                  getInitials(profileName)
+                ) : (
+                  <UserIcon className="h-4 w-4" />
+                )}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col truncate">
