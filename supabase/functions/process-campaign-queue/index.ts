@@ -113,7 +113,7 @@ Deno.serve(async (req: Request) => {
 
       // 1. Automatic Scheduled Pause (New Feature)
       if (
-        config.automaticPause?.enabled &&
+        config?.automaticPause?.enabled &&
         config.automaticPause.pause_at &&
         config.automaticPause.resume_date &&
         config.automaticPause.resume_time
@@ -306,8 +306,9 @@ Deno.serve(async (req: Request) => {
 
         // Calculate Delay
         let requiredDelay = 0
-        const minInterval = (config?.minInterval || 10) * 1000
-        const maxInterval = (config?.maxInterval || 30) * 1000
+        // Update defaults to 30 and 40 as per user story requirement for strict delay
+        const minInterval = (config?.minInterval || 30) * 1000
+        const maxInterval = (config?.maxInterval || 40) * 1000
 
         const intervalDelay = Math.floor(
           Math.random() * (maxInterval - minInterval + 1) + minInterval,
@@ -446,6 +447,22 @@ Deno.serve(async (req: Request) => {
 
           // We DO NOT increment sent_messages for failed messages
         }
+      }
+
+      // Update execution time periodically for better UI feedback
+      if (campaignResult.status !== 'finished') {
+        const startedAt = campaign.started_at
+          ? new Date(campaign.started_at)
+          : new Date(campaign.created_at!)
+        const currentExecTime = Math.max(
+          0,
+          Math.floor((Date.now() - startedAt.getTime()) / 1000),
+        )
+
+        await supabase
+          .from('campaigns')
+          .update({ execution_time: currentExecTime })
+          .eq('id', campaign.id)
       }
 
       results.push(campaignResult)
