@@ -15,23 +15,59 @@ export const parseCSV = async (file: File): Promise<ParsedContact[]> => {
           return
         }
 
-        const lines = text.split(/\r\n|\n/)
-        const headers = lines[0]
-          .split(/[;,]/)
-          .map((h) => h.trim().toLowerCase().replace(/^"|"$/g, ''))
+        // Split lines handling various line endings
+        const lines = text
+          .split(/\r\n|\n|\r/)
+          .filter((line) => line.trim() !== '')
 
-        const nameIndex = headers.findIndex((h) => h === 'nome' || h === 'name')
-        const phoneIndex = headers.findIndex(
-          (h) => h === 'telefone' || h === 'phone' || h === 'celular',
-        )
-        const messageIndex = headers.findIndex(
-          (h) => h === 'mensagem' || h === 'message',
-        )
-
-        if (nameIndex === -1 || phoneIndex === -1 || messageIndex === -1) {
+        if (lines.length < 2) {
           reject(
             new Error(
-              'Colunas obrigatórias não encontradas. O arquivo deve conter: Nome, Telefone, Mensagem',
+              'O arquivo deve conter cabeçalho e pelo menos um contato.',
+            ),
+          )
+          return
+        }
+
+        const headerLine = lines[0]
+
+        // Detect delimiter: comma or semicolon
+        // We count occurrences in the header line to decide
+        let delimiter = ','
+        const semicolonCount = (headerLine.match(/;/g) || []).length
+        const commaCount = (headerLine.match(/,/g) || []).length
+        if (semicolonCount > commaCount) {
+          delimiter = ';'
+        }
+
+        const headers = headerLine
+          .split(delimiter)
+          .map((h) => h.trim().toLowerCase().replace(/^"|"$/g, ''))
+
+        // Find indices for required columns
+        // Requirements say exactly: "nome", "telefone", "mensagem"
+        const nameIndex = headers.indexOf('nome')
+        const phoneIndex = headers.indexOf('telefone')
+        const messageIndex = headers.indexOf('mensagem')
+
+        // We also check for English fallbacks for better UX, but prioritize exact matches
+        const finalNameIndex =
+          nameIndex !== -1 ? nameIndex : headers.indexOf('name')
+        const finalPhoneIndex =
+          phoneIndex !== -1
+            ? phoneIndex
+            : headers.findIndex((h) => h === 'phone' || h === 'celular')
+        const finalMessageIndex =
+          messageIndex !== -1 ? messageIndex : headers.indexOf('message')
+
+        if (
+          finalNameIndex === -1 ||
+          finalPhoneIndex === -1 ||
+          finalMessageIndex === -1
+        ) {
+          reject(
+            new Error(
+              'Cabeçalho inválido. O arquivo deve conter exatamente as colunas: nome, telefone, mensagem.',
             ),
           )
           return
@@ -39,35 +75,66 @@ export const parseCSV = async (file: File): Promise<ParsedContact[]> => {
 
         const contacts: ParsedContact[] = []
 
+        // Start from 1 to skip header
         for (let i = 1; i < lines.length; i++) {
           const line = lines[i].trim()
           if (!line) continue
 
-          // Basic CSV parsing handling quotes
           const row: string[] = []
           let inQuotes = false
           let currentValue = ''
 
+          // Parse CSV line character by character to handle quoted values containing delimiters
           for (let j = 0; j < line.length; j++) {
             const char = line[j]
             if (char === '"') {
-              inQuotes = !inQuotes
-            } else if ((char === ',' || char === ';') && !inQuotes) {
-              row.push(currentValue.trim().replace(/^"|"$/g, ''))
+              if (inQuotes && line[j + 1] === '"') {
+                // Handle escaped quotes
+                currentValue += '"'
+                j++
+              } else {
+                inQuotes = !inQuotes
+              }
+            } else if (char === delimiter && !inQuotes) {
+              row.push(currentValue)
               currentValue = ''
             } else {
               currentValue += char
             }
           }
-          row.push(currentValue.trim().replace(/^"|"$/g, ''))
+          row.push(currentValue)
 
-          if (row.length > Math.max(nameIndex, phoneIndex, messageIndex)) {
-            contacts.push({
-              name: row[nameIndex],
-              phone: row[phoneIndex],
-              message: row[messageIndex],
-            })
+          // Clean up values (remove surrounding quotes)
+          const cleanRow = row.map((val) =>
+            val.trim().replace(/^"|"$/g, '').replace(/""/g, '"'),
+          )
+
+          const maxIndex = Math.max(
+            finalNameIndex,
+            finalPhoneIndex,
+            finalMessageIndex,
+          )
+
+          // Only add if we have enough columns for the data
+          if (cleanRow.length > maxIndex) {
+            const name = cleanRow[finalNameIndex]
+            const phone = cleanRow[finalPhoneIndex]
+            const message = cleanRow[finalMessageIndex]
+
+            // Only add if essential data is present
+            if (name || phone) {
+              contacts.push({
+                name: name || '',
+                phone: phone || '',
+                message: message || '',
+              })
+            }
           }
+        }
+
+        if (contacts.length === 0) {
+          reject(new Error('Nenhum contato válido encontrado.'))
+          return
         }
 
         resolve(contacts)

@@ -25,10 +25,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { toast } from 'sonner'
-import { parseCSV } from '@/lib/csv'
+import { parseCSV, ParsedContact } from '@/lib/csv'
 
 interface Step1ImportProps {
-  onNext: (contacts: any[], filename: string) => void
+  onNext: (contacts: ParsedContact[], filename: string) => void
   isProcessing: boolean
 }
 
@@ -209,7 +209,7 @@ export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
                       Nome
                     </TableHead>
                     <TableHead className="text-xs font-bold text-slate-500 uppercase h-10 bg-slate-100/50">
-                      Telefone do Cliente
+                      Telefone
                     </TableHead>
                     <TableHead className="text-xs font-bold text-slate-500 uppercase h-10 bg-slate-100/50">
                       Mensagem
@@ -234,7 +234,7 @@ export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
           </Card>
           <p className="text-xs text-slate-400">
             Certifique-se de que os cabeçalhos das colunas correspondam
-            exatamente ao exemplo acima.
+            exatamente ao exemplo acima (nome, telefone, mensagem).
           </p>
         </div>
 

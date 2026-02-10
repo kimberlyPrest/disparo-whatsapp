@@ -10,6 +10,7 @@ import {
   Step3Config,
   Step3ConfigValues,
 } from '@/components/campaigns/Step3Config'
+import { ParsedContact } from '@/lib/csv'
 
 export default function Upload() {
   const { user, loading: authLoading } = useAuth()
@@ -20,7 +21,10 @@ export default function Upload() {
   const [campaignId, setCampaignId] = useState<string | null>(null)
 
   // Handlers
-  const handleStep1Next = async (parsedContacts: any[], filename: string) => {
+  const handleStep1Next = async (
+    parsedContacts: ParsedContact[],
+    filename: string,
+  ) => {
     setIsProcessing(true)
     try {
       // Create campaign draft immediately
@@ -34,7 +38,9 @@ export default function Upload() {
 
       // Move to Step 2: Review
       setCurrentStep(2)
-      toast.success('Rascunho criado! Revise os contatos.')
+      toast.success('Importação realizada com sucesso!', {
+        description: 'Os dados foram processados e salvos.',
+      })
     } catch (error: any) {
       console.error(error)
       toast.error('Erro ao processar', { description: error.message })
