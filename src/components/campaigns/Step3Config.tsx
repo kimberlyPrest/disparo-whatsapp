@@ -54,6 +54,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { campaignsService, Campaign } from '@/services/campaigns'
 import { toast } from 'sonner'
+import { mapDbConfigToScheduleConfig } from '@/lib/campaign-utils'
 
 const formSchema = z
   .object({
@@ -164,8 +165,8 @@ export function Step3Config({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      minInterval: 15,
-      maxInterval: 30,
+      minInterval: 30, // Default changed to 30s for safety
+      maxInterval: 45, // Default changed to 45s for safety
       scheduleType: 'immediate',
       useBatching: false,
       batchSize: 20,
@@ -185,7 +186,37 @@ export function Step3Config({
         form.setValue('name', data.name)
 
         if (data.config) {
-          // We can map config here if needed for editing
+          // If editing existing config, map it correctly
+          const startTime =
+            data.scheduled_at || data.started_at || new Date().toISOString()
+          const mappedConfig = mapDbConfigToScheduleConfig(
+            data.config,
+            startTime,
+          )
+
+          form.setValue('minInterval', mappedConfig.minInterval)
+          form.setValue('maxInterval', mappedConfig.maxInterval)
+          form.setValue('useBatching', mappedConfig.useBatching)
+          if (mappedConfig.batchSize)
+            form.setValue('batchSize', mappedConfig.batchSize)
+          if (mappedConfig.batchPauseMin)
+            form.setValue('batchPauseMin', mappedConfig.batchPauseMin)
+          if (mappedConfig.batchPauseMax)
+            form.setValue('batchPauseMax', mappedConfig.batchPauseMax)
+          form.setValue(
+            'businessHoursStrategy',
+            mappedConfig.businessHoursStrategy,
+          )
+
+          if (mappedConfig.automaticPause) {
+            form.setValue('automaticPause', true)
+            if (mappedConfig.pauseTime)
+              form.setValue('pauseTime', mappedConfig.pauseTime)
+            if (mappedConfig.resumeDate)
+              form.setValue('resumeDate', mappedConfig.resumeDate)
+            if (mappedConfig.resumeTime)
+              form.setValue('resumeTime', mappedConfig.resumeTime)
+          }
         }
       } catch (error) {
         console.error(error)
@@ -286,7 +317,7 @@ export function Step3Config({
                   <p className="flex items-center gap-2">
                     <AlertTriangle className="h-4 w-4 shrink-0" />
                     Para evitar bloqueios do WhatsApp, recomendamos intervalos
-                    maiores que 15 segundos.
+                    maiores que 30 segundos.
                   </p>
                   <p className="flex items-center gap-2">
                     <Info className="h-4 w-4 shrink-0" />O disparo será enviado

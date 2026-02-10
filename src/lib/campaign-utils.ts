@@ -196,22 +196,81 @@ export function mapDbConfigToScheduleConfig(
 ): ScheduleConfig {
   const start = typeof startTime === 'string' ? new Date(startTime) : startTime
 
+  // Helper to get value from either snake_case or camelCase
+  const getVal = (snake: string, camel: string, defaultVal?: any) => {
+    return dbConfig?.[camel] ?? dbConfig?.[snake] ?? defaultVal
+  }
+
+  // Automatic Pause Parsing
+  const autoPauseEnabled =
+    getVal('automatic_pause', 'automaticPause')?.enabled ??
+    dbConfig?.automatic_pause?.enabled ??
+    dbConfig?.automaticPause?.enabled ??
+    false
+  const autoPauseAt =
+    getVal('automatic_pause', 'automaticPause')?.pause_at ??
+    getVal('automatic_pause', 'automaticPause')?.pauseTime ??
+    dbConfig?.automatic_pause?.pause_at ??
+    dbConfig?.automaticPause?.pauseTime
+  const autoResumeDate =
+    getVal('automatic_pause', 'automaticPause')?.resume_date ??
+    getVal('automatic_pause', 'automaticPause')?.resumeDate ??
+    dbConfig?.automatic_pause?.resume_date ??
+    dbConfig?.automaticPause?.resumeDate
+  const autoResumeTime =
+    getVal('automatic_pause', 'automaticPause')?.resume_time ??
+    getVal('automatic_pause', 'automaticPause')?.resumeTime ??
+    dbConfig?.automatic_pause?.resume_time ??
+    dbConfig?.automaticPause?.resumeTime
+
+  // Batch Config Parsing
+  const batchEnabled =
+    getVal('batch_config', 'useBatching')?.enabled ??
+    getVal('batch_config', 'useBatching') ??
+    false
+  // If useBatching is a boolean true at root level (camelCase style), we handle that,
+  // but if it's an object (snake_case style), we check .enabled
+  const isBatchEnabled =
+    typeof batchEnabled === 'object' ? batchEnabled.enabled : batchEnabled
+
+  const batchSize = dbConfig?.batchSize ?? dbConfig?.batch_config?.size
+  const batchPauseMin =
+    dbConfig?.batchPauseMin ?? dbConfig?.batch_config?.pause_min
+  const batchPauseMax =
+    dbConfig?.batchPauseMax ?? dbConfig?.batch_config?.pause_max
+
+  // Business Hours Parsing
+  const businessStrategy =
+    dbConfig?.businessHoursStrategy ??
+    dbConfig?.business_hours?.strategy ??
+    'ignore'
+  const businessPauseAt =
+    dbConfig?.businessHoursPauseTime ??
+    dbConfig?.business_hours?.pause_at ??
+    '18:00'
+  const businessResumeAt =
+    dbConfig?.businessHoursResumeTime ??
+    dbConfig?.business_hours?.resume_at ??
+    '08:00'
+
   return {
-    minInterval: dbConfig?.min_interval ?? 30,
-    maxInterval: dbConfig?.max_interval ?? 60,
-    useBatching: dbConfig?.batch_config?.enabled ?? false,
-    batchSize: dbConfig?.batch_config?.size,
-    batchPauseMin: dbConfig?.batch_config?.pause_min,
-    batchPauseMax: dbConfig?.batch_config?.pause_max,
-    businessHoursStrategy: dbConfig?.business_hours?.strategy ?? 'ignore',
-    businessHoursPauseTime: dbConfig?.business_hours?.pause_at ?? '18:00',
-    businessHoursResumeTime: dbConfig?.business_hours?.resume_at ?? '08:00',
-    automaticPause: dbConfig?.automatic_pause?.enabled ?? false,
-    pauseTime: dbConfig?.automatic_pause?.pause_at,
-    resumeDate: dbConfig?.automatic_pause?.resume_date
-      ? parseISO(dbConfig.automatic_pause.resume_date)
+    minInterval: getVal('min_interval', 'minInterval', 30),
+    maxInterval: getVal('max_interval', 'maxInterval', 60),
+    useBatching: !!isBatchEnabled,
+    batchSize: batchSize,
+    batchPauseMin: batchPauseMin,
+    batchPauseMax: batchPauseMax,
+    businessHoursStrategy: businessStrategy,
+    businessHoursPauseTime: businessPauseAt,
+    businessHoursResumeTime: businessResumeAt,
+    automaticPause: !!autoPauseEnabled,
+    pauseTime: autoPauseAt,
+    resumeDate: autoResumeDate
+      ? typeof autoResumeDate === 'string'
+        ? parseISO(autoResumeDate)
+        : autoResumeDate
       : undefined,
-    resumeTime: dbConfig?.automatic_pause?.resume_time,
+    resumeTime: autoResumeTime,
     startTime: start,
   }
 }
