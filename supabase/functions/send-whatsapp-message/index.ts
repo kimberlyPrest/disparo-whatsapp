@@ -13,8 +13,7 @@ Deno.serve(async (req: Request) => {
       throw new Error('Missing required fields: name, phone, message')
     }
 
-    const webhookUrl =
-      'https://skinnysalmon-n8n.cloudfy.cloud/webhook-test/disparos'
+    const webhookUrl = 'https://skinnysalmon-n8n.cloudfy.cloud/webhook/disparos'
 
     const payload = {
       Nome: name,
