@@ -1,21 +1,14 @@
 import { useState, useRef } from 'react'
 import {
   FileSpreadsheet,
-  Upload as UploadIcon,
-  Code as CodeIcon,
   ArrowRight,
   Loader2,
   FileIcon,
+  Code as CodeIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -35,6 +28,7 @@ interface Step1ImportProps {
 export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
   const [file, setFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [isParsing, setIsParsing] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const validateFile = (selectedFile: File) => {
@@ -43,15 +37,14 @@ export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
     const validExtensions = ['.xlsx', '.xls', '.csv']
 
     if (validExtensions.includes(fileExtension)) {
+      setFile(selectedFile)
+
       if (fileExtension === '.xlsx' || fileExtension === '.xls') {
-        // Show as selected but warn about processing
-        setFile(selectedFile)
-        toast.warning('Suporte a Excel em desenvolvimento', {
+        toast.info('Arquivo Excel selecionado', {
           description:
-            'No momento, recomendamos o uso de arquivos .csv para melhor compatibilidade.',
+            'Para melhor desempenho, recomendamos converter para CSV se encontrar problemas.',
         })
       } else {
-        setFile(selectedFile)
         toast.success('Arquivo selecionado!')
       }
     } else {
@@ -91,25 +84,19 @@ export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
   const handleProcess = async () => {
     if (!file) return
 
-    if (!file.name.toLowerCase().endsWith('.csv')) {
-      toast.error('Formato não suportado para processamento imediato', {
-        description:
-          'Por favor, converta para CSV ou aguarde a atualização do sistema.',
-      })
-      return
-    }
-
+    setIsParsing(true)
     try {
+      // Use the robust parser logic
+      // This will handle header exclusion, field mapping, and validation
       const contacts = await parseCSV(file)
-      if (contacts.length === 0) {
-        toast.warning('Arquivo vazio ou formato incorreto')
-        return
-      }
+
       onNext(contacts, file.name)
     } catch (error: any) {
       toast.error('Erro ao processar arquivo', {
         description: error.message,
       })
+    } finally {
+      setIsParsing(false)
     }
   }
 
@@ -233,8 +220,9 @@ export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
             </CardContent>
           </Card>
           <p className="text-xs text-slate-400">
-            Certifique-se de que os cabeçalhos das colunas correspondam
-            exatamente ao exemplo acima (nome, telefone, mensagem).
+            A primeira linha deve conter exatamente os cabeçalhos: nome,
+            telefone, mensagem. O sistema ignora a primeira linha durante a
+            importação.
           </p>
         </div>
 
@@ -242,14 +230,14 @@ export function Step1Import({ onNext, isProcessing }: Step1ImportProps) {
           <Button
             size="lg"
             className="w-full lg:w-auto bg-[#13ec5b] hover:bg-[#0da540] text-slate-900 font-bold px-8 h-12 shadow-md shadow-green-500/10 transition-all duration-300 hover:-translate-y-1"
-            disabled={!file || isProcessing}
+            disabled={!file || isProcessing || isParsing}
             onClick={handleProcess}
           >
-            {isProcessing ? (
+            {isProcessing || isParsing ? (
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
             ) : (
               <>
-                Enviar Planilha
+                Processar e Importar
                 <ArrowRight className="ml-2 h-5 w-5" />
               </>
             )}

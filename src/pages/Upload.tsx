@@ -38,8 +38,10 @@ export default function Upload() {
 
       // Move to Step 2: Review
       setCurrentStep(2)
+
+      // Feedback Notification with imported count
       toast.success('Importação realizada com sucesso!', {
-        description: 'Os dados foram processados e salvos.',
+        description: `${parsedContacts.length} contatos foram processados e salvos.`,
       })
     } catch (error: any) {
       console.error(error)
@@ -87,9 +89,17 @@ export default function Upload() {
           : { enabled: false },
         business_hours: {
           strategy: values.businessHoursStrategy,
-          pause_at: '18:00', // Default hardcoded for now or we could add inputs if needed
+          pause_at: '18:00',
           resume_at: '08:00',
         },
+        automatic_pause: values.automaticPause
+          ? {
+              enabled: true,
+              pause_time: values.pauseTime,
+              resume_date: values.resumeDate,
+              resume_time: values.resumeTime,
+            }
+          : { enabled: false },
       }
 
       // Update campaign in DB
